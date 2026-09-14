@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Тапсырмалар — HSK 1-3 Practice</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:wght@500;600;700&family=Inter:wght@400;500;600&family=Ma+Shan+Zheng&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          ink: '#1B1B1F', seal: '#A61B29', 'seal-dark': '#7D1420',
+          paper: '#F4EFE6', /* Жылы беж қағаз түсі */
+          'paper-deep': '#E8DFD1', /* Қоңырлау беж (шекаралар мен ховер) */
+          gold: '#B8933F',
+          jade: '#0D9488', 'jade-dark': '#1B5F58', mist: '#E0F2FE', sand: '#F0E5CE'
+        },
+        fontFamily: {
+          display: ['"Noto Serif"', 'serif'],
+          brush: ['"Ma Shan Zheng"', 'cursive'],
+          sans: ['Inter', 'sans-serif'],
+        }
+      }
+    }
+  }
+</script>
+<style>
+  html { scroll-behavior: smooth; }
+  body { font-family: 'Inter', sans-serif; background: #F4EFE6; display: flex; flex-direction: column; min-height: 100vh; -webkit-tap-highlight-color: transparent; }
+  .seal-stamp { background: radial-gradient(circle at 30% 25%, #C4313D 0%, #A61B29 55%, #7D1420 100%); box-shadow: 0 1px 2px rgba(0,0,0,0.15), inset 0 0 0 1px rgba(255,255,255,0.08); transform: rotate(-4deg); border-radius: 4px; }
+  .nav-link { position: relative; padding-bottom: 2px; }
+  .nav-link::after { content: ''; position: absolute; left: 50%; bottom: -6px; width: 0; height: 3px; background: #A61B29; border-radius: 2px 6px 2px 6px; transform: translateX(-50%); transition: width 0.25s ease; }
+  .nav-link:hover::after { width: 60%; }
+  .stamp-btn { background: #A61B29; clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 0 100%); transition: background 0.2s ease, transform 0.15s ease; }
+  .stamp-btn:hover { background: #7D1420; transform: translateY(-1px); }
+  .brush-rule { height: 2px; background: linear-gradient(90deg, transparent 0%, #A61B29 12%, #A61B29 88%, transparent 100%); }
+  .footer-watermark { position: absolute; right: -20px; bottom: -40px; font-family: 'Ma Shan Zheng', cursive; font-size: 220px; line-height: 1; color: #A61B29; opacity: 0.04; pointer-events: none; user-select: none; }
+  .icon-badge { background: #A61B29; }
+
+  /* ЖАҢАРТЫЛҒАН КВИЗ СТИЛЬДЕРІ */
+  .level-btn, .mode-btn { transition: all 0.3s ease; }
+  .level-btn.active, .mode-btn.active { background-color: #0D9488; color: white; box-shadow: 0 4px 10px rgba(13, 148, 136, 0.3); }
+  
+  .sidebar button { transition: all 0.2s ease; border-left: 4px solid transparent; }
+  .sidebar button:hover { background-color: rgba(232, 223, 209, 0.6); }
+  .sidebar button.active { background-color: #F4EFE6; color: #0D9488; border-left-color: #0D9488; font-weight: 700; }
+  
+  .opt-label { transition: all 0.2s ease; }
+  .opt-label:hover { background-color: #E8DFD1; border-color: #A61B29; }
+  input[type="radio"] { accent-color: #A61B29; width: 18px; height: 18px; cursor: pointer; }
+  
+  .feedback { margin-top: 12px; font-weight: 700; display: none; font-size: 0.95rem; }
+  .feedback.correct { color: #10B981; display: block; }
+  .feedback.wrong { color: #EF4444; display: block; }
+  
+  .submit-btn { background-color: #A61B29; transition: all 0.2s ease; }
+  .submit-btn:hover { background-color: #7D1420; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(166, 27, 41, 0.3); }
+  
+  .audio-btn { background-color: #0D9488; color: white; transition: background 0.2s; display: inline-flex; align-items: center; gap: 6px; padding: 6px 14px; border-radius: 8px; font-size: 0.85rem; font-weight: 600; margin-bottom: 12px; }
+  .audio-btn:hover { background-color: #1B5F58; }
+
+  @media (max-width: 640px) {
+    input, select, button { font-size: 16px !important; }
+    .sidebar { flex-direction: row; overflow-x: auto; border-right: none; border-bottom: 1px solid #E8DFD1; }
+    .sidebar button { border-left: none; border-bottom: 3px solid transparent; padding: 12px 16px; white-space: nowrap; }
+    .sidebar button.active { border-left-color: transparent; border-bottom-color: #0D9488; }
+  }
+</style>
+</head>
+<body class="text-ink flex flex-col min-h-screen">
+
+<header class="sticky top-0 z-40 bg-paper/95 backdrop-blur border-b-2 border-paper-deep">
+  <div class="max-w-6xl mx-auto px-4 sm:px-8 flex items-center justify-between h-16">
+    <a href="index.html" class="flex items-center gap-2.5 sm:gap-3 shrink-0 group">
+      <span class="seal-stamp w-8 h-8 sm:w-9 sm:h-9 flex items-center justify-center font-brush text-white text-base sm:text-lg leading-none group-hover:rotate-0 transition-transform duration-300">汉</span>
+      <span class="font-display text-base sm:text-lg font-semibold tracking-tight text-ink">Қытай тілі</span>
+    </a>
+    <nav class="hidden md:flex items-center gap-9 text-[15px] font-medium text-gray-600">
+      <a href="index.html" class="nav-link hover:text-ink transition-colors">Басты бет</a>
+      <a href="dictionary.html" class="nav-link hover:text-ink transition-colors">Сөздік</a>
+      <a href="tasks.html" class="nav-link hover:text-ink transition-colors font-semibold text-seal">Тапсырмалар</a>
+      <a href="reels.html" class="nav-link hover:text-ink transition-colors">Рилс/Квиз</a>
+    </nav>
+    <div class="flex items-center gap-2 sm:gap-3">
+      <button data-open-auth="login" class="text-xs sm:text-sm font-semibold text-gray-600 hover:text-ink px-1.5 sm:px-2 transition-colors cursor-pointer">Кабинет</button>
+      <a href="Registration.html" class="stamp-btn inline-flex items-center text-white text-xs sm:text-sm font-semibold px-3.5 sm:px-5 py-2 sm:py-2.5 shrink-0">Жазылу</a>
+      <!-- Mobile Hamburger Button -->
+      <button id="mobileMenuBtn" class="md:hidden p-1.5 text-gray-700 focus:outline-none" aria-label="Menu">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"></path>
+        </svg>
+      </button>
+    </div>
+  </div>
+  <!-- Mobile Navigation Drawer -->
+  <div id="mobileMenu" class="hidden md:hidden bg-paper border-b border-paper-deep px-4 pt-2 pb-4 space-y-3">
+    <a href="index.html" class="block text-sm font-medium text-gray-700 hover:text-seal py-1">Басты бет</a>
+    <a href="dictionary.html" class="block text-sm font-medium text-gray-700 hover:text-seal py-1">Сөздік</a>
+    <a href="tasks.html" class="block text-sm font-medium text-seal py-1 font-semibold">Тапсырмалар</a>
+    <a href="reels.html" class="block text-sm font-medium text-gray-700 hover:text-seal py-1">Рилс/Квиз</a>
+  </div>
+</header>
+
+<!-- КІРУ ТЕРЕЗЕСІ (Беж фоны) -->
+<div id="authModal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4">
+  <div class="relative w-full max-w-sm rounded-2xl bg-paper p-6 sm:p-8 shadow-2xl border border-paper-deep">
+    <button data-close-auth class="absolute right-5 top-5 text-gray-400 hover:text-gray-700">
+      <svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
+      </svg>
+    </button>
+    <h2 class="font-display mb-6 text-2xl font-bold text-gray-900">Кіру</h2>
+    <form id="loginForm" class="space-y-5">
+      <div>
+        <label class="mb-1.5 block text-sm font-medium text-gray-700">Email немесе Пайдаланушы аты</label>
+        <input type="text" id="loginIdentifier" required class="w-full rounded-xl border border-paper-deep bg-transparent px-4 py-3 text-sm outline-none focus:border-seal focus:ring-1 focus:ring-seal" placeholder="Мысалы: Bulanay Yerkin">
+      </div>
+      <div>
+        <label class="mb-1.5 block text-sm font-medium text-gray-700">Құпия сөз</label>
+        <input type="password" id="loginPassword" required class="w-full rounded-xl border border-paper-deep bg-transparent px-4 py-3 text-sm outline-none focus:border-seal focus:ring-1 focus:ring-seal">
+      </div>
+      <p id="loginError" class="hidden text-sm text-seal font-medium">Қате деректер енгізілді.</p>
+      <button type="submit" class="mt-2 w-full rounded-xl bg-seal px-4 py-3 text-base font-bold text-white transition-colors hover:bg-seal-dark">Кіру</button>
+    </form>
+  </div>
+</div>
+
+<!-- НЕГІЗГІ БӨЛІМ (Көк градиент фон + Тор) -->
+<main class="flex-grow relative bg-gradient-to-br from-[#0c1f4c] to-[#06102a] py-8 sm:py-12 w-full overflow-hidden">
+  <div class="absolute inset-0 opacity-[0.03] pointer-events-none" style="background-image: linear-gradient(#ffffff 1px, transparent 1px), linear-gradient(90deg, #ffffff 1px, transparent 1px); background-size: 40px 40px;"></div>
+  
+  <div class="max-w-6xl mx-auto px-4 sm:px-8 relative z-10 w-full flex flex-col">
+    <!-- Басқы Тақырып -->
+    <div class="text-center mb-8">
+      <h1 id="main-header-title" class="font-display text-3xl sm:text-4xl font-bold text-white">HSK Интерактивті жұмыс дәптері</h1>
+      <p id="main-header-desc" class="text-sm sm:text-base text-white/80 mt-2">Деңгей мен бөлімді таңдап, тапсырмаларды орындаңыз</p>
+    </div>
+
+    <!-- Мәзірлер (Табтар) -->
+    <div class="sticky top-16 z-30 bg-[#0c1f4c]/90 backdrop-blur py-4 border-b border-white/10 mb-8 flex flex-col sm:flex-row items-center justify-center gap-4">
+      <!-- Деңгей таңдау -->
+      <div class="flex justify-center gap-2 sm:gap-3 bg-paper p-2 rounded-2xl shadow-xl border border-paper-deep w-max">
+        <button class="level-btn active px-4 py-2 rounded-xl font-bold text-sm text-gray-600" id="btn-hsk1" onclick="switchLevel(1)">HSK 1</button>
+        <button class="level-btn px-4 py-2 rounded-xl font-bold text-sm text-gray-600" id="btn-hsk2" onclick="switchLevel(2)">HSK 2</button>
+        <button class="level-btn px-4 py-2 rounded-xl font-bold text-sm text-gray-600" id="btn-hsk3" onclick="switchLevel(3)">HSK 3</button>
+      </div>
+      <!-- Режим таңдау -->
+      <div class="flex justify-center gap-2 sm:gap-3 bg-paper p-2 rounded-2xl shadow-xl border border-paper-deep w-max">
+        <button class="mode-btn active px-4 py-2 rounded-xl font-bold text-sm text-gray-600" id="btn-reading" onclick="switchMode('reading')">Оқылым</button>
+        <button class="mode-btn px-4 py-2 rounded-xl font-bold text-sm text-gray-600" id="btn-listening" onclick="switchMode('listening')">Тыңдалым</button>
+      </div>
+    </div>
+
+    <!-- Тапсырмалар Контейнері (Беж / Қағаз карточка) -->
+    <div class="bg-paper rounded-2xl shadow-2xl border border-paper-deep flex flex-col md:flex-row overflow-hidden w-full max-w-5xl mx-auto">
+      
+      <!-- Бүйірлік мәзір (Тараулар) -->
+      <div class="sidebar w-full md:w-56 bg-paper-deep/30 md:border-r border-paper-deep flex md:flex-col" id="sidebar">
+        <!-- ЖС арқылы толтырылады -->
+      </div>
+      
+      <!-- Негізгі Контент -->
+      <div class="main-content flex-1 p-6 sm:p-8">
+        <h2 class="font-display text-2xl font-bold text-gray-900 border-b-2 border-jade pb-3 mb-6" id="chapter-title">Тарауды таңдаңыз</h2>
+        
+        <div id="quiz-container" class="space-y-6">
+          <!-- Сұрақтар ЖС арқылы осында түседі -->
+        </div>
+        
+        <div class="actions mt-10 text-center" id="actions" style="display: none;">
+          <button class="submit-btn text-white px-8 py-3.5 rounded-xl font-bold text-base shadow-md w-full sm:w-auto" onclick="checkAnswers()" id="submit-btn-text">Жауаптарды тексеру</button>
+          <div id="score-display" class="mt-6 font-display font-bold text-2xl text-jade"></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</main>
+
+<footer class="relative overflow-hidden border-t border-paper-deep bg-paper pt-3 mt-auto">
+  <div class="brush-rule"></div>
+  <span class="footer-watermark" aria-hidden="true">汉</span>
+  <div class="relative max-w-6xl mx-auto px-4 sm:px-8 grid grid-cols-1 md:grid-cols-3 gap-8 sm:gap-10 mb-8 mt-10 text-sm text-gray-600">
+    <div>
+      <div class="flex items-center gap-2 mb-4">
+        <span class="seal-stamp w-7 h-7 flex items-center justify-center font-brush text-white text-sm">汉</span>
+        <span class="font-display font-semibold text-ink text-lg">Қытай тілі</span>
+      </div>
+      <p class="mb-2 font-semibold text-ink">Impressum / Заңды ақпарат</p>
+      <p class="leading-relaxed">ЖШС (ТОО) «Қытай тілі KZ»<br>БСН (БИН): 123456789012<br>Жетекші: Бұланай Еркін</p>
+    </div>
+    <div>
+      <p class="font-display font-semibold text-ink text-lg mb-4">Байланыс ақпараты</p>
+      <ul class="space-y-3">
+        <li class="flex items-start gap-3">
+          <span class="icon-badge w-6 h-6 rounded-full flex items-center justify-center shrink-0 mt-0.5"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg></span>
+          <span>+7 (777) 123-45-67</span>
+        </li>
+        <li class="flex items-start gap-3">
+          <span class="icon-badge w-6 h-6 rounded-full flex items-center justify-center shrink-0 mt-0.5"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg></span>
+          <a href="https://instagram.com/bulanay_yerkin" target="_blank" class="hover:text-seal transition-colors">@bulanay_yerkin</a>
+        </li>
+      </ul>
+    </div>
+    <div>
+      <p class="font-display font-semibold text-ink text-lg mb-4">Құқықтық құжаттар</p>
+      <ul class="space-y-2.5">
+        <li><a href="privacy.html" class="hover:text-seal transition-colors">Құпиялылық саясаты</a></li>
+        <li><a href="offer.html" class="hover:text-seal transition-colors">Оферта</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="relative max-w-6xl mx-auto px-4 sm:px-8 pt-6 pb-6 border-t border-paper-deep flex flex-col md:flex-row items-center justify-between text-xs text-gray-500">
+    <p>© 2026 Қытай тілі. Барлық құқықтар қорғалған.</p>
+  </div>
+</footer>
+
+<script>
+  const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxxhg9MYBSn-ghe9A5tDFUJuZ3X2Rw4Bzxo3aXUa7RAjAnKrwuLUmtTGIkm4iXfPFHJ9w/exec';
+
+  const authModal = document.getElementById('authModal');
+  const loginError = document.getElementById('loginError');
+  const loginForm = document.getElementById('loginForm');
+
+  const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+  const mobileMenu = document.getElementById('mobileMenu');
+  if (mobileMenuBtn && mobileMenu) {
+    mobileMenuBtn.addEventListener('click', () => {
+      mobileMenu.classList.toggle('hidden');
+    });
+  }
+
+  document.querySelectorAll('[data-open-auth]').forEach(b => {
+    b.addEventListener('click', () => { authModal.classList.remove('hidden'); loginError.classList.add('hidden'); });
+  });
+  document.querySelectorAll('[data-close-auth]').forEach(b => {
+    b.addEventListener('click', () => authModal.classList.add('hidden'));
+  });
+
+  loginForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const identifier = document.getElementById('loginIdentifier').value.trim();
+    const password = document.getElementById('loginPassword').value.trim();
+    loginError.classList.add('hidden');
+
+    try {
+      const response = await fetch(SCRIPT_URL, {
+        method: 'POST',
+        body: JSON.stringify({ action: 'login', identifier, password })
+      });
+      const result = await response.json();
+
+      if (result.status === 'success') {
+        authModal.classList.add('hidden');
+        sessionStorage.setItem('currentUser', result.name);
+        if (result.role === 'teacher' || result.name === 'Bulanay Yerkin') {
+          window.location.href = `admin.html?name=${encodeURIComponent(result.name)}`;
+        } else {
+          window.location.href = `dashboard.html?name=${encodeURIComponent(result.name)}`;
+        }
+      } else {
+        loginError.textContent = result.message || 'Қате деректер енгізілді.';
+        loginError.classList.remove('hidden');
+      }
+    } catch (err) {
+      loginError.textContent = 'Қате орын алды.';
+      loginError.classList.remove('hidden');
+    }
+  });
+
+  let currentLevel = 2;
+  let currentMode = 'reading';
+  let currentChapterId = 1;
+
+  const dataBase = {
+    1: {
+      reading: [
+        {
+          chapter: 1,
+          title: "你好",
+          questions: [
+            { id: "h1_r1_1", num: 1, text: "我很高兴认识你。", pinyin: "Wǒ hěn gāoxìng rènshi nǐ.", statement: "★ 他很高兴。", answer: "true" }
+          ]
+        }
+      ],
+      listening: [
+        {
+          chapter: 1,
+          title: "你好",
+          questions: [
+            { id: "h1_l1_1", num: 1, audioText: "你好！你叫什么名字？", pinyin: "Nǐ hǎo! Nǐ jiào shénme míngzi?", statement: "★ 对方在问名字。", answer: "true" }
+          ]
+        }
+      ]
+    },
+    2: {
+      reading: [
+        {
+          chapter: 1,
+          title: "九月去北京旅游最好",
+          questions: [
+            { id: "r1_1", num: 1, text: "她喜欢在家看电影，也喜欢睡觉，不喜欢出去。", pinyin: "Tā xǐhuan zài jiā kàn diànyǐng, yě xǐhuan shuìjiào, bù xǐhuan chūqu.", statement: "★ 她最喜欢运动。", answer: "false" }
+          ]
+        }
+      ],
+      listening: [
+        {
+          chapter: 1,
+          title: "九月去北京旅游最好",
+          questions: [
+            { id: "l1_1", num: 1, audioText: "喂，你去哪儿啊？我去商店买点儿水。", pinyin: "Wèi, nǐ qù nǎr a? Wǒ qù shāngdiàn mǎi diǎnr shuǐ.", statement: "★ 他去商店买水。", answer: "true" }
+          ]
+        }
+      ]
+    },
+    3: {
+      reading: [
+        {
+          chapter: 1,
+          title: "周末你有什么打算？",
+          questions: [
+            { id: "h3_r1_1", num: 1, text: "我打算星期六去图书馆看书，顺便借几本小说。", pinyin: "Wǒ dǎsuàn xīngqīliù qù túshūguǎn kàn shū, shùnbiàn jiè jǐ běn xiǎoshuō.", statement: "★ 他星期六要去图书馆。", answer: "true" }
+          ]
+        }
+      ],
+      listening: [
+        {
+          chapter: 1,
+          title: "周末你有什么打算？",
+          questions: [
+            { id: "h3_l1_1", num: 1, audioText: "请问电梯在哪儿？在前面左边。", pinyin: "Qǐngwèn diàntī zài nǎr? Zài qiánmian zuǒbiān.", statement: "★ 电梯在左边。", answer: "true" }
+          ]
+        }
+      ]
+    }
+  };
+
+  const urlParams = new URLSearchParams(window.location.search);
+  const paramLevel = urlParams.get('level');
+  if (paramLevel && dataBase[paramLevel]) {
+    currentLevel = parseInt(paramLevel);
+  }
+
+  function switchLevel(level) {
+    currentLevel = level;
+    document.getElementById('btn-hsk1').classList.toggle('active', level === 1);
+    document.getElementById('btn-hsk2').classList.toggle('active', level === 2);
+    document.getElementById('btn-hsk3').classList.toggle('active', level === 3);
+    updateHeader();
+    initSidebar();
+    loadChapter(1);
+  }
+
+  function switchMode(mode) {
+    currentMode = mode;
+    document.getElementById('btn-reading').classList.toggle('active', mode === 'reading');
+    document.getElementById('btn-listening').classList.toggle('active', mode === 'listening');
+    updateHeader();
+    initSidebar();
+    loadChapter(1);
+  }
+
+  function updateHeader() {
+    const modeName = currentMode === 'reading' ? 'Оқылым бөлімі' : 'Тыңдалым бөлімі';
+    document.getElementById('main-header-title').innerText = `HSK ${currentLevel} Жұмыс дәптері`;
+    document.getElementById('main-header-desc').innerText = `HSK ${currentLevel} деңгейіне арналған жаттығулар (${modeName})`;
+  }
+
+  function playAudio(text) {
+    if ('speechSynthesis' in window) {
+      window.speechSynthesis.cancel();
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = 'zh-CN';
+      utterance.rate = 0.85;
+      window.speechSynthesis.speak(utterance);
+    } else {
+      alert('Браузеріңіз дыбыстау функциясын қолдамайды.');
+    }
+  }
+
+  function initSidebar() {
+    const sidebar = document.getElementById('sidebar');
+    sidebar.innerHTML = '';
+    const currentDataSet = dataBase[currentLevel][currentMode];
+    
+    currentDataSet.forEach(chapterData => {
+      const btn = document.createElement('button'); 
+      btn.className = "text-gray-700 font-medium text-left";
+      btn.innerText = `Тарау ${chapterData.chapter}`;
+      btn.onclick = () => loadChapter(chapterData.chapter); 
+      sidebar.appendChild(btn);
+    });
+  }
+
+  function loadChapter(chapterId) {
+    currentChapterId = chapterId;
+    const currentDataSet = dataBase[currentLevel][currentMode];
+    const currentChapter = currentDataSet.find(c => c.chapter === chapterId);
+    
+    const sidebarButtons = document.querySelectorAll('.sidebar button');
+    sidebarButtons.forEach((btn, idx) => {
+      if (idx + 1 === chapterId) {
+        btn.classList.add('active');
+      } else {
+        btn.classList.remove('active');
+      }
+    });
+
+    document.getElementById('chapter-title').innerText = `Тарау ${currentChapter.chapter}: ${currentChapter.title}`;
+    const container = document.getElementById('quiz-container'); 
+    container.innerHTML = ''; 
+    document.getElementById('score-display').innerText = '';
+    
+    currentChapter.questions.forEach(q => {
+      const qDiv = document.createElement('div'); 
+      qDiv.className = 'bg-paper-deep/20 border border-paper-deep rounded-2xl p-5 sm:p-6 shadow-inner';
+      
+      let contentHtml = '';
+      if (currentMode === 'reading') {
+        contentHtml = `<div class="text-lg text-gray-900 mb-4 leading-relaxed"><strong class="text-seal mr-2">${q.num}.</strong> ${q.text}
+          <div class="text-sm text-jade font-semibold mt-1 mb-3">${q.pinyin}</div>
+          <div class="font-bold text-gray-800 bg-white/60 inline-block px-3 py-1.5 rounded-lg border border-paper-deep">${q.statement}</div>
+        </div>`;
+      } else {
+        contentHtml = `<div class="text-lg text-gray-900 mb-4 leading-relaxed"><strong class="text-seal mr-2">${q.num}.</strong> 
+          <button class="audio-btn shadow-sm" onclick="playAudio('${q.audioText.replace(/'/g, "\\'")}')">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+            Тыңдау
+          </button>
+          <div class="text-sm text-jade font-semibold mt-1 mb-3">${q.pinyin}</div>
+          <div class="font-bold text-gray-800 bg-white/60 inline-block px-3 py-1.5 rounded-lg border border-paper-deep">${q.statement}</div>
+        </div>`;
+      }
+
+      qDiv.innerHTML = `
+        ${contentHtml}
+        <div class="flex flex-wrap gap-4 mt-5">
+          <label class="opt-label flex items-center gap-3 bg-white px-5 py-3 rounded-xl border border-paper-deep cursor-pointer shadow-sm flex-1 sm:flex-none">
+            <input type="radio" name="q_${q.id}" value="true"> <span class="font-semibold text-gray-800">Дұрыс</span>
+          </label>
+          <label class="opt-label flex items-center gap-3 bg-white px-5 py-3 rounded-xl border border-paper-deep cursor-pointer shadow-sm flex-1 sm:flex-none">
+            <input type="radio" name="q_${q.id}" value="false"> <span class="font-semibold text-gray-800">Қате</span>
+          </label>
+        </div>
+        <div class="feedback" id="feedback_${q.id}"></div>
+      `;
+      container.appendChild(qDiv);
+    });
+    document.getElementById('actions').style.display = 'block';
+  }
+
+  function checkAnswers() {
+    const currentDataSet = dataBase[currentLevel][currentMode];
+    const currentChapter = currentDataSet.find(c => c.chapter === currentChapterId);
+    
+    let score = 0; 
+    let total = currentChapter.questions.length;
+    
+    currentChapter.questions.forEach(q => {
+      const selected = document.querySelector(`input[name="q_${q.id}"]:checked`); 
+      const feedback = document.getElementById(`feedback_${q.id}`);
+      if (selected) { 
+        if (selected.value === q.answer) { 
+          score++; 
+          feedback.innerHTML = "✓ Дұрыс жауап!"; 
+          feedback.className = "feedback correct"; 
+        } else { 
+          feedback.innerHTML = `✗ Қате.`; 
+          feedback.className = "feedback wrong"; 
+        } 
+      } else { 
+        feedback.innerHTML = "⚠ Жауапты таңдаңыз."; 
+        feedback.className = "feedback wrong"; 
+      }
+    });
+    document.getElementById('score-display').innerText = `Нәтиже: ${score} / ${total}`;
+  }
+
+  window.onload = () => {
+    switchLevel(currentLevel);
+  };
+</script>
+</body>
+</html>

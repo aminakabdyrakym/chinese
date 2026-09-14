@@ -1,0 +1,905 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Сөздік және Куиз — HSK 1-3</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:wght@500;600;700&family=Inter:wght@400;500;600&family=Ma+Shan+Zheng&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          ink: '#1B1B1F', seal: '#A61B29', 'seal-dark': '#7D1420',
+          paper: '#F4EFE6', /* Суреттегі жылы беж түсі */
+          'paper-deep': '#E8DFD1', /* Сәл қоюлау беж (шекаралар мен ховер үшін) */
+          gold: '#B8933F',
+          jade: '#0D9488', 'jade-dark': '#1B5F58', mist: '#E0F2FE', sand: '#F0E5CE'
+        },
+        fontFamily: {
+          display: ['"Noto Serif"', 'serif'],
+          brush: ['"Ma Shan Zheng"', 'cursive'],
+          sans: ['Inter', 'sans-serif'],
+        }
+      }
+    }
+  }
+</script>
+<style>
+  html { scroll-behavior: smooth; }
+  body { font-family: 'Inter', sans-serif; background: #F4EFE6; display: flex; flex-direction: column; min-height: 100vh; -webkit-tap-highlight-color: transparent; }
+  .seal-stamp { background: radial-gradient(circle at 30% 25%, #C4313D 0%, #A61B29 55%, #7D1420 100%); box-shadow: 0 1px 2px rgba(0,0,0,0.15), inset 0 0 0 1px rgba(255,255,255,0.08); transform: rotate(-4deg); border-radius: 4px; }
+  .nav-link { position: relative; padding-bottom: 2px; }
+  .nav-link::after { content: ''; position: absolute; left: 50%; bottom: -6px; width: 0; height: 3px; background: #A61B29; border-radius: 2px 6px 2px 6px; transform: translateX(-50%); transition: width 0.25s ease; }
+  .nav-link:hover::after { width: 60%; }
+  .stamp-btn { background: #A61B29; clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 0 100%); transition: background 0.2s ease, transform 0.15s ease; }
+  .stamp-btn:hover { background: #7D1420; transform: translateY(-1px); }
+  .brush-rule { height: 2px; background: linear-gradient(90deg, transparent 0%, #A61B29 12%, #A61B29 88%, transparent 100%); }
+  .footer-watermark { position: absolute; right: -20px; bottom: -40px; font-family: 'Ma Shan Zheng', cursive; font-size: 220px; line-height: 1; color: #A61B29; opacity: 0.04; pointer-events: none; user-select: none; }
+  .icon-badge { background: #A61B29; }
+  .tab-btn.active { border-bottom: 2px solid #0D9488; color: #0D9488; font-weight: 700; }
+  .hsk-level-btn.active { background-color: #0D9488; color: white; border-color: #0D9488; }
+  .quiz-btn.correct { background-color: #10B981; color: white; border-color: #10B981; }
+  .quiz-btn.wrong { background-color: #EF4444; color: white; border-color: #EF4444; }
+  
+  @media (max-width: 640px) {
+    .table-container { -webkit-overflow-scrolling: touch; }
+    input, select, button { font-size: 16px !important; }
+  }
+</style>
+</head>
+<body class="text-ink flex flex-col min-h-screen">
+
+<header class="sticky top-0 z-40 bg-paper/95 backdrop-blur border-b-2 border-seal/90">
+  <div class="max-w-6xl mx-auto px-4 sm:px-8 flex items-center justify-between h-16">
+    <a href="index.html" class="flex items-center gap-2.5 sm:gap-3 shrink-0 group">
+      <span class="seal-stamp w-8 h-8 sm:w-9 sm:h-9 flex items-center justify-center font-brush text-white text-base sm:text-lg leading-none group-hover:rotate-0 transition-transform duration-300">汉</span>
+      <span class="font-display text-base sm:text-lg font-semibold tracking-tight text-ink">Қытай тілі</span>
+    </a>
+    <nav class="hidden md:flex items-center gap-9 text-[15px] font-medium text-gray-600">
+      <a href="index.html" class="nav-link hover:text-ink transition-colors">Басты бет</a>
+      <a href="dictionary.html" class="nav-link hover:text-ink transition-colors">Сөздік</a>
+      <a href="reels.html" class="nav-link hover:text-ink transition-colors">Рилс/Квиз</a>
+    </nav>
+    <div class="flex items-center gap-2 sm:gap-3">
+      <button data-open-auth="login" class="text-xs sm:text-sm font-semibold text-gray-600 hover:text-ink px-1.5 sm:px-2 transition-colors cursor-pointer">Кабинет</button>
+      <a href="Registration.html" class="stamp-btn inline-flex items-center text-white text-xs sm:text-sm font-semibold px-3.5 sm:px-5 py-2 sm:py-2.5 shrink-0">Жазылу</a>
+      <!-- Mobile Hamburger Button -->
+      <button id="mobileMenuBtn" class="md:hidden p-1.5 text-gray-700 focus:outline-none" aria-label="Menu">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"></path>
+        </svg>
+      </button>
+    </div>
+  </div>
+  <!-- Mobile Navigation Drawer -->
+  <div id="mobileMenu" class="hidden md:hidden bg-paper border-b border-paper-deep px-4 pt-2 pb-4 space-y-3">
+    <a href="index.html" class="block text-sm font-medium text-gray-700 hover:text-seal py-1">Басты бет</a>
+    <a href="dictionary.html" class="block text-sm font-medium text-gray-700 hover:text-seal py-1">Сөздік</a>
+    <a href="reels.html" class="block text-sm font-medium text-gray-700 hover:text-seal py-1">Рилс/Квиз</a>
+  </div>
+</header>
+
+<!-- КІРУ (ЛОГИН) ТЕРЕЗЕСІ (Фоны беж) -->
+<div id="authModal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4">
+  <div class="relative w-full max-w-sm rounded-xl bg-paper p-6 sm:p-8 shadow-xl border border-paper-deep">
+    <button data-close-auth class="absolute right-5 top-5 text-gray-400 hover:text-gray-700">
+      <svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
+      </svg>
+    </button>
+    <h2 class="font-display mb-6 text-2xl font-bold text-gray-900">Кіру</h2>
+    <form id="loginForm" class="space-y-5">
+      <div>
+        <label class="mb-1.5 block text-sm font-medium text-gray-700">Email немесе Пайдаланушы аты</label>
+        <input type="text" id="loginIdentifier" required class="w-full rounded-md border border-paper-deep bg-transparent px-4 py-2.5 text-sm outline-none focus:border-seal focus:ring-1 focus:ring-seal" placeholder="Мысалы: Bulanay Yerkin">
+      </div>
+      <div>
+        <label class="mb-1.5 block text-sm font-medium text-gray-700">Құпия сөз</label>
+        <input type="password" id="loginPassword" required class="w-full rounded-md border border-paper-deep bg-transparent px-4 py-2.5 text-sm outline-none focus:border-seal focus:ring-1 focus:ring-seal">
+      </div>
+      <p id="loginError" class="hidden text-sm text-seal font-medium">Қате деректер енгізілді.</p>
+      <button type="submit" class="mt-2 w-full rounded-md bg-seal px-4 py-3 text-base font-semibold text-white transition-colors hover:bg-seal-dark">Кіру</button>
+    </form>
+  </div>
+</div>
+
+<!-- НЕГІЗГІ БӨЛІМ (Көк градиент + Тор) -->
+<main class="flex-grow relative bg-gradient-to-br from-[#0c1f4c] to-[#06102a] py-8 sm:py-12 w-full overflow-hidden">
+  <div class="absolute inset-0 opacity-[0.03] pointer-events-none" style="background-image: linear-gradient(#ffffff 1px, transparent 1px), linear-gradient(90deg, #ffffff 1px, transparent 1px); background-size: 40px 40px;"></div>
+  
+  <div class="max-w-6xl mx-auto px-4 sm:px-8 relative z-10 w-full flex flex-col">
+    <div class="text-center mb-8">
+      <h1 class="font-display text-3xl sm:text-4xl font-bold text-white">HSK Сөздігі және Куиз</h1>
+      <p class="text-sm sm:text-base text-white/80 mt-2">Деңгейді таңдап, жаңа сөздерді жаттап, біліміңді тексер.</p>
+    </div>
+
+    <div class="flex flex-col md:flex-row gap-6 items-start">
+      
+      <!-- HSK деңгейін таңдау мәзірі (Қағаз/Беж карточка) -->
+      <div class="w-full md:w-64 bg-paper rounded-2xl p-4 shadow-xl shrink-0 md:sticky md:top-24 border border-paper-deep">
+        <div class="text-xs font-bold text-gray-400 px-2 py-1 mb-2 hidden md:block">Деңгейді таңдаңыз</div>
+        
+        <div class="md:hidden">
+          <label for="mobileHskSelect" class="block text-xs font-semibold text-gray-500 mb-1">Деңгейді таңдаңыз:</label>
+          <select id="mobileHskSelect" onchange="setLevel(this.value)" class="w-full rounded-lg border border-paper-deep bg-paper-deep/50 px-3 py-2.5 text-sm font-semibold outline-none focus:border-jade">
+            <option value="1">HSK 1</option>
+            <option value="2">HSK 2</option>
+            <option value="3">HSK 3</option>
+          </select>
+        </div>
+
+        <div class="hidden md:flex flex-col gap-2">
+          <button id="btnHsk1" class="hsk-level-btn active px-4 py-3 rounded-lg border border-paper-deep text-sm font-semibold transition text-left w-full shrink-0 hover:bg-paper-deep" onclick="setLevel(1)">HSK 1</button>
+          <button id="btnHsk2" class="hsk-level-btn px-4 py-3 rounded-lg border border-paper-deep text-sm font-semibold transition text-left w-full shrink-0 hover:bg-paper-deep" onclick="setLevel(2)">HSK 2</button>
+          <button id="btnHsk3" class="hsk-level-btn px-4 py-3 rounded-lg border border-paper-deep text-sm font-semibold transition text-left w-full shrink-0 hover:bg-paper-deep" onclick="setLevel(3)">HSK 3</button>
+        </div>
+      </div>
+
+      <!-- Негізгі Контент Бөлімі -->
+      <div class="flex-1 w-full">
+        <!-- Бекітілген (Sticky) навигация -->
+        <div class="sticky top-16 z-30 bg-[#0c1f4c]/90 backdrop-blur py-3 border-b border-white/10 mb-6">
+          <div class="flex justify-center gap-6 sm:gap-8 bg-paper p-2.5 sm:p-3 rounded-2xl shadow-xl max-w-sm mx-auto border border-paper-deep">
+            <button id="tabDict" class="tab-btn active pb-1 text-sm sm:text-base text-gray-500 hover:text-gray-800 transition">Сөздік тізімі</button>
+            <button id="tabQuiz" class="tab-btn pb-1 text-sm sm:text-base text-gray-500 hover:text-gray-800 transition">Интерактивті Куиз</button>
+          </div>
+        </div>
+
+        <!-- Сөздік кестесі (Беж түсті) -->
+        <section id="dictSection" class="bg-paper rounded-2xl p-4 sm:p-6 shadow-xl w-full border border-paper-deep">
+          <input type="text" id="searchInput" placeholder="Сөзді, пиньинді немесе аударманы іздеу..." class="w-full mb-6 rounded-xl border border-paper-deep bg-paper-deep/50 px-4 py-3 text-sm focus:bg-paper focus:border-jade outline-none transition-colors placeholder:text-gray-400">
+          <div class="table-container overflow-x-auto">
+            <table class="w-full text-left border-collapse min-w-[300px]">
+              <thead>
+                <tr class="border-b border-paper-deep text-sm text-gray-500">
+                  <th class="pb-3 px-2">№</th><th class="pb-3 px-2">Иероглиф</th><th class="pb-3 px-2">Пиньин</th><th class="pb-3 px-2">Қазақша</th><th class="pb-3 px-2 text-center">Дыбыстау</th>
+                </tr>
+              </thead>
+              <tbody id="dictBody" class="text-sm divide-y divide-paper-deep"></tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- Куиз бөлімі (Беж түсті) -->
+        <section id="quizSection" class="hidden bg-paper rounded-2xl p-4 sm:p-6 shadow-xl text-center max-w-lg mx-auto w-full border border-paper-deep">
+          <div class="flex justify-between items-center mb-6 text-sm font-semibold text-gray-500">
+            <span>Сұрақ: <span id="qCount">1</span>/10</span>
+            <span>Ұпай: <span id="scoreVal" class="text-jade font-bold">0</span></span>
+          </div>
+          
+          <!-- Куиз карточкасы -->
+          <div class="mb-6 sm:mb-8 py-8 sm:py-10 bg-paper-deep/30 rounded-2xl shadow-inner relative border border-paper-deep">
+            <button onclick="playAudio(currentWord ? currentWord.h : '')" class="absolute top-3 right-3 text-jade hover:text-jade-dark p-2 rounded-full bg-paper shadow-sm border border-paper-deep transition" title="Тыңдау">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+            </button>
+            <span id="qHanzi" class="block font-display text-5xl sm:text-6xl text-gray-900 mb-3 drop-shadow-sm">你好</span>
+            <span id="qPinyin" class="block text-jade font-semibold text-lg sm:text-xl">nǐ hǎo</span>
+          </div>
+          
+          <div id="optionsContainer" class="grid grid-cols-1 sm:grid-cols-2 gap-3"></div>
+          <button id="nextBtn" class="hidden mt-6 w-full rounded-xl bg-seal text-white font-semibold py-3 hover:bg-seal-dark transition shadow-md">Келесі сұрақ</button>
+          
+          <div id="resultScreen" class="hidden py-6 sm:py-8">
+            <h2 class="font-display text-2xl font-bold mb-2">Ойын аяқталды!</h2>
+            <p class="text-gray-600 mb-6">Сенің ұпайың: <span id="finalScore" class="font-bold text-jade"></span> / 10</p>
+            
+            <!-- Ойын соңындағы Жарнама -->
+            <div class="bg-gradient-to-br from-[#F5F0E6] to-[#E3DBCB] rounded-2xl p-6 mb-8 text-center shadow-lg relative overflow-hidden border border-white/50">
+              <div class="relative z-10">
+                <h3 class="font-display font-bold text-[#111111] text-lg mb-2">Қытай тілін терең меңгергің келе ме? 🚀</h3>
+                <p class="text-sm text-gray-700 mb-6">Нәтижені жақсартып, жүйелі түрде оқу үшін курстарымызға жазыл!</p>
+                
+                <div class="flex flex-col sm:flex-row gap-3 justify-center">
+                  <!-- Көк батырма -->
+                  <a href="Registration.html" class="rounded-full bg-gradient-to-r from-[#59c3ff] to-[#3a9ee0] text-[#0c1f4c] font-bold px-6 py-2.5 text-center hover:shadow-[0_0_15px_rgba(89,195,255,0.4)] transition-all flex items-center justify-center gap-2 text-sm w-full sm:w-auto">
+                    Курсқа жазылу <span class="text-base leading-none">→</span>
+                  </a>
+                  <!-- WhatsApp батырмасы -->
+                  <a href="https://wa.me/77711305701" target="_blank" class="rounded-full bg-transparent border border-[#0c1f4c]/30 text-[#0c1f4c] font-bold px-6 py-2.5 text-center hover:bg-[#0c1f4c]/5 transition-colors flex items-center justify-center gap-2 text-sm w-full sm:w-auto">
+                    <svg class="w-4 h-4 text-[#25D366]" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.878-.788-1.471-1.761-1.644-2.06-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 00-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                    Менеджерге хабарласу
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            <button onclick="startQuiz()" class="rounded-full bg-jade text-white font-semibold px-8 py-3 hover:bg-jade-dark transition shadow-md w-full sm:w-auto">Қайта ойнау</button>
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>
+</main>
+
+<footer class="relative overflow-hidden border-t border-paper-deep bg-paper pt-3 mt-auto">
+  <div class="brush-rule"></div>
+  <span class="footer-watermark" aria-hidden="true">汉</span>
+  <div class="relative max-w-6xl mx-auto px-4 sm:px-8 grid grid-cols-1 md:grid-cols-3 gap-8 sm:gap-10 mb-8 mt-10 text-sm text-gray-600">
+    <div>
+      <div class="flex items-center gap-2 mb-4">
+        <span class="seal-stamp w-7 h-7 flex items-center justify-center font-brush text-white text-sm">汉</span>
+        <span class="font-display font-semibold text-ink text-lg">Қытай тілі</span>
+      </div>
+      <p class="mb-2 font-semibold text-ink">Impressum / Заңды ақпарат</p>
+      <p class="leading-relaxed">ЖШС (ТОО) «Қытай тілі KZ»<br>БСН (БИН): 123456789012<br>Жетекші: Бұланай Еркін</p>
+    </div>
+    <div>
+      <p class="font-display font-semibold text-ink text-lg mb-4">Байланыс ақпараты</p>
+      <ul class="space-y-3">
+        <li class="flex items-start gap-3">
+          <span class="icon-badge w-6 h-6 rounded-full flex items-center justify-center shrink-0 mt-0.5"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg></span>
+          <span>+7 (777) 123-45-67</span>
+        </li>
+        <li class="flex items-start gap-3">
+          <span class="icon-badge w-6 h-6 rounded-full flex items-center justify-center shrink-0 mt-0.5"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg></span>
+          <a href="https://instagram.com/bulanay_yerkin" target="_blank" class="hover:text-seal transition-colors">@bulanay_yerkin</a>
+        </li>
+      </ul>
+    </div>
+    <div>
+      <p class="font-display font-semibold text-ink text-lg mb-4">Құқықтық құжаттар</p>
+      <ul class="space-y-2.5">
+        <li><a href="privacy.html" class="hover:text-seal transition-colors">Құпиялылық саясаты</a></li>
+        <li><a href="offer.html" class="hover:text-seal transition-colors">Оферта</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="relative max-w-6xl mx-auto px-4 sm:px-8 pt-6 pb-6 border-t border-paper-deep flex flex-col md:flex-row items-center justify-between text-xs text-gray-500">
+    <p>© 2026 Қытай тілі. Барлық құқықтар қорғалған.</p>
+  </div>
+</footer>
+
+<script>
+  const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxxhg9MYBSn-ghe9A5tDFUJuZ3X2Rw4Bzxo3aXUa7RAjAnKrwuLUmtTGIkm4iXfPFHJ9w/exec';
+
+  const authModal = document.getElementById('authModal');
+  const loginError = document.getElementById('loginError');
+  const loginForm = document.getElementById('loginForm');
+
+  const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+  const mobileMenu = document.getElementById('mobileMenu');
+  if (mobileMenuBtn && mobileMenu) {
+    mobileMenuBtn.addEventListener('click', () => {
+      mobileMenu.classList.toggle('hidden');
+    });
+  }
+
+  document.querySelectorAll('[data-open-auth]').forEach(b => {
+    b.addEventListener('click', () => { authModal.classList.remove('hidden'); loginError.classList.add('hidden'); });
+  });
+  document.querySelectorAll('[data-close-auth]').forEach(b => {
+    b.addEventListener('click', () => authModal.classList.add('hidden'));
+  });
+
+  loginForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const identifier = document.getElementById('loginIdentifier').value.trim();
+    const password = document.getElementById('loginPassword').value.trim();
+    loginError.classList.add('hidden');
+
+    try {
+      const response = await fetch(SCRIPT_URL, {
+        method: 'POST',
+        body: JSON.stringify({ action: 'login', identifier, password })
+      });
+      const result = await response.json();
+
+      if (result.status === 'success') {
+        authModal.classList.add('hidden');
+        sessionStorage.setItem('currentUser', result.name);
+        if (result.role === 'teacher' || result.name === 'Bulanay Yerkin') {
+          window.location.href = `admin.html?name=${encodeURIComponent(result.name)}`;
+        } else {
+          window.location.href = `dashboard.html?name=${encodeURIComponent(result.name)}`;
+        }
+      } else {
+        loginError.textContent = result.message || 'Қате деректер енгізілді.';
+        loginError.classList.remove('hidden');
+      }
+    } catch (err) {
+      loginError.textContent = 'Қате орын алды.';
+      loginError.classList.remove('hidden');
+    }
+  });
+
+  function playAudio(text) {
+    if ('speechSynthesis' in window) {
+      window.speechSynthesis.cancel();
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = 'zh-CN';
+      utterance.rate = 0.9;
+      window.speechSynthesis.speak(utterance);
+    } else {
+      alert('Браузеріңіз дыбыстау функциясын қолдамайды.');
+    }
+  }
+
+  const hskData = {
+    1: [
+      {id: 1, h: "爱", p: "ài", k: "жақсы көру, сүю"},
+      {id: 2, h: "八", p: "bā", k: "сегіз"},
+      {id: 3, h: "爸爸", p: "bàba", k: "әке"},
+      {id: 4, h: "杯子", p: "bēizi", k: "кесе, стақан"},
+      {id: 5, h: "北京", p: "Běijīng", k: "Бейжің"},
+      {id: 6, h: "本", p: "běn", k: "дана (кітаптарға арналған өлшем сөз)"},
+      {id: 7, h: "不客气", p: "bú kèqi", k: "оқасы жоқ"},
+      {id: 8, h: "不", p: "bù", k: "жоқ, емес"},
+      {id: 9, h: "菜", p: "cài", k: "тамақ, көкөніс"},
+      {id: 10, h: "茶", p: "chá", k: "шай"},
+      {id: 11, h: "吃", p: "chī", k: "жеу"},
+      {id: 12, h: "出租车", p: "chūzūchē", k: "такси"},
+      {id: 13, h: "打电话", p: "dǎ diànhuà", k: "телефон соғу"},
+      {id: 14, h: "大", p: "dà", k: "үлкен"},
+      {id: 15, h: "的", p: "de", k: "ілік жалғауы"},
+      {id: 16, h: "点", p: "diǎn", k: "сағат, нүкте"},
+      {id: 17, h: "电脑", p: "diànnǎo", k: "компьютер"},
+      {id: 18, h: "电视", p: "diànshì", k: "теледидар"},
+      {id: 19, h: "电影", p: "diànyǐng", k: "фильм, кино"},
+      {id: 20, h: "东西", p: "dōngxi", k: "зат, нәрсе"},
+      {id: 21, h: "都", p: "dōu", k: "бәрі, барлығы"},
+      {id: 22, h: "读", p: "dú", k: "оқу"},
+      {id: 23, h: "对不起", p: "duìbuqi", k: "кешіріңіз"},
+      {id: 24, h: "多", p: "duō", k: "көп"},
+      {id: 25, h: "多少", p: "duōshao", k: "қанша"},
+      {id: 26, h: "儿子", p: "érzi", k: "ұл, бала"},
+      {id: 27, h: "二", p: "èr", k: "екі"},
+      {id: 28, h: "饭店", p: "fàndiàn", k: "мейрамхана"},
+      {id: 29, h: "飞机", p: "fēijī", k: "ұшақ"},
+      {id: 30, h: "分钟", p: "fēnzhōng", k: "минут"},
+      {id: 31, h: "高兴", p: "gāoxìng", k: "қуанышты"},
+      {id: 32, h: "个", p: "gè", k: "дана (өлшем сөз)"},
+      {id: 33, h: "工作", p: "gōngzuò", k: "жұмыс"},
+      {id: 34, h: "狗", p: "gǒu", k: "ит"},
+      {id: 35, h: "汉语", p: "Hànyǔ", k: "қытай тілі"},
+      {id: 36, h: "好", p: "hǎo", k: "жақсы"},
+      {id: 37, h: "喝", p: "hē", k: "ішу"},
+      {id: 38, h: "和", p: "hé", k: "және"},
+      {id: 39, h: "很", p: "hěn", k: "өте"},
+      {id: 40, h: "后面", p: "hòumiàn", k: "артында"},
+      {id: 41, h: "回", p: "huí", k: "қайту"},
+      {id: 42, h: "会", p: "huì", k: "істей алу, білу"},
+      {id: 43, h: "几", p: "jǐ", k: "неше"},
+      {id: 44, h: "家", p: "jiā", k: "үй, отбасы"},
+      {id: 45, h: "叫", p: "jiào", k: "атау, шақыру"},
+      {id: 46, h: "今天", p: "jīntiān", k: "бүгін"},
+      {id: 47, h: "九", p: "jiǔ", k: "тоғыз"},
+      {id: 48, h: "开", p: "kāi", k: "ашу, жүргізу"},
+      {id: 49, h: "看", p: "kàn", k: "көру, қарау"},
+      {id: 50, h: "看见", p: "kànjiàn", k: "көріп қалу"},
+      {id: 51, h: "块", p: "kuài", k: "юань (ақша өлшемі), бөлік"},
+      {id: 52, h: "来", p: "lái", k: "келу"},
+      {id: 53, h: "老师", p: "lǎoshī", k: "мұғалім"},
+      {id: 54, h: "了", p: "le", k: "аяқталған іс белгісі"},
+      {id: 55, h: "冷", p: "lěng", k: "суық"},
+      {id: 56, h: "里", p: "lǐ", k: "ішінде"},
+      {id: 57, h: "六", p: "liù", k: "алты"},
+      {id: 58, h: "妈妈", p: "māma", k: "ана"},
+      {id: 59, h: "吗", p: "ma", k: "сұраулық шылау"},
+      {id: 60, h: "买", p: "mǎi", k: "сатып алу"},
+      {id: 61, h: "猫", p: "māo", k: "мысық"},
+      {id: 62, h: "没", p: "méi", k: "жоқ, болмау"},
+      {id: 63, h: "没有", p: "méiyǒu", k: "жоқ, ие болмау"},
+      {id: 64, h: "米饭", p: "mǐfàn", k: "күріш, пісірілген күріш"},
+      {id: 65, h: "名字", p: "míngzi", k: "есім, ат"},
+      {id: 66, h: "明天", p: "míngtiān", k: "ертең"},
+      {id: 67, h: "哪", p: "nǎ", k: "қайсы"},
+      {id: 68, h: "哪儿", p: "nǎr", k: "қайда"},
+      {id: 69, h: "那", p: "nà", k: "анау"},
+      {id: 70, h: "呢", p: "ne", k: "сұраулық/жалғастыру шылауы"},
+      {id: 71, h: "能", p: "néng", k: "істей алу, мүмкін болу"},
+      {id: 72, h: "你", p: "nǐ", k: "сен, сіз"},
+      {id: 73, h: "年", p: "nián", k: "жыл"},
+      {id: 74, h: "女儿", p: "nǚ'ér", k: "қыз бала, қызы"},
+      {id: 75, h: "朋友", p: "péngyou", k: "дос"},
+      {id: 76, h: "漂亮", p: "piàoliang", k: "әдемі"},
+      {id: 77, h: "苹果", p: "píngguo", k: "алма"},
+      {id: 78, h: "七", p: "qī", k: "жеті"},
+      {id: 79, h: "钱", p: "qián", k: "ақша"},
+      {id: 80, h: "前面", p: "qiánmiàn", k: "алдында"},
+      {id: 81, h: "请", p: "qǐng", k: "өтіну, сұрау"},
+      {id: 82, h: "去", p: "qù", k: "бару"},
+      {id: 83, h: "热", p: "rè", k: "ыстық"},
+      {id: 84, h: "人", p: "rén", k: "адам"},
+      {id: 85, h: "认识", p: "rènshi", k: "тану, танысу"},
+      {id: 86, h: "三", p: "sān", k: "үш"},
+      {id: 87, h: "商店", p: "shāngdiàn", k: "дүкен"},
+      {id: 88, h: "上", p: "shàng", k: "үстінде, жоғары"},
+      {id: 89, h: "上午", p: "shàngwǔ", k: "таңертең"},
+      {id: 90, h: "少", p: "shǎo", k: "аз"},
+      {id: 91, h: "谁", p: "shéi", k: "кім"},
+      {id: 92, h: "什么", p: "shénme", k: "не, қандай"},
+      {id: 93, h: "十", p: "shí", k: "он"},
+      {id: 94, h: "时候", p: "shíhou", k: "кез, уақыт"},
+      {id: 95, h: "是", p: "shì", k: "болу"},
+      {id: 96, h: "书", p: "shū", k: "кітап"},
+      {id: 97, h: "水", p: "shuǐ", k: "су"},
+      {id: 98, h: "水果", p: "shuǐguǒ", k: "жеміс"},
+      {id: 99, h: "睡觉", p: "shuìjiào", k: "ұйықтау"},
+      {id: 100, h: "说", p: "shuō", k: "айту, сөйлеу"},
+      {id: 101, h: "四", p: "sì", k: "төрт"},
+      {id: 102, h: "岁", p: "suì", k: "жас (жасы)"},
+      {id: 103, h: "他", p: "tā", k: "ол (ер адам)"},
+      {id: 104, h: "她", p: "tā", k: "ол (әйел адам)"},
+      {id: 105, h: "太", p: "tài", k: "тым, өте"},
+      {id: 106, h: "天气", p: "tiānqì", k: "ауа райы"},
+      {id: 107, h: "听", p: "tīng", k: "тыңдау"},
+      {id: 108, h: "同学", p: "tóngxué", k: "сыныптас"},
+      {id: 109, h: "喂", p: "wèi", k: "алло"},
+      {id: 110, h: "我", p: "wǒ", k: "мен"},
+      {id: 111, h: "我们", p: "wǒmen", k: "біз"},
+      {id: 112, h: "五", p: "wǔ", k: "бес"},
+      {id: 113, h: "喜欢", p: "xǐhuan", k: "ұнату"},
+      {id: 114, h: "下", p: "xià", k: "астында, төмен"},
+      {id: 115, h: "下午", p: "xiàwǔ", k: "түстен кейін"},
+      {id: 116, h: "下雨", p: "xiàyǔ", k: "жаңбыр жауу"},
+      {id: 117, h: "先生", p: "xiānsheng", k: "мырза"},
+      {id: 118, h: "现在", p: "xiànzài", k: "қазір"},
+      {id: 119, h: "想", p: "xiǎng", k: "ойлау, қалау"},
+      {id: 120, h: "小", p: "xiǎo", k: "кішкентай"},
+      {id: 121, h: "小姐", p: "xiǎojiě", k: "ханым, ару"},
+      {id: 122, h: "些", p: "xiē", k: "кейбір, бірнеше"},
+      {id: 123, h: "写", p: "xiě", k: "жазу"},
+      {id: 124, h: "谢谢", p: "xièxie", k: "рақмет"},
+      {id: 125, h: "星期", p: "xīngqī", k: "апта"},
+      {id: 126, h: "学生", p: "xuésheng", k: "оқушы, студент"},
+      {id: 127, h: "学习", p: "xuéxí", k: "оқу, үйрену"},
+      {id: 128, h: "学校", p: "xuéxiào", k: "мектеп"},
+      {id: 129, h: "一", p: "yī", k: "бір"},
+      {id: 130, h: "衣服", p: "yīfu", k: "киім"},
+      {id: 131, h: "医生", p: "yīshēng", k: "дәрігер"},
+      {id: 132, h: "医院", p: "yīyuàn", k: "аурухана"},
+      {id: 133, h: "椅子", p: "yǐzi", k: "орындық"},
+      {id: 134, h: "有", p: "yǒu", k: "бар, ие болу"},
+      {id: 135, h: "月", p: "yuè", k: "ай"},
+      {id: 136, h: "再见", p: "zàijiàn", k: "сау болыңыз"},
+      {id: 137, h: "在", p: "zài", k: "болу, орналасу"},
+      {id: 138, h: "怎么", p: "zěnme", k: "қалай"},
+      {id: 139, h: "怎么样", p: "zěnmeyàng", k: "қалай, қалайша"},
+      {id: 140, h: "这", p: "zhè", k: "бұл"},
+      {id: 141, h: "中国", p: "Zhōngguó", k: "Қытай"},
+      {id: 142, h: "中午", p: "zhōngwǔ", k: "түскі уақыт"},
+      {id: 143, h: "住", p: "zhù", k: "тұру, өмір сүру"},
+      {id: 144, h: "桌子", p: "zhuōzi", k: "үстел"},
+      {id: 145, h: "字", p: "zì", k: "иероглиф, әріп"},
+      {id: 146, h: "昨天", p: "zuótiān", k: "кеше"},
+      {id: 147, h: "坐", p: "zuò", k: "отыру"},
+      {id: 148, h: "做", p: "zuò", k: "істеу, жасау"},
+      {id: 149, h: "零", p: "líng", k: "нөл"},
+      {id: 150, h: "的士", p: "dīshì", k: "такси"}
+    ],
+    2: [
+      {id: 1, h: "吧", p: "ba", k: "ғой, ма (ұсыныс шылауы)"},
+      {id: 2, h: "白", p: "bái", k: "ақ"},
+      {id: 3, h: "百", p: "bǎi", k: "жүз"},
+      {id: 4, h: "帮助", p: "bāngzhù", k: "көмектесу"},
+      {id: 5, h: "报纸", p: "bàozhǐ", k: "газет"},
+      {id: 6, h: "比", p: "bǐ", k: "салыстыру"},
+      {id: 7, h: "别", p: "bié", k: "істеме, басқа"},
+      {id: 8, h: "长", p: "cháng", k: "ұзын"},
+      {id: 9, h: "唱歌", p: "chànggē", k: "ән айту"},
+      {id: 10, h: "出", p: "chū", k: "шығу"},
+      {id: 11, h: "穿", p: "chuān", k: "кию"},
+      {id: 12, h: "次", p: "cì", k: "рет"},
+      {id: 13, h: "从", p: "cóng", k: "...дан, ...ден"},
+      {id: 14, h: "错", p: "cuò", k: "қате"},
+      {id: 15, h: "打篮球", p: "dǎ lánqiú", k: "баскетбол ойнау"},
+      {id: 16, h: "大家", p: "dàjiā", k: "бәрі, барлығы"},
+      {id: 17, h: "但是", p: "dànshì", k: "бірақ"},
+      {id: 18, h: "到", p: "dào", k: "жету, дейін"},
+      {id: 19, h: "得", p: "de", k: "толықтауыш шылауы"},
+      {id: 20, h: "等", p: "děng", k: "күту"},
+      {id: 21, h: "弟弟", p: "dìdi", k: "іні"},
+      {id: 22, h: "第一", p: "dìyī", k: "бірінші"},
+      {id: 23, h: "懂", p: "dǒng", k: "түсіну"},
+      {id: 24, h: "对", p: "duì", k: "дұрыс, қатысты"},
+      {id: 25, h: "房间", p: "fángjiān", k: "бөлме"},
+      {id: 26, h: "非常", p: "fēicháng", k: "өте"},
+      {id: 27, h: "服务员", p: "fúwùyuán", k: "қызметкер, даяшы"},
+      {id: 28, h: "高", p: "gāo", k: "биік, жоғары"},
+      {id: 29, h: "告诉", p: "gàosu", k: "айту, хабарлау"},
+      {id: 30, h: "哥哥", p: "gēge", k: "аға"},
+      {id: 31, h: "给", p: "gěi", k: "беру, үшін"},
+      {id: 32, h: "公共汽车", p: "gōnggòng qìchē", k: "автобус"},
+      {id: 33, h: "公司", p: "gōngsī", k: "компания"},
+      {id: 34, h: "贵", p: "guì", k: "қымбат"},
+      {id: 35, h: "过", p: "guo", k: "тәжірибе белгісі"},
+      {id: 36, h: "还", p: "hái", k: "тағы, әлі"},
+      {id: 37, h: "孩子", p: "háizi", k: "бала"},
+      {id: 38, h: "好吃", p: "hǎochī", k: "дәмді"},
+      {id: 39, h: "黑", p: "hēi", k: "қара"},
+      {id: 40, h: "红", p: "hóng", k: "қызыл"},
+      {id: 41, h: "欢迎", p: "huānyíng", k: "қарсы алу, қош келу"},
+      {id: 42, h: "回答", p: "huídá", k: "жауап беру"},
+      {id: 43, h: "机场", p: "jīchǎng", k: "әуежай"},
+      {id: 44, h: "鸡蛋", p: "jīdàn", k: "жұмыртқа"},
+      {id: 45, h: "件", p: "jiàn", k: "дана (киімге арналған өлшем сөз)"},
+      {id: 46, h: "教", p: "jiāo", k: "үйрету"},
+      {id: 47, h: "姐姐", p: "jiějie", k: "әпке"},
+      {id: 48, h: "介绍", p: "jièshào", k: "таныстыру"},
+      {id: 49, h: "进", p: "jìn", k: "кіру"},
+      {id: 50, h: "近", p: "jìn", k: "жақын"},
+      {id: 51, h: "觉得", p: "juéde", k: "деп ойлау, сезіну"},
+      {id: 52, h: "咖啡", p: "kāfēi", k: "кофе"},
+      {id: 53, h: "开始", p: "kāishǐ", k: "бастау"},
+      {id: 54, h: "考试", p: "kǎoshì", k: "емтихан"},
+      {id: 55, h: "可能", p: "kěnéng", k: "мүмкін"},
+      {id: 56, h: "可以", p: "kěyǐ", k: "болады, мүмкін"},
+      {id: 57, h: "课", p: "kè", k: "сабақ"},
+      {id: 58, h: "快", p: "kuài", k: "тез"},
+      {id: 59, h: "快乐", p: "kuàilè", k: "бақытты, қуанышты"},
+      {id: 60, h: "累", p: "lèi", k: "шаршау"},
+      {id: 61, h: "离", p: "lí", k: "алыс болу, ...дан"},
+      {id: 62, h: "两", p: "liǎng", k: "екі (зат санағанда)"},
+      {id: 63, h: "路", p: "lù", k: "жол"},
+      {id: 64, h: "旅游", p: "lǚyóu", k: "саяхат"},
+      {id: 65, h: "卖", p: "mài", k: "сату"},
+      {id: 66, h: "慢", p: "màn", k: "баяу"},
+      {id: 67, h: "忙", p: "máng", k: "бос емес, жұмысбасты"},
+      {id: 68, h: "每", p: "měi", k: "әрбір"},
+      {id: 69, h: "妹妹", p: "mèimei", k: "сіңлі"},
+      {id: 70, h: "门", p: "mén", k: "есік"},
+      {id: 71, h: "男人", p: "nánrén", k: "ер адам"},
+      {id: 72, h: "您", p: "nín", k: "сіз (сыпайы түрде)"},
+      {id: 73, h: "牛奶", p: "niúnǎi", k: "сүт"},
+      {id: 74, h: "女", p: "nǚ", k: "әйел, қыз"},
+      {id: 75, h: "旁边", p: "pángbiān", k: "жанында"},
+      {id: 76, h: "跑步", p: "pǎobù", k: "жүгіру"},
+      {id: 77, h: "便宜", p: "piányi", k: "арзан"},
+      {id: 78, h: "票", p: "piào", k: "билет"},
+      {id: 79, h: "妻子", p: "qīzi", k: "әйел, жұбай"},
+      {id: 80, h: "起床", p: "qǐchuáng", k: "ұйқыдан тұру"},
+      {id: 81, h: "千", p: "qiān", k: "мың"},
+      {id: 82, h: "晴", p: "qíng", k: "ашық (ауа райы)"},
+      {id: 83, h: "去年", p: "qùnián", k: "өткен жыл"},
+      {id: 84, h: "让", p: "ràng", k: "рұқсат ету, мүмкіндік беру"},
+      {id: 85, h: "日", p: "rì", k: "күн (күнтізбе)"},
+      {id: 86, h: "上班", p: "shàngbān", k: "жұмысқа бару"},
+      {id: 87, h: "身体", p: "shēntǐ", k: "дене, денсаулық"},
+      {id: 88, h: "生病", p: "shēngbìng", k: "ауыру"},
+      {id: 89, h: "生日", p: "shēngrì", k: "туған күн"},
+      {id: 90, h: "时间", p: "shíjiān", k: "уақыт"},
+      {id: 91, h: "事情", p: "shìqing", k: "іс, нәрсе"},
+      {id: 92, h: "手表", p: "shǒubiǎo", k: "сағат (қол сағат)"},
+      {id: 93, h: "手机", p: "shǒujī", k: "ұялы телефон"},
+      {id: 94, h: "送", p: "sòng", k: "сыйлау, жеткізу"},
+      {id: 95, h: "虽然", p: "suīrán", k: "дегенмен, қарамастан"},
+      {id: 96, h: "它", p: "tā", k: "ол (зат, жануар)"},
+      {id: 97, h: "踢足球", p: "tī zúqiú", k: "футбол ойнау"},
+      {id: 98, h: "题", p: "tí", k: "сұрақ, тапсырма"},
+      {id: 99, h: "跳舞", p: "tiàowǔ", k: "билеу"},
+      {id: 100, h: "外", p: "wài", k: "сырт, сыртқы"},
+      {id: 101, h: "完", p: "wán", k: "аяқтау, бітіру"},
+      {id: 102, h: "玩", p: "wán", k: "ойнау, қыдыру"},
+      {id: 103, h: "晚上", p: "wǎnshang", k: "кеш, түн"},
+      {id: 104, h: "往", p: "wǎng", k: "қарай, бағытында"},
+      {id: 105, h: "为什么", p: "wèishénme", k: "неге, не үшін"},
+      {id: 106, h: "问", p: "wèn", k: "сұрау"},
+      {id: 107, h: "问题", p: "wèntí", k: "сұрақ, мәселе"},
+      {id: 108, h: "西瓜", p: "xīguā", k: "қарбыз"},
+      {id: 109, h: "希望", p: "xīwàng", k: "үміттену, қалау"},
+      {id: 110, h: "洗", p: "xǐ", k: "жуу"},
+      {id: 111, h: "小时", p: "xiǎoshí", k: "сағат (уақыт)"},
+      {id: 112, h: "笑", p: "xiào", k: "күлу"},
+      {id: 113, h: "新", p: "xīn", k: "жаңа"},
+      {id: 114, h: "姓", p: "xìng", k: "тегі, фамилия"},
+      {id: 115, h: "休息", p: "xiūxi", k: "демалу"},
+      {id: 116, h: "雪", p: "xuě", k: "қар"},
+      {id: 117, h: "颜色", p: "yánsè", k: "түс"},
+      {id: 118, h: "眼睛", p: "yǎnjing", k: "көз"},
+      {id: 119, h: "羊肉", p: "yángròu", k: "қой еті"},
+      {id: 120, h: "药", p: "yào", k: "дәрі"},
+      {id: 121, h: "要", p: "yào", k: "қалау, керек болу"},
+      {id: 122, h: "也", p: "yě", k: "де, да"},
+      {id: 123, h: "一起", p: "yìqǐ", k: "бірге"},
+      {id: 124, h: "已经", p: "yǐjīng", k: "қазірдің өзінде"},
+      {id: 125, h: "意思", p: "yìsi", k: "мағына, ой"},
+      {id: 126, h: "因为", p: "yīnwèi", k: "себебі, өйткені"},
+      {id: 127, h: "阴", p: "yīn", k: "бұлтты (ауа райы)"},
+      {id: 128, h: "游泳", p: "yóuyǒng", k: "жүзу"},
+      {id: 129, h: "右边", p: "yòubiān", k: "оң жағы"},
+      {id: 130, h: "鱼", p: "yú", k: "балық"},
+      {id: 131, h: "远", p: "yuǎn", k: "алыс"},
+      {id: 132, h: "运动", p: "yùndòng", k: "спорт, жаттығу"},
+      {id: 133, h: "再", p: "zài", k: "тағы, қайта"},
+      {id: 134, h: "早上", p: "zǎoshang", k: "таңертең"},
+      {id: 135, h: "丈夫", p: "zhàngfu", k: "күйеу"},
+      {id: 136, h: "找", p: "zhǎo", k: "іздеу"},
+      {id: 137, h: "着", p: "zhe", k: "іс-әрекеттің жалғасу белгісі"},
+      {id: 138, h: "真", p: "zhēn", k: "шынымен, өте"},
+      {id: 139, h: "正在", p: "zhèngzài", k: "қазір істеп жатыр"},
+      {id: 140, h: "知道", p: "zhīdào", k: "білу"},
+      {id: 141, h: "准备", p: "zhǔnbèi", k: "дайындау"},
+      {id: 142, h: "走", p: "zǒu", k: "жүру, кету"},
+      {id: 143, h: "最", p: "zuì", k: "ең"},
+      {id: 144, h: "左边", p: "zuǒbiān", k: "сол жағы"},
+      {id: 145, h: "做饭", p: "zuòfàn", k: "тамақ пісіру"},
+      {id: 146, h: "作业", p: "zuòyè", k: "үй жұмысы"},
+      {id: 147, h: "班", p: "bān", k: "сынып, топ"},
+      {id: 148, h: "半", p: "bàn", k: "жарты"},
+      {id: 149, h: "开始", p: "kāishǐ", k: "бастау"},
+      {id: 150, h: "同意", p: "tóngyì", k: "келісу"}
+    ],
+    3: [
+      {id: 51, h: "电梯", p: "diàntī", k: "жеделсаты (лифт)"},
+      {id: 52, h: "电子邮件", p: "diànzǐ yóujiàn", k: "электрондық пошта"},
+      {id: 53, h: "东", p: "dōng", k: "шығыс"},
+      {id: 54, h: "冬", p: "dōng", k: "қыс"},
+      {id: 55, h: "动物", p: "dòngwù", k: "жануар"},
+      {id: 56, h: "短", p: "duǎn", k: "қысқа"},
+      {id: 57, h: "段", p: "duàn", k: "бөлік"},
+      {id: 58, h: "锻炼", p: "duànliàn", k: "жаттығу жасау"},
+      {id: 59, h: "多么", p: "duōme", k: "қандай, қаншалықты"},
+      {id: 60, h: "饿", p: "è", k: "аш болу"},
+      {id: 61, h: "耳朵", p: "ěrduo", k: "құлақ"},
+      {id: 62, h: "发烧", p: "fāshāo", k: "дене қызуы көтерілу"},
+      {id: 63, h: "发现", p: "fāxiàn", k: "табу, анықтау"},
+      {id: 64, h: "方便", p: "fāngbiàn", k: "ыңғайлы"},
+      {id: 65, h: "放", p: "fàng", k: "қою, орналастыру"},
+      {id: 66, h: "放心", p: "fàngxīn", k: "көңілі жайлану"},
+      {id: 67, h: "分", p: "fēn", k: "ұпай; минут"},
+      {id: 68, h: "附近", p: "fùjìn", k: "жақын жерде"},
+      {id: 69, h: "复习", p: "fùxí", k: "қайталау"},
+      {id: 70, h: "干净", p: "gānjìng", k: "таза"},
+      {id: 71, h: "感冒", p: "gǎnmào", k: "суық тию"},
+      {id: 72, h: "感兴趣", p: "gǎn xìngqù", k: "қызығушылық таныту"},
+      {id: 73, h: "刚才", p: "gāngcái", k: "жаңа ғана"},
+      {id: 74, h: "个子", p: "gèzi", k: "бой"},
+      {id: 75, h: "根据", p: "gēnjù", k: "негізінде"},
+      {id: 76, h: "跟", p: "gēn", k: "бірге; соңынан"},
+      {id: 77, h: "更", p: "gèng", k: "одан да"},
+      {id: 78, h: "公斤", p: "gōngjīn", k: "килограмм"},
+      {id: 79, h: "公园", p: "gōngyuán", k: "саябақ"},
+      {id: 80, h: "故事", p: "gùshi", k: "әңгіме"},
+      {id: 81, h: "刮风", p: "guāfēng", k: "жел соғу"},
+      {id: 82, h: "关", p: "guān", k: "жабу"},
+      {id: 83, h: "关系", p: "guānxì", k: "қарым-қатынас"},
+      {id: 84, h: "关心", p: "guānxīn", k: "қамқор болу"},
+      {id: 85, h: "关于", p: "guānyú", k: "туралы"},
+      {id: 86, h: "国家", p: "guójiā", k: "мемлекет"},
+      {id: 87, h: "过去", p: "guòqù", k: "өткен; өтіп кету"},
+      {id: 88, h: "还是", p: "háishi", k: "әлде; бәрібір"},
+      {id: 89, h: "害怕", p: "hàipà", k: "қорқу"},
+      {id: 90, h: "黑板", p: "hēibǎn", k: "тақта"},
+      {id: 91, h: "后来", p: "hòulái", k: "кейін"},
+      {id: 92, h: "护照", p: "hùzhào", k: "төлқұжат"},
+      {id: 93, h: "花", p: "huā", k: "гүл"},
+      {id: 94, h: "花园", p: "huāyuán", k: "бақ"},
+      {id: 95, h: "画", p: "huà", k: "сурет салу"},
+      {id: 96, h: "坏", p: "huài", k: "жаман; бұзылған"},
+      {id: 97, h: "欢迎", p: "huānyíng", k: "қош келдіңіз"},
+      {id: 98, h: "环境", p: "huánjìng", k: "қоршаған орта"},
+      {id: 99, h: "还", p: "huán", k: "қайтару"},
+      {id: 100, h: "换", p: "huàn", k: "ауыстыру"},
+      {id: 101, h: "黄河", p: "Huáng Hé", k: "Хуанхэ өзені"},
+      {id: 102, h: "回答", p: "huídá", k: "жауап беру"},
+      {id: 103, h: "会议", p: "huìyì", k: "жиналыс"},
+      {id: 104, h: "或者", p: "huòzhě", k: "немесе"},
+      {id: 105, h: "几乎", p: "jīhū", k: "дерлік"},
+      {id: 106, h: "机会", p: "jīhuì", k: "мүмкіндік"},
+      {id: 107, h: "极", p: "jí", k: "өте, аса"},
+      {id: 108, h: "计划", p: "jìhuà", k: "жоспар"},
+      {id: 109, h: "记得", p: "jìde", k: "есте сақтау"},
+      {id: 110, h: "季节", p: "jìjié", k: "жыл мезгілі"},
+      {id: 111, h: "检查", p: "jiǎnchá", k: "тексеру"},
+      {id: 112, h: "简单", p: "jiǎndān", k: "қарапайым"},
+      {id: 113, h: "见面", p: "jiànmiàn", k: "кездесу"},
+      {id: 114, h: "健康", p: "jiànkāng", k: "денсаулық; сау"},
+      {id: 115, h: "讲", p: "jiǎng", k: "айту; сөйлеу"},
+      {id: 116, h: "教", p: "jiāo", k: "оқыту"},
+      {id: 117, h: "脚", p: "jiǎo", k: "аяқ"},
+      {id: 118, h: "角", p: "jiǎo", k: "бұрыш"},
+      {id: 119, h: "接", p: "jiē", k: "қарсы алу; қабылдап алу"},
+      {id: 120, h: "街道", p: "jiēdào", k: "көше"},
+      {id: 121, h: "节目", p: "jiémù", k: "бағдарлама"},
+      {id: 122, h: "解决", p: "jiějué", k: "шешу"},
+      {id: 123, h: "借", p: "jiè", k: "қарызға алу"},
+      {id: 124, h: "经常", p: "jīngcháng", k: "жиі"},
+      {id: 125, h: "经过", p: "jīngguò", k: "арқылы өту; өту"},
+      {id: 126, h: "经理", p: "jīnglǐ", k: "менеджер"},
+      {id: 127, h: "久", p: "jiǔ", k: "ұзақ уақыт"},
+      {id: 128, h: "旧", p: "jiù", k: "ескі"},
+      {id: 129, h: "句子", p: "jùzi", k: "сөйлем"},
+      {id: 130, h: "决定", p: "juédìng", k: "шешім қабылдау"},
+      {id: 131, h: "开始", p: "kāishǐ", k: "бастау"},
+      {id: 132, h: "考试", p: "kǎoshì", k: "емтихан"},
+      {id: 133, h: "渴", p: "kě", k: "шөлдеу"},
+      {id: 134, h: "可爱", p: "kě'ài", k: "сүйкімді"},
+      {id: 135, h: "刻", p: "kè", k: "ширек сағат"},
+      {id: 136, h: "客人", p: "kèrén", k: "қонақ"},
+      {id: 137, h: "空调", p: "kōngtiáo", k: "кондиционер"},
+      {id: 138, h: "口", p: "kǒu", k: "ауыз"},
+      {id: 139, h: "哭", p: "kū", k: "жылау"},
+      {id: 140, h: "裤子", p: "kùzi", k: "шалбар"},
+      {id: 141, h: "筷子", p: "kuàizi", k: "ас таяқшалары"},
+      {id: 142, h: "蓝", p: "lán", k: "көк"},
+      {id: 143, h: "老", p: "lǎo", k: "қарт; ескі"},
+      {id: 144, h: "离", p: "lí", k: "...дан алыс"},
+      {id: 145, h: "礼物", p: "lǐwù", k: "сыйлық"},
+      {id: 146, h: "历史", p: "lìshǐ", k: "тарих"},
+      {id: 147, h: "脸", p: "liǎn", k: "бет"},
+      {id: 148, h: "练习", p: "liànxí", k: "жаттығу"},
+      {id: 149, h: "两", p: "liǎng", k: "екі"},
+      {id: 150, h: "聊天", p: "liáotiān", k: "әңгімелесу"}
+    ]
+  };
+
+  let currentLevel = 1;
+  const btnHsk1 = document.getElementById('btnHsk1');
+  const btnHsk2 = document.getElementById('btnHsk2');
+  const btnHsk3 = document.getElementById('btnHsk3');
+  const mobileHskSelect = document.getElementById('mobileHskSelect');
+  const tabDict = document.getElementById('tabDict'); 
+  const tabQuiz = document.getElementById('tabQuiz'); 
+  const dictSection = document.getElementById('dictSection'); 
+  const quizSection = document.getElementById('quizSection');
+
+  function setLevel(level) {
+    currentLevel = parseInt(level);
+    [btnHsk1, btnHsk2, btnHsk3].forEach(b => b.classList.remove('active'));
+    const activeBtn = document.getElementById(`btnHsk${currentLevel}`);
+    if(activeBtn) activeBtn.classList.add('active');
+    if(mobileHskSelect) mobileHskSelect.value = currentLevel;
+
+    if(tabDict.classList.contains('active')) {
+      renderDictionary(hskData[currentLevel]);
+    } else {
+      startQuiz();
+    }
+  }
+
+  tabDict.addEventListener('click', () => { 
+    tabDict.classList.add('active'); 
+    tabQuiz.classList.remove('active'); 
+    dictSection.classList.remove('hidden'); 
+    quizSection.classList.add('hidden'); 
+    renderDictionary(hskData[currentLevel]);
+  });
+
+  tabQuiz.addEventListener('click', () => { 
+    tabQuiz.classList.add('active'); 
+    tabDict.classList.remove('active'); 
+    quizSection.classList.remove('hidden'); 
+    dictSection.classList.add('hidden'); 
+    startQuiz(); 
+  });
+
+  const dictBody = document.getElementById('dictBody'); 
+  const searchInput = document.getElementById('searchInput');
+
+  function renderDictionary(words) { 
+    dictBody.innerHTML = ''; 
+    words.forEach(w => { 
+      dictBody.innerHTML += `
+        <tr class="hover:bg-paper-deep transition border-b border-paper-deep last:border-0">
+          <td class="py-3 px-2 text-gray-500 font-medium">${w.id}</td>
+          <td class="py-3 px-2 font-display text-lg font-bold text-gray-800">${w.h}</td>
+          <td class="py-3 px-2 text-jade font-semibold">${w.p}</td>
+          <td class="py-3 px-2 text-gray-700">${w.k}</td>
+          <td class="py-3 px-2 text-center">
+            <button onclick="playAudio('${w.h}')" class="text-jade hover:text-jade-dark p-1.5 rounded-full hover:bg-paper transition" title="Тыңдау">
+              <svg class="w-5 h-5 inline" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+            </button>
+          </td>
+        </tr>`; 
+    }); 
+  }
+
+  searchInput.addEventListener('input', (e) => { 
+    const val = e.target.value.toLowerCase(); 
+    const currentList = hskData[currentLevel];
+    const filtered = currentList.filter(w => w.h.toLowerCase().includes(val) || w.p.toLowerCase().includes(val) || w.k.toLowerCase().includes(val)); 
+    renderDictionary(filtered); 
+  });
+
+  renderDictionary(hskData[1]);
+
+  let currentQ = 1; 
+  let score = 0; 
+  let currentWord = null; 
+  let questionType = 'meaning';
+  const TOTAL_Q = 10;
+
+  function startQuiz() { 
+    currentQ = 1; 
+    score = 0; 
+    document.getElementById('scoreVal').textContent = score; 
+    document.getElementById('resultScreen').classList.add('hidden'); 
+    document.getElementById('qHanzi').parentElement.classList.remove('hidden'); 
+    document.getElementById('optionsContainer').classList.remove('hidden'); 
+    loadQuestion(); 
+  }
+
+  function loadQuestion() { 
+    document.getElementById('qCount').textContent = currentQ; 
+    document.getElementById('nextBtn').classList.add('hidden'); 
+    document.getElementById('optionsContainer').innerHTML = ''; 
+    
+    const currentList = hskData[currentLevel];
+    currentWord = currentList[Math.floor(Math.random() * currentList.length)]; 
+
+    const types = ['meaning', 'pinyin', 'audio'];
+    questionType = types[Math.floor(Math.random() * types.length)];
+
+    const hanziEl = document.getElementById('qHanzi');
+    const pinyinEl = document.getElementById('qPinyin');
+
+    if (questionType === 'meaning') {
+      hanziEl.textContent = currentWord.h;
+      pinyinEl.textContent = currentWord.p + " (Аудару)";
+      playAudio(currentWord.h);
+    } else if (questionType === 'pinyin') {
+      hanziEl.textContent = currentWord.h;
+      pinyinEl.textContent = "Пиньинін тапңыз?";
+      playAudio(currentWord.h);
+    } else {
+      hanziEl.textContent = "🔊 Тексеріңіз";
+      pinyinEl.textContent = "Қай сөз екенін тыңдап тап!";
+      playAudio(currentWord.h);
+    }
+    
+    let options = [currentWord]; 
+    while(options.length < 4) { 
+      const rand = currentList[Math.floor(Math.random() * currentList.length)]; 
+      if(!options.find(o => o.id === rand.id && o.h === rand.h)) { 
+        options.push(rand); 
+      } 
+    } 
+    options = options.sort(() => Math.random() - 0.5); 
+
+    options.forEach(opt => { 
+      const btn = document.createElement('button'); 
+      // Батырмалардың ховер түсі беж стиліне сәйкестендірілді
+      btn.className = "quiz-btn border border-paper-deep rounded-xl p-4 text-sm font-semibold hover:border-jade hover:bg-paper-deep transition text-center shadow-sm text-gray-800"; 
+      
+      if (questionType === 'pinyin') {
+        btn.textContent = opt.p;
+      } else {
+        btn.textContent = opt.k;
+      }
+
+      let isCorrect = (questionType === 'pinyin') ? (opt.p === currentWord.p) : (opt.id === currentWord.id && opt.h === currentWord.h);
+      btn.onclick = () => checkAnswer(btn, isCorrect); 
+      document.getElementById('optionsContainer').appendChild(btn); 
+    }); 
+  }
+
+  function checkAnswer(selectedBtn, isCorrect) { 
+    if (questionType === 'audio') {
+      document.getElementById('qHanzi').textContent = currentWord.h;
+      document.getElementById('qPinyin').textContent = currentWord.p + ' — ' + currentWord.k;
+    }
+
+    Array.from(document.getElementById('optionsContainer').children).forEach(btn => { 
+      btn.disabled = true; 
+      let matchesCorrect = (questionType === 'pinyin') ? (btn.textContent === currentWord.p) : (btn.textContent === currentWord.k);
+      if(matchesCorrect) btn.classList.add('correct'); 
+    }); 
+
+    if(isCorrect) { 
+      score++; 
+      document.getElementById('scoreVal').textContent = score; 
+    } else { 
+      selectedBtn.classList.add('wrong'); 
+    } 
+    document.getElementById('nextBtn').classList.remove('hidden'); 
+  }
+
+  document.getElementById('nextBtn').addEventListener('click', () => { 
+    if(currentQ < TOTAL_Q) { 
+      currentQ++; 
+      loadQuestion(); 
+    } else { 
+      document.getElementById('qHanzi').parentElement.classList.add('hidden'); 
+      document.getElementById('optionsContainer').classList.add('hidden'); 
+      document.getElementById('nextBtn').classList.add('hidden'); 
+      document.getElementById('resultScreen').classList.remove('hidden'); 
+      document.getElementById('finalScore').textContent = score; 
+    } 
+  });
+</script>
+</body>
+</html>

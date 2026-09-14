@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Оқытушы панелі — Қытай тілі</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:wght@500;600;700&family=Inter:wght@400;500;600&family=Ma+Shan+Zheng&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          ink: '#1B1B1F', seal: '#A61B29', 'seal-dark': '#7D1420',
+          paper: '#F4EFE6', 'paper-deep': '#E8DFD1',
+          gold: '#B8933F', jade: '#0D9488', 'jade-dark': '#1B5F58',
+        },
+        fontFamily: {
+          display: ['"Noto Serif"', 'serif'],
+          brush: ['"Ma Shan Zheng"', 'cursive'],
+          sans: ['Inter', 'sans-serif'],
+        }
+      }
+    }
+  }
+</script>
+<style>
+  body { font-family: 'Inter', sans-serif; background-color: #F4EFE6; color: #1B1B1F; }
+  .seal-stamp {
+    background: radial-gradient(circle at 30% 25%, #C4313D 0%, #A61B29 55%, #7D1420 100%);
+    box-shadow: 0 1px 2px rgba(0,0,0,0.15); transform: rotate(-4deg); border-radius: 4px;
+  }
+  .nav-link { position: relative; padding-bottom: 2px; }
+  .nav-link::after {
+    content: ''; position: absolute; left: 50%; bottom: -6px; width: 0; height: 3px;
+    background: #A61B29; border-radius: 2px; transform: translateX(-50%); transition: width 0.25s ease;
+  }
+  .nav-link:hover::after { width: 60%; }
+  tbody tr { border-bottom: 1px solid #E8DFD1; transition: background 0.2s ease; }
+  tbody tr:hover { background: rgba(232, 223, 209, 0.4); }
+</style>
+
+<script>
+  // Сервердің сілтемесі
+  const SCRIPT_URL = 'https://legendary-yodel-969rwgq457x52r67-8000.app.github.dev/api';
+
+  const urlParams = new URLSearchParams(window.location.search);
+  let adminName = urlParams.get('name') || sessionStorage.getItem('currentUser');
+
+  if (!adminName || (adminName !== 'Bulanay Yerkin' && !adminName.toLowerCase().includes('teacher'))) {
+    alert('Бұл бетке тек оқытушы (Bulanay Yerkin) ғана кіре алады!');
+    window.location.href = 'index.html';
+  }
+</script>
+</head>
+
+<body class="antialiased min-h-screen flex flex-col">
+
+<!-- ХЕДЕР -->
+<header class="sticky top-0 z-40 bg-paper/95 backdrop-blur border-b-2 border-paper-deep">
+  <div class="max-w-7xl mx-auto px-4 sm:px-8 flex items-center justify-between h-16">
+    <a href="index.html" class="flex items-center gap-2.5 sm:gap-3 shrink-0 group">
+      <span class="seal-stamp w-8 h-8 sm:w-9 sm:h-9 flex items-center justify-center font-brush text-white text-base sm:text-lg">汉</span>
+      <span class="font-display text-base sm:text-lg font-semibold text-ink">Қытай тілі · Панель</span>
+    </a>
+    <div class="flex items-center gap-3">
+      <div class="hidden sm:flex items-center gap-2 text-xs font-bold text-jade-dark bg-white border border-paper-deep px-3 py-1.5 rounded-full shadow-sm">
+        <span class="w-2 h-2 rounded-full bg-jade animate-pulse"></span>
+        SQLite Дерекқор қосылды
+      </div>
+      <a href="index.html" onclick="sessionStorage.clear()" class="text-xs sm:text-sm font-semibold text-gray-500 hover:text-seal transition-colors">Шығу</a>
+    </div>
+  </div>
+</header>
+
+<!-- MAIN CONTENT -->
+<main class="flex-grow relative bg-gradient-to-br from-[#0c1f4c] to-[#06102a] py-8 sm:py-12 w-full overflow-hidden">
+  <div class="max-w-7xl mx-auto px-4 sm:px-8 relative z-10 w-full space-y-8">
+
+    <div class="text-center sm:text-left">
+      <p class="inline-flex items-center gap-2 font-semibold text-xs mb-3 text-[#34d399] bg-[#34d399]/10 border border-[#34d399]/20 rounded-full px-4 py-1.5">Қауіпсіз басқару панелі</p>
+      <h1 class="font-display text-3xl sm:text-4xl font-bold text-white">Қош келдіңіз, Бұланай Еркін!</h1>
+      <p class="text-sm sm:text-base text-white/80 mt-3">Барлық нақты тіркелген оқушылар төмендегі дерекқордан алынып көрсетілуде.</p>
+    </div>
+
+    <!-- СТАТИСТИКА КАРТОЧКАЛАРЫ -->
+    <div class="grid grid-cols-2 sm:grid-cols-3 gap-5">
+      <div class="rounded-2xl border border-paper-deep bg-paper p-6 shadow-xl">
+        <p class="text-xs text-gray-500 font-bold uppercase tracking-wider mb-2">Барлық оқушы</p>
+        <p id="totalUsersCount" class="font-display text-4xl font-bold text-gray-900">0</p>
+      </div>
+      <div class="rounded-2xl border border-paper-deep bg-paper p-6 shadow-xl">
+        <p class="text-xs text-gray-500 font-bold uppercase tracking-wider mb-2">Расталғандар</p>
+        <p id="verifiedUsersCount" class="font-display text-4xl font-bold text-jade">0</p>
+      </div>
+      <div class="rounded-2xl border border-paper-deep bg-paper p-6 shadow-xl">
+        <p class="text-xs text-gray-500 font-bold uppercase tracking-wider mb-2">Расталмағандар (Pending)</p>
+        <p id="pendingUsersCount" class="font-display text-4xl font-bold text-gold">0</p>
+      </div>
+    </div>
+
+    <!-- КЕСТЕ -->
+    <div class="rounded-2xl border border-paper-deep bg-paper overflow-hidden shadow-2xl">
+      <div class="overflow-x-auto">
+        <table class="w-full text-sm">
+          <thead>
+            <tr class="text-left text-xs text-gray-500 font-bold uppercase tracking-wider border-b border-paper-deep bg-paper-deep/40">
+              <th class="px-5 py-4">Аты-жөні</th>
+              <th class="px-5 py-4">Email адресі</th>
+              <th class="px-5 py-4">Рөлі (Role)</th>
+              <th class="px-5 py-4">Пошта статусы</th>
+            </tr>
+          </thead>
+          <tbody id="usersTableBody" class="text-gray-800">
+            <tr>
+              <td colspan="4" class="px-5 py-6 text-center text-gray-500">Деректер жүктелуде...</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+<script>
+  // Дерекқордан оқушыларды тартып келіп, кестеге толтыру
+  async function loadAdminData() {
+    try {
+      const response = await fetch(SCRIPT_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'get_users' })
+      });
+      const result = await response.json();
+
+      if (result.status === 'success') {
+        const users = result.users;
+        const tbody = document.getElementById('usersTableBody');
+        tbody.innerHTML = '';
+
+        let total = users.length;
+        let verified = 0;
+        let pending = 0;
+
+        users.forEach(u => {
+          if (u.status === 'Verified') verified++;
+          else pending++;
+
+          const tr = document.createElement('tr');
+          tr.innerHTML = `
+            <td class="px-5 py-4 font-bold text-gray-900">${u.name}</td>
+            <td class="px-5 py-4 text-gray-600">${u.email}</td>
+            <td class="px-5 py-4 font-medium">${u.role}</td>
+            <td class="px-5 py-4">
+              <span class="rounded-full px-3 py-1 text-xs font-bold border ${u.status === 'Verified' ? 'bg-white border-paper-deep text-jade' : 'bg-gold/10 border-gold/30 text-gold'}">
+                ${u.status}
+              </span>
+            </td>
+          `;
+          tbody.appendChild(tr);
+        });
+
+        document.getElementById('totalUsersCount').textContent = total;
+        document.getElementById('verifiedUsersCount').textContent = verified;
+        document.getElementById('pendingUsersCount').textContent = pending;
+
+      } else {
+        document.getElementById('usersTableBody').innerHTML = `<tr><td colspan="4" class="px-5 py-6 text-center text-red-500">Мәліметтерді алу мүмкін болмады.</td></tr>`;
+      }
+    } catch (err) {
+      console.error(err);
+      document.getElementById('usersTableBody').innerHTML = `<tr><td colspan="4" class="px-5 py-6 text-center text-red-500">Сервер қатесі орын алды.</td></tr>`;
+    }
+  }
+
+  loadAdminData();
+</script>
+
+</body>
+</html>

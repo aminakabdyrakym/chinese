@@ -1,0 +1,1206 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Оқушы кабинеті — Қытай тілі</title>
+<meta name="description" content="Сабақтар тізімі, HSK тесттері және үй тапсырмасын тапсыру беті.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:wght@500;600;700&family=Inter:wght@400;500;600&family=Ma+Shan+Zheng&display=swap" rel="stylesheet">
+
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          ink: '#1B1B1F',
+          seal: '#A61B29',
+          'seal-dark': '#7D1420',
+          paper: '#F4EFE6',
+          'paper-deep': '#E8DFD1',
+          gold: '#B8933F',
+          jade: '#0D9488',
+          'jade-dark': '#1B5F58',
+          sand: '#F0E5CE',
+          mist: '#E0F2FE',
+        },
+        fontFamily: {
+          display: ['"Noto Serif"', 'serif'],
+          brush: ['"Ma Shan Zheng"', 'cursive'],
+          sans: ['Inter', 'sans-serif'],
+        }
+      }
+    }
+  }
+</script>
+
+<style>
+  body { font-family: 'Inter', sans-serif; background-color: #F4EFE6; color: #1B1B1F; -webkit-tap-highlight-color: transparent; }
+
+  .seal-stamp {
+    background: radial-gradient(circle at 30% 25%, #C4313D 0%, #A61B29 55%, #7D1420 100%);
+    box-shadow: 0 1px 2px rgba(0,0,0,0.15), inset 0 0 0 1px rgba(255,255,255,0.08);
+    transform: rotate(-4deg);
+    border-radius: 4px;
+  }
+  .nav-link { position: relative; padding-bottom: 2px; }
+  .nav-link::after {
+    content: '';
+    position: absolute;
+    left: 50%; bottom: -6px;
+    width: 0; height: 3px;
+    background: #A61B29;
+    border-radius: 2px 6px 2px 6px;
+    transform: translateX(-50%);
+    transition: width 0.25s ease;
+  }
+  .nav-link:hover::after { width: 60%; }
+
+  .brush-rule {
+    height: 2px;
+    background: linear-gradient(90deg, transparent 0%, #A61B29 12%, #A61B29 88%, transparent 100%);
+  }
+  .footer-watermark {
+    position: absolute;
+    right: -20px; bottom: -40px;
+    font-family: 'Ma Shan Zheng', cursive;
+    font-size: 220px;
+    line-height: 1;
+    color: #A61B29;
+    opacity: 0.04;
+    pointer-events: none;
+    user-select: none;
+  }
+  .icon-badge { background: #A61B29; }
+  :focus-visible { outline: 2px solid #0D9488; outline-offset: 3px; }
+
+  .hsk-tab-btn { transition: all 0.2s ease; }
+  .hsk-tab-btn.active {
+    background-color: #0D9488;
+    color: white;
+    border-color: #0D9488;
+    box-shadow: 0 4px 10px rgba(13, 148, 136, 0.3);
+  }
+
+  .ai-msg p { margin: 0 0 0.5em 0; }
+  .ai-msg p:last-child { margin-bottom: 0; }
+  .ai-msg ul { list-style: disc; padding-left: 1.25em; margin: 0.4em 0 0.6em 0; }
+  .ai-msg li { margin-bottom: 0.3em; }
+  .ai-msg strong { color: #1B5F58; font-weight: 700; }
+  .ai-msg .hanzi { font-size: 1.15em; font-weight: 700; color: #A61B29; }
+  .ai-msg .pinyin { color: #0D9488; font-style: italic; font-weight: 600; }
+
+  .speak-btn { color: #0D9488; transition: color 0.2s; }
+  .speak-btn:hover { color: #1B5F58; }
+
+  @media (max-width: 640px) {
+    input, select, textarea, button { font-size: 16px !important; }
+  }
+</style>
+</head>
+
+<body class="antialiased min-h-screen flex flex-col">
+
+<header class="sticky top-0 z-40 bg-paper/95 backdrop-blur border-b-2 border-paper-deep">
+  <div class="max-w-6xl mx-auto px-4 sm:px-8 flex items-center justify-between h-16">
+
+    <a href="index.html" class="flex items-center gap-2.5 sm:gap-3 shrink-0 group">
+      <span class="seal-stamp w-8 h-8 sm:w-9 sm:h-9 flex items-center justify-center font-brush text-white text-base sm:text-lg leading-none group-hover:rotate-0 transition-transform duration-300">汉</span>
+      <span class="font-display text-base sm:text-lg font-semibold tracking-tight text-ink">Қытай тілі</span>
+    </a>
+
+    <nav class="hidden md:flex items-center gap-9 text-[15px] font-medium text-gray-600">
+      <a href="index.html" class="nav-link hover:text-ink transition-colors">Басты бет</a>
+      <a href="dictionary.html" class="nav-link hover:text-ink transition-colors">Сөздік</a>
+      <a href="reels.html" class="nav-link hover:text-ink transition-colors">Рилс/Квиз</a>
+      <a href="dashboard.html" class="nav-link hover:text-ink transition-colors font-semibold text-seal">Кабинет</a>
+    </nav>
+
+    <div class="flex items-center gap-2 sm:gap-3">
+      <div class="hidden sm:flex items-center gap-2.5 rounded-full bg-paper-deep/50 border border-paper-deep pl-1.5 pr-4 py-1.5">
+        <span id="userAvatar" class="w-7 h-7 rounded-full bg-jade text-paper flex items-center justify-center font-display text-xs font-bold shadow-sm">АН</span>
+        <span id="userNameLabel" class="text-sm font-bold text-gray-800">Оқушы</span>
+      </div>
+      <a href="index.html" onclick="sessionStorage.clear()" class="text-xs sm:text-sm font-semibold text-gray-500 hover:text-seal transition-colors px-1.5 sm:px-2">Шығу</a>
+      <button id="mobileMenuBtn" class="md:hidden p-1.5 text-gray-700 focus:outline-none" aria-label="Мәзір">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"></path>
+        </svg>
+      </button>
+    </div>
+
+  </div>
+  <div id="mobileMenu" class="hidden md:hidden bg-paper border-b border-paper-deep px-4 pt-2 pb-4 space-y-3">
+    <a href="index.html" class="block text-sm font-medium text-gray-700 hover:text-seal py-1">Басты бет</a>
+    <a href="dictionary.html" class="block text-sm font-medium text-gray-700 hover:text-seal py-1">Сөздік</a>
+    <a href="reels.html" class="block text-sm font-medium text-gray-700 hover:text-seal py-1">Рилс/Квиз</a>
+    <a href="dashboard.html" class="block text-sm font-medium text-seal py-1 font-semibold">Кабинет</a>
+  </div>
+</header>
+
+<!-- НЕГІЗГІ БӨЛІМ -->
+<main class="flex-grow relative bg-gradient-to-br from-[#0c1f4c] to-[#06102a] py-8 sm:py-12 w-full overflow-hidden">
+  <div class="absolute inset-0 opacity-[0.03] pointer-events-none" style="background-image: linear-gradient(#ffffff 1px, transparent 1px), linear-gradient(90deg, #ffffff 1px, transparent 1px); background-size: 40px 40px;"></div>
+
+  <div class="relative z-10 max-w-5xl mx-auto px-4 sm:px-8 w-full flex-1 space-y-8 sm:space-y-10">
+
+    <!-- Қарсы алу блогы -->
+    <div class="text-center sm:text-left flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div>
+        <p class="inline-flex items-center gap-2 font-semibold text-xs mb-3 text-[#34d399] bg-[#34d399]/10 border border-[#34d399]/20 rounded-full px-4 py-1.5">Жеке кабинет</p>
+        <h1 class="font-display text-3xl sm:text-4xl font-bold text-white">Қош келдің, <span id="greetName" class="text-[#F4EFE6] drop-shadow-md">Оқушы</span>!</h1>
+        <p class="text-sm text-white/70 mt-3">7-топ · HSK 2 (Жалғастырушы) · Дс/Ср/Жм 18:00</p>
+      </div>
+    </div>
+
+    <!-- Статистика Карточкалары -->
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-5">
+      <div class="rounded-2xl border border-paper-deep bg-paper p-6 shadow-xl relative overflow-hidden group hover:-translate-y-1 transition-transform">
+        <div class="absolute -right-4 -top-4 text-paper-deep opacity-30 font-display text-8xl pointer-events-none transition-transform group-hover:scale-110">学</div>
+        <p class="text-xs text-gray-500 font-bold uppercase tracking-wider mb-2 relative z-10">Орындалған сабақ</p>
+        <p class="font-display text-4xl font-bold text-gray-900 relative z-10">6 <span class="text-lg text-gray-400 font-sans">/ 18</span></p>
+      </div>
+      <div class="rounded-2xl border border-paper-deep bg-paper p-6 shadow-xl relative overflow-hidden group hover:-translate-y-1 transition-transform">
+        <div class="absolute -right-4 -top-4 text-paper-deep opacity-30 font-display text-8xl pointer-events-none transition-transform group-hover:scale-110">考</div>
+        <p class="text-xs text-gray-500 font-bold uppercase tracking-wider mb-2 relative z-10">Соңғы HSK Тест</p>
+        <p class="font-display text-4xl font-bold text-gray-900 relative z-10">4 <span class="text-lg text-gray-400 font-sans">/ 5</span></p>
+      </div>
+      <div class="rounded-2xl border border-paper-deep bg-paper p-6 shadow-xl relative overflow-hidden group hover:-translate-y-1 transition-transform">
+        <div class="absolute -right-4 -top-4 text-paper-deep opacity-30 font-display text-8xl pointer-events-none transition-transform group-hover:scale-110">成</div>
+        <p class="text-xs text-gray-500 font-bold uppercase tracking-wider mb-2 relative z-10">Төлем статусы</p>
+        <p class="font-display text-2xl mt-2 font-bold text-jade relative z-10">Төленген ✓</p>
+      </div>
+    </div>
+
+    <!-- ИИ-Тренажер (Айтылым мен сөздерді жаттықтыру - HSK 1, 2, 3 сөздері кездейсоқ ретпен) -->
+    <section class="border border-paper-deep rounded-2xl p-6 sm:p-8 bg-paper shadow-xl">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+        <div class="flex items-center gap-3">
+          <span class="bg-jade text-white px-3 py-1 rounded-full text-xs font-bold shadow-sm">ИИ-Тренажер</span>
+          <h3 class="font-display text-xl font-bold text-gray-900">Айтылым мен сөздерді жаттықтыру (HSK 1-3)</h3>
+        </div>
+        <div class="flex items-center gap-2">
+          <span id="toneCounter" class="text-xs font-bold text-gray-600 bg-paper-deep/50 border border-paper-deep px-4 py-2 rounded-xl">Сөз: 1 / 15</span>
+        </div>
+      </div>
+
+      <div class="bg-paper-deep/30 border border-paper-deep p-5 rounded-2xl mb-6 flex flex-col sm:flex-row sm:items-center justify-between gap-5 shadow-inner">
+        <div>
+          <p class="text-xs text-gray-500 font-bold uppercase mb-2">Міндетті сөз:</p>
+          <div class="flex flex-wrap items-center gap-4">
+            <span id="targetWord" class="font-display font-bold text-seal text-3xl drop-shadow-sm">爱 (ài) - Жақсы көру, сүю (HSK 1)</span>
+            <button onclick="playTargetWord()" class="bg-white text-jade border border-paper-deep text-xs font-bold px-4 py-2 rounded-xl hover:bg-jade hover:text-white transition-colors flex items-center gap-2 shadow-sm">
+              🔊 Дыбысын тыңдау
+            </button>
+          </div>
+        </div>
+        <div class="text-xs text-gray-600 sm:text-right font-medium bg-white/50 p-3 rounded-xl border border-paper-deep/50">
+          Әр сөзді оқып, ИИ-ден баға<br>және нақты кеңес алыңыз.
+        </div>
+      </div>
+
+      <div class="flex flex-wrap items-center gap-4">
+        <button id="recordToneBtn" onclick="toggleToneRecording()" class="bg-seal hover:bg-seal-dark text-white shadow-md px-6 py-3.5 text-sm font-bold rounded-xl flex items-center gap-2 transition-all">
+          <span id="recordIcon" class="text-lg">🎤</span> <span id="recordText">Жазуды бастау</span>
+        </button>
+        <div id="recordingIndicator" class="hidden flex items-center gap-2 text-seal text-sm font-bold animate-pulse bg-red-50 px-4 py-2 rounded-xl border border-red-100">
+          <div class="w-3 h-3 bg-seal rounded-full"></div> Жазылуда...
+        </div>
+      </div>
+
+      <div id="toneFeedback" class="mt-5 text-sm hidden p-5 rounded-2xl border border-paper-deep bg-white shadow-sm leading-relaxed text-gray-800"></div>
+    </section>
+
+    <!-- Тапсырмалар мен Модульдер Блогы -->
+    <section class="rounded-2xl border border-paper-deep bg-paper p-6 sm:p-8 shadow-xl">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-5 mb-8">
+        <div>
+          <h2 class="font-display text-2xl font-bold text-gray-900">Оқу Модульдері мен Тапсырмалар</h2>
+          <p class="text-sm text-gray-600 mt-1">HSK 3.0 стандарттарына сай барлық деңгейлер мен сабақтар тізімі.</p>
+        </div>
+        <div class="flex items-center justify-center gap-2 bg-paper-deep/40 p-1.5 rounded-xl border border-paper-deep">
+          <button onclick="switchHskLevel(1)" id="hskTab1" class="hsk-level-tab hsk-tab-btn px-4 sm:px-5 py-2.5 text-xs sm:text-sm font-bold rounded-lg transition-all text-gray-600 hover:text-gray-900">HSK 1 (15 сабақ)</button>
+          <button onclick="switchHskLevel(2)" id="hskTab2" class="hsk-level-tab hsk-tab-btn active px-4 sm:px-5 py-2.5 text-xs sm:text-sm font-bold rounded-lg transition-all text-gray-600 hover:text-gray-900">HSK 2 (15 сабақ)</button>
+          <button onclick="switchHskLevel(3)" id="hskTab3" class="hsk-level-tab hsk-tab-btn px-4 sm:px-5 py-2.5 text-xs sm:text-sm font-bold rounded-lg transition-all text-gray-600 hover:text-gray-900">HSK 3 (18 сабақ)</button>
+        </div>
+      </div>
+
+      <!-- HSK 1 Мәліметтері (15 сабақ) -->
+      <div id="tasksHsk1" class="hsk-tasks-content hidden space-y-6">
+        <div class="bg-paper-deep/20 border border-paper-deep p-5 rounded-2xl flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+          <div>
+            <span class="bg-jade text-white text-xs font-bold px-3 py-1 rounded-full">ТЕКСЕРІЛГЕН HSK 3.0 БАҒДАРЛАМАСЫ</span>
+            <h3 class="font-display text-xl font-bold text-gray-900 mt-2">HSK 1: Бастапқы деңгей</h3>
+            <p class="text-sm text-gray-600">Алғашқы 150 сөз және негізгі грамматикалық құрылымдарды меңгеру.</p>
+          </div>
+          <div class="flex items-center gap-4 text-xs font-bold text-gray-700">
+            <span class="bg-white px-3 py-1.5 rounded-xl border border-paper-deep">Сөздік: 500</span>
+            <span class="bg-white px-3 py-1.5 rounded-xl border border-paper-deep">Грамматика: 48</span>
+          </div>
+        </div>
+        <div class="space-y-3">
+          <div class="border border-paper-deep rounded-xl p-4 flex items-center justify-between bg-white hover:bg-paper-deep/20 transition-colors">
+            <div class="flex items-center gap-4">
+              <span class="w-8 h-8 rounded-lg bg-paper-deep flex items-center justify-center font-bold text-sm">1</span>
+              <div>
+                <h4 class="font-bold text-sm text-gray-900">校园问候与再见 <span class="text-xs font-normal text-gray-500">(Академиялық амандасу және қоштасу)</span></h4>
+                <p class="text-xs text-gray-500">14 сөз • 2 грамматика</p>
+              </div>
+            </div>
+            <a href="tasks.html?level=1&lesson=1" class="text-xs font-bold text-jade hover:underline">Ашу ➔</a>
+          </div>
+          <div class="border border-paper-deep rounded-xl p-4 flex items-center justify-between bg-white hover:bg-paper-deep/20 transition-colors">
+            <div class="flex items-center gap-4">
+              <span class="w-8 h-8 rounded-lg bg-paper-deep flex items-center justify-center font-bold text-sm">2</span>
+              <div>
+                <h4 class="font-bold text-sm text-gray-900">名字与问候 <span class="text-xs font-normal text-gray-500">(Есімдер және амандасу)</span></h4>
+                <p class="text-xs text-gray-500">19 сөз • 1 грамматика</p>
+              </div>
+            </div>
+            <a href="tasks.html?level=1&lesson=2" class="text-xs font-bold text-jade hover:underline">Ашу ➔</a>
+          </div>
+          <div class="border border-paper-deep rounded-xl p-4 flex items-center justify-between bg-white hover:bg-paper-deep/20 transition-colors">
+            <div class="flex items-center gap-4">
+              <span class="w-8 h-8 rounded-lg bg-paper-deep flex items-center justify-center font-bold text-sm">3</span>
+              <div>
+                <h4 class="font-bold text-sm text-gray-900">国籍与关系 <span class="text-xs font-normal text-gray-500">(Ұлттар және туыстық қатынастар)</span></h4>
+                <p class="text-xs text-gray-500">23 сөз • 3 грамматика</p>
+              </div>
+            </div>
+            <a href="tasks.html?level=1&lesson=3" class="text-xs font-bold text-jade hover:underline">Ашу ➔</a>
+          </div>
+          <div class="border border-paper-deep rounded-xl p-4 flex items-center justify-between bg-white hover:bg-paper-deep/20 transition-colors">
+            <div class="flex items-center gap-4">
+              <span class="w-8 h-8 rounded-lg bg-paper-deep flex items-center justify-center font-bold text-sm">4</span>
+              <div>
+                <h4 class="font-bold text-sm text-gray-900">家庭、数量与年龄 <span class="text-xs font-normal text-gray-500">(Отбасы, мөлшер және жас)</span></h4>
+                <p class="text-xs text-gray-500">26 сөз • 4 грамматика</p>
+              </div>
+            </div>
+            <a href="tasks.html?level=1&lesson=4" class="text-xs font-bold text-jade hover:underline">Ашу ➔</a>
+          </div>
+          <div class="border border-paper-deep rounded-xl p-4 flex items-center justify-between bg-white hover:bg-paper-deep/20 transition-colors">
+            <div class="flex items-center gap-4">
+              <span class="w-8 h-8 rounded-lg bg-paper-deep flex items-center justify-center font-bold text-sm">5</span>
+              <div>
+                <h4 class="font-bold text-sm text-gray-900">日期、做饭与新电脑 <span class="text-xs font-normal text-gray-500">(Күндер, ас әзірлеу және жаңа компьютер)</span></h4>
+                <p class="text-xs text-gray-500">22 сөз • 3 грамматика</p>
+              </div>
+            </div>
+            <a href="tasks.html?level=1&lesson=5" class="text-xs font-bold text-jade hover:underline">Ашу ➔</a>
+          </div>
+          <div class="border border-paper-deep rounded-xl p-4 flex items-center justify-between bg-white hover:bg-paper-deep/20 transition-colors">
+            <div class="flex items-center gap-4">
+              <span class="w-8 h-8 rounded-lg bg-paper-deep flex items-center justify-center font-bold text-sm">6</span>
+              <div>
+                <h4 class="font-bold text-sm text-gray-900">电话号码、超市购物与晚餐计划 <span class="text-xs font-normal text-gray-500">(Телефон нөмірлері, супермаркеттен сауда жасау және кешкі ас жоспары)</span></h4>
+                <p class="text-xs text-gray-500">23 сөз • 3 грамматика</p>
+              </div>
+            </div>
+            <a href="tasks.html?level=1&lesson=6" class="text-xs font-bold text-jade hover:underline">Ашу ➔</a>
+          </div>
+          <div class="border border-paper-deep rounded-xl p-4 flex items-center justify-between bg-white hover:bg-paper-deep/20 transition-colors">
+            <div class="flex items-center gap-4">
+              <span class="w-8 h-8 rounded-lg bg-paper-deep flex items-center justify-center font-bold text-sm">7</span>
+              <div>
+                <h4 class="font-bold text-sm text-gray-900">日常时间与安排 <span class="text-xs font-normal text-gray-500">(Күнделікті уақыт пен жоспарлар)</span></h4>
+                <p class="text-xs text-gray-500">27 сөз • 4 грамматика</p>
+              </div>
+            </div>
+            <a href="tasks.html?level=1&lesson=7" class="text-xs font-bold text-jade hover:underline">Ашу ➔</a>
+          </div>
+          <div class="border border-paper-deep rounded-xl p-4 flex items-center justify-between bg-white hover:bg-paper-deep/20 transition-colors">
+            <div class="flex items-center gap-4">
+              <span class="w-8 h-8 rounded-lg bg-paper-deep flex items-center justify-center font-bold text-sm">8</span>
+              <div>
+                <h4 class="font-bold text-sm text-gray-900">位置与工作 <span class="text-xs font-normal text-gray-500">(Орын, орналасу және қабілеттер)</span></h4>
+                <p class="text-xs text-gray-500">24 сөз • 3 грамматика</p>
+              </div>
+            </div>
+            <a href="tasks.html?level=1&lesson=8" class="text-xs font-bold text-jade hover:underline">Ашу ➔</a>
+          </div>
+          <div class="border border-paper-deep rounded-xl p-4 flex items-center justify-between bg-white hover:bg-paper-deep/20 transition-colors">
+            <div class="flex items-center gap-4">
+              <span class="w-8 h-8 rounded-lg bg-paper-deep flex items-center justify-center font-bold text-sm">9</span>
+              <div>
+                <h4 class="font-bold text-sm text-gray-900">地方、书和日常活动 <span class="text-xs font-normal text-gray-500">(Орындар, кітаптар және күнделікті әрекеттер)</span></h4>
+                <p class="text-xs text-gray-500">23 сөз • 3 грамматика</p>
+              </div>
+            </div>
+            <a href="tasks.html?level=1&lesson=9" class="text-xs font-bold text-jade hover:underline">Ашу ➔</a>
+          </div>
+          <div class="border border-paper-deep rounded-xl p-4 flex items-center justify-between bg-white hover:bg-paper-deep/20 transition-colors">
+            <div class="flex items-center gap-4">
+              <span class="w-8 h-8 rounded-lg bg-paper-deep flex items-center justify-center font-bold text-sm">10</span>
+              <div>
+                <h4 class="font-bold text-sm text-gray-900">买水果和衣服 <span class="text-xs font-normal text-gray-500">(Жеміс және киім сатып алу)</span></h4>
+                <p class="text-xs text-gray-500">23 сөз • 3 грамматика</p>
+              </div>
+            </div>
+            <a href="tasks.html?level=1&lesson=10" class="text-xs font-bold text-jade hover:underline">Ашу ➔</a>
+          </div>
+          <div class="border border-paper-deep rounded-xl p-4 flex items-center justify-between bg-white hover:bg-paper-deep/20 transition-colors">
+            <div class="flex items-center gap-4">
+              <span class="w-8 h-8 rounded-lg bg-paper-deep flex items-center justify-center font-bold text-sm">11</span>
+              <div>
+                <h4 class="font-bold text-sm text-gray-900">正在做的事 <span class="text-xs font-normal text-gray-500">(Жүріп жатқан істер және болашақ жоспарлар)</span></h4>
+                <p class="text-xs text-gray-500">25 сөз • 3 грамматика</p>
+              </div>
+            </div>
+            <a href="tasks.html?level=1&lesson=11" class="text-xs font-bold text-jade hover:underline">Ашу ➔</a>
+          </div>
+          <div class="border border-paper-deep rounded-xl p-4 flex items-center justify-between bg-white hover:bg-paper-deep/20 transition-colors">
+            <div class="flex items-center gap-4">
+              <span class="w-8 h-8 rounded-lg bg-paper-deep flex items-center justify-center font-bold text-sm">12</span>
+              <div>
+                <h4 class="font-bold text-sm text-gray-900">天气和生病 <span class="text-xs font-normal text-gray-500">(Ауа райы және сырқаттану)</span></h4>
+                <p class="text-xs text-gray-500">23 сөз • 3 грамматика</p>
+              </div>
+            </div>
+            <a href="tasks.html?level=1&lesson=12" class="text-xs font-bold text-jade hover:underline">Ашу ➔</a>
+          </div>
+          <div class="border border-paper-deep rounded-xl p-4 flex items-center justify-between bg-white hover:bg-paper-deep/20 transition-colors">
+            <div class="flex items-center gap-4">
+              <span class="w-8 h-8 rounded-lg bg-paper-deep flex items-center justify-center font-bold text-sm">13</span>
+              <div>
+                <h4 class="font-bold text-sm text-gray-900">点餐与课后询问 <span class="text-xs font-normal text-gray-500">(Тапсырыс беру және сабақтан кейінгі сұрақтар)</span></h4>
+                <p class="text-xs text-gray-500">20 сөз • 3 грамматика</p>
+              </div>
+            </div>
+            <a href="tasks.html?level=1&lesson=13" class="text-xs font-bold text-jade hover:underline">Ашу ➔</a>
+          </div>
+          <div class="border border-paper-deep rounded-xl p-4 flex items-center justify-between bg-white hover:bg-paper-deep/20 transition-colors">
+            <div class="flex items-center gap-4">
+              <span class="w-8 h-8 rounded-lg bg-paper-deep flex items-center justify-center font-bold text-sm">14</span>
+              <div>
+                <h4 class="font-bold text-sm text-gray-900">完成的事情与学习阶段 <span class="text-xs font-normal text-gray-500">(Аяқталған істер және оқу кезеңдері)</span></h4>
+                <p class="text-xs text-gray-500">28 сөз • 3 грамматика</p>
+              </div>
+            </div>
+            <a href="tasks.html?level=1&lesson=14" class="text-xs font-bold text-jade hover:underline">Ашу ➔</a>
+          </div>
+          <div class="border border-paper-deep rounded-xl p-4 flex items-center justify-between bg-white hover:bg-paper-deep/20 transition-colors">
+            <div class="flex items-center gap-4">
+              <span class="w-8 h-8 rounded-lg bg-paper-deep flex items-center justify-center font-bold text-sm">15</span>
+              <div>
+                <h4 class="font-bold text-sm text-gray-900">旅行计划与喜好 <span class="text-xs font-normal text-gray-500">(Саяхат жоспары және қалаулар)</span></h4>
+                <p class="text-xs text-gray-500">17 сөз • 1 грамматика</p>
+              </div>
+            </div>
+            <a href="tasks.html?level=1&lesson=15" class="text-xs font-bold text-jade hover:underline">Ашу ➔</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- HSK 2 Мәліметтері (15 сабақ) -->
+      <div id="tasksHsk2" class="hsk-tasks-content space-y-6">
+        <div class="bg-paper-deep/20 border border-paper-deep p-5 rounded-2xl flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+          <div>
+            <span class="bg-jade text-white text-xs font-bold px-3 py-1 rounded-full">ТЕКСЕРІЛГЕН HSK 3.0 БАҒДАРЛАМАСЫ</span>
+            <h3 class="font-display text-xl font-bold text-gray-900 mt-2">HSK 2: Элементарлы деңгей</h3>
+            <p class="text-sm text-gray-600">300 негізгі сөз және қарапайым грамматикалық үлгілерді қамтиды.</p>
+          </div>
+          <div class="flex items-center gap-4 text-xs font-bold text-gray-700">
+            <span class="bg-white px-3 py-1.5 rounded-xl border border-paper-deep">Сөздік: 1272</span>
+            <span class="bg-white px-3 py-1.5 rounded-xl border border-paper-deep">Грамматика: 129</span>
+          </div>
+        </div>
+        <div class="space-y-3">
+          <div class="border border-paper-deep rounded-xl p-4 flex items-center justify-between bg-white hover:bg-paper-deep/20 transition-colors">
+            <div class="flex items-center gap-4">
+              <span class="w-8 h-8 rounded-lg bg-paper-deep flex items-center justify-center font-bold text-sm">1</span>
+              <div>
+                <h4 class="font-bold text-sm text-gray-900">到达与接送 <span class="text-xs font-normal text-gray-500">(Келу және қарсы алу)</span></h4>
+                <p class="text-xs text-gray-500">15 сөз • 3 грамматика</p>
+              </div>
+            </div>
+            <a href="tasks.html?level=2&lesson=1" class="text-xs font-bold text-jade hover:underline">Ашу ➔</a>
+          </div>
+          <div class="border border-paper-deep rounded-xl p-4 flex items-center justify-between bg-white hover:bg-paper-deep/20 transition-colors">
+            <div class="flex items-center gap-4">
+              <span class="w-8 h-8 rounded-lg bg-paper-deep flex items-center justify-center font-bold text-sm">2</span>
+              <div>
+                <h4 class="font-bold text-sm text-gray-900">探索校园与出行方式 <span class="text-xs font-normal text-gray-500">(Кампусты зерттеу және көлік түрлері)</span></h4>
+                <p class="text-xs text-gray-500">16 сөз • 1 грамматика</p>
+              </div>
+            </div>
+            <a href="tasks.html?level=2&lesson=2" class="text-xs font-bold text-jade hover:underline">Ашу ➔</a>
+          </div>
+          <div class="border border-paper-deep rounded-xl p-4 flex items-center justify-between bg-white hover:bg-paper-deep/20 transition-colors">
+            <div class="flex items-center gap-4">
+              <span class="w-8 h-8 rounded-lg bg-paper-deep flex items-center justify-center font-bold text-sm">3</span>
+              <div>
+                <h4 class="font-bold text-sm text-gray-900">完成动作与日常生活 <span class="text-xs font-normal text-gray-500">(Әрекеттерді аяқтау және күнделікті өмір)</span></h4>
+                <p class="text-xs text-gray-500">15 сөз • 2 грамматика</p>
+              </div>
+            </div>
+            <a href="tasks.html?level=2&lesson=3" class="text-xs font-bold text-jade hover:underline">Ашу ➔</a>
+          </div>
+          <div class="border border-paper-deep rounded-xl p-4 flex items-center justify-between bg-white hover:bg-paper-deep/20 transition-colors">
+            <div class="flex items-center gap-4">
+              <span class="w-8 h-8 rounded-lg bg-paper-deep flex items-center justify-center font-bold text-sm">4</span>
+              <div>
+                <h4 class="font-bold text-sm text-gray-900">商场购物与表达喜好 <span class="text-xs font-normal text-gray-500">(Дүкеннен сауда жасау және қалауды білдіру)</span></h4>
+                <p class="text-xs text-gray-500">16 сөз • 3 грамматика</p>
+              </div>
+            </div>
+            <a href="tasks.html?level=2&lesson=4" class="text-xs font-bold text-jade hover:underline">Ашу ➔</a>
+          </div>
+          <div class="border border-paper-deep rounded-xl p-4 flex items-center justify-between bg-white hover:bg-paper-deep/20 transition-colors">
+            <div class="flex items-center gap-4">
+              <span class="w-8 h-8 rounded-lg bg-paper-deep flex items-center justify-center font-bold text-sm">5</span>
+              <div>
+                <h4 class="font-bold text-sm text-gray-900">方向与拜访 <span class="text-xs font-normal text-gray-500">(Бағыттар және қонаққа бару)</span></h4>
+                <p class="text-xs text-gray-500">18 сөз • 2 грамматика</p>
+              </div>
+            </div>
+            <a href="tasks.html?level=2&lesson=5" class="text-xs font-bold text-jade hover:underline">Ашу ➔</a>
+          </div>
+          <div class="border border-paper-deep rounded-xl p-4 flex items-center justify-between bg-white hover:bg-paper-deep/20 transition-colors">
+            <div class="flex items-center gap-4">
+              <span class="w-8 h-8 rounded-lg bg-paper-deep flex items-center justify-center font-bold text-sm">6</span>
+              <div>
+                <h4 class="font-bold text-sm text-gray-900">过生日与特别的时刻 <span class="text-xs font-normal text-gray-500">(Туған күн және ерекше сәттер)</span></h4>
+                <p class="text-xs text-gray-500">14 сөз • 3 грамматика</p>
+              </div>
+            </div>
+            <a href="tasks.html?level=2&lesson=6" class="text-xs font-bold text-jade hover:underline">Ашу ➔</a>
+          </div>
+          <div class="border border-paper-deep rounded-xl p-4 flex items-center justify-between bg-white hover:bg-paper-deep/20 transition-colors">
+            <div class="flex items-center gap-4">
+              <span class="w-8 h-8 rounded-lg bg-paper-deep flex items-center justify-center font-bold text-sm">7</span>
+              <div>
+                <h4 class="font-bold text-sm text-gray-900">运动计划与能力评价 <span class="text-xs font-normal text-gray-500">(Спорттық жоспарлар және қабілетті бағалау)</span></h4>
+                <p class="text-xs text-gray-500">15 сөз • 2 грамматика</p>
+              </div>
+            </div>
+            <a href="tasks.html?level=2&lesson=7" class="text-xs font-bold text-jade hover:underline">Ашу ➔</a>
+          </div>
+          <div class="border border-paper-deep rounded-xl p-4 flex items-center justify-between bg-white hover:bg-paper-deep/20 transition-colors">
+            <div class="flex items-center gap-4">
+              <span class="w-8 h-8 rounded-lg bg-paper-deep flex items-center justify-center font-bold text-sm">8</span>
+              <div>
+                <h4 class="font-bold text-sm text-gray-900">日常比较与转折 <span class="text-xs font-normal text-gray-500">(Күнделікті салыстырулар және ойды өзгерту)</span></h4>
+                <p class="text-xs text-gray-500">16 сөз • 3 грамматика</p>
+              </div>
+            </div>
+            <a href="tasks.html?level=2&lesson=8" class="text-xs font-bold text-jade hover:underline">Ашу ➔</a>
+          </div>
+          <div class="border border-paper-deep rounded-xl p-4 flex items-center justify-between bg-white hover:bg-paper-deep/20 transition-colors">
+            <div class="flex items-center gap-4">
+              <span class="w-8 h-8 rounded-lg bg-paper-deep flex items-center justify-center font-bold text-sm">9</span>
+              <div>
+                <h4 class="font-bold text-sm text-gray-900">购物与距离 <span class="text-xs font-normal text-gray-500">(Сауда жасау және қашықтық)</span></h4>
+                <p class="text-xs text-gray-500">13 сөз • 3 грамматика</p>
+              </div>
+            </div>
+            <a href="tasks.html?level=2&lesson=9" class="text-xs font-bold text-jade hover:underline">Ашу ➔</a>
+          </div>
+          <div class="border border-paper-deep rounded-xl p-4 flex items-center justify-between bg-white hover:bg-paper-deep/20 transition-colors">
+            <div class="flex items-center gap-4">
+              <span class="w-8 h-8 rounded-lg bg-paper-deep flex items-center justify-center font-bold text-sm">10</span>
+              <div>
+                <h4 class="font-bold text-sm text-gray-900">准备开学与准备考试 <span class="text-xs font-normal text-gray-500">(Оқу жылына және емтиханға дайындық)</span></h4>
+                <p class="text-xs text-gray-500">14 сөз • 3 грамматика</p>
+              </div>
+            </div>
+            <a href="tasks.html?level=2&lesson=10" class="text-xs font-bold text-jade hover:underline">Ашу ➔</a>
+          </div>
+          <div class="border border-paper-deep rounded-xl p-4 flex items-center justify-between bg-white hover:bg-paper-deep/20 transition-colors">
+            <div class="flex items-center gap-4">
+              <span class="w-8 h-8 rounded-lg bg-paper-deep flex items-center justify-center font-bold text-sm">11</span>
+              <div>
+                <h4 class="font-bold text-sm text-gray-900">健康习惯与身体照顾 <span class="text-xs font-normal text-gray-500">(Дені сау әдеттер және денсаулыққа күтім)</span></h4>
+                <p class="text-xs text-gray-500">13 сөз • 2 грамматика</p>
+              </div>
+            </div>
+            <a href="tasks.html?level=2&lesson=11" class="text-xs font-bold text-jade hover:underline">Ашу ➔</a>
+          </div>
+          <div class="border border-paper-deep rounded-xl p-4 flex items-center justify-between bg-white hover:bg-paper-deep/20 transition-colors">
+            <div class="flex items-center gap-4">
+              <span class="w-8 h-8 rounded-lg bg-paper-deep flex items-center justify-center font-bold text-sm">12</span>
+              <div>
+                <h4 class="font-bold text-sm text-gray-900">表达明显的比较 <span class="text-xs font-normal text-gray-500">(Айқын салыстыруларды жеткізу)</span></h4>
+                <p class="text-xs text-gray-500">11 сөз • 2 грамматика</p>
+              </div>
+            </div>
+            <a href="tasks.html?level=2&lesson=12" class="text-xs font-bold text-jade hover:underline">Ашу ➔</a>
+          </div>
+          <div class="border border-paper-deep rounded-xl p-4 flex items-center justify-between bg-white hover:bg-paper-deep/20 transition-colors">
+            <div class="flex items-center gap-4">
+              <span class="w-8 h-8 rounded-lg bg-paper-deep flex items-center justify-center font-bold text-sm">13</span>
+              <div>
+                <h4 class="font-bold text-sm text-gray-900">送礼物与表达比较 <span class="text-xs font-normal text-gray-500">(Сыйлық беру және айырмашылықтарды салыстыру)</span></h4>
+                <p class="text-xs text-gray-500">13 сөз • 2 грамматика</p>
+              </div>
+            </div>
+            <a href="tasks.html?level=2&lesson=13" class="text-xs font-bold text-jade hover:underline">Ашу ➔</a>
+          </div>
+          <div class="border border-paper-deep rounded-xl p-4 flex items-center justify-between bg-white hover:bg-paper-deep/20 transition-colors">
+            <div class="flex items-center gap-4">
+              <span class="w-8 h-8 rounded-lg bg-paper-deep flex items-center justify-center font-bold text-sm">14</span>
+              <div>
+                <h4 class="font-bold text-sm text-gray-900">节日拜访与空间描写 <span class="text-xs font-normal text-gray-500">(Мерекелік сапарлар және кеңістікті сипаттау)</span></h4>
+                <p class="text-xs text-gray-500">12 сөз • 2 грамматика</p>
+              </div>
+            </div>
+            <a href="tasks.html?level=2&lesson=14" class="text-xs font-bold text-jade hover:underline">Ашу ➔</a>
+          </div>
+          <div class="border border-paper-deep rounded-xl p-4 flex items-center justify-between bg-white hover:bg-paper-deep/20 transition-colors">
+            <div class="flex items-center gap-4">
+              <span class="w-8 h-8 rounded-lg bg-paper-deep flex items-center justify-center font-bold text-sm">15</span>
+              <div>
+                <h4 class="font-bold text-sm text-gray-900">旅游计划与次数 <span class="text-xs font-normal text-gray-500">(Саяхат жоспары және қайталану жиілігі)</span></h4>
+                <p class="text-xs text-gray-500">12 сөз • 2 грамматика</p>
+              </div>
+            </div>
+            <a href="tasks.html?level=2&lesson=15" class="text-xs font-bold text-jade hover:underline">Ашу ➔</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- HSK 3 Мәліметтері (18 сабақ) -->
+      <div id="tasksHsk3" class="hsk-tasks-content hidden space-y-6">
+        <div class="bg-paper-deep/20 border border-paper-deep p-5 rounded-2xl flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+          <div>
+            <span class="bg-jade text-white text-xs font-bold px-3 py-1 rounded-full">ТЕКСЕРІЛГЕН HSK 3.0 БАҒДАРЛАМАСЫ</span>
+            <h3 class="font-display text-xl font-bold text-gray-900 mt-2">HSK 3: Орта деңгей</h3>
+            <p class="text-sm text-gray-600">600 сөз бен күрделі қарым-қатынас дағдылары.</p>
+          </div>
+          <div class="flex items-center gap-4 text-xs font-bold text-gray-700">
+            <span class="bg-white px-3 py-1.5 rounded-xl border border-paper-deep">Сөздік: 2245</span>
+            <span class="bg-white px-3 py-1.5 rounded-xl border border-paper-deep">Грамматика: 210</span>
+          </div>
+        </div>
+        <div class="space-y-3">
+          <div class="border border-paper-deep rounded-xl p-4 flex items-center justify-between bg-white hover:bg-paper-deep/20 transition-colors">
+            <div class="flex items-center gap-4">
+              <span class="w-8 h-8 rounded-lg bg-paper-deep flex items-center justify-center font-bold text-sm">1</span>
+              <div>
+                <h4 class="font-bold text-sm text-gray-900">外貌描述与机场接人 <span class="text-xs font-normal text-gray-500">(Сырт келбетті сипаттау және әуежайда қарсы алу)</span></h4>
+                <p class="text-xs text-gray-500">27 сөз • 3 грамматика</p>
+              </div>
+            </div>
+            <a href="tasks.html?level=3&lesson=1" class="text-xs font-bold text-jade hover:underline">Ашу ➔</a>
+          </div>
+          <div class="border border-paper-deep rounded-xl p-4 flex items-center justify-between bg-white hover:bg-paper-deep/20 transition-colors">
+            <div class="flex items-center gap-4">
+              <span class="w-8 h-8 rounded-lg bg-paper-deep flex items-center justify-center font-bold text-sm">2</span>
+              <div>
+                <h4 class="font-bold text-sm text-gray-900">餐饮与服务 <span class="text-xs font-normal text-gray-500">(Тамақтану және мейрамхана қызметі)</span></h4>
+                <p class="text-xs text-gray-500">28 сөз • 3 грамматика</p>
+              </div>
+            </div>
+            <a href="tasks.html?level=3&lesson=2" class="text-xs font-bold text-jade hover:underline">Ашу ➔</a>
+          </div>
+          <div class="border border-paper-deep rounded-xl p-4 flex items-center justify-between bg-white hover:bg-paper-deep/20 transition-colors">
+            <div class="flex items-center gap-4">
+              <span class="w-8 h-8 rounded-lg bg-paper-deep flex items-center justify-center font-bold text-sm">3</span>
+              <div>
+                <h4 class="font-bold text-sm text-gray-900">看房与搬家 <span class="text-xs font-normal text-gray-500">(Пәтер қарау және көшу)</span></h4>
+                <p class="text-xs text-gray-500">26 сөз • 3 грамматика</p>
+              </div>
+            </div>
+            <a href="tasks.html?level=3&lesson=3" class="text-xs font-bold text-jade hover:underline">Ашу ➔</a>
+          </div>
+          <div class="border border-paper-deep rounded-xl p-4 flex items-center justify-between bg-white hover:bg-paper-deep/20 transition-colors">
+            <div class="flex items-center gap-4">
+              <span class="w-8 h-8 rounded-lg bg-paper-deep flex items-center justify-center font-bold text-sm">4</span>
+              <div>
+                <h4 class="font-bold text-sm text-gray-900">旅游计划与行程安排 <span class="text-xs font-normal text-gray-500">(Саяхат бағыты және логистика)</span></h4>
+                <p class="text-xs text-gray-500">27 сөз • 3 грамматика</p>
+              </div>
+            </div>
+            <a href="tasks.html?level=3&lesson=4" class="text-xs font-bold text-jade hover:underline">Ашу ➔</a>
+          </div>
+          <div class="border border-paper-deep rounded-xl p-4 flex items-center justify-between bg-white hover:bg-paper-deep/20 transition-colors">
+            <div class="flex items-center gap-4">
+              <span class="w-8 h-8 rounded-lg bg-paper-deep flex items-center justify-center font-bold text-sm">5</span>
+              <div>
+                <h4 class="font-bold text-sm text-gray-900">爬山与拍照 <span class="text-xs font-normal text-gray-500">(Тауға шығу және суретке түсіру)</span></h4>
+                <p class="text-xs text-gray-500">27 сөз • 4 грамматика</p>
+              </div>
+            </div>
+            <a href="tasks.html?level=3&lesson=5" class="text-xs font-bold text-jade hover:underline">Ашу ➔</a>
+          </div>
+          <div class="border border-paper-deep rounded-xl p-4 flex items-center justify-between bg-white hover:bg-paper-deep/20 transition-colors">
+            <div class="flex items-center gap-4">
+              <span class="w-8 h-8 rounded-lg bg-paper-deep flex items-center justify-center font-bold text-sm">6</span>
+              <div>
+                <h4 class="font-bold text-sm text-gray-900">高铁出行 <span class="text-xs font-normal text-gray-500">(Жылдам жүретін пойызбен сапар)</span></h4>
+                <p class="text-xs text-gray-500">26 сөз • 3 грамматика</p>
+              </div>
+            </div>
+            <a href="tasks.html?level=3&lesson=6" class="text-xs font-bold text-jade hover:underline">Ашу ➔</a>
+          </div>
+          <div class="border border-paper-deep rounded-xl p-4 flex items-center justify-between bg-white hover:bg-paper-deep/20 transition-colors">
+            <div class="flex items-center gap-4">
+              <span class="w-8 h-8 rounded-lg bg-paper-deep flex items-center justify-center font-bold text-sm">7</span>
+              <div>
+                <h4 class="font-bold text-sm text-gray-900">比较商品与做决定 <span class="text-xs font-normal text-gray-500">(Тауарларды салыстыру және шешім қабылдау)</span></h4>
+                <p class="text-xs text-gray-500">27 сөз • 4 грамматика</p>
+              </div>
+            </div>
+            <a href="tasks.html?level=3&lesson=7" class="text-xs font-bold text-jade hover:underline">Ашу ➔</a>
+          </div>
+          <div class="border border-paper-deep rounded-xl p-4 flex items-center justify-between bg-white hover:bg-paper-deep/20 transition-colors">
+            <div class="flex items-center gap-4">
+              <span class="w-8 h-8 rounded-lg bg-paper-deep flex items-center justify-center font-bold text-sm">8</span>
+              <div>
+                <h4 class="font-bold text-sm text-gray-900">健康与运动习惯 <span class="text-xs font-normal text-gray-500">(Денсаулық және спорттық әдеттер)</span></h4>
+                <p class="text-xs text-gray-500">28 сөз • 3 грамматика</p>
+              </div>
+            </div>
+            <a href="tasks.html?level=3&lesson=8" class="text-xs font-bold text-jade hover:underline">Ашу ➔</a>
+          </div>
+          <div class="border border-paper-deep rounded-xl p-4 flex items-center justify-between bg-white hover:bg-paper-deep/20 transition-colors">
+            <div class="flex items-center gap-4">
+              <span class="w-8 h-8 rounded-lg bg-paper-deep flex items-center justify-center font-bold text-sm">9</span>
+              <div>
+                <h4 class="font-bold text-sm text-gray-900">课外活动与生活安排 <span class="text-xs font-normal text-gray-500">(Сабақтан тыс әрекеттер және күнделікті тірлік)</span></h4>
+                <p class="text-xs text-gray-500">20 сөз • 3 грамматика</p>
+              </div>
+            </div>
+            <a href="tasks.html?level=3&lesson=9" class="text-xs font-bold text-jade hover:underline">Ашу ➔</a>
+          </div>
+          <div class="border border-paper-deep rounded-xl p-4 flex items-center justify-between bg-white hover:bg-paper-deep/20 transition-colors">
+            <div class="flex items-center gap-4">
+              <span class="w-8 h-8 rounded-lg bg-paper-deep flex items-center justify-center font-bold text-sm">10</span>
+              <div>
+                <h4 class="font-bold text-sm text-gray-900">学习方法与进步 <span class="text-xs font-normal text-gray-500">(Оқу әдістері және академиялық жетістік)</span></h4>
+                <p class="text-xs text-gray-500">28 сөз • 3 грамматика</p>
+              </div>
+            </div>
+            <a href="tasks.html?level=3&lesson=10" class="text-xs font-bold text-jade hover:underline">Ашу ➔</a>
+          </div>
+          <div class="border border-paper-deep rounded-xl p-4 flex items-center justify-between bg-white hover:bg-paper-deep/20 transition-colors">
+            <div class="flex items-center gap-4">
+              <span class="w-8 h-8 rounded-lg bg-paper-deep flex items-center justify-center font-bold text-sm">11</span>
+              <div>
+                <h4 class="font-bold text-sm text-gray-900">工作中的沟通与安排 <span class="text-xs font-normal text-gray-500">(Жұмыстағы қарым-қатынас және кестелер)</span></h4>
+                <p class="text-xs text-gray-500">27 сөз • 4 грамматика</p>
+              </div>
+            </div>
+            <a href="tasks.html?level=3&lesson=11" class="text-xs font-bold text-jade hover:underline">Ашу ➔</a>
+          </div>
+          <div class="border border-paper-deep rounded-xl p-4 flex items-center justify-between bg-white hover:bg-paper-deep/20 transition-colors">
+            <div class="flex items-center gap-4">
+              <span class="w-8 h-8 rounded-lg bg-paper-deep flex items-center justify-center font-bold text-sm">12</span>
+              <div>
+                <h4 class="font-bold text-sm text-gray-900">天气变化与灵活安排 <span class="text-xs font-normal text-gray-500">(Ауа райының өзгеруі және икемді кесте)</span></h4>
+                <p class="text-xs text-gray-500">27 сөз • 4 грамматика</p>
+              </div>
+            </div>
+            <a href="tasks.html?level=3&lesson=12" class="text-xs font-bold text-jade hover:underline">Ашу ➔</a>
+          </div>
+          <div class="border border-paper-deep rounded-xl p-4 flex items-center justify-between bg-white hover:bg-paper-deep/20 transition-colors">
+            <div class="flex items-center gap-4">
+              <span class="w-8 h-8 rounded-lg bg-paper-deep flex items-center justify-center font-bold text-sm">13</span>
+              <div>
+                <h4 class="font-bold text-sm text-gray-900">款待客人与聚会 <span class="text-xs font-normal text-gray-500">(Қонақ күту және бірге дастархан басында болу)</span></h4>
+                <p class="text-xs text-gray-500">19 сөз • 3 грамматика</p>
+              </div>
+            </div>
+            <a href="tasks.html?level=3&lesson=13" class="text-xs font-bold text-jade hover:underline">Ашу ➔</a>
+          </div>
+          <div class="border border-paper-deep rounded-xl p-4 flex items-center justify-between bg-white hover:bg-paper-deep/20 transition-colors">
+            <div class="flex items-center gap-4">
+              <span class="w-8 h-8 rounded-lg bg-paper-deep flex items-center justify-center font-bold text-sm">14</span>
+              <div>
+                <h4 class="font-bold text-sm text-gray-900">校园活动与准备 <span class="text-xs font-normal text-gray-500">(Кампустағы шаралар және дайындық)</span></h4>
+                <p class="text-xs text-gray-500">27 сөз • 3 грамматика</p>
+              </div>
+            </div>
+            <a href="tasks.html?level=3&lesson=14" class="text-xs font-bold text-jade hover:underline">Ашу ➔</a>
+          </div>
+          <div class="border border-paper-deep rounded-xl p-4 flex items-center justify-between bg-white hover:bg-paper-deep/20 transition-colors">
+            <div class="flex items-center gap-4">
+              <span class="w-8 h-8 rounded-lg bg-paper-deep flex items-center justify-center font-bold text-sm">15</span>
+              <div>
+                <h4 class="font-bold text-sm text-gray-900">社区生活与地方风景 <span class="text-xs font-normal text-gray-500">(Аула өмірі және жергілікті көрікті орындар)</span></h4>
+                <p class="text-xs text-gray-500">24 сөз • 3 грамматика</p>
+              </div>
+            </div>
+            <a href="tasks.html?level=3&lesson=15" class="text-xs font-bold text-jade hover:underline">Ашу ➔</a>
+          </div>
+          <div class="border border-paper-deep rounded-xl p-4 flex items-center justify-between bg-white hover:bg-paper-deep/20 transition-colors">
+            <div class="flex items-center gap-4">
+              <span class="w-8 h-8 rounded-lg bg-paper-deep flex items-center justify-center font-bold text-sm">16</span>
+              <div>
+                <h4 class="font-bold text-sm text-gray-900">照顾宠物与了解大熊猫 <span class="text-xs font-normal text-gray-500">(Үй жануарларына қарау және пандалар туралы білу)</span></h4>
+                <p class="text-xs text-gray-500">26 сөз • 3 грамматика</p>
+              </div>
+            </div>
+            <a href="tasks.html?level=3&lesson=16" class="text-xs font-bold text-jade hover:underline">Ашу ➔</a>
+          </div>
+          <div class="border border-paper-deep rounded-xl p-4 flex items-center justify-between bg-white hover:bg-paper-deep/20 transition-colors">
+            <div class="flex items-center gap-4">
+              <span class="w-8 h-8 rounded-lg bg-paper-deep flex items-center justify-center font-bold text-sm">17</span>
+              <div>
+                <h4 class="font-bold text-sm text-gray-900">总结过去与思考未来 <span class="text-xs font-normal text-gray-500">(Өткенді қорытындылау және болашақты ойлау)</span></h4>
+                <p class="text-xs text-gray-500">27 сөз • 4 грамматика</p>
+              </div>
+            </div>
+            <a href="tasks.html?level=3&lesson=17" class="text-xs font-bold text-jade hover:underline">Ашу ➔</a>
+          </div>
+          <div class="border border-paper-deep rounded-xl p-4 flex items-center justify-between bg-white hover:bg-paper-deep/20 transition-colors">
+            <div class="flex items-center gap-4">
+              <span class="w-8 h-8 rounded-lg bg-paper-deep flex items-center justify-center font-bold text-sm">18</span>
+              <div>
+                <h4 class="font-bold text-sm text-gray-900">过节与留学生活 <span class="text-xs font-normal text-gray-500">(Мереке атап өту және шетелде оқу өмірі)</span></h4>
+                <p class="text-xs text-gray-500">28 сөз • 4 грамматика</p>
+              </div>
+            </div>
+            <a href="tasks.html?level=3&lesson=18" class="text-xs font-bold text-jade hover:underline">Ашу ➔</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ИИ-Тьютор Чат -->
+    <section class="rounded-2xl border border-paper-deep bg-paper p-6 sm:p-8 shadow-xl">
+      <div class="mb-5">
+        <h2 class="font-display text-2xl font-bold mb-1 text-gray-900">ИИ-Тьютор (Көмекші) 🤖</h2>
+        <p class="text-sm text-gray-600">Қытай тілі немесе HSK бойынша сұрақ қойыңыз. (Тек қытайша үзінділер дауыстап оқылады)</p>
+      </div>
+
+      <div id="aiChatBox" class="h-72 sm:h-96 overflow-y-auto border border-paper-deep rounded-2xl p-5 mb-5 bg-paper-deep/20 space-y-4 text-sm shadow-inner">
+        <div class="flex items-start gap-3">
+          <span class="shrink-0 w-8 h-8 rounded-full bg-jade text-white flex items-center justify-center text-sm shadow-sm">🤖</span>
+          <div class="bg-white border border-paper-deep p-4 rounded-2xl text-gray-800 max-w-[85%] leading-relaxed shadow-sm">
+            Сәлем! Мен сіздің ИИ-тұторыңызбын. Бүгін не үйренеміз? (Ауызша сөйлесу үшін 🎙️ батырмасын басыңыз)
+          </div>
+        </div>
+      </div>
+
+      <div class="flex flex-col sm:flex-row gap-3">
+        <input type="text" id="aiUserInput" placeholder="Сұрағыңызды жазыңыз..." class="flex-1 rounded-xl border border-paper-deep bg-white px-5 py-3 text-sm outline-none focus:border-jade shadow-sm" onkeydown="if(event.key === 'Enter') sendAiMessage()">
+
+        <button id="chatMicBtn" onclick="toggleChatRecording()" class="rounded-xl bg-white text-ink border border-paper-deep font-semibold px-4 py-3 hover:bg-gray-50 transition-colors flex items-center justify-center min-w-[54px] shadow-sm" title="Дауыспен сөйлесу">
+          🎙️
+        </button>
+
+        <button onclick="sendAiMessage()" class="rounded-xl bg-jade text-white font-bold px-8 py-3 hover:bg-jade-dark transition-colors text-center shadow-md">Жіберу</button>
+      </div>
+    </section>
+
+  </div>
+</main>
+
+<footer class="relative overflow-hidden border-t border-paper-deep bg-paper pt-3 mt-auto">
+  <div class="brush-rule"></div>
+  <span class="footer-watermark" aria-hidden="true">汉</span>
+
+  <div class="relative max-w-6xl mx-auto px-4 sm:px-8 grid grid-cols-1 md:grid-cols-3 gap-8 sm:gap-10 mb-8 mt-10 text-sm text-gray-600">
+    <div>
+      <div class="flex items-center gap-2 mb-4">
+        <span class="seal-stamp w-7 h-7 flex items-center justify-center font-brush text-white text-sm">汉</span>
+        <span class="font-display font-semibold text-ink text-lg">Қытай тілі</span>
+      </div>
+      <p class="mb-2 font-semibold text-ink">Заңды ақпарат</p>
+      <p class="leading-relaxed">ЖШС (ТОО) «Қытай тілі KZ»<br>БСН (БИН): 123456789012<br>Жетекші: Бұланай Еркін</p>
+    </div>
+    <div>
+      <p class="font-display font-semibold text-ink text-lg mb-4">Байланыс ақпараты</p>
+      <ul class="space-y-3">
+        <li class="flex items-start gap-3">
+          <span class="icon-badge w-6 h-6 rounded-full flex items-center justify-center shrink-0 mt-0.5">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          </span>
+          <span>+7 (777) 123-45-67</span>
+        </li>
+        <li class="flex items-start gap-3">
+          <span class="icon-badge w-6 h-6 rounded-full flex items-center justify-center shrink-0 mt-0.5">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+          </span>
+          <a href="https://instagram.com/bulanay_yerkin" target="_blank" class="hover:text-seal transition-colors">@bulanay_yerkin</a>
+        </li>
+      </ul>
+    </div>
+    <div>
+      <p class="font-display font-semibold text-ink text-lg mb-4">Құқықтық құжаттар</p>
+      <ul class="space-y-2.5">
+        <li><a href="privacy.html" class="hover:text-seal transition-colors">Құпиялылық саясаты</a></li>
+        <li><a href="offer.html" class="hover:text-seal transition-colors">Оферта</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="relative max-w-6xl mx-auto px-4 sm:px-8 pt-6 pb-6 border-t border-paper-deep flex flex-col md:flex-row items-center justify-between text-xs text-gray-500">
+    <p>© 2026 Қытай тілі. Барлық құқықтар қорғалған.</p>
+  </div>
+</footer>
+
+<script>
+  const SCRIPT_URL_AI = 'https://legendary-yodel-969rwgq457x52r67-8000.app.github.dev/api';
+
+  const params = new URLSearchParams(window.location.search);
+  const userName = params.get('name') || sessionStorage.getItem('currentUser') || 'Оқушы';
+
+  function initials(name) {
+    return name.trim().split(/\s+/).slice(0, 2).map(w => w[0]).join('').toUpperCase();
+  }
+
+  document.getElementById('userNameLabel').textContent = userName.split(' ')[0];
+  document.getElementById('userAvatar').textContent = initials(userName);
+  document.getElementById('greetName').textContent = userName.split(' ')[0];
+
+  const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+  const mobileMenu = document.getElementById('mobileMenu');
+  if (mobileMenuBtn && mobileMenu) {
+    mobileMenuBtn.addEventListener('click', () => {
+      mobileMenu.classList.toggle('hidden');
+    });
+  }
+
+  function switchHskLevel(level) {
+    document.querySelectorAll('.hsk-level-tab').forEach(btn => btn.classList.remove('active'));
+    document.getElementById(`hskTab${level}`).classList.add('active');
+
+    document.querySelectorAll('.hsk-tasks-content').forEach(content => content.classList.add('hidden'));
+    document.getElementById(`tasksHsk${level}`).classList.remove('hidden');
+  }
+
+  function escapeHtml(str) {
+    return str
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;');
+  }
+
+  function inlineFormat(str) {
+    let s = escapeHtml(str);
+    s = s.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+    s = s.replace(/(^|[^*])\*([^*]+)\*(?!\*)/g, '$1<em>$2</em>');
+    s = s.replace(/([\u4e00-\u9fff]+)/g, '<span class="hanzi">$1</span>');
+    s = s.replace(/\(([a-zA-ZüÜāáǎàēéěèīíǐìōóǒòūúǔùǖǘǚǜ\s]+)\)/g, '(<span class="pinyin">$1</span>)');
+    return s;
+  }
+
+  function formatAiReply(text) {
+    const lines = text.split('\n');
+    let html = '';
+    let inList = false;
+
+    const closeList = () => { if (inList) { html += '</ul>'; inList = false; } };
+
+    lines.forEach(rawLine => {
+      const line = rawLine.trim();
+      if (!line) { closeList(); return; }
+
+      const bulletMatch = line.match(/^[*\-]\s+(.*)$/);
+      if (bulletMatch) {
+        if (!inList) { html += '<ul>'; inList = true; }
+        html += `<li>${inlineFormat(bulletMatch[1])}</li>`;
+        return;
+      }
+
+      closeList();
+      html += `<p>${inlineFormat(line)}</p>`;
+    });
+
+    closeList();
+    return html || escapeHtml(text);
+  }
+
+  function appendAiBubble(html, icon, rawTextForSpeech) {
+    const chatBox = document.getElementById('aiChatBox');
+    const bubbleId = 'bubble_' + Date.now() + '_' + Math.floor(Math.random() * 1000);
+
+    const chineseChunks = extractChineseText(rawTextForSpeech);
+    const speakBtnHtml = chineseChunks
+      ? `<button onclick="speakChineseOnly('${bubbleId}')" class="speak-btn text-xs font-bold mt-3 bg-paper-deep/50 px-3 py-1.5 rounded-lg border border-paper-deep flex items-center gap-1.5 w-max" title="Қытайша бөлікті тыңдау">🔊 Қытайшасын тыңдау</button>`
+      : '';
+
+    chatBox.innerHTML += `
+      <div class="flex items-start gap-3">
+        <span class="shrink-0 w-8 h-8 rounded-full bg-jade text-white flex items-center justify-center text-sm shadow-sm">${icon}</span>
+        <div id="${bubbleId}" data-speech="${escapeHtml(chineseChunks || '')}" class="ai-msg bg-white border border-paper-deep p-4 rounded-2xl text-gray-800 shadow-sm max-w-[85%] leading-relaxed">
+          ${html}
+          ${speakBtnHtml}
+        </div>
+      </div>`;
+    chatBox.scrollTop = chatBox.scrollHeight;
+  }
+
+  function appendUserBubble(text) {
+    const chatBox = document.getElementById('aiChatBox');
+    chatBox.innerHTML += `<div class="text-right"><span class="inline-block bg-seal text-white px-5 py-3 rounded-2xl shadow-sm max-w-[80%] text-left">${escapeHtml(text)}</span></div>`;
+    chatBox.scrollTop = chatBox.scrollHeight;
+  }
+
+  function extractChineseText(text) {
+    if (!text) return '';
+    const matches = text.match(/[\u4e00-\u9fff]+/g);
+    if (!matches || matches.length === 0) return '';
+    return matches.join('，');
+  }
+
+  function speakChineseOnly(bubbleId) {
+    const bubble = document.getElementById(bubbleId);
+    if (!bubble) return;
+    const chineseText = bubble.getAttribute('data-speech');
+    if (!chineseText) return;
+
+    window.speechSynthesis.cancel();
+    const utterance = new SpeechSynthesisUtterance(chineseText);
+    utterance.lang = 'zh-CN';
+    utterance.rate = 0.85;
+    window.speechSynthesis.speak(utterance);
+  }
+
+  async function sendAiMessage() {
+    const input = document.getElementById('aiUserInput');
+    const chatBox = document.getElementById('aiChatBox');
+    const text = input.value.trim();
+    if (!text) return;
+
+    appendUserBubble(text);
+    input.value = '';
+
+    const loadingId = 'loading_' + Date.now();
+    chatBox.innerHTML += `<div id="${loadingId}" class="text-gray-500 font-medium italic text-xs ml-11">ИИ жауап жазуда...</div>`;
+    chatBox.scrollTop = chatBox.scrollHeight;
+
+    try {
+      const response = await fetch(SCRIPT_URL_AI, {
+        method: 'POST',
+        body: JSON.stringify({ action: 'ai_tutor', message: text })
+      });
+      const data = await response.json();
+
+      document.getElementById(loadingId).remove();
+
+      if (data.status === 'success') {
+        appendAiBubble(formatAiReply(data.reply), '🤖', data.reply);
+      } else {
+        chatBox.innerHTML += `<div class="text-red-500 text-xs ml-11">Қате: ${escapeHtml(data.message)}</div>`;
+      }
+    } catch (err) {
+      document.getElementById(loadingId).remove();
+      chatBox.innerHTML += `<div class="text-red-500 text-xs ml-11">Сервермен байланыс үзілді.</div>`;
+    }
+    chatBox.scrollTop = chatBox.scrollHeight;
+  }
+
+  // HSK 1, 2, 3 сөздері тізімі (кездейсоқ алмасу үшін) — тон/айтылым тренажерінде қолданылады
+  const toneWords = [
+    { word: "爱 (ài)", desc: "Жақсы көру, сүю (HSK 1)" },
+    { word: "八 (bā)", desc: "Сегіз (HSK 1)" },
+    { word: "爸爸 (bàba)", desc: "Әке (HSK 1)" },
+    { word: "杯子 (bēizi)", desc: "Кесе, стақан (HSK 1)" },
+    { word: "北京 (Běijīng)", desc: "Бейжің (HSK 1)" },
+    { word: "妈妈 (māma)", desc: "Ана (HSK 1)" },
+    { word: "谢谢 (xièxie)", desc: "Рахмет (HSK 1)" },
+    { word: "吧 (ba)", desc: "Ғой, ма (HSK 2)" },
+    { word: "白 (bái)", desc: "Ақ (HSK 2)" },
+    { word: "百 (bǎi)", desc: "Жүз (HSK 2)" },
+    { word: "帮助 (bāngzhù)", desc: "Көмектесу (HSK 2)" },
+    { word: "报纸 (bàozhǐ)", desc: "Газет (HSK 2)" },
+    { word: "电梯 (diàntī)", desc: "Жеделсаты (HSK 3)" },
+    { word: "动物 (dòngwù)", desc: "Жануар (HSK 3)" },
+    { word: "锻炼 (duànliàn)", desc: "Жаттығу жасау (HSK 3)" },
+    { word: "方便 (fāngbiàn)", desc: "Ыңғайлы (HSK 3)" },
+    { word: "干净 (gānjìng)", desc: "Таза (HSK 3)" }
+  ];
+
+  // Массивті кездейсоқ ретпен араластыру (Fisher-Yates shuffle)
+  function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]];
+    }
+  }
+
+  shuffleArray(toneWords);
+
+  let currentToneIndex = 0;
+  let toneMediaRecorder;
+  let toneAudioChunks = [];
+  let isToneRecording = false;
+
+  function updateToneWordDisplay() {
+    const item = toneWords[currentToneIndex];
+    document.getElementById('targetWord').textContent = `${item.word} - ${item.desc}`;
+    document.getElementById('toneCounter').textContent = `Сөз: ${currentToneIndex + 1} / ${toneWords.length}`;
+  }
+
+  function playTargetWord() {
+    const item = toneWords[currentToneIndex];
+    const chineseOnly = extractChineseText(item.word);
+    if (!chineseOnly) return;
+    window.speechSynthesis.cancel();
+    const utterance = new SpeechSynthesisUtterance(chineseOnly);
+    utterance.lang = 'zh-CN';
+    utterance.rate = 0.85;
+    window.speechSynthesis.speak(utterance);
+  }
+
+  async function toggleToneRecording() {
+    if (isToneRecording) {
+      toneMediaRecorder.stop();
+      toneMediaRecorder.stream.getTracks().forEach(track => track.stop());
+      isToneRecording = false;
+      document.getElementById('recordText').textContent = 'Жазуды бастау';
+      document.getElementById('recordingIndicator').classList.add('hidden');
+    } else {
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        toneMediaRecorder = new MediaRecorder(stream);
+        toneAudioChunks = [];
+
+        toneMediaRecorder.ondataavailable = e => toneAudioChunks.push(e.data);
+        toneMediaRecorder.onstop = processToneAudio;
+
+        toneMediaRecorder.start();
+        isToneRecording = true;
+        document.getElementById('recordText').textContent = 'Тоқтату';
+        document.getElementById('recordingIndicator').classList.remove('hidden');
+        document.getElementById('toneFeedback').classList.add('hidden');
+      } catch (err) {
+        alert("Микрофонға рұқсат беріңіз!");
+      }
+    }
+  }
+
+  async function processToneAudio() {
+    const audioBlob = new Blob(toneAudioChunks, { type: 'audio/webm' });
+    const reader = new FileReader();
+
+    reader.readAsDataURL(audioBlob);
+    reader.onloadend = async () => {
+      const base64Audio = reader.result.split(',')[1];
+      const targetWord = toneWords[currentToneIndex].word;
+      const feedbackBox = document.getElementById('toneFeedback');
+
+      feedbackBox.classList.remove('hidden');
+      feedbackBox.innerHTML = '<span class="text-gray-500 font-bold italic">ИИ дауысты тексеруде... ⏳</span>';
+
+      try {
+        const response = await fetch(SCRIPT_URL_AI, {
+          method: 'POST',
+          body: JSON.stringify({ action: 'evaluate_tone', audioBase64: base64Audio, targetWord: targetWord })
+        });
+        const data = await response.json();
+
+        if (data.status === 'success') {
+          let scoreVal = data.score !== undefined ? data.score : 8;
+          let scoreHtml = `<div class="font-display font-bold text-jade mb-3 text-xl border-b border-paper-deep pb-2">Бағаңыз: ${scoreVal} / 10</div>`;
+          const chineseChunks = extractChineseText(data.reply);
+          const speakBtnHtml = chineseChunks
+            ? `<button onclick="speakToneFeedback()" class="speak-btn bg-paper-deep/50 px-3 py-1.5 border border-paper-deep rounded-lg text-xs font-bold mb-3 flex items-center gap-1.5 w-max">🔊 Қытайшасын тыңдау</button>`
+            : '';
+
+          feedbackBox.innerHTML = `
+            ${scoreHtml}
+            ${speakBtnHtml}
+            <div class="ai-msg mb-5 text-base">${formatAiReply(data.reply)}</div>
+            <button onclick="nextToneWord()" class="bg-seal hover:bg-seal-dark text-white px-5 py-2.5 text-sm font-bold rounded-xl shadow-sm transition-colors">Келесі сөзге өту ➔</button>
+          `;
+          feedbackBox.dataset.speech = chineseChunks;
+        } else {
+          feedbackBox.innerHTML = `<span class="text-red-500 font-bold">Қате: ${escapeHtml(data.message)}</span>`;
+        }
+      } catch (err) {
+        feedbackBox.innerHTML = `<span class="text-red-500 font-bold">Сервермен байланыс үзілді.</span>`;
+      }
+    };
+  }
+
+  function speakToneFeedback() {
+    const feedbackBox = document.getElementById('toneFeedback');
+    const chineseText = feedbackBox.dataset.speech;
+    if (!chineseText) return;
+    window.speechSynthesis.cancel();
+    const utterance = new SpeechSynthesisUtterance(chineseText);
+    utterance.lang = 'zh-CN';
+    utterance.rate = 0.85;
+    window.speechSynthesis.speak(utterance);
+  }
+
+  function nextToneWord() {
+    currentToneIndex = (currentToneIndex + 1) % toneWords.length;
+    // Соңғы сөзден кейін қайта араластырып, қайталанбауын азайтамыз
+    if (currentToneIndex === 0) {
+      shuffleArray(toneWords);
+    }
+    updateToneWordDisplay();
+    document.getElementById('toneFeedback').classList.add('hidden');
+  }
+
+  let chatMediaRecorder;
+  let chatAudioChunks = [];
+  let isChatRecording = false;
+
+  async function toggleChatRecording() {
+    const micBtn = document.getElementById('chatMicBtn');
+
+    if (isChatRecording) {
+      chatMediaRecorder.stop();
+      chatMediaRecorder.stream.getTracks().forEach(track => track.stop());
+      isChatRecording = false;
+      micBtn.innerHTML = '🎙️';
+      micBtn.classList.remove('bg-red-100', 'animate-pulse', 'border-red-200');
+    } else {
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        chatMediaRecorder = new MediaRecorder(stream);
+        chatAudioChunks = [];
+
+        chatMediaRecorder.ondataavailable = e => chatAudioChunks.push(e.data);
+        chatMediaRecorder.onstop = sendVoiceToChat;
+
+        chatMediaRecorder.start();
+        isChatRecording = true;
+        micBtn.innerHTML = '⏹️';
+        micBtn.classList.add('bg-red-100', 'animate-pulse', 'border-red-200');
+      } catch (err) {
+        alert("Микрофонға рұқсат беріңіз!");
+      }
+    }
+  }
+
+  async function sendVoiceToChat() {
+    const chatBox = document.getElementById('aiChatBox');
+    const audioBlob = new Blob(chatAudioChunks, { type: 'audio/webm' });
+    const reader = new FileReader();
+
+    appendUserBubble('🎤 Аудио хабарлама...');
+
+    const loadingId = 'loading_' + Date.now();
+    chatBox.innerHTML += `<div id="${loadingId}" class="text-gray-500 font-medium italic text-xs ml-11">ИИ тыңдауда...</div>`;
+
+    reader.readAsDataURL(audioBlob);
+    reader.onloadend = async () => {
+      const base64Audio = reader.result.split(',')[1];
+
+      try {
+        const response = await fetch(SCRIPT_URL_AI, {
+          method: 'POST',
+          body: JSON.stringify({ action: 'ai_tutor_voice', audioBase64: base64Audio })
+        });
+        const data = await response.json();
+
+        document.getElementById(loadingId).remove();
+
+        if (data.status === 'success') {
+          appendAiBubble('🗣️ ' + formatAiReply(data.reply), '🤖', data.reply);
+        } else {
+          chatBox.innerHTML += `<div class="text-red-500 text-xs ml-11">Қате: ${escapeHtml(data.message)}</div>`;
+        }
+      } catch (err) {
+        document.getElementById(loadingId).remove();
+        chatBox.innerHTML += `<div class="text-red-500 text-xs ml-11">Сервермен байланыс үзілді.</div>`;
+      }
+      chatBox.scrollTop = chatBox.scrollHeight;
+    };
+  }
+
+  updateToneWordDisplay();
+</script>
+
+</body>
+</html>
