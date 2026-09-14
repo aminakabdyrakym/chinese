@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+<title>HSK Тренажер | Қазақша қытай тілі курсы</title>
+<meta name="description" content="HSK сөздерін интерактивті карта арқылы жаттап, аудиосын тыңдаңыз.">
+
+<!-- Қаріптер -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:wght@500;600;700&family=Inter:wght@400;500;600&family=Ma+Shan+Zheng&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          ink: '#1B1B1F', seal: '#A61B29', 'seal-dark': '#7D1420',
+          paper: '#FDFCFA', 'paper-deep': '#F4EEE0', gold: '#B8933F',
+          jade: '#0D9488', 'jade-dark': '#1B5F58', mist: '#E0F2FE', sand: '#F0E5CE'
+        },
+        fontFamily: {
+          display: ['"Noto Serif"', 'serif'],
+          brush: ['"Ma Shan Zheng"', 'cursive'],
+          sans: ['Inter', 'sans-serif'],
+        }
+      }
+    }
+  }
+</script>
+<style>
+  body { 
+    font-family: 'Inter', sans-serif; 
+    background: #FDFCFA; 
+    display: flex; 
+    flex-direction: column; 
+    height: 100vh; 
+    overflow: hidden; 
+  }
+  
+  .seal-stamp { 
+    background: radial-gradient(circle at 30% 25%, #C4313D 0%, #A61B29 55%, #7D1420 100%); 
+    box-shadow: 0 1px 2px rgba(0,0,0,0.15), inset 0 0 0 1px rgba(255,255,255,0.08); 
+    transform: rotate(-4deg); 
+    border-radius: 4px; 
+  }
+  
+  .nav-link { position: relative; padding-bottom: 2px; }
+  .nav-link::after { content: ''; position: absolute; left: 50%; bottom: -6px; width: 0; height: 3px; background: #A61B29; border-radius: 2px 6px 2px 6px; transform: translateX(-50%); transition: width 0.25s ease; }
+  .nav-link:hover::after { width: 60%; }
+  
+  /* Скроллбары */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: #e2e8f0; border-radius: 10px; }
+  ::-webkit-scrollbar-thumb:hover { background: #cbd5e1; }
+
+  /* SVG сызықтары (Көк фонға арнап ақшыл етіп өзгертілді) */
+  .connections line { stroke: rgba(255, 255, 255, 0.15); stroke-width: 2; stroke-dasharray: 4; }
+</style>
+</head>
+<body class="text-ink flex flex-col h-screen">
+
+<!-- ХЕДЕР -->
+<header class="sticky top-0 z-40 bg-paper/95 backdrop-blur border-b-2 border-seal/90 shrink-0">
+  <div class="max-w-[1400px] w-full mx-auto px-4 sm:px-8 flex items-center justify-between h-16">
+    <a href="#" class="flex items-center gap-2.5 sm:gap-3 shrink-0 group">
+      <span class="seal-stamp w-8 h-8 sm:w-9 sm:h-9 flex items-center justify-center font-brush text-white text-base sm:text-lg leading-none group-hover:rotate-0 transition-transform duration-300">汉</span>
+      <span class="font-display text-base sm:text-lg font-semibold tracking-tight text-ink">Қытай тілі KZ</span>
+    </a>
+    <nav class="hidden md:flex items-center gap-9 text-[15px] font-medium text-gray-600">
+      <a href="#" class="nav-link text-ink transition-colors">Тренажер</a>
+      <a href="#" class="nav-link hover:text-ink transition-colors">Сөздік</a>
+      <a href="#" class="nav-link hover:text-ink transition-colors">Басты бет</a>
+    </nav>
+  </div>
+</header>
+
+<!-- НЕГІЗГІ ЖҰМЫС АЙМАҒЫ -->
+<main class="flex-1 flex overflow-hidden">
+  
+  <!-- СОЛ ЖАҚ ПАНЕЛЬ (Сайдбар) -->
+  <aside class="w-[420px] border-r border-gray-200 bg-white flex flex-col shrink-0 shadow-sm z-20">
+    <div class="p-4 border-b border-gray-100 bg-gray-50/50">
+      
+      <!-- Деңгей таңдау (HSK 1-3) -->
+      <div class="flex gap-2 mb-4">
+        <button class="flex-1 py-2 rounded-md font-semibold text-sm border transition-colors bg-seal text-white border-seal shadow-sm hsk-btn" onclick="switchLevel(1, this)">HSK 1</button>
+        <button class="flex-1 py-2 rounded-md font-semibold text-sm border transition-colors bg-white text-gray-600 border-gray-200 hover:border-gray-300 hsk-btn" onclick="switchLevel(2, this)">HSK 2</button>
+        <button class="flex-1 py-2 rounded-md font-semibold text-sm border transition-colors bg-white text-gray-600 border-gray-200 hover:border-gray-300 hsk-btn" onclick="switchLevel(3, this)">HSK 3</button>
+      </div>
+
+      <!-- Сүзгілер -->
+      <div class="space-y-2">
+        <select id="topicSelect" onchange="applyFilters()" class="w-full p-2.5 rounded-lg border border-gray-200 text-sm focus:border-seal focus:ring-1 focus:ring-seal outline-none bg-white text-gray-700">
+          <option value="all">📂 Барлық тақырыптар (所有主题)</option>
+        </select>
+        <select id="radicalSelect" onchange="applyFilters()" class="w-full p-2.5 rounded-lg border border-gray-200 text-sm focus:border-seal focus:ring-1 focus:ring-seal outline-none bg-white text-gray-700">
+          <option value="all">🧩 Барлық басты ключтер (所有部首)</option>
+        </select>
+        <input type="text" id="searchBox" placeholder="Іздеу / 搜索 (Сөз, пиньинь)..." oninput="applyFilters()" class="w-full p-2.5 rounded-lg border border-gray-200 text-sm focus:border-seal focus:ring-1 focus:ring-seal outline-none text-ink">
+      </div>
+    </div>
+
+    <!-- Тізім -->
+    <div id="charList" class="flex-1 overflow-y-auto p-3 space-y-2 bg-gray-50/30">
+      <!-- Динамикалық түрде қосылады -->
+    </div>
+  </aside>
+
+  <!-- ОҢ ЖАҚ АЙМАҚ (КӨК ФОНДЫ ИНТЕРАКТИВТІ КАРТА) -->
+  <section class="flex-1 relative flex items-center justify-center bg-gradient-to-br from-[#0c1f4c] to-[#06102a] overflow-hidden">
+    <!-- Фондағы торлы өрнек (index.html дизайнынан алынды) -->
+    <div class="absolute inset-0 opacity-[0.03] pointer-events-none" style="background-image: linear-gradient(#ffffff 1px, transparent 1px), linear-gradient(90deg, #ffffff 1px, transparent 1px); background-size: 40px 40px;"></div>
+    
+    <!-- Фондағы су таңбасы -->
+    <div class="absolute right-[-40px] bottom-[-60px] font-brush text-[350px] leading-none text-white opacity-[0.02] pointer-events-none select-none">汉</div>
+
+    <!-- Карта контейнері -->
+    <div id="mindmapContainer" class="relative w-[900px] h-[650px] flex items-center justify-center">
+      <!-- JavaScript арқылы карта салынады -->
+    </div>
+  </section>
+</main>
+
+<script>
+  // HSK 1-3 БАЗАСЫ
+  const hskData = {
+    1: [
+      { hanzi: "爱", pinyin: "ài", meaning: "жақсы көру, сүю", radical: "心 (Жүрек)", topic: "Адам және сезім", parts: [{char: "爪", pinyin: "zhǎo", name: "Тырнақ"}, {char: "心", pinyin: "xīn", name: "Жүрек"}] },
+      { hanzi: "八", pinyin: "bā", meaning: "сегіз", radical: "八 (Сегіз)", topic: "Сандар", parts: [{char: "八", pinyin: "bā", name: "Сегіз"}] },
+      { hanzi: "爸爸", pinyin: "bàba", meaning: "әке", radical: "父 (Әке)", topic: "Отбасы", parts: [{char: "父", pinyin: "fù", name: "Әке"}, {char: "巴", pinyin: "bā", name: "Фонетик"}] },
+      { hanzi: "杯子", pinyin: "bēizi", meaning: "кесе, стақан", radical: "木 (Ағаш)", topic: "Тұрмыс", parts: [{char: "杯", pinyin: "bēi", name: "Кесе"}, {char: "子", pinyin: "zi", name: "Зат есім жұрнағы"}] },
+      { hanzi: "北京", pinyin: "Běijīng", meaning: "Бейжің", radical: "北京 (Қала)", topic: "Орын", parts: [{char: "北", pinyin: "běi", name: "Солтүстік"}, {char: "京", pinyin: "jīng", name: "Астана"}] },
+      { hanzi: "不客气", pinyin: "bú kèqi", meaning: "оқасы жоқ", radical: "不 (Жоқ)", topic: "Этикет", parts: [{char: "不", pinyin: "bù", name: "Жоқ"}, {char: "客", pinyin: "kè", name: "Қонақ"}, {char: "气", pinyin: "qì", name: "Ауа/Көңіл"}] },
+      { hanzi: "吃", pinyin: "chī", meaning: "жеу", radical: "口 (Ауыз)", topic: "Әрекет", parts: [{char: "口", pinyin: "kǒu", name: "Ауыз"}, {char: "乞", pinyin: "qǐ", name: "Сұрау"}] },
+      { hanzi: "出租车", pinyin: "chūzūchē", meaning: "такси", radical: "车 (Көлік)", topic: "Көлік", parts: [{char: "出", pinyin: "chū", name: "Шығу"}, {char: "租", pinyin: "zū", name: "Жалға алу"}, {char: "车", pinyin: "chē", name: "Көлік"}] },
+      { hanzi: "大", pinyin: "dà", meaning: "үлкен", radical: "大 (Үлкен)", topic: "Сипаттама", parts: [{char: "大", pinyin: "dà", name: "Адам бейнесі"}] },
+      { hanzi: "电脑", pinyin: "diànnǎo", meaning: "компьютер", radical: "雨 (Электр)", topic: "Технология", parts: [{char: "电", pinyin: "diàn", name: "Тоқ"}, {char: "脑", pinyin: "nǎo", name: "Ми"}] },
+      { hanzi: "东西", pinyin: "dōngxi", meaning: "зат, нәрсе", radical: "木 (Ағаш)", topic: "Заттар", parts: [{char: "东", pinyin: "dōng", name: "Шығыс"}, {char: "西", pinyin: "xi", name: "Батыс"}] },
+      { hanzi: "饭店", pinyin: "fàndiàn", meaning: "мейрамхана", radical: "饣 (Ас)", topic: "Тамақ", parts: [{char: "饭", pinyin: "fàn", name: "Күріш/Ас"}, {char: "店", pinyin: "diàn", name: "Дүкен"}] },
+      { hanzi: "买", pinyin: "mǎi", meaning: "сатып алу", radical: "罒 (Тор)", topic: "Әрекет", parts: [{char: "买", pinyin: "mǎi", name: "Сатып алу"}] }
+    ],
+    2: [
+      { hanzi: "帮助", pinyin: "bāngzhù", meaning: "көмектесу", radical: "巾 (Орамал)", topic: "Әрекет", parts: [{char: "帮", pinyin: "bāng", name: "Көмек"}, {char: "助", pinyin: "zhù", name: "Жәрдем"}] },
+      { hanzi: "报纸", pinyin: "bàozhǐ", meaning: "газет", radical: "扌 (Қол)", topic: "Оқу", parts: [{char: "报", pinyin: "bào", name: "Хабарлау"}, {char: "纸", pinyin: "zhǐ", name: "Қағаз"}] },
+      { hanzi: "打篮球", pinyin: "dǎ lánqiú", meaning: "баскетбол ойнау", radical: "扌 (Қол)", topic: "Спорт", parts: [{char: "打", pinyin: "dǎ", name: "Ұру/Ойнау"}, {char: "篮", pinyin: "lán", name: "Себет"}, {char: "球", pinyin: "qiú", name: "Доп"}] },
+      { hanzi: "机场", pinyin: "jīchǎng", meaning: "әуежай", radical: "木 (Ағаш)", topic: "Орын", parts: [{char: "机", pinyin: "jī", name: "Аппарат"}, {char: "场", pinyin: "chǎng", name: "Алаң"}] },
+      { hanzi: "旅游", pinyin: "lǚyóu", meaning: "саяхат", radical: "方 (Жақ)", topic: "Саяхат", parts: [{char: "旅", pinyin: "lǚ", name: "Саяхат"}, {char: "游", pinyin: "yóu", name: "Жүзу/Қыдыру"}] },
+      { hanzi: "上班", pinyin: "shàngbān", meaning: "жұмысқа бару", radical: "王 (Нефрит)", topic: "Қызмет", parts: [{char: "上", pinyin: "shàng", name: "Үсті/Бастау"}, {char: "班", pinyin: "bān", name: "Ауысым/Топ"}] }
+    ],
+    3: [
+      { hanzi: "电梯", pinyin: "diàntī", meaning: "жеделсаты (лифт)", radical: "雨 (Электр)", topic: "Тұрмыс", parts: [{char: "电", pinyin: "diàn", name: "Электр"}, {char: "梯", pinyin: "tī", name: "Саты"}] },
+      { hanzi: "电子邮件", pinyin: "diànzǐ yóujiàn", meaning: "электрондық пошта", radical: "雨 (Электр)", topic: "Технология", parts: [{char: "电子", pinyin: "diànzǐ", name: "Электрон"}, {char: "邮", pinyin: "yóu", name: "Пошта"}, {char: "件", pinyin: "jiàn", name: "Хат/Дана"}] },
+      { hanzi: "动物", pinyin: "dòngwù", meaning: "жануар", radical: "力 (Күш)", topic: "Табиғат", parts: [{char: "动", pinyin: "dòng", name: "Қозғалу"}, {char: "物", pinyin: "wù", name: "Зат"}] },
+      { hanzi: "发烧", pinyin: "fāshāo", meaning: "дене қызуы көтерілу", radical: "火 (От)", topic: "Денсаулық", parts: [{char: "发", pinyin: "fā", name: "Шығару"}, {char: "烧", pinyin: "shāo", name: "Жану"}] },
+      { hanzi: "环境", pinyin: "huánjìng", meaning: "қоршаған орта", radical: "王 (Патша)", topic: "Табиғат", parts: [{char: "环", pinyin: "huán", name: "Шеңбер"}, {char: "境", pinyin: "jìng", name: "Орта"}] },
+      { hanzi: "护照", pinyin: "hùzhào", meaning: "төлқұжат", radical: "扌 (Қол)", topic: "Құжат", parts: [{char: "护", pinyin: "hù", name: "Қорғау"}, {char: "照", pinyin: "zhào", name: "Куәлік/Сурет"}] }
+    ]
+  };
+
+  let currentLevel = 1;
+  let filteredItems = [];
+
+  // Деңгейді ауыстыру
+  function switchLevel(level, btnElement) {
+    currentLevel = level;
+    document.querySelectorAll('.hsk-btn').forEach(btn => {
+      btn.className = "flex-1 py-2 rounded-md font-semibold text-sm border transition-colors bg-white text-gray-600 border-gray-200 hover:border-gray-300 hsk-btn";
+    });
+    btnElement.className = "flex-1 py-2 rounded-md font-semibold text-sm border transition-colors bg-seal text-white border-seal shadow-sm hsk-btn";
+    
+    updateDropdowns();
+    applyFilters();
+  }
+
+  // Сүзгілерді жаңарту
+  function updateDropdowns() {
+    const topicSelect = document.getElementById('topicSelect');
+    const radicalSelect = document.getElementById('radicalSelect');
+    
+    topicSelect.innerHTML = '<option value="all">📂 Барлық тақырыптар (所有主题)</option>';
+    radicalSelect.innerHTML = '<option value="all">🧩 Барлық басты ключтер (所有部首)</option>';
+    
+    const items = hskData[currentLevel] || [];
+    const topics = [...new Set(items.map(i => i.topic))].sort();
+    const radicals = [...new Set(items.map(i => i.radical))].sort();
+
+    topics.forEach(top => {
+        topicSelect.innerHTML += `<option value="${top}">${top}</option>`;
+    });
+    radicals.forEach(rad => {
+        radicalSelect.innerHTML += `<option value="${rad}">Ключ: ${rad}</option>`;
+    });
+  }
+
+  // Сүзгіні қолдану
+  function applyFilters() {
+    const topic = document.getElementById('topicSelect').value;
+    const radical = document.getElementById('radicalSelect').value;
+    const query = document.getElementById('searchBox').value.toLowerCase();
+    
+    let items = hskData[currentLevel] || [];
+    if (topic !== 'all') items = items.filter(i => i.topic === topic);
+    if (radical !== 'all') items = items.filter(i => i.radical === radical);
+    if (query.trim() !== '') {
+        items = items.filter(i => i.hanzi.toLowerCase().includes(query) || i.pinyin.toLowerCase().includes(query) || i.meaning.toLowerCase().includes(query));
+    }
+
+    filteredItems = items;
+    renderList();
+  }
+
+  // Тізімді шығару
+  function renderList() {
+    const list = document.getElementById('charList');
+    list.innerHTML = '';
+
+    filteredItems.forEach((item, index) => {
+        const div = document.createElement('div');
+        div.className = `p-3 rounded-lg border cursor-pointer transition-all flex items-center justify-between ${index === 0 ? 'bg-red-50 border-seal/50 text-seal shadow-sm' : 'bg-white border-gray-100 hover:border-seal/40 hover:shadow-sm text-ink'}`;
+        div.innerHTML = `
+            <div class="flex items-center gap-4">
+                <span class="text-[22px] font-bold font-display text-seal">${item.hanzi}</span>
+                <div>
+                    <div class="text-[11px] text-gray-500 font-medium mb-0.5">${item.pinyin}</div>
+                    <div class="text-[13px] font-medium line-clamp-1">${item.meaning}</div>
+                </div>
+            </div>
+            <div class="flex flex-col items-end gap-1">
+                <span class="text-[9px] bg-gray-100 text-gray-600 px-1.5 py-0.5 rounded">${item.topic}</span>
+                <span class="text-[9px] bg-red-100 text-seal font-bold px-1.5 py-0.5 rounded">${item.radical.split(' ')[0]}</span>
+            </div>
+        `;
+        div.onclick = () => {
+            Array.from(list.children).forEach(child => child.className = 'p-3 rounded-lg border cursor-pointer transition-all flex items-center justify-between bg-white border-gray-100 hover:border-seal/40 hover:shadow-sm text-ink');
+            div.className = 'p-3 rounded-lg border cursor-pointer transition-all flex items-center justify-between bg-red-50 border-seal/50 text-seal shadow-sm';
+            updateMindmap(item);
+        };
+        list.appendChild(div);
+    });
+
+    if (filteredItems.length > 0) updateMindmap(filteredItems[0]);
+    else document.getElementById('mindmapContainer').innerHTML = '<div class="text-white/60 font-medium">Деректер табылмады</div>';
+  }
+
+  // Интерактивті картаны (Mindmap) салу
+  function updateMindmap(data) {
+    const container = document.getElementById('mindmapContainer');
+    const parts = data.parts || [];
+    const count = parts.length;
+    const cx = 450, cy = 325; // Center of 900x650 container
+
+    let svgLines = '';
+    let nodesHtml = '';
+
+    // ОРТАЛЫҚ ҮЛКЕН БЛОК (Иероглиф)
+    nodesHtml += `
+      <div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[140px] h-[140px] rounded-full bg-seal text-white flex flex-col items-center justify-center shadow-[0_0_30px_rgba(166,27,41,0.5)] cursor-pointer hover:scale-105 transition-transform z-20" onclick="playAudio('${data.hanzi}')">
+        <span class="font-display text-[42px] font-bold leading-none mb-1">${data.hanzi}</span>
+        <span class="text-[10px] opacity-90 flex items-center gap-1 font-medium bg-black/20 px-2.5 py-0.5 rounded-full">🔊 Дыбыстау</span>
+      </div>
+    `;
+
+    // ЖОҒАРҒЫ БЛОК (Пиньинь)
+    svgLines += `<line x1="${cx}" y1="${cy}" x2="${cx}" y2="80" />`;
+    nodesHtml += `
+      <div class="absolute left-1/2 top-[40px] -translate-x-1/2 bg-white/95 backdrop-blur border border-white/20 rounded-xl px-5 py-3 shadow-lg text-center z-10 min-w-[180px] hover:border-seal transition-colors">
+        <div class="text-[10px] text-gray-500 uppercase tracking-wide mb-1 font-semibold">Пиньинь / 拼音</div>
+        <div class="text-sm font-bold text-ink">${data.pinyin}</div>
+      </div>
+    `;
+
+    // ОҢ ЖАҚ БЛОК (Мағынасы)
+    svgLines += `<line x1="${cx}" y1="${cy}" x2="720" y2="${cy}" />`;
+    nodesHtml += `
+      <div class="absolute top-1/2 right-[20px] -translate-y-1/2 bg-white/95 backdrop-blur border border-white/20 rounded-xl px-5 py-3 shadow-lg text-center z-10 w-[200px] hover:border-seal transition-colors">
+        <div class="text-[10px] text-gray-500 uppercase tracking-wide mb-1 font-semibold">Мағынасы / 释义</div>
+        <div class="text-[13px] font-bold text-ink break-words">${data.meaning}</div>
+      </div>
+    `;
+
+    // ТӨМЕНГІ БЛОК (Тақырып)
+    svgLines += `<line x1="${cx}" y1="${cy}" x2="${cx}" y2="570" />`;
+    nodesHtml += `
+      <div class="absolute left-1/2 bottom-[40px] -translate-x-1/2 bg-white/95 backdrop-blur border border-white/20 rounded-xl px-5 py-3 shadow-lg text-center z-10 min-w-[180px] hover:border-seal transition-colors">
+        <div class="text-[10px] text-gray-500 uppercase tracking-wide mb-1 font-semibold">Тақырып / 主题</div>
+        <div class="text-sm font-bold text-ink">${data.topic}</div>
+      </div>
+    `;
+
+    // СОЛ ЖАҚ ТАРМАҚТАР (Ключтер мен бөлшектер)
+    const leftX = 160;
+    
+    if (count >= 3) {
+        // 3 бөлік болса
+        const yPositions = [150, 325, 500];
+        parts.forEach((p, i) => {
+            if(i < 3) {
+                svgLines += `<line x1="${cx}" y1="${cy}" x2="${leftX+75}" y2="${yPositions[i]}" />`;
+                nodesHtml += generatePartNode(p, i+1, leftX, yPositions[i]);
+            }
+        });
+    } else if (count === 2) {
+        // 2 бөлік болса
+        const yPositions = [210, 440];
+        parts.forEach((p, i) => {
+            svgLines += `<line x1="${cx}" y1="${cy}" x2="${leftX+75}" y2="${yPositions[i]}" />`;
+            nodesHtml += generatePartNode(p, i+1, leftX, yPositions[i]);
+        });
+    } else {
+        // 1 бөлік болса
+        svgLines += `<line x1="${cx}" y1="${cy}" x2="${leftX+75}" y2="${cy}" />`;
+        nodesHtml += generatePartNode(parts[0] || {char: data.radical, pinyin: '', name: 'Негізгі ключ'}, 1, leftX, cy);
+    }
+
+    container.innerHTML = `<svg class="connections absolute inset-0 w-full h-full z-0">${svgLines}</svg>` + nodesHtml;
+  }
+
+  // Әр бөлікке (тармаққа) арналған карточка жасау
+  function generatePartNode(part, index, x, y) {
+      return `
+        <div class="absolute bg-white/95 backdrop-blur border border-white/20 rounded-xl px-4 py-3 shadow-lg text-center z-10 w-[170px] cursor-pointer hover:border-seal hover:scale-105 transform group transition-all" 
+             style="left: ${x-85}px; top: ${y-40}px;" onclick="playAudio('${part.char}')">
+            <div class="text-[9px] text-gray-500 uppercase tracking-wide mb-1 font-semibold">${index}-ші бөлік / 部首 ${index}</div>
+            <div class="text-xl font-display font-bold text-seal mb-1 drop-shadow-sm">${part.char}</div>
+            <div class="text-[11px] font-bold text-ink mb-1.5">${part.pinyin} - ${part.name}</div>
+            <div class="text-[10px] text-seal font-semibold opacity-0 group-hover:opacity-100 transition-opacity flex justify-center items-center gap-1 bg-red-50/80 rounded py-0.5 mx-2">
+               <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M9.383 3.076A1 1 0 0110 4v12a1 1 0 01-1.707.707L4.586 13H2a1 1 0 01-1-1V8a1 1 0 011-1h2.586l3.707-3.707a1 1 0 011.09-.217zM14.657 2.929a1 1 0 011.414 0A9.972 9.972 0 0119 10a9.972 9.972 0 01-2.929 7.071 1 1 0 01-1.414-1.414A7.971 7.971 0 0017 10c0-2.21-.894-4.208-2.343-5.657a1 1 0 010-1.414zm-2.829 2.828a1 1 0 011.415 0A5.983 5.983 0 0115 10a5.984 5.984 0 01-1.757 4.243 1 1 0 01-1.415-1.415A3.984 3.984 0 0013 10a3.983 3.983 0 00-1.172-2.828 1 1 0 010-1.415z" clip-rule="evenodd"></path></svg> 
+               Тыңдау
+            </div>
+        </div>
+      `;
+  }
+
+  // Аудио функциясы (Тікелей браузерден оқиды)
+  function playAudio(text) {
+      if (!text) return;
+      if ('speechSynthesis' in window) {
+          window.speechSynthesis.cancel();
+          const utterance = new SpeechSynthesisUtterance(text);
+          utterance.lang = 'zh-CN';
+          utterance.rate = 0.8;
+          window.speechSynthesis.speak(utterance);
+      } else {
+          alert("Кешіріңіз, сіздің браузеріңіз аудио функциясын қолдамайды.");
+      }
+  }
+
+  // Бастапқы іске қосу
+  window.onload = () => {
+    updateDropdowns();
+    applyFilters();
+  };
+</script>
+</body>
+</html>

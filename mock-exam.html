@@ -1,0 +1,1094 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+<title>HSK Жаттығу Тесттері | Қытай тілі курсы</title>
+<meta name="description" content="HSK 1, 2, 3 деңгейлеріне арналған толыққанды жаттығу тесттері (Mock Exams). Тыңдалым, оқылым және жазылым бөлімдері.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:wght@500;600;700&family=Inter:wght@400;500;600;700&family=Ma+Shan+Zheng&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          ink: '#1B1B1F', seal: '#A61B29', 'seal-dark': '#7D1420',
+          paper: '#FDFCFA', 'paper-deep': '#F4EEE0', gold: '#B8933F',
+          jade: '#0D9488', 'jade-dark': '#1B5F58', mist: '#E0F2FE', sand: '#F0E5CE'
+        },
+        fontFamily: {
+          display: ['"Noto Serif"', 'serif'],
+          brush: ['"Ma Shan Zheng"', 'cursive'],
+          sans: ['Inter', 'sans-serif'],
+        }
+      }
+    }
+  }
+</script>
+<style>
+  html { scroll-behavior: smooth; }
+  body { font-family: 'Inter', sans-serif; background: #FDFCFA; display: flex; flex-direction: column; min-height: 100vh; -webkit-tap-highlight-color: transparent; }
+  .seal-stamp { background: radial-gradient(circle at 30% 25%, #C4313D 0%, #A61B29 55%, #7D1420 100%); box-shadow: 0 1px 2px rgba(0,0,0,0.15), inset 0 0 0 1px rgba(255,255,255,0.08); transform: rotate(-4deg); border-radius: 4px; }
+  .nav-link { position: relative; padding-bottom: 2px; }
+  .nav-link::after { content: ''; position: absolute; left: 50%; bottom: -6px; width: 0; height: 3px; background: #A61B29; border-radius: 2px 6px 2px 6px; transform: translateX(-50%); transition: width 0.25s ease; }
+  .nav-link:hover::after, .nav-link.active::after { width: 60%; }
+  .stamp-btn { background: #A61B29; clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 0 100%); transition: background 0.2s ease, transform 0.15s ease; }
+  .stamp-btn:hover { background: #7D1420; transform: translateY(-1px); }
+  .brush-rule { height: 2px; background: linear-gradient(90deg, transparent 0%, #A61B29 12%, #A61B29 88%, transparent 100%); }
+  .footer-watermark { position: absolute; right: -20px; bottom: -40px; font-family: 'Ma Shan Zheng', cursive; font-size: 220px; line-height: 1; color: #A61B29; opacity: 0.04; pointer-events: none; user-select: none; }
+  .icon-badge { background: #A61B29; }
+
+  .modal-enter { animation: modalFadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+  @keyframes modalFadeIn {
+    from { opacity: 0; transform: scale(0.95) translateY(10px); }
+    to { opacity: 1; transform: scale(1) translateY(0); }
+  }
+
+  .quiz-option { transition: all 0.2s ease; }
+  .quiz-option:hover { border-color: #A61B29; background-color: #fffafa; }
+  .quiz-option input:checked + div { border-color: #A61B29; background-color: #A61B29; color: white; }
+  .quiz-option input:checked + div span.opt-circle { border-color: white; }
+
+  .sticky-audio {
+    position: sticky;
+    top: 64px;
+    z-index: 30;
+  }
+
+  .unlock-flash { animation: unlockFlash 0.6s ease; }
+  @keyframes unlockFlash {
+    0% { box-shadow: 0 0 0 0 rgba(166,27,41,0.35); }
+    100% { box-shadow: 0 0 0 14px rgba(166,27,41,0); }
+  }
+
+  .part-label { font-family: 'Noto Serif', serif; }
+
+  @media (max-width: 640px) {
+    input, select, button { font-size: 16px !important; }
+    .sticky-audio { top: 56px; }
+  }
+</style>
+</head>
+<body class="text-ink flex flex-col min-h-screen">
+
+<!-- Header -->
+<header class="sticky top-0 z-40 bg-paper/95 backdrop-blur border-b-2 border-seal/90">
+  <div class="max-w-6xl mx-auto px-4 sm:px-8 flex items-center justify-between h-16">
+    <a href="index.html" class="flex items-center gap-2.5 sm:gap-3 shrink-0 group">
+      <span class="seal-stamp w-8 h-8 sm:w-9 sm:h-9 flex items-center justify-center font-brush text-white text-base sm:text-lg leading-none group-hover:rotate-0 transition-transform duration-300">汉</span>
+      <span class="font-display text-base sm:text-lg font-semibold tracking-tight text-ink">Қытай тілі</span>
+    </a>
+    <nav class="hidden md:flex items-center gap-9 text-[15px] font-medium text-gray-600">
+      <a href="index.html" class="nav-link hover:text-ink transition-colors">Басты бет</a>
+      <a href="dictionary.html" class="nav-link hover:text-ink transition-colors">Сөздік</a>
+      <a href="reels.html" class="nav-link hover:text-ink transition-colors">Рилс/Квиз</a>
+      <a href="mock-exam.html" class="nav-link active text-ink font-semibold transition-colors">Mock Exam HSK</a>
+    </nav>
+    <div class="flex items-center gap-2 sm:gap-3">
+      <button data-open-auth="login" class="text-xs sm:text-sm font-semibold text-gray-600 hover:text-ink px-1.5 sm:px-2 transition-colors cursor-pointer">Кабинет</button>
+      <button data-open-auth="register" class="stamp-btn inline-flex items-center text-white text-xs sm:text-sm font-semibold px-3.5 sm:px-5 py-2 sm:py-2.5 shrink-0 cursor-pointer">Жазылу</button>
+      <button id="mobileMenuBtn" class="md:hidden p-1.5 text-gray-700 focus:outline-none" aria-label="Menu">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"></path>
+        </svg>
+      </button>
+    </div>
+  </div>
+  <div id="mobileMenu" class="hidden md:hidden bg-paper border-b border-gray-200 px-4 pt-2 pb-4 space-y-3">
+    <a href="index.html" class="block text-sm font-medium text-gray-700 hover:text-seal py-1">Басты бет</a>
+    <a href="dictionary.html" class="block text-sm font-medium text-gray-700 hover:text-seal py-1">Сөздік</a>
+    <a href="reels.html" class="block text-sm font-medium text-gray-700 hover:text-seal py-1">Рилс/Квиз</a>
+    <a href="mock-exam.html" class="block text-sm font-medium text-seal py-1">Mock Exam HSK</a>
+  </div>
+</header>
+
+<!-- Auth Modal -->
+<div id="authModal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm p-4 transition-opacity">
+  <div class="modal-enter relative w-full max-w-sm rounded-2xl bg-white p-6 sm:p-8 shadow-2xl border border-gray-100">
+    <button data-close-auth class="absolute right-5 top-5 text-gray-400 hover:text-gray-700 transition-colors bg-gray-50 rounded-full p-1 cursor-pointer">
+      <svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path></svg>
+    </button>
+    <div id="loginSection">
+      <h2 class="font-display mb-6 text-2xl font-bold text-gray-900">Кіру</h2>
+      <form id="loginForm" class="space-y-4">
+        <div>
+          <label class="mb-1.5 block text-sm font-medium text-gray-700">Email немесе Пайдаланушы аты</label>
+          <input type="text" required class="w-full rounded-lg border border-gray-300 px-4 py-2.5 text-sm outline-none focus:border-seal focus:ring-2 focus:ring-seal/20 transition-all">
+        </div>
+        <div>
+          <label class="mb-1.5 block text-sm font-medium text-gray-700">Құпия сөз</label>
+          <input type="password" required class="w-full rounded-lg border border-gray-300 px-4 py-2.5 text-sm outline-none focus:border-seal focus:ring-2 focus:ring-seal/20 transition-all">
+        </div>
+        <button type="submit" class="w-full rounded-lg bg-seal px-4 py-3 text-base font-semibold text-white transition-all hover:bg-seal-dark hover:shadow-lg flex items-center justify-center cursor-pointer">Кіру</button>
+      </form>
+      <div class="mt-6 text-center text-sm text-gray-500">
+        Аккаунтыңыз жоқ па? <button type="button" id="toRegisterBtn" class="text-seal font-semibold hover:underline cursor-pointer">Тіркелу</button>
+      </div>
+    </div>
+
+    <div id="registerSection" class="hidden">
+      <h2 class="font-display mb-6 text-2xl font-bold text-gray-900">Тіркелу</h2>
+      <form id="registerForm" class="space-y-4">
+        <div>
+          <label class="mb-1.5 block text-sm font-medium text-gray-700">Аты-жөні</label>
+          <input type="text" required class="w-full rounded-lg border border-gray-300 px-4 py-2.5 text-sm outline-none focus:border-seal focus:ring-2 focus:ring-seal/20 transition-all">
+        </div>
+        <div>
+          <label class="mb-1.5 block text-sm font-medium text-gray-700">Email</label>
+          <input type="email" required class="w-full rounded-lg border border-gray-300 px-4 py-2.5 text-sm outline-none focus:border-seal focus:ring-2 focus:ring-seal/20 transition-all">
+        </div>
+        <div>
+          <label class="mb-1.5 block text-sm font-medium text-gray-700">Құпия сөз</label>
+          <input type="password" required class="w-full rounded-lg border border-gray-300 px-4 py-2.5 text-sm outline-none focus:border-seal focus:ring-2 focus:ring-seal/20 transition-all">
+        </div>
+        <button type="submit" class="w-full rounded-lg bg-seal px-4 py-3 text-base font-semibold text-white transition-all hover:bg-seal-dark hover:shadow-lg flex items-center justify-center cursor-pointer">Тіркелу</button>
+      </form>
+      <div class="mt-6 text-center text-sm text-gray-500">
+        Аккаунтыңыз бар ма? <button type="button" id="toLoginBtn" class="text-seal font-semibold hover:underline cursor-pointer">Кіру</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Result Modal (shown after "Аяқтау") -->
+<div id="resultModal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm p-4">
+  <div class="modal-enter relative w-full max-w-sm rounded-2xl bg-white p-6 sm:p-8 shadow-2xl border border-gray-100 text-center">
+    <div class="w-16 h-16 bg-mist text-jade rounded-full flex items-center justify-center mx-auto mb-4">
+      <svg class="w-8 h-8" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path></svg>
+    </div>
+    <h2 class="font-display text-2xl font-bold text-gray-900 mb-2">Тест аяқталды!</h2>
+    <p id="resultText" class="text-gray-600 text-sm mb-6">Сіздің нәтижеңіз есептелді.</p>
+    <button id="closeResultBtn" class="w-full rounded-lg bg-seal px-4 py-3 text-base font-semibold text-white transition-all hover:bg-seal-dark cursor-pointer">Жабу</button>
+  </div>
+</div>
+
+<main class="flex-1 pb-16">
+  <!-- Hero Section -->
+  <section class="bg-gradient-to-br from-[#0c1f4c] to-[#06102a] pt-12 pb-16 relative overflow-hidden text-center">
+    <div class="absolute inset-0 opacity-[0.03] pointer-events-none" style="background-image: linear-gradient(#ffffff 1px, transparent 1px), linear-gradient(90deg, #ffffff 1px, transparent 1px); background-size: 40px 40px;"></div>
+    <div class="relative z-10 max-w-4xl mx-auto px-4">
+      <h1 class="font-display text-white text-3xl sm:text-4xl lg:text-5xl font-bold mb-4 leading-tight">
+        HSK <span class="text-[#F5F0E6] drop-shadow-md">Жаттығу Тесттері</span>
+      </h1>
+      <p class="text-white/80 text-sm sm:text-base leading-relaxed max-w-2xl mx-auto">
+        HSK 1, 2 және 3 деңгейлеріне арналған толыққанды сынақ тесттері. Тыңдалым, оқылым және жазылым бөлімдерінен өтіп, біліміңізді тексеріңіз. Тіркеліп, тағы 10 тегін нұсқаны ашыңыз!
+      </p>
+    </div>
+  </section>
+
+  <!-- Controls -->
+  <section class="max-w-4xl mx-auto px-4 mt-8">
+    <div class="bg-white rounded-2xl shadow-sm border border-gray-200 p-4 sm:p-6 mb-6 flex flex-col sm:flex-row gap-4 justify-between items-center">
+      <div class="flex items-center gap-4 w-full sm:w-auto">
+        <label class="font-semibold text-gray-700 whitespace-nowrap">Деңгей:</label>
+        <select id="hskLevel" class="w-full sm:w-auto rounded-lg border border-gray-300 px-4 py-2 text-sm outline-none focus:border-seal focus:ring-2 focus:ring-seal/20">
+          <option value="1">HSK 1 (150 сөз)</option>
+          <option value="2">HSK 2 (300 сөз)</option>
+          <option value="3" selected>HSK 3 (600 сөз)</option>
+        </select>
+      </div>
+      <div class="flex items-center gap-4 w-full sm:w-auto">
+        <label class="font-semibold text-gray-700 whitespace-nowrap">Нұсқа:</label>
+        <select id="examVersion" class="w-full sm:w-auto rounded-lg border border-gray-300 px-4 py-2 text-sm outline-none focus:border-seal focus:ring-2 focus:ring-seal/20 bg-gray-50">
+          <option value="1">Нұсқа 1 (Тегін)</option>
+          <option value="2">Нұсқа 2 (Тегін)</option>
+          <option value="3">Нұсқа 3 (Тегін)</option>
+          <option value="locked" disabled>--- Жабық нұсқалар ---</option>
+          <option value="4" disabled>Нұсқа 4 🔒</option>
+          <option value="5" disabled>Нұсқа 5 🔒</option>
+          <option value="6" disabled>Нұсқа 6 🔒</option>
+          <option value="7" disabled>Нұсқа 7 🔒</option>
+          <option value="8" disabled>Нұсқа 8 🔒</option>
+          <option value="9" disabled>Нұсқа 9 🔒</option>
+          <option value="10" disabled>Нұсқа 10 🔒</option>
+          <option value="11" disabled>Нұсқа 11 🔒</option>
+          <option value="12" disabled>Нұсқа 12 🔒</option>
+          <option value="13" disabled>Нұсқа 13 🔒</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Exam Timer & Audio Header (Sticky) -->
+    <div class="sticky-audio bg-white/95 backdrop-blur-md rounded-2xl shadow-md border border-gray-200 p-4 mb-8 flex flex-col sm:flex-row gap-4 justify-between items-center">
+      <div class="flex flex-col w-full sm:w-1/2">
+        <span class="text-xs text-gray-500 font-bold uppercase tracking-wider mb-1">Жалпы аудио (Тыңдалым)</span>
+        <audio id="examAudio" controls class="w-full h-10 outline-none">
+          <source src="#" type="audio/mpeg">
+          Сіздің браузеріңіз аудионы қолдамайды.
+        </audio>
+      </div>
+      <div class="flex items-center gap-6 w-full sm:w-auto justify-between sm:justify-end">
+        <div class="text-center">
+          <span class="block text-xs text-gray-500 font-medium">Қалған уақыт</span>
+          <span id="examTimer" class="font-mono text-xl font-bold text-ink">40:00</span>
+        </div>
+        <button id="finishExamBtn" class="bg-seal text-white font-semibold px-6 py-2 rounded-lg hover:bg-seal-dark transition-colors cursor-pointer">Аяқтау</button>
+      </div>
+    </div>
+
+    <!-- FULL EXAM CONTAINER -->
+    <div class="relative bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden">
+
+      <!-- FREE PREVIEW SECTION -->
+      <div id="freePreviewContent">
+
+        <!-- ========================= I. ТЫҢДАЛЫМ ========================= -->
+        <div class="p-6 sm:p-8 bg-paper-deep border-b border-gray-200">
+          <h2 class="text-2xl font-display font-bold text-ink">I. Тыңдалым (听力)</h2>
+          <p class="text-sm text-gray-600 mt-2">Жалпы аудионы қосып, тыңдаңыз. Әр сұрақ екі рет оқылады.</p>
+        </div>
+
+        <div class="p-6 sm:p-8 space-y-10">
+
+          <!-- Listening Part 1 -->
+          <div class="bg-gray-50 p-4 rounded-lg border border-gray-100">
+            <h3 class="part-label font-bold text-ink">Бірінші бөлім (1-5 сұрақтар)</h3>
+            <p class="text-sm text-gray-600">Сөз бен сурет сәйкес келе ме? Аудионы тыңдап, дұрыс немесе бұрыс екенін белгілеңіз.</p>
+          </div>
+
+          <!-- Q1 -->
+          <div class="quiz-question pb-4">
+            <div class="flex items-start gap-4 mb-4">
+              <span class="flex items-center justify-center w-8 h-8 rounded-full bg-mist text-jade font-bold shrink-0">1</span>
+              <div class="w-full">
+                <div class="flex justify-center mb-6">
+                  <img src="https://images.unsplash.com/photo-1596704017254-9b121068fb31?w=220&h=180&fit=crop" alt="Мысық" class="rounded-lg shadow-sm border border-gray-200 object-cover w-56 h-44">
+                </div>
+              </div>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pl-12">
+              <label class="quiz-option relative flex cursor-pointer rounded-lg border border-gray-200 p-4 hover:bg-gray-50">
+                <input type="radio" name="q1" value="A" class="peer sr-only">
+                <div class="flex items-center justify-center gap-3 w-full">
+                  <span class="opt-circle w-5 h-5 rounded-full border border-gray-300 peer-checked:bg-seal peer-checked:border-seal flex items-center justify-center transition-colors"></span>
+                  <span class="font-bold text-green-600 text-xl">✓ Дұрыс</span>
+                </div>
+              </label>
+              <label class="quiz-option relative flex cursor-pointer rounded-lg border border-gray-200 p-4 hover:bg-gray-50">
+                <input type="radio" name="q1" value="B" class="peer sr-only">
+                <div class="flex items-center justify-center gap-3 w-full">
+                  <span class="opt-circle w-5 h-5 rounded-full border border-gray-300 peer-checked:bg-seal peer-checked:border-seal flex items-center justify-center transition-colors"></span>
+                  <span class="font-bold text-red-600 text-xl">✗ Бұрыс</span>
+                </div>
+              </label>
+            </div>
+          </div>
+
+          <!-- Q2 -->
+          <div class="quiz-question pb-4">
+            <div class="flex items-start gap-4 mb-4">
+              <span class="flex items-center justify-center w-8 h-8 rounded-full bg-mist text-jade font-bold shrink-0">2</span>
+              <div class="w-full">
+                <div class="flex justify-center mb-6">
+                  <img src="https://images.unsplash.com/photo-1517686748843-bb360cf5a52a?w=220&h=180&fit=crop" alt="Ит" class="rounded-lg shadow-sm border border-gray-200 object-cover w-56 h-44">
+                </div>
+              </div>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pl-12">
+              <label class="quiz-option relative flex cursor-pointer rounded-lg border border-gray-200 p-4 hover:bg-gray-50">
+                <input type="radio" name="q2" value="A" class="peer sr-only">
+                <div class="flex items-center justify-center gap-3 w-full">
+                  <span class="opt-circle w-5 h-5 rounded-full border border-gray-300 peer-checked:bg-seal peer-checked:border-seal flex items-center justify-center transition-colors"></span>
+                  <span class="font-bold text-green-600 text-xl">✓ Дұрыс</span>
+                </div>
+              </label>
+              <label class="quiz-option relative flex cursor-pointer rounded-lg border border-gray-200 p-4 hover:bg-gray-50">
+                <input type="radio" name="q2" value="B" class="peer sr-only">
+                <div class="flex items-center justify-center gap-3 w-full">
+                  <span class="opt-circle w-5 h-5 rounded-full border border-gray-300 peer-checked:bg-seal peer-checked:border-seal flex items-center justify-center transition-colors"></span>
+                  <span class="font-bold text-red-600 text-xl">✗ Бұрыс</span>
+                </div>
+              </label>
+            </div>
+          </div>
+
+          <!-- Q3 -->
+          <div class="quiz-question pb-4">
+            <div class="flex items-start gap-4 mb-4">
+              <span class="flex items-center justify-center w-8 h-8 rounded-full bg-mist text-jade font-bold shrink-0">3</span>
+              <div class="w-full">
+                <div class="flex justify-center mb-6">
+                  <img src="https://images.unsplash.com/photo-1495521821757-a1efb6729352?w=220&h=180&fit=crop" alt="Су" class="rounded-lg shadow-sm border border-gray-200 object-cover w-56 h-44">
+                </div>
+              </div>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pl-12">
+              <label class="quiz-option relative flex cursor-pointer rounded-lg border border-gray-200 p-4 hover:bg-gray-50">
+                <input type="radio" name="q3" value="A" class="peer sr-only">
+                <div class="flex items-center justify-center gap-3 w-full">
+                  <span class="opt-circle w-5 h-5 rounded-full border border-gray-300 peer-checked:bg-seal peer-checked:border-seal flex items-center justify-center transition-colors"></span>
+                  <span class="font-bold text-green-600 text-xl">✓ Дұрыс</span>
+                </div>
+              </label>
+              <label class="quiz-option relative flex cursor-pointer rounded-lg border border-gray-200 p-4 hover:bg-gray-50">
+                <input type="radio" name="q3" value="B" class="peer sr-only">
+                <div class="flex items-center justify-center gap-3 w-full">
+                  <span class="opt-circle w-5 h-5 rounded-full border border-gray-300 peer-checked:bg-seal peer-checked:border-seal flex items-center justify-center transition-colors"></span>
+                  <span class="font-bold text-red-600 text-xl">✗ Бұрыс</span>
+                </div>
+              </label>
+            </div>
+          </div>
+
+          <!-- Q4 -->
+          <div class="quiz-question pb-4">
+            <div class="flex items-start gap-4 mb-4">
+              <span class="flex items-center justify-center w-8 h-8 rounded-full bg-mist text-jade font-bold shrink-0">4</span>
+              <div class="w-full">
+                <div class="flex justify-center mb-6">
+                  <img src="https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=220&h=180&fit=crop" alt="Кофе" class="rounded-lg shadow-sm border border-gray-200 object-cover w-56 h-44">
+                </div>
+              </div>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pl-12">
+              <label class="quiz-option relative flex cursor-pointer rounded-lg border border-gray-200 p-4 hover:bg-gray-50">
+                <input type="radio" name="q4" value="A" class="peer sr-only">
+                <div class="flex items-center justify-center gap-3 w-full">
+                  <span class="opt-circle w-5 h-5 rounded-full border border-gray-300 peer-checked:bg-seal peer-checked:border-seal flex items-center justify-center transition-colors"></span>
+                  <span class="font-bold text-green-600 text-xl">✓ Дұрыс</span>
+                </div>
+              </label>
+              <label class="quiz-option relative flex cursor-pointer rounded-lg border border-gray-200 p-4 hover:bg-gray-50">
+                <input type="radio" name="q4" value="B" class="peer sr-only">
+                <div class="flex items-center justify-center gap-3 w-full">
+                  <span class="opt-circle w-5 h-5 rounded-full border border-gray-300 peer-checked:bg-seal peer-checked:border-seal flex items-center justify-center transition-colors"></span>
+                  <span class="font-bold text-red-600 text-xl">✗ Бұрыс</span>
+                </div>
+              </label>
+            </div>
+          </div>
+
+          <!-- Q5 -->
+          <div class="quiz-question pb-4">
+            <div class="flex items-start gap-4 mb-4">
+              <span class="flex items-center justify-center w-8 h-8 rounded-full bg-mist text-jade font-bold shrink-0">5</span>
+              <div class="w-full">
+                <div class="flex justify-center mb-6">
+                  <img src="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=220&h=180&fit=crop" alt="Мектеп" class="rounded-lg shadow-sm border border-gray-200 object-cover w-56 h-44">
+                </div>
+              </div>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pl-12">
+              <label class="quiz-option relative flex cursor-pointer rounded-lg border border-gray-200 p-4 hover:bg-gray-50">
+                <input type="radio" name="q5" value="A" class="peer sr-only">
+                <div class="flex items-center justify-center gap-3 w-full">
+                  <span class="opt-circle w-5 h-5 rounded-full border border-gray-300 peer-checked:bg-seal peer-checked:border-seal flex items-center justify-center transition-colors"></span>
+                  <span class="font-bold text-green-600 text-xl">✓ Дұрыс</span>
+                </div>
+              </label>
+              <label class="quiz-option relative flex cursor-pointer rounded-lg border border-gray-200 p-4 hover:bg-gray-50">
+                <input type="radio" name="q5" value="B" class="peer sr-only">
+                <div class="flex items-center justify-center gap-3 w-full">
+                  <span class="opt-circle w-5 h-5 rounded-full border border-gray-300 peer-checked:bg-seal peer-checked:border-seal flex items-center justify-center transition-colors"></span>
+                  <span class="font-bold text-red-600 text-xl">✗ Бұрыс</span>
+                </div>
+              </label>
+            </div>
+          </div>
+
+          <!-- Listening Part 2 -->
+          <div class="bg-gray-50 p-4 rounded-lg border border-gray-100 mt-10">
+            <h3 class="part-label font-bold text-ink">Екінші бөлім (6-10 сұрақтар)</h3>
+            <p class="text-sm text-gray-600">Аудионы тыңдап, сөйлемге сәйкес келетін суретті таңдаңыз.</p>
+          </div>
+
+          <!-- Q6 -->
+          <div class="quiz-question pb-4">
+            <div class="flex items-start gap-4 mb-4">
+              <span class="flex items-center justify-center w-8 h-8 rounded-full bg-mist text-jade font-bold shrink-0">6</span>
+              <div class="w-full">
+                <p class="text-gray-700 font-medium">Сәйкес суретті таңдаңыз (A, B немесе C):</p>
+              </div>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 pl-12">
+              <label class="quiz-option relative flex cursor-pointer rounded-lg border border-gray-200 p-4 hover:bg-gray-50">
+                <input type="radio" name="q6" value="A" class="peer sr-only">
+                <div class="flex flex-col items-center gap-3 w-full">
+                  <img src="https://images.unsplash.com/photo-1544947950-fa07a98d237f?w=150&h=150&fit=crop" alt="Кітаптар" class="rounded-md w-full h-28 object-cover border border-gray-200">
+                  <span class="opt-circle w-5 h-5 rounded-full border border-gray-300 peer-checked:bg-seal peer-checked:border-seal flex items-center justify-center transition-colors"></span>
+                </div>
+              </label>
+              <label class="quiz-option relative flex cursor-pointer rounded-lg border border-gray-200 p-4 hover:bg-gray-50">
+                <input type="radio" name="q6" value="B" class="peer sr-only">
+                <div class="flex flex-col items-center gap-3 w-full">
+                  <img src="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=150&h=150&fit=crop" alt="Телефон" class="rounded-md w-full h-28 object-cover border border-gray-200">
+                  <span class="opt-circle w-5 h-5 rounded-full border border-gray-300 peer-checked:bg-seal peer-checked:border-seal flex items-center justify-center transition-colors"></span>
+                </div>
+              </label>
+              <label class="quiz-option relative flex cursor-pointer rounded-lg border border-gray-200 p-4 hover:bg-gray-50">
+                <input type="radio" name="q6" value="C" class="peer sr-only">
+                <div class="flex flex-col items-center gap-3 w-full">
+                  <img src="https://images.unsplash.com/photo-1560806887-1e4cd0b6fd6c?w=150&h=150&fit=crop" alt="Алма" class="rounded-md w-full h-28 object-cover border border-gray-200">
+                  <span class="opt-circle w-5 h-5 rounded-full border border-gray-300 peer-checked:bg-seal peer-checked:border-seal flex items-center justify-center transition-colors"></span>
+                </div>
+              </label>
+            </div>
+          </div>
+
+          <!-- Q7 -->
+          <div class="quiz-question pb-4">
+            <div class="flex items-start gap-4 mb-4">
+              <span class="flex items-center justify-center w-8 h-8 rounded-full bg-mist text-jade font-bold shrink-0">7</span>
+              <div class="w-full">
+                <p class="text-gray-700 font-medium">Сәйкес суретті таңдаңыз (A, B немесе C):</p>
+              </div>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 pl-12">
+              <label class="quiz-option relative flex cursor-pointer rounded-lg border border-gray-200 p-4 hover:bg-gray-50">
+                <input type="radio" name="q7" value="A" class="peer sr-only">
+                <div class="flex flex-col items-center gap-3 w-full">
+                  <img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=150&h=150&fit=crop" alt="Дәрігер" class="rounded-md w-full h-28 object-cover border border-gray-200">
+                  <span class="opt-circle w-5 h-5 rounded-full border border-gray-300 peer-checked:bg-seal peer-checked:border-seal flex items-center justify-center transition-colors"></span>
+                </div>
+              </label>
+              <label class="quiz-option relative flex cursor-pointer rounded-lg border border-gray-200 p-4 hover:bg-gray-50">
+                <input type="radio" name="q7" value="B" class="peer sr-only">
+                <div class="flex flex-col items-center gap-3 w-full">
+                  <img src="https://images.unsplash.com/photo-1541696432-82c6da8ce7bf?w=150&h=150&fit=crop" alt="Мұғалім" class="rounded-md w-full h-28 object-cover border border-gray-200">
+                  <span class="opt-circle w-5 h-5 rounded-full border border-gray-300 peer-checked:bg-seal peer-checked:border-seal flex items-center justify-center transition-colors"></span>
+                </div>
+              </label>
+              <label class="quiz-option relative flex cursor-pointer rounded-lg border border-gray-200 p-4 hover:bg-gray-50">
+                <input type="radio" name="q7" value="C" class="peer sr-only">
+                <div class="flex flex-col items-center gap-3 w-full">
+                  <img src="https://images.unsplash.com/photo-1600891964092-4316c288032e?w=150&h=150&fit=crop" alt="Аспаз" class="rounded-md w-full h-28 object-cover border border-gray-200">
+                  <span class="opt-circle w-5 h-5 rounded-full border border-gray-300 peer-checked:bg-seal peer-checked:border-seal flex items-center justify-center transition-colors"></span>
+                </div>
+              </label>
+            </div>
+          </div>
+
+          <!-- Q8 -->
+          <div class="quiz-question pb-4">
+            <div class="flex items-start gap-4 mb-4">
+              <span class="flex items-center justify-center w-8 h-8 rounded-full bg-mist text-jade font-bold shrink-0">8</span>
+              <div class="w-full">
+                <p class="text-gray-700 font-medium">Сәйкес суретті таңдаңыз (A, B немесе C):</p>
+              </div>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 pl-12">
+              <label class="quiz-option relative flex cursor-pointer rounded-lg border border-gray-200 p-4 hover:bg-gray-50">
+                <input type="radio" name="q8" value="A" class="peer sr-only">
+                <div class="flex flex-col items-center gap-3 w-full">
+                  <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?w=150&h=150&fit=crop" alt="Автобус" class="rounded-md w-full h-28 object-cover border border-gray-200">
+                  <span class="opt-circle w-5 h-5 rounded-full border border-gray-300 peer-checked:bg-seal peer-checked:border-seal flex items-center justify-center transition-colors"></span>
+                </div>
+              </label>
+              <label class="quiz-option relative flex cursor-pointer rounded-lg border border-gray-200 p-4 hover:bg-gray-50">
+                <input type="radio" name="q8" value="B" class="peer sr-only">
+                <div class="flex flex-col items-center gap-3 w-full">
+                  <img src="https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?w=150&h=150&fit=crop" alt="Велосипед" class="rounded-md w-full h-28 object-cover border border-gray-200">
+                  <span class="opt-circle w-5 h-5 rounded-full border border-gray-300 peer-checked:bg-seal peer-checked:border-seal flex items-center justify-center transition-colors"></span>
+                </div>
+              </label>
+              <label class="quiz-option relative flex cursor-pointer rounded-lg border border-gray-200 p-4 hover:bg-gray-50">
+                <input type="radio" name="q8" value="C" class="peer sr-only">
+                <div class="flex flex-col items-center gap-3 w-full">
+                  <img src="https://images.unsplash.com/photo-1502877338535-766e1452684a?w=150&h=150&fit=crop" alt="Ұшақ" class="rounded-md w-full h-28 object-cover border border-gray-200">
+                  <span class="opt-circle w-5 h-5 rounded-full border border-gray-300 peer-checked:bg-seal peer-checked:border-seal flex items-center justify-center transition-colors"></span>
+                </div>
+              </label>
+            </div>
+          </div>
+
+          <!-- Q9 -->
+          <div class="quiz-question pb-4">
+            <div class="flex items-start gap-4 mb-4">
+              <span class="flex items-center justify-center w-8 h-8 rounded-full bg-mist text-jade font-bold shrink-0">9</span>
+              <div class="w-full">
+                <p class="text-gray-700 font-medium">Сәйкес суретті таңдаңыз (A, B немесе C):</p>
+              </div>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 pl-12">
+              <label class="quiz-option relative flex cursor-pointer rounded-lg border border-gray-200 p-4 hover:bg-gray-50">
+                <input type="radio" name="q9" value="A" class="peer sr-only">
+                <div class="flex flex-col items-center gap-3 w-full">
+                  <img src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=150&h=150&fit=crop" alt="Жаңбыр" class="rounded-md w-full h-28 object-cover border border-gray-200">
+                  <span class="opt-circle w-5 h-5 rounded-full border border-gray-300 peer-checked:bg-seal peer-checked:border-seal flex items-center justify-center transition-colors"></span>
+                </div>
+              </label>
+              <label class="quiz-option relative flex cursor-pointer rounded-lg border border-gray-200 p-4 hover:bg-gray-50">
+                <input type="radio" name="q9" value="B" class="peer sr-only">
+                <div class="flex flex-col items-center gap-3 w-full">
+                  <img src="https://images.unsplash.com/photo-1601297183305-6df142704ea2?w=150&h=150&fit=crop" alt="Күн" class="rounded-md w-full h-28 object-cover border border-gray-200">
+                  <span class="opt-circle w-5 h-5 rounded-full border border-gray-300 peer-checked:bg-seal peer-checked:border-seal flex items-center justify-center transition-colors"></span>
+                </div>
+              </label>
+              <label class="quiz-option relative flex cursor-pointer rounded-lg border border-gray-200 p-4 hover:bg-gray-50">
+                <input type="radio" name="q9" value="C" class="peer sr-only">
+                <div class="flex flex-col items-center gap-3 w-full">
+                  <img src="https://images.unsplash.com/photo-1418985991508-e47386d439a5?w=150&h=150&fit=crop" alt="Қар" class="rounded-md w-full h-28 object-cover border border-gray-200">
+                  <span class="opt-circle w-5 h-5 rounded-full border border-gray-300 peer-checked:bg-seal peer-checked:border-seal flex items-center justify-center transition-colors"></span>
+                </div>
+              </label>
+            </div>
+          </div>
+
+          <!-- Q10 -->
+          <div class="quiz-question pb-4">
+            <div class="flex items-start gap-4 mb-4">
+              <span class="flex items-center justify-center w-8 h-8 rounded-full bg-mist text-jade font-bold shrink-0">10</span>
+              <div class="w-full">
+                <p class="text-gray-700 font-medium">Сәйкес суретті таңдаңыз (A, B немесе C):</p>
+              </div>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 pl-12">
+              <label class="quiz-option relative flex cursor-pointer rounded-lg border border-gray-200 p-4 hover:bg-gray-50">
+                <input type="radio" name="q10" value="A" class="peer sr-only">
+                <div class="flex flex-col items-center gap-3 w-full">
+                  <img src="https://images.unsplash.com/photo-1483058712412-4245e9b90334?w=150&h=150&fit=crop" alt="Ойын" class="rounded-md w-full h-28 object-cover border border-gray-200">
+                  <span class="opt-circle w-5 h-5 rounded-full border border-gray-300 peer-checked:bg-seal peer-checked:border-seal flex items-center justify-center transition-colors"></span>
+                </div>
+              </label>
+              <label class="quiz-option relative flex cursor-pointer rounded-lg border border-gray-200 p-4 hover:bg-gray-50">
+                <input type="radio" name="q10" value="B" class="peer sr-only">
+                <div class="flex flex-col items-center gap-3 w-full">
+                  <img src="https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=150&h=150&fit=crop" alt="Ұйықтау" class="rounded-md w-full h-28 object-cover border border-gray-200">
+                  <span class="opt-circle w-5 h-5 rounded-full border border-gray-300 peer-checked:bg-seal peer-checked:border-seal flex items-center justify-center transition-colors"></span>
+                </div>
+              </label>
+              <label class="quiz-option relative flex cursor-pointer rounded-lg border border-gray-200 p-4 hover:bg-gray-50">
+                <input type="radio" name="q10" value="C" class="peer sr-only">
+                <div class="flex flex-col items-center gap-3 w-full">
+                  <img src="https://images.unsplash.com/photo-1466637574441-749b8f19452f?w=150&h=150&fit=crop" alt="Жүгіру" class="rounded-md w-full h-28 object-cover border border-gray-200">
+                  <span class="opt-circle w-5 h-5 rounded-full border border-gray-300 peer-checked:bg-seal peer-checked:border-seal flex items-center justify-center transition-colors"></span>
+                </div>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <!-- ========================= II. ОҚЫЛЫМ ========================= -->
+        <div class="p-6 sm:p-8 bg-paper-deep border-y border-gray-200">
+          <h2 class="text-2xl font-display font-bold text-ink">II. Оқылым (阅读)</h2>
+          <p class="text-sm text-gray-600 mt-2">Мәтін мен сөйлемдерді оқып, сұрақтарға жауап беріңіз.</p>
+        </div>
+
+        <div class="p-6 sm:p-8 space-y-10">
+
+          <!-- Reading Part 1 -->
+          <div class="bg-gray-50 p-4 rounded-lg border border-gray-100">
+            <h3 class="part-label font-bold text-ink">Бірінші бөлім (21-24 сұрақтар)</h3>
+            <p class="text-sm text-gray-600">Сөз бен суреттің мағынасы сәйкес келе ме? Дұрыс немесе бұрыс екенін белгілеңіз.</p>
+          </div>
+
+          <!-- Q21 -->
+          <div class="quiz-question pb-4">
+            <div class="flex items-start gap-4 mb-4">
+              <span class="flex items-center justify-center w-8 h-8 rounded-full bg-mist text-jade font-bold shrink-0">21</span>
+              <div class="w-full flex flex-col sm:flex-row items-center gap-6 bg-gray-50 p-4 rounded-lg border border-gray-200">
+                <img src="https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=200&h=150&fit=crop" alt="Ұшақ" class="rounded shadow-sm w-48 h-32 object-cover">
+                <div class="text-2xl font-bold tracking-wider">飞机 (fēijī)</div>
+              </div>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pl-12">
+              <label class="quiz-option relative flex cursor-pointer rounded-lg border border-gray-200 p-4 hover:bg-gray-50">
+                <input type="radio" name="q21" value="A" class="peer sr-only">
+                <div class="flex items-center justify-center gap-3 w-full">
+                  <span class="opt-circle w-5 h-5 rounded-full border border-gray-300 peer-checked:bg-seal peer-checked:border-seal flex items-center justify-center transition-colors"></span>
+                  <span class="font-bold text-green-600 text-xl">✓ Дұрыс</span>
+                </div>
+              </label>
+              <label class="quiz-option relative flex cursor-pointer rounded-lg border border-gray-200 p-4 hover:bg-gray-50">
+                <input type="radio" name="q21" value="B" class="peer sr-only">
+                <div class="flex items-center justify-center gap-3 w-full">
+                  <span class="opt-circle w-5 h-5 rounded-full border border-gray-300 peer-checked:bg-seal peer-checked:border-seal flex items-center justify-center transition-colors"></span>
+                  <span class="font-bold text-red-600 text-xl">✗ Бұрыс</span>
+                </div>
+              </label>
+            </div>
+          </div>
+
+          <!-- Q22 -->
+          <div class="quiz-question pb-4">
+            <div class="flex items-start gap-4 mb-4">
+              <span class="flex items-center justify-center w-8 h-8 rounded-full bg-mist text-jade font-bold shrink-0">22</span>
+              <div class="w-full flex flex-col sm:flex-row items-center gap-6 bg-gray-50 p-4 rounded-lg border border-gray-200">
+                <img src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=200&h=150&fit=crop" alt="Кітап" class="rounded shadow-sm w-48 h-32 object-cover">
+                <div class="text-2xl font-bold tracking-wider">水果 (shuǐguǒ)</div>
+              </div>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pl-12">
+              <label class="quiz-option relative flex cursor-pointer rounded-lg border border-gray-200 p-4 hover:bg-gray-50">
+                <input type="radio" name="q22" value="A" class="peer sr-only">
+                <div class="flex items-center justify-center gap-3 w-full">
+                  <span class="opt-circle w-5 h-5 rounded-full border border-gray-300 peer-checked:bg-seal peer-checked:border-seal flex items-center justify-center transition-colors"></span>
+                  <span class="font-bold text-green-600 text-xl">✓ Дұрыс</span>
+                </div>
+              </label>
+              <label class="quiz-option relative flex cursor-pointer rounded-lg border border-gray-200 p-4 hover:bg-gray-50">
+                <input type="radio" name="q22" value="B" class="peer sr-only">
+                <div class="flex items-center justify-center gap-3 w-full">
+                  <span class="opt-circle w-5 h-5 rounded-full border border-gray-300 peer-checked:bg-seal peer-checked:border-seal flex items-center justify-center transition-colors"></span>
+                  <span class="font-bold text-red-600 text-xl">✗ Бұрыс</span>
+                </div>
+              </label>
+            </div>
+          </div>
+
+          <!-- Q23 -->
+          <div class="quiz-question pb-4">
+            <div class="flex items-start gap-4 mb-4">
+              <span class="flex items-center justify-center w-8 h-8 rounded-full bg-mist text-jade font-bold shrink-0">23</span>
+              <div class="w-full flex flex-col sm:flex-row items-center gap-6 bg-gray-50 p-4 rounded-lg border border-gray-200">
+                <img src="https://images.unsplash.com/photo-1470770841072-f978cf4d019e?w=200&h=150&fit=crop" alt="Тау" class="rounded shadow-sm w-48 h-32 object-cover">
+                <div class="text-2xl font-bold tracking-wider">高山 (gāoshān)</div>
+              </div>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pl-12">
+              <label class="quiz-option relative flex cursor-pointer rounded-lg border border-gray-200 p-4 hover:bg-gray-50">
+                <input type="radio" name="q23" value="A" class="peer sr-only">
+                <div class="flex items-center justify-center gap-3 w-full">
+                  <span class="opt-circle w-5 h-5 rounded-full border border-gray-300 peer-checked:bg-seal peer-checked:border-seal flex items-center justify-center transition-colors"></span>
+                  <span class="font-bold text-green-600 text-xl">✓ Дұрыс</span>
+                </div>
+              </label>
+              <label class="quiz-option relative flex cursor-pointer rounded-lg border border-gray-200 p-4 hover:bg-gray-50">
+                <input type="radio" name="q23" value="B" class="peer sr-only">
+                <div class="flex items-center justify-center gap-3 w-full">
+                  <span class="opt-circle w-5 h-5 rounded-full border border-gray-300 peer-checked:bg-seal peer-checked:border-seal flex items-center justify-center transition-colors"></span>
+                  <span class="font-bold text-red-600 text-xl">✗ Бұрыс</span>
+                </div>
+              </label>
+            </div>
+          </div>
+
+          <!-- Q24 -->
+          <div class="quiz-question pb-4">
+            <div class="flex items-start gap-4 mb-4">
+              <span class="flex items-center justify-center w-8 h-8 rounded-full bg-mist text-jade font-bold shrink-0">24</span>
+              <div class="w-full flex flex-col sm:flex-row items-center gap-6 bg-gray-50 p-4 rounded-lg border border-gray-200">
+                <img src="https://images.unsplash.com/photo-1495521821757-a1efb6729352?w=200&h=150&fit=crop" alt="Су" class="rounded shadow-sm w-48 h-32 object-cover">
+                <div class="text-2xl font-bold tracking-wider">咖啡 (kāfēi)</div>
+              </div>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pl-12">
+              <label class="quiz-option relative flex cursor-pointer rounded-lg border border-gray-200 p-4 hover:bg-gray-50">
+                <input type="radio" name="q24" value="A" class="peer sr-only">
+                <div class="flex items-center justify-center gap-3 w-full">
+                  <span class="opt-circle w-5 h-5 rounded-full border border-gray-300 peer-checked:bg-seal peer-checked:border-seal flex items-center justify-center transition-colors"></span>
+                  <span class="font-bold text-green-600 text-xl">✓ Дұрыс</span>
+                </div>
+              </label>
+              <label class="quiz-option relative flex cursor-pointer rounded-lg border border-gray-200 p-4 hover:bg-gray-50">
+                <input type="radio" name="q24" value="B" class="peer sr-only">
+                <div class="flex items-center justify-center gap-3 w-full">
+                  <span class="opt-circle w-5 h-5 rounded-full border border-gray-300 peer-checked:bg-seal peer-checked:border-seal flex items-center justify-center transition-colors"></span>
+                  <span class="font-bold text-red-600 text-xl">✗ Бұрыс</span>
+                </div>
+              </label>
+            </div>
+          </div>
+
+          <!-- Reading Part 2 -->
+          <div class="bg-gray-50 p-4 rounded-lg border border-gray-100 mt-10">
+            <h3 class="part-label font-bold text-ink">Екінші бөлім (25-27 сұрақтар)</h3>
+            <p class="text-sm text-gray-600">Сөйлемнің мағынасына сай келетін суретті таңдаңыз.</p>
+          </div>
+
+          <!-- Q25 -->
+          <div class="quiz-question pb-4">
+            <div class="flex items-start gap-4 mb-4">
+              <span class="flex items-center justify-center w-8 h-8 rounded-full bg-mist text-jade font-bold shrink-0">25</span>
+              <div>
+                <p class="text-xl font-medium text-ink mb-1">我很喜欢这本书。</p>
+                <p class="text-gray-500 text-sm">Wǒ hěn xǐhuan zhè běn shū.</p>
+              </div>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 pl-12">
+              <label class="quiz-option relative flex cursor-pointer rounded-lg border border-gray-200 p-4 hover:bg-gray-50">
+                <input type="radio" name="q25" value="A" class="peer sr-only">
+                <div class="flex flex-col items-center gap-3 w-full">
+                  <img src="https://images.unsplash.com/photo-1512820790803-83ca734da794?w=150&h=150&fit=crop" alt="Кітап оқып отырған қыз" class="rounded-md w-full h-28 object-cover border border-gray-200">
+                  <span class="opt-circle w-5 h-5 rounded-full border border-gray-300 peer-checked:bg-seal peer-checked:border-seal flex items-center justify-center transition-colors"></span>
+                </div>
+              </label>
+              <label class="quiz-option relative flex cursor-pointer rounded-lg border border-gray-200 p-4 hover:bg-gray-50">
+                <input type="radio" name="q25" value="B" class="peer sr-only">
+                <div class="flex flex-col items-center gap-3 w-full">
+                  <img src="https://images.unsplash.com/photo-1544148103-0773bf10d330?w=150&h=150&fit=crop" alt="Жүзіп жүрген адам" class="rounded-md w-full h-28 object-cover border border-gray-200">
+                  <span class="opt-circle w-5 h-5 rounded-full border border-gray-300 peer-checked:bg-seal peer-checked:border-seal flex items-center justify-center transition-colors"></span>
+                </div>
+              </label>
+              <label class="quiz-option relative flex cursor-pointer rounded-lg border border-gray-200 p-4 hover:bg-gray-50">
+                <input type="radio" name="q25" value="C" class="peer sr-only">
+                <div class="flex flex-col items-center gap-3 w-full">
+                  <img src="https://images.unsplash.com/photo-1511920170033-f8396924c348?w=150&h=150&fit=crop" alt="Кофе ішіп отырған адам" class="rounded-md w-full h-28 object-cover border border-gray-200">
+                  <span class="opt-circle w-5 h-5 rounded-full border border-gray-300 peer-checked:bg-seal peer-checked:border-seal flex items-center justify-center transition-colors"></span>
+                </div>
+              </label>
+            </div>
+          </div>
+
+          <!-- Q26 -->
+          <div class="quiz-question pb-4">
+            <div class="flex items-start gap-4 mb-4">
+              <span class="flex items-center justify-center w-8 h-8 rounded-full bg-mist text-jade font-bold shrink-0">26</span>
+              <div>
+                <p class="text-xl font-medium text-ink mb-1">他每天早上跑步。</p>
+                <p class="text-gray-500 text-sm">Tā měitiān zǎoshang pǎobù.</p>
+              </div>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 pl-12">
+              <label class="quiz-option relative flex cursor-pointer rounded-lg border border-gray-200 p-4 hover:bg-gray-50">
+                <input type="radio" name="q26" value="A" class="peer sr-only">
+                <div class="flex flex-col items-center gap-3 w-full">
+                  <img src="https://images.unsplash.com/photo-1461896836934-ffe607ba8211?w=150&h=150&fit=crop" alt="Жүгіру" class="rounded-md w-full h-28 object-cover border border-gray-200">
+                  <span class="opt-circle w-5 h-5 rounded-full border border-gray-300 peer-checked:bg-seal peer-checked:border-seal flex items-center justify-center transition-colors"></span>
+                </div>
+              </label>
+              <label class="quiz-option relative flex cursor-pointer rounded-lg border border-gray-200 p-4 hover:bg-gray-50">
+                <input type="radio" name="q26" value="B" class="peer sr-only">
+                <div class="flex flex-col items-center gap-3 w-full">
+                  <img src="https://images.unsplash.com/photo-1517842645767-c639042777db?w=150&h=150&fit=crop" alt="Ән айту" class="rounded-md w-full h-28 object-cover border border-gray-200">
+                  <span class="opt-circle w-5 h-5 rounded-full border border-gray-300 peer-checked:bg-seal peer-checked:border-seal flex items-center justify-center transition-colors"></span>
+                </div>
+              </label>
+              <label class="quiz-option relative flex cursor-pointer rounded-lg border border-gray-200 p-4 hover:bg-gray-50">
+                <input type="radio" name="q26" value="C" class="peer sr-only">
+                <div class="flex flex-col items-center gap-3 w-full">
+                  <img src="https://images.unsplash.com/photo-1513002749550-c59d786b8e6c?w=150&h=150&fit=crop" alt="Тамақтану" class="rounded-md w-full h-28 object-cover border border-gray-200">
+                  <span class="opt-circle w-5 h-5 rounded-full border border-gray-300 peer-checked:bg-seal peer-checked:border-seal flex items-center justify-center transition-colors"></span>
+                </div>
+              </label>
+            </div>
+          </div>
+
+          <!-- Q27 -->
+          <div class="quiz-question pb-4">
+            <div class="flex items-start gap-4 mb-4">
+              <span class="flex items-center justify-center w-8 h-8 rounded-full bg-mist text-jade font-bold shrink-0">27</span>
+              <div>
+                <p class="text-xl font-medium text-ink mb-1">妈妈在做饭。</p>
+                <p class="text-gray-500 text-sm">Māma zài zuò fàn.</p>
+              </div>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 pl-12">
+              <label class="quiz-option relative flex cursor-pointer rounded-lg border border-gray-200 p-4 hover:bg-gray-50">
+                <input type="radio" name="q27" value="A" class="peer sr-only">
+                <div class="flex flex-col items-center gap-3 w-full">
+                  <img src="https://images.unsplash.com/photo-1556910103-1c02745aae4d?w=150&h=150&fit=crop" alt="Ас үй" class="rounded-md w-full h-28 object-cover border border-gray-200">
+                  <span class="opt-circle w-5 h-5 rounded-full border border-gray-300 peer-checked:bg-seal peer-checked:border-seal flex items-center justify-center transition-colors"></span>
+                </div>
+              </label>
+              <label class="quiz-option relative flex cursor-pointer rounded-lg border border-gray-200 p-4 hover:bg-gray-50">
+                <input type="radio" name="q27" value="B" class="peer sr-only">
+                <div class="flex flex-col items-center gap-3 w-full">
+                  <img src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=150&h=150&fit=crop" alt="Кітапхана" class="rounded-md w-full h-28 object-cover border border-gray-200">
+                  <span class="opt-circle w-5 h-5 rounded-full border border-gray-300 peer-checked:bg-seal peer-checked:border-seal flex items-center justify-center transition-colors"></span>
+                </div>
+              </label>
+              <label class="quiz-option relative flex cursor-pointer rounded-lg border border-gray-200 p-4 hover:bg-gray-50">
+                <input type="radio" name="q27" value="C" class="peer sr-only">
+                <div class="flex flex-col items-center gap-3 w-full">
+                  <img src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=150&h=150&fit=crop" alt="Дүкен" class="rounded-md w-full h-28 object-cover border border-gray-200">
+                  <span class="opt-circle w-5 h-5 rounded-full border border-gray-300 peer-checked:bg-seal peer-checked:border-seal flex items-center justify-center transition-colors"></span>
+                </div>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <!-- ========================= III. ЖАЗЫЛЫМ (тек HSK3) ========================= -->
+        <div id="writingSection" class="">
+          <div class="p-6 sm:p-8 bg-paper-deep border-y border-gray-200">
+            <h2 class="text-2xl font-display font-bold text-ink">III. Жазылым (书写) — тек HSK 3 үшін</h2>
+            <p class="text-sm text-gray-600 mt-2">Берілген сөздерден дұрыс сөйлем құрастырыңыз.</p>
+          </div>
+
+          <div class="p-6 sm:p-8 space-y-10">
+            <!-- Q71 -->
+            <div class="quiz-question">
+              <div class="flex items-start gap-4 mb-2">
+                <span class="flex items-center justify-center w-8 h-8 rounded-full bg-mist text-jade font-bold shrink-0">71</span>
+                <div class="w-full">
+                  <p class="text-sm text-gray-600 mb-4">Сөздерді дұрыс ретпен орналастырыңыз:</p>
+                  <div class="flex flex-wrap gap-3 mb-6">
+                    <span class="px-4 py-2 bg-gray-100 border border-gray-300 rounded text-lg">最</span>
+                    <span class="px-4 py-2 bg-gray-100 border border-gray-300 rounded text-lg">吃</span>
+                    <span class="px-4 py-2 bg-gray-100 border border-gray-300 rounded text-lg">我</span>
+                    <span class="px-4 py-2 bg-gray-100 border border-gray-300 rounded text-lg">西瓜</span>
+                    <span class="px-4 py-2 bg-gray-100 border border-gray-300 rounded text-lg">爱</span>
+                  </div>
+                  <input type="text" placeholder="Жауабыңызды осында жазыңыз (қытайша)..." class="w-full rounded-lg border border-gray-300 px-4 py-3 text-lg outline-none focus:border-seal focus:ring-2 focus:ring-seal/20 transition-all">
+                </div>
+              </div>
+            </div>
+
+            <!-- Q72 -->
+            <div class="quiz-question">
+              <div class="flex items-start gap-4 mb-2">
+                <span class="flex items-center justify-center w-8 h-8 rounded-full bg-mist text-jade font-bold shrink-0">72</span>
+                <div class="w-full">
+                  <p class="text-sm text-gray-600 mb-4">Сөздерді дұрыс ретпен орналастырыңыз:</p>
+                  <div class="flex flex-wrap gap-3 mb-6">
+                    <span class="px-4 py-2 bg-gray-100 border border-gray-300 rounded text-lg">图书馆</span>
+                    <span class="px-4 py-2 bg-gray-100 border border-gray-300 rounded text-lg">去</span>
+                    <span class="px-4 py-2 bg-gray-100 border border-gray-300 rounded text-lg">明天</span>
+                    <span class="px-4 py-2 bg-gray-100 border border-gray-300 rounded text-lg">我们</span>
+                  </div>
+                  <input type="text" placeholder="Жауабыңызды осында жазыңыз (қытайша)..." class="w-full rounded-lg border border-gray-300 px-4 py-3 text-lg outline-none focus:border-seal focus:ring-2 focus:ring-seal/20 transition-all">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div> <!-- End of Free Preview Content -->
+
+      <!-- LOCKED BLURRED SECTION -->
+      <div id="lockedWrapper" class="relative mt-4">
+        <div id="lockedContent" class="opacity-30 blur-[4px] px-6 sm:px-8 space-y-10 pb-48 pointer-events-none select-none">
+
+          <div class="bg-gray-50 p-4 rounded-lg border border-gray-100">
+            <h3 class="part-label font-bold text-ink">Үшінші бөлім (28-30 сұрақтар)</h3>
+            <p class="text-sm text-gray-600">Тыңдап немесе оқып, дұрыс жауапты таңдаңыз.</p>
+          </div>
+
+          <div class="quiz-question">
+            <div class="flex items-start gap-4 mb-4">
+              <span class="flex items-center justify-center w-8 h-8 rounded-full bg-gray-200 text-gray-500 font-bold shrink-0">28</span>
+              <div>
+                <p class="text-xl font-medium text-gray-400 mb-1">我们在吃饭呢。</p>
+              </div>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 pl-12">
+              <div class="rounded-lg border border-gray-200 p-4 bg-gray-50 h-36"></div>
+              <div class="rounded-lg border border-gray-200 p-4 bg-gray-50 h-36"></div>
+              <div class="rounded-lg border border-gray-200 p-4 bg-gray-50 h-36"></div>
+            </div>
+          </div>
+
+          <div class="quiz-question">
+            <div class="flex items-start gap-4 mb-4">
+              <span class="flex items-center justify-center w-8 h-8 rounded-full bg-gray-200 text-gray-500 font-bold shrink-0">29</span>
+              <div>
+                <p class="text-xl font-medium text-gray-400 mb-1">这是我的电脑。</p>
+              </div>
+            </div>
+            <div class="h-32 bg-gray-100 rounded-lg ml-12 border border-gray-200"></div>
+          </div>
+
+          <div class="quiz-question">
+            <div class="flex items-start gap-4 mb-4">
+              <span class="flex items-center justify-center w-8 h-8 rounded-full bg-gray-200 text-gray-500 font-bold shrink-0">30</span>
+              <div>
+                <p class="text-xl font-medium text-gray-400 mb-1">她昨天没有来学校。</p>
+              </div>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pl-12">
+              <div class="rounded-lg border border-gray-200 p-4 bg-gray-50 h-16"></div>
+              <div class="rounded-lg border border-gray-200 p-4 bg-gray-50 h-16"></div>
+            </div>
+          </div>
+
+          <div class="bg-gray-50 p-4 rounded-lg border border-gray-100 mt-10">
+            <h3 class="part-label font-bold text-ink">Толық нұсқа: 100 сұрақ + аудио + жауап кілттері</h3>
+            <p class="text-sm text-gray-600">Бұл және тағы 9 нұсқа тіркелгеннен кейін толық ашылады.</p>
+          </div>
+        </div>
+
+        <!-- Locked Overlay / CTA -->
+        <div id="lockedOverlay" class="absolute inset-0 bg-gradient-to-b from-transparent via-white/80 to-white flex flex-col items-center justify-end pb-12 px-4 text-center z-10">
+          <div class="bg-white/95 backdrop-blur rounded-2xl p-6 sm:p-8 shadow-xl border border-seal/20 max-w-lg w-full transform translate-y-4">
+            <div class="w-14 h-14 bg-paper-deep text-seal rounded-full flex items-center justify-center mx-auto mb-4">
+              <svg class="w-7 h-7" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+            </div>
+            <h3 class="text-2xl font-display font-bold text-ink mb-2">Тағы 10 нұсқаны ашыңыз!</h3>
+            <p class="text-sm sm:text-base text-gray-600 mb-6 leading-relaxed">
+              Бұл тегін сынақ нұсқасының бір бөлігі ғана. Жүйеге кіріп немесе тіркеліп, HSK 1, 2, 3 деңгейлері бойынша <b>толық 10 жаңа нұсқаға</b> қол жеткізіңіз. Толық тесттер, аудио және жауаптар сізді күтуде!
+            </p>
+            <div class="flex flex-col sm:flex-row gap-3 justify-center">
+              <button data-open-auth="login" class="px-8 py-3 bg-white border-2 border-gray-200 text-gray-700 font-semibold rounded-lg hover:bg-gray-50 hover:border-gray-300 transition-colors cursor-pointer">Кіру</button>
+              <button data-open-auth="register" class="px-8 py-3 bg-seal text-white font-semibold rounded-lg hover:bg-seal-dark transition-colors shadow-md cursor-pointer">Тіркелу</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+</main>
+
+<!-- Footer -->
+<footer class="relative overflow-hidden border-t border-gray-200 bg-paper pt-3 mt-auto">
+  <div class="brush-rule"></div>
+  <span class="footer-watermark" aria-hidden="true">汉</span>
+  <div class="relative max-w-6xl mx-auto px-4 sm:px-8 grid grid-cols-1 md:grid-cols-3 gap-8 sm:gap-10 mb-8 mt-10 text-sm text-gray-600">
+    <div>
+      <div class="flex items-center gap-2 mb-4">
+        <span class="seal-stamp w-7 h-7 flex items-center justify-center font-brush text-white text-sm">汉</span>
+        <span class="font-display font-semibold text-ink text-lg">Қытай тілі</span>
+      </div>
+      <p class="mb-2 font-semibold text-ink">Impressum / Заңды ақпарат</p>
+      <p class="leading-relaxed">ЖШС (ТОО) «Қытай тілі KZ»<br>БСН (БИН): 123456789012<br>Жетекші: Бұланай Еркін</p>
+    </div>
+    <div>
+      <p class="font-display font-semibold text-ink text-lg mb-4">Байланыс ақпараты</p>
+      <ul class="space-y-3">
+        <li class="flex items-start gap-3">
+          <span class="icon-badge w-6 h-6 rounded-full flex items-center justify-center shrink-0 mt-0.5"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg></span>
+          <span>+7 771 130 5701</span>
+        </li>
+        <li class="flex items-start gap-3">
+          <span class="icon-badge w-6 h-6 rounded-full flex items-center justify-center shrink-0 mt-0.5"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg></span>
+          <a href="https://instagram.com/bulanay_yerkin" target="_blank" class="hover:text-seal transition-colors">@bulanay_yerkin</a>
+        </li>
+      </ul>
+    </div>
+    <div>
+      <p class="font-display font-semibold text-ink text-lg mb-4">Құқықтық құжаттар</p>
+      <ul class="space-y-2.5">
+        <li><a href="privacy.html" class="hover:text-seal transition-colors">Құпиялылық саясаты</a></li>
+        <li><a href="offer.html" class="hover:text-seal transition-colors">Оферта</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="relative max-w-6xl mx-auto px-4 sm:px-8 pt-6 pb-6 border-t border-gray-200 flex flex-col md:flex-row items-center justify-between text-xs text-gray-500">
+    <p>© 2026 Қытай тілі. Барлық құқықтар қорғалған.</p>
+  </div>
+</footer>
+
+<script>
+  // ---------- Mobile Menu ----------
+  const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+  const mobileMenu = document.getElementById('mobileMenu');
+  mobileMenuBtn.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
+
+  // ---------- Auth Modal ----------
+  const authModal = document.getElementById('authModal');
+  const loginSection = document.getElementById('loginSection');
+  const registerSection = document.getElementById('registerSection');
+
+  function openAuth(target) {
+    authModal.classList.remove('hidden');
+    loginSection.classList.add('hidden');
+    registerSection.classList.add('hidden');
+    if (target === 'login') loginSection.classList.remove('hidden');
+    if (target === 'register') registerSection.classList.remove('hidden');
+  }
+
+  document.querySelectorAll('[data-open-auth]').forEach(b => {
+    b.addEventListener('click', (e) => {
+      e.preventDefault();
+      openAuth(b.getAttribute('data-open-auth'));
+    });
+  });
+
+  document.querySelectorAll('[data-close-auth]').forEach(b => {
+    b.addEventListener('click', () => authModal.classList.add('hidden'));
+  });
+
+  document.getElementById('toRegisterBtn').addEventListener('click', () => {
+    loginSection.classList.add('hidden');
+    registerSection.classList.remove('hidden');
+  });
+
+  document.getElementById('toLoginBtn').addEventListener('click', () => {
+    registerSection.classList.add('hidden');
+    loginSection.classList.remove('hidden');
+  });
+
+  // ---------- Unlock logic (shared by login & register) ----------
+  const examVersionSelect = document.getElementById('examVersion');
+  const lockedContent = document.getElementById('lockedContent');
+  const lockedOverlay = document.getElementById('lockedOverlay');
+  let isUnlocked = false;
+
+  function unlockFullAccess() {
+    if (isUnlocked) return;
+    isUnlocked = true;
+
+    // Remove blur / disable pointer restrictions on the locked block
+    lockedContent.classList.remove('opacity-30', 'blur-[4px]', 'pointer-events-none', 'select-none', 'pb-48');
+    lockedContent.classList.add('unlock-flash');
+
+    // Hide the CTA overlay
+    lockedOverlay.style.display = 'none';
+
+    // Unlock every option in the version selector
+    Array.from(examVersionSelect.options).forEach(opt => {
+      opt.disabled = false;
+      opt.text = opt.text.replace(' 🔒', '').replace('🔒', '').trim();
+    });
+  }
+
+  document.getElementById('loginForm').addEventListener('submit', (e) => {
+    e.preventDefault();
+    unlockFullAccess();
+    authModal.classList.add('hidden');
+    alert('Жүйеге сәтті кірдіңіз! Тесттердің толық 10 нұсқасы ашылды.');
+  });
+
+  document.getElementById('registerForm').addEventListener('submit', (e) => {
+    e.preventDefault();
+    unlockFullAccess();
+    authModal.classList.add('hidden');
+    alert('Тіркелу сәтті аяқталды! Тесттердің толық 10 нұсқасы ашылды.');
+  });
+
+  // ---------- Exam Version Selection Logic ----------
+  examVersionSelect.addEventListener('change', function (e) {
+    const val = e.target.value;
+    if (!isUnlocked && Number(val) >= 4) {
+      e.target.value = "1";
+      openAuth('register');
+    }
+  });
+
+  // ---------- HSK Level Logic (show/hide writing section) ----------
+  document.getElementById('hskLevel').addEventListener('change', function (e) {
+    const writingSection = document.getElementById('writingSection');
+    if (e.target.value === '3') {
+      writingSection.classList.remove('hidden');
+    } else {
+      writingSection.classList.add('hidden');
+    }
+  });
+
+  // ---------- Countdown timer ----------
+  let secondsLeft = 40 * 60;
+  const timerEl = document.getElementById('examTimer');
+  const timerInterval = setInterval(() => {
+    secondsLeft--;
+    if (secondsLeft <= 0) {
+      secondsLeft = 0;
+      clearInterval(timerInterval);
+      finishExam('Уақыт аяқталды! Жауаптарыңыз автоматты түрде сақталды.');
+    }
+    const m = String(Math.floor(secondsLeft / 60)).padStart(2, '0');
+    const s = String(secondsLeft % 60).padStart(2, '0');
+    timerEl.textContent = `${m}:${s}`;
+    if (secondsLeft <= 300) {
+      timerEl.classList.remove('text-ink');
+      timerEl.classList.add('text-seal');
+    }
+  }, 1000);
+
+  // ---------- Finish exam ----------
+  const resultModal = document.getElementById('resultModal');
+  const resultText = document.getElementById('resultText');
+
+  function countAnswered() {
+    const radios = {};
+    document.querySelectorAll('#freePreviewContent input[type="radio"]:checked').forEach(r => radios[r.name] = true);
+    const textFilled = Array.from(document.querySelectorAll('#writingSection input[type="text"]')).filter(i => i.value.trim().length > 0).length;
+    return Object.keys(radios).length + textFilled;
+  }
+
+  function finishExam(customMessage) {
+    clearInterval(timerInterval);
+    const answered = countAnswered();
+    resultText.textContent = customMessage || `Сіз ашық нұсқада ${answered} сұраққа жауап бердіңіз. Толық нәтиже мен дұрыс жауаптарды көру үшін тіркеліңіз.`;
+    resultModal.classList.remove('hidden');
+  }
+
+  document.getElementById('finishExamBtn').addEventListener('click', () => finishExam());
+  document.getElementById('closeResultBtn').addEventListener('click', () => resultModal.classList.add('hidden'));
+</script>
+</body>
+</html>
