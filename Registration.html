@@ -92,6 +92,451 @@
       <a href="index.html" class="nav-link hover:text-ink transition-colors">Басты бет</a>
       <a href="dictionary.html" class="nav-link hover:text-ink transition-colors">Сөздік</a>
       <a href="reels.html" class="nav-link hover:text-ink transition-colors">Рилс/Квиз</a>
+      <a href="mock-exam.html" class="nav-link hover:text-ink transition-colors">HSK Тесттері</a>
+      <a href="gemini-code-1789411171127.html" class="nav-link hover:text-ink transition-colors">Тренажер</a>
+    </nav>
+    <div class="flex items-center gap-2 sm:gap-3">
+      <button data-open-auth="login" class="text-xs sm:text-sm font-semibold text-gray-600 hover:text-ink px-1.5 sm:px-2 transition-colors cursor-pointer">Кабинет</button>
+      <a href="Registration.html" class="stamp-btn inline-flex items-center text-white text-xs sm:text-sm font-semibold px-3.5 sm:px-5 py-2 sm:py-2.5 shrink-0">Жазылу</a>
+      <!-- Mobile Hamburger Button -->
+      <button id="mobileMenuBtn" class="md:hidden p-1.5 text-gray-700 focus:outline-none" aria-label="Menu">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"></path>
+        </svg>
+      </button>
+    </div>
+  </div>
+  <!-- Mobile Navigation Drawer -->
+  <div id="mobileMenu" class="hidden md:hidden bg-paper border-b border-paper-deep px-4 pt-2 pb-4 space-y-3">
+    <a href="index.html" class="block text-sm font-medium text-gray-700 hover:text-seal py-1">Басты бет</a>
+    <a href="dictionary.html" class="block text-sm font-medium text-gray-700 hover:text-seal py-1">Сөздік</a>
+    <a href="reels.html" class="block text-sm font-medium text-gray-700 hover:text-seal py-1">Рилс/Квиз</a>
+    <a href="mock-exam.html" class="block text-sm font-medium text-gray-700 hover:text-seal py-1">HSK Тесттері</a>
+    <a href="gemini-code-1789411171127.html" class="block text-sm font-medium text-gray-700 hover:text-seal py-1">Тренажер</a>
+  </div>
+</header>
+
+<!-- КІРУ, ТІРКЕЛУ ЖӘНЕ ҚҰПИЯ СӨЗДІ ҚАЛПЫНА КЕЛТІРУ ТЕРЕЗЕСІ (MODAL) -->
+<div id="authModal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4">
+  <div class="relative w-full max-w-sm rounded-xl bg-paper p-6 sm:p-8 shadow-xl border border-paper-deep">
+    <button data-close-auth class="absolute right-5 top-5 text-gray-400 hover:text-gray-700">
+      <svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
+      </svg>
+    </button>
+
+    <!-- 1. КІРУ ФОРМАСЫ -->
+    <div id="loginSection">
+      <h2 class="font-display mb-6 text-2xl font-bold text-gray-900">Кіру</h2>
+      <form id="loginForm" class="space-y-4">
+        <div>
+          <label class="mb-1.5 block text-sm font-medium text-gray-700">Email немесе Пайдаланушы аты</label>
+          <input type="text" id="loginIdentifier" required class="w-full rounded-md border border-paper-deep bg-transparent px-4 py-2.5 text-sm outline-none focus:border-seal focus:ring-1 focus:ring-seal" placeholder="Мысалы: Bulanay Yerkin немесе email@mail.com">
+        </div>
+        <div>
+          <label class="mb-1.5 block text-sm font-medium text-gray-700">Құпия сөз</label>
+          <input type="password" id="loginPassword" required class="w-full rounded-md border border-paper-deep bg-transparent px-4 py-2.5 text-sm outline-none focus:border-seal focus:ring-1 focus:ring-seal">
+        </div>
+        <div class="flex items-center justify-between text-xs sm:text-sm">
+          <button type="button" id="toForgotBtn" class="text-seal hover:underline">Құпия сөзді ұмытыңыз ба?</button>
+        </div>
+        <p id="loginError" class="hidden text-sm text-seal font-medium"></p>
+        <button type="submit" class="w-full rounded-md bg-seal px-4 py-3 text-base font-semibold text-white transition-colors hover:bg-seal-dark">Кіру</button>
+      </form>
+      <div class="mt-6 text-center text-sm text-gray-500">
+        Аккаунтыңыз жоқ па? <button type="button" id="toRegisterBtn" class="text-seal font-semibold hover:underline">Тіркелу</button>
+      </div>
+    </div>
+
+    <!-- 2. ТІРКЕЛУ ФОРМАСЫ -->
+    <div id="registerSection" class="hidden">
+      <h2 class="font-display mb-6 text-2xl font-bold text-gray-900">Тіркелу</h2>
+      <form id="registerForm" class="space-y-4">
+        <div>
+          <label class="mb-1.5 block text-sm font-medium text-gray-700">Аты-жөні</label>
+          <input type="text" id="regName" required class="w-full rounded-md border border-paper-deep bg-transparent px-4 py-2.5 text-sm outline-none focus:border-seal focus:ring-1 focus:ring-seal">
+        </div>
+        <div>
+          <label class="mb-1.5 block text-sm font-medium text-gray-700">Email</label>
+          <input type="email" id="regEmail" required class="w-full rounded-md border border-paper-deep bg-transparent px-4 py-2.5 text-sm outline-none focus:border-seal focus:ring-1 focus:ring-seal">
+        </div>
+        <div>
+          <label class="mb-1.5 block text-sm font-medium text-gray-700">Құпия сөз</label>
+          <input type="password" id="regPassword" required class="w-full rounded-md border border-paper-deep bg-transparent px-4 py-2.5 text-sm outline-none focus:border-seal focus:ring-1 focus:ring-seal">
+        </div>
+        <p id="registerError" class="hidden text-sm text-seal font-medium"></p>
+        <button type="submit" class="w-full rounded-md bg-seal px-4 py-3 text-base font-semibold text-white transition-colors hover:bg-seal-dark">Тіркелу</button>
+      </form>
+      <div class="mt-6 text-center text-sm text-gray-500">
+        Аккаунтыңыз бар ма? <button type="button" id="toLoginBtn" class="text-seal font-semibold hover:underline">Кіру</button>
+      </div>
+    </div>
+
+    <!-- 3. ҚҰПИЯ СӨЗДІ ҚАЛПЫНА КЕЛТІРУ -->
+    <div id="forgotSection" class="hidden">
+      <h2 class="font-display mb-4 text-xl font-bold text-gray-900">Құпия сөзді қалпына келтіру</h2>
+      <p class="text-xs text-gray-600 mb-4">Email адресіңізді жазыңыз, біз сізге нұсқаулық жібереміз.</p>
+      <form id="forgotForm" class="space-y-4">
+        <div>
+          <label class="mb-1.5 block text-sm font-medium text-gray-700">Email</label>
+          <input type="email" id="forgotEmail" required class="w-full rounded-md border border-paper-deep bg-transparent px-4 py-2.5 text-sm outline-none focus:border-seal focus:ring-1 focus:ring-seal">
+        </div>
+        <p id="forgotMessage" class="hidden text-sm font-medium"></p>
+        <button type="submit" class="w-full rounded-md bg-seal px-4 py-3 text-base font-semibold text-white transition-colors hover:bg-seal-dark">Жіберу</button>
+      </form>
+      <div class="mt-6 text-center text-sm text-gray-500">
+        <button type="button" id="backToLoginBtn" class="text-seal font-semibold hover:underline">← Кіруге қайту</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ЖАҢАРТЫЛҒАН БӨЛІМ (Көк градиент фон + Тор) -->
+<main class="flex-grow relative bg-gradient-to-br from-[#0c1f4c] to-[#06102a] py-12 w-full overflow-hidden">
+  <!-- Фондағы тор сызықтары -->
+  <div class="absolute inset-0 opacity-[0.03] pointer-events-none" style="background-image: linear-gradient(#ffffff 1px, transparent 1px), linear-gradient(90deg, #ffffff 1px, transparent 1px); background-size: 40px 40px;"></div>
+  
+  <div class="relative z-10 max-w-2xl mx-auto px-4 sm:px-8 w-full flex flex-col">
+    <div class="text-center mb-10">
+      <p class="inline-flex items-center gap-2 font-semibold text-xs mb-3 text-[#34d399] bg-[#34d399]/10 border border-[#34d399]/20 rounded-full px-4 py-1.5">Тіркелу формасы</p>
+      <h1 class="font-display text-3xl sm:text-4xl font-bold text-white">Курсқа қатысу үшін өтініш</h1>
+      <p class="text-sm sm:text-base text-white/80 mt-3">Өзіңе ыңғайлы тарифті таңдап, деректеріңді енгіз.</p>
+    </div>
+    
+    <!-- ФОРМА КАРТОЧКАСЫ (Беж / Қағаз түсті) -->
+    <form id="registrationForm" class="bg-paper border border-paper-deep rounded-2xl p-6 sm:p-10 shadow-2xl space-y-8">
+      <div>
+        <label class="block text-sm text-gray-900 font-bold mb-4">1. Тарифті немесе деңгейді таңдаңыз</label>
+        <div class="grid sm:grid-cols-2 gap-4">
+          <div class="plan-card selected border-paper-deep bg-paper-deep/30 rounded-xl p-5 cursor-pointer" onclick="selectPlan(this, 'hsk1')">
+            <input type="radio" name="plan" value="hsk1" checked class="hidden">
+            <p class="font-display font-bold text-base text-gray-900">HSK 1 (Бастауыш)</p>
+            <p class="text-xs text-gray-600 mt-1">Ай сайынғы қалыпты ағым</p>
+            <p class="font-display font-bold text-jade mt-4 text-lg">25 000 ₸ <span class="text-sm text-gray-500 font-sans font-normal">/ ай</span></p>
+          </div>
+          <div class="plan-card border-paper-deep bg-paper-deep/30 rounded-xl p-5 cursor-pointer" onclick="selectPlan(this, 'hsk2')">
+            <input type="radio" name="plan" value="hsk2" class="hidden">
+            <p class="font-display font-bold text-base text-gray-900">HSK 2 (Жалғастырушы)</p>
+            <p class="text-xs text-gray-600 mt-1">Интерактивті платформа + ИИ</p>
+            <p class="font-display font-bold text-jade mt-4 text-lg">25 000 ₸ <span class="text-sm text-gray-500 font-sans font-normal">/ ай</span></p>
+          </div>
+        </div>
+      </div>
+      
+      <div class="space-y-5">
+        <div>
+          <label for="fullName" class="block text-sm text-gray-900 font-bold mb-2">Аты-жөніңіз</label>
+          <input type="text" id="fullName" required placeholder="Мысалы: Айдын Мұратұлы" class="w-full rounded-xl border border-paper-deep bg-paper-deep/50 px-4 py-3 text-sm focus:bg-paper focus:border-jade outline-none transition-colors placeholder:text-gray-500 text-gray-900">
+        </div>
+        <div class="grid sm:grid-cols-2 gap-5">
+          <div>
+            <label for="phone" class="block text-sm text-gray-900 font-bold mb-2">WhatsApp нөмірі</label>
+            <input type="tel" id="phone" required placeholder="+7 (777) 000-00-00" class="w-full rounded-xl border border-paper-deep bg-paper-deep/50 px-4 py-3 text-sm focus:bg-paper focus:border-jade outline-none transition-colors placeholder:text-gray-500 text-gray-900">
+          </div>
+          <div>
+            <label for="email" class="block text-sm text-gray-900 font-bold mb-2">Email (растау үшін)</label>
+            <input type="email" id="email" required placeholder="sen@mail.com" class="w-full rounded-xl border border-paper-deep bg-paper-deep/50 px-4 py-3 text-sm focus:bg-paper focus:border-jade outline-none transition-colors placeholder:text-gray-500 text-gray-900">
+          </div>
+        </div>
+        <div>
+          <label for="password" class="block text-sm text-gray-900 font-bold mb-2">Құпия сөз орнатыңыз</label>
+          <input type="password" id="password" required minlength="6" placeholder="Кемінде 6 таңба" class="w-full rounded-xl border border-paper-deep bg-paper-deep/50 px-4 py-3 text-sm focus:bg-paper focus:border-jade outline-none transition-colors placeholder:text-gray-500 text-gray-900">
+        </div>
+        <div class="grid sm:grid-cols-2 gap-5">
+          <div class="sm:col-span-2">
+            <label for="groupNum" class="block text-sm text-gray-900 font-bold mb-2">Топты таңдау</label>
+            <select id="groupNum" class="w-full rounded-xl border border-paper-deep bg-paper-deep/50 px-4 py-3 text-sm focus:bg-paper focus:border-jade outline-none transition-colors text-gray-900">
+              <option value="1">1-топ — HSK1, Дс/Ср/Жм 09:00</option>
+              <option value="2">2-топ — HSK1, Сс/Бс/Сн 19:00</option>
+              <option value="3">3-топ — HSK2, Дс/Ср/Жм 20:00</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      
+      <button type="submit" id="submitBtn" class="w-full rounded-xl bg-seal text-white font-bold text-base py-4 hover:bg-seal-dark transition-colors flex items-center justify-center shadow-md">
+        <span id="submitBtnText">Тіркелуді растау</span>
+      </button>
+    </form>
+  </div>
+</main>
+
+<footer class="relative overflow-hidden border-t border-paper-deep bg-paper pt-3 mt-auto">
+  <div class="brush-rule"></div>
+  <span class="footer-watermark" aria-hidden="true">汉</span>
+  <div class="relative max-w-6xl mx-auto px-4 sm:px-8 grid grid-cols-1 md:grid-cols-3 gap-8 sm:gap-10 mb-8 mt-10 text-sm text-gray-600">
+    <div>
+      <div class="flex items-center gap-2 mb-4">
+        <span class="seal-stamp w-7 h-7 flex items-center justify-center font-brush text-white text-sm">汉</span>
+        <span class="font-display font-semibold text-ink text-lg">Қытай тілі</span>
+      </div>
+      <p class="mb-2 font-semibold text-ink">Impressum / Заңды ақпарат</p>
+      <p class="leading-relaxed">ЖШС (ТОО) «Қытай тілі KZ»<br>БСН (БИН): 123456789012<br>Жетекші: Бұланай Еркін</p>
+    </div>
+    <div>
+      <p class="font-display font-semibold text-ink text-lg mb-4">Байланыс ақпараты</p>
+      <ul class="space-y-3">
+        <li class="flex items-start gap-3">
+          <span class="icon-badge w-6 h-6 rounded-full flex items-center justify-center shrink-0 mt-0.5"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg></span>
+          <span>+7 (777) 123-45-67</span>
+        </li>
+        <li class="flex items-start gap-3">
+          <span class="icon-badge w-6 h-6 rounded-full flex items-center justify-center shrink-0 mt-0.5"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg></span>
+          <a href="https://instagram.com/bulanay_yerkin" target="_blank" class="hover:text-seal transition-colors">@bulanay_yerkin</a>
+        </li>
+      </ul>
+    </div>
+    <div>
+      <p class="font-display font-semibold text-ink text-lg mb-4">Құқықтық құжаттар</p>
+      <ul class="space-y-2.5">
+        <li><a href="privacy.html" class="hover:text-seal transition-colors">Құпиялылық саясаты</a></li>
+        <li><a href="offer.html" class="hover:text-seal transition-colors">Оферта</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="relative max-w-6xl mx-auto px-4 sm:px-8 pt-6 pb-6 border-t border-paper-deep flex flex-col md:flex-row items-center justify-between text-xs text-gray-500">
+    <p>© 2026 Қытай тілі. Барлық құқықтар қорғалған.</p>
+  </div>
+</footer>
+
+<script>
+  const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbx0VjmqDyFY0oIl6myjDwzzHf7GJgoKcDxu41INb6TlF-lL4K_X6TTZhTnddQ5BVgCL/exec';
+
+  const authModal = document.getElementById('authModal');
+  const loginSection = document.getElementById('loginSection');
+  const registerSection = document.getElementById('registerSection');
+  const forgotSection = document.getElementById('forgotSection');
+
+  const loginForm = document.getElementById('loginForm');
+  const registerForm = document.getElementById('registerForm');
+  const forgotForm = document.getElementById('forgotForm');
+
+  const loginError = document.getElementById('loginError');
+  const registerError = document.getElementById('registerError');
+  const forgotMessage = document.getElementById('forgotMessage');
+
+  // Mobile Menu Toggle
+  const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+  const mobileMenu = document.getElementById('mobileMenu');
+  if (mobileMenuBtn && mobileMenu) {
+    mobileMenuBtn.addEventListener('click', () => {
+      mobileMenu.classList.toggle('hidden');
+    });
+  }
+
+  document.querySelectorAll('[data-open-auth]').forEach(b => {
+    b.addEventListener('click', () => {
+      authModal.classList.remove('hidden');
+      showSection('login');
+    });
+  });
+  document.querySelectorAll('[data-close-auth]').forEach(b => {
+    b.addEventListener('click', () => authModal.classList.add('hidden'));
+  });
+
+  function showSection(type) {
+    loginSection.classList.add('hidden');
+    registerSection.classList.add('hidden');
+    forgotSection.classList.add('hidden');
+    loginError.classList.add('hidden');
+    registerError.classList.add('hidden');
+    forgotMessage.classList.add('hidden');
+
+    if (type === 'login') loginSection.classList.remove('hidden');
+    if (type === 'register') registerSection.classList.remove('hidden');
+    if (type === 'forgot') forgotSection.classList.remove('hidden');
+  }
+
+  document.getElementById('toRegisterBtn').addEventListener('click', () => showSection('register'));
+  document.getElementById('toLoginBtn').addEventListener('click', () => showSection('login'));
+  document.getElementById('toForgotBtn').addEventListener('click', () => showSection('forgot'));
+  document.getElementById('backToLoginBtn').addEventListener('click', () => showSection('login'));
+
+  loginForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const identifier = document.getElementById('loginIdentifier').value.trim();
+    const password = document.getElementById('loginPassword').value.trim();
+    loginError.classList.add('hidden');
+
+    try {
+      const response = await fetch(SCRIPT_URL, {
+        method: 'POST',
+        body: JSON.stringify({ action: 'login', identifier, password })
+      });
+      const result = await response.json();
+
+      if (result.status === 'success') {
+        authModal.classList.add('hidden');
+        sessionStorage.setItem('currentUser', result.name);
+        if (result.role === 'teacher' || result.name === 'Bulanay Yerkin') {
+          window.location.href = `admin.html?name=${encodeURIComponent(result.name)}`;
+        } else {
+          window.location.href = `dashboard.html?name=${encodeURIComponent(result.name)}`;
+        }
+      } else {
+        loginError.textContent = result.message || 'Қате деректер енгізілді.';
+        loginError.classList.remove('hidden');
+      }
+    } catch (err) {
+      loginError.textContent = 'Қате орын алды.';
+      loginError.classList.remove('hidden');
+    }
+  });
+
+  registerForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const name = document.getElementById('regName').value.trim();
+    const email = document.getElementById('regEmail').value.trim();
+    const password = document.getElementById('regPassword').value.trim();
+    registerError.classList.add('hidden');
+
+    try {
+      const response = await fetch(SCRIPT_URL, {
+        method: 'POST',
+        body: JSON.stringify({ action: 'register', name, email, password })
+      });
+      const result = await response.json();
+
+      if (result.status === 'success') {
+        authModal.classList.add('hidden');
+        window.location.href = `dashboard.html?name=${encodeURIComponent(name)}`;
+      } else {
+        registerError.textContent = result.message || 'Тіркелу кезінде қате орын алды.';
+        registerError.classList.remove('hidden');
+      }
+    } catch (err) {
+      registerError.textContent = 'Қате орын алды.';
+      registerError.classList.remove('hidden');
+    }
+  });
+
+  forgotForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const email = document.getElementById('forgotEmail').value.trim();
+    forgotMessage.classList.add('hidden');
+
+    try {
+      const response = await fetch(SCRIPT_URL, {
+        method: 'POST',
+        body: JSON.stringify({ action: 'forgotPassword', email })
+      });
+      const result = await response.json();
+
+      forgotMessage.textContent = result.message || 'Қалпына келтіру сілтемесі поштаңызға жіберілді.';
+      forgotMessage.className = result.status === 'success' ? 'text-sm text-jade font-medium' : 'text-sm text-seal font-medium';
+      forgotMessage.classList.remove('hidden');
+    } catch (err) {
+      forgotMessage.textContent = 'Қате орын алды.';
+      forgotMessage.className = 'text-sm text-seal font-medium';
+      forgotMessage.classList.remove('hidden');
+    }
+  });
+
+  let selectedPlan = 'hsk1';
+  function selectPlan(cardElement, planValue) {
+    document.querySelectorAll('.plan-card').forEach(c => c.classList.remove('selected'));
+    cardElement.classList.add('selected');
+    cardElement.querySelector('input[type="radio"]').checked = true;
+    selectedPlan = planValue;
+  }
+
+  const form = document.getElementById('registrationForm');
+  const submitBtn = document.getElementById('submitBtn');
+  const submitBtnText = document.getElementById('submitBtnText');
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    submitBtn.disabled = true;
+    submitBtnText.innerHTML = '<span class="spinner inline-block align-middle mr-2"></span>Жіберілуде…';
+
+    const data = {
+      action: 'register',
+      plan: selectedPlan,
+      name: document.getElementById('fullName').value.trim(),
+      phone: document.getElementById('phone').value.trim(),
+      email: document.getElementById('email').value.trim(),
+      password: document.getElementById('password').value.trim(),
+      group: document.getElementById('groupNum').value
+    };
+
+    try {
+      const response = await fetch(SCRIPT_URL, {
+        method: 'POST',
+        body: JSON.stringify(data)
+      });
+      const result = await response.json();
+      alert(result.message);
+      if (result.status === 'success') {
+        window.location.href = `dashboard.html?name=${encodeURIComponent(data.name)}`;
+      }
+    } catch (err) {
+      alert('Қате орын алды: ' + err);
+    } finally {
+      submitBtn.disabled = false;
+      submitBtnText.innerHTML = 'Тіркелуді растау';
+    }
+  });
+</script>
+</body>
+</html><script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          ink: '#1B1B1F', seal: '#A61B29', 'seal-dark': '#7D1420',
+          paper: '#F4EFE6', /* Жылы беж қағаз түсі */
+          'paper-deep': '#E8DFD1', /* Қоңырлау беж (шекаралар мен ховер) */
+          gold: '#B8933F',
+          jade: '#0D9488', 'jade-dark': '#1B5F58', mist: '#E0F2FE', sand: '#F0E5CE'
+        },
+        fontFamily: {
+          display: ['"Noto Serif"', 'serif'],
+          brush: ['"Ma Shan Zheng"', 'cursive'],
+          sans: ['Inter', 'sans-serif'],
+        }
+      }
+    }
+  }
+</script>
+<style>
+  html { scroll-behavior: smooth; }
+  body { font-family: 'Inter', sans-serif; background: #F4EFE6; display: flex; flex-direction: column; min-height: 100vh; -webkit-tap-highlight-color: transparent; }
+  .seal-stamp { background: radial-gradient(circle at 30% 25%, #C4313D 0%, #A61B29 55%, #7D1420 100%); box-shadow: 0 1px 2px rgba(0,0,0,0.15), inset 0 0 0 1px rgba(255,255,255,0.08); transform: rotate(-4deg); border-radius: 4px; }
+  .nav-link { position: relative; padding-bottom: 2px; }
+  .nav-link::after { content: ''; position: absolute; left: 50%; bottom: -6px; width: 0; height: 3px; background: #A61B29; border-radius: 2px 6px 2px 6px; transform: translateX(-50%); transition: width 0.25s ease; }
+  .nav-link:hover::after { width: 60%; }
+  .stamp-btn { background: #A61B29; clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 0 100%); transition: background 0.2s ease, transform 0.15s ease; }
+  .stamp-btn:hover { background: #7D1420; transform: translateY(-1px); }
+  .brush-rule { height: 2px; background: linear-gradient(90deg, transparent 0%, #A61B29 12%, #A61B29 88%, transparent 100%); }
+  .footer-watermark { position: absolute; right: -20px; bottom: -40px; font-family: 'Ma Shan Zheng', cursive; font-size: 220px; line-height: 1; color: #A61B29; opacity: 0.04; pointer-events: none; user-select: none; }
+  .icon-badge { background: #A61B29; }
+  
+  .plan-card { transition: all .2s ease; border-width: 2px; }
+  .plan-card:hover { border-color: #0D9488; background-color: rgba(232, 223, 209, 0.4); }
+  .plan-card.selected { border-color: #0D9488; background-color: rgba(13, 148, 136, 0.08); }
+  
+  .spinner { width: 15px; height: 15px; border-radius: 999px; border: 2px solid rgba(255,255,255,0.4); border-top-color: #FFFFFF; animation: spin .7s linear infinite; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  @media (max-width: 640px) {
+    input, select, button { font-size: 16px !important; }
+  }
+</style>
+</head>
+<body class="text-ink flex flex-col min-h-screen">
+
+<header class="sticky top-0 z-40 bg-paper/95 backdrop-blur border-b-2 border-paper-deep">
+  <div class="max-w-6xl mx-auto px-4 sm:px-8 flex items-center justify-between h-16">
+    <a href="index.html" class="flex items-center gap-2.5 sm:gap-3 shrink-0 group">
+      <span class="seal-stamp w-8 h-8 sm:w-9 sm:h-9 flex items-center justify-center font-brush text-white text-base sm:text-lg leading-none group-hover:rotate-0 transition-transform duration-300">汉</span>
+      <span class="font-display text-base sm:text-lg font-semibold tracking-tight text-ink">Қытай тілі</span>
+    </a>
+    <nav class="hidden md:flex items-center gap-9 text-[15px] font-medium text-gray-600">
+      <a href="index.html" class="nav-link hover:text-ink transition-colors">Басты бет</a>
+      <a href="dictionary.html" class="nav-link hover:text-ink transition-colors">Сөздік</a>
+      <a href="reels.html" class="nav-link hover:text-ink transition-colors">Рилс/Квиз</a>
     </nav>
     <div class="flex items-center gap-2 sm:gap-3">
       <button data-open-auth="login" class="text-xs sm:text-sm font-semibold text-gray-600 hover:text-ink px-1.5 sm:px-2 transition-colors cursor-pointer">Кабинет</button>
