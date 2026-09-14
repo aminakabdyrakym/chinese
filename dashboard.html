@@ -89,6 +89,9 @@
     box-shadow: 0 4px 10px rgba(13, 148, 136, 0.3);
   }
 
+  .progress-track { background: #E8DFD1; }
+  .progress-fill { background: linear-gradient(90deg, #0D9488, #1B5F58); transition: width 0.5s ease; }
+
   .ai-msg p { margin: 0 0 0.5em 0; }
   .ai-msg p:last-child { margin-bottom: 0; }
   .ai-msg ul { list-style: disc; padding-left: 1.25em; margin: 0.4em 0 0.6em 0; }
@@ -116,10 +119,12 @@
       <span class="font-display text-base sm:text-lg font-semibold tracking-tight text-ink">Қытай тілі</span>
     </a>
 
-    <nav class="hidden md:flex items-center gap-9 text-[15px] font-medium text-gray-600">
+    <nav class="hidden md:flex items-center gap-7 text-[15px] font-medium text-gray-600">
       <a href="index.html" class="nav-link hover:text-ink transition-colors">Басты бет</a>
       <a href="dictionary.html" class="nav-link hover:text-ink transition-colors">Сөздік</a>
       <a href="reels.html" class="nav-link hover:text-ink transition-colors">Рилс/Квиз</a>
+      <a href="mock-exam.html" class="nav-link hover:text-ink transition-colors">HSK Тесттері</a>
+      <a href="gemini-code-1789411171127.html" class="nav-link hover:text-ink transition-colors">Тренажер</a>
       <a href="dashboard.html" class="nav-link hover:text-ink transition-colors font-semibold text-seal">Кабинет</a>
     </nav>
 
@@ -141,6 +146,8 @@
     <a href="index.html" class="block text-sm font-medium text-gray-700 hover:text-seal py-1">Басты бет</a>
     <a href="dictionary.html" class="block text-sm font-medium text-gray-700 hover:text-seal py-1">Сөздік</a>
     <a href="reels.html" class="block text-sm font-medium text-gray-700 hover:text-seal py-1">Рилс/Квиз</a>
+    <a href="mock-exam.html" class="block text-sm font-medium text-gray-700 hover:text-seal py-1">HSK Тесттері</a>
+    <a href="gemini-code-1789411171127.html" class="block text-sm font-medium text-gray-700 hover:text-seal py-1">Тренажер</a>
     <a href="dashboard.html" class="block text-sm font-medium text-seal py-1 font-semibold">Кабинет</a>
   </div>
 </header>
@@ -160,23 +167,16 @@
       </div>
     </div>
 
-    <!-- Статистика Карточкалары -->
-    <div class="grid grid-cols-1 sm:grid-cols-3 gap-5">
-      <div class="rounded-2xl border border-paper-deep bg-paper p-6 shadow-xl relative overflow-hidden group hover:-translate-y-1 transition-transform">
-        <div class="absolute -right-4 -top-4 text-paper-deep opacity-30 font-display text-8xl pointer-events-none transition-transform group-hover:scale-110">学</div>
-        <p class="text-xs text-gray-500 font-bold uppercase tracking-wider mb-2 relative z-10">Орындалған сабақ</p>
-        <p class="font-display text-4xl font-bold text-gray-900 relative z-10">6 <span class="text-lg text-gray-400 font-sans">/ 18</span></p>
+    <!-- Прогресс блогы -->
+    <div class="rounded-2xl border border-paper-deep bg-paper p-6 shadow-xl">
+      <div class="flex items-center justify-between mb-3">
+        <p class="text-xs text-gray-500 font-bold uppercase tracking-wider">Орындалған сабақтар <span id="progressLevelLabel" class="text-jade">(HSK 2)</span></p>
+        <p id="progressCountLabel" class="font-display text-lg font-bold text-gray-900">0 <span class="text-sm text-gray-400 font-sans">/ 0</span></p>
       </div>
-      <div class="rounded-2xl border border-paper-deep bg-paper p-6 shadow-xl relative overflow-hidden group hover:-translate-y-1 transition-transform">
-        <div class="absolute -right-4 -top-4 text-paper-deep opacity-30 font-display text-8xl pointer-events-none transition-transform group-hover:scale-110">考</div>
-        <p class="text-xs text-gray-500 font-bold uppercase tracking-wider mb-2 relative z-10">Соңғы HSK Тест</p>
-        <p class="font-display text-4xl font-bold text-gray-900 relative z-10">4 <span class="text-lg text-gray-400 font-sans">/ 5</span></p>
+      <div class="progress-track w-full h-3 rounded-full overflow-hidden">
+        <div id="progressFillBar" class="progress-fill h-full rounded-full" style="width: 0%;"></div>
       </div>
-      <div class="rounded-2xl border border-paper-deep bg-paper p-6 shadow-xl relative overflow-hidden group hover:-translate-y-1 transition-transform">
-        <div class="absolute -right-4 -top-4 text-paper-deep opacity-30 font-display text-8xl pointer-events-none transition-transform group-hover:scale-110">成</div>
-        <p class="text-xs text-gray-500 font-bold uppercase tracking-wider mb-2 relative z-10">Төлем статусы</p>
-        <p class="font-display text-2xl mt-2 font-bold text-jade relative z-10">Төленген ✓</p>
-      </div>
+      <p class="text-xs text-gray-500 mt-2">Прогресс таблосынан төменде таңдалған деңгей бойынша есептеледі.</p>
     </div>
 
     <!-- ИИ-Тренажер (Айтылым мен сөздерді жаттықтыру - HSK 1, 2, 3 сөздері кездейсоқ ретпен) -->
@@ -860,12 +860,32 @@
     });
   }
 
+  // ---------- Оқу прогресі: деңгей бойынша аяқталған сабақтар ----------
+  // completed — нақты аяқталған сабақ саны, total — деңгейдегі барлық сабақ саны.
+  // Бұл мәндер деңгей ауыстырғанда прогресс-барды дәл сол таб бойынша көрсетеді.
+  const lessonProgress = {
+    1: { completed: 0, total: 15 },
+    2: { completed: 6, total: 15 },
+    3: { completed: 0, total: 18 },
+  };
+
+  function updateProgressBar(level) {
+    const data = lessonProgress[level] || { completed: 0, total: 0 };
+    const percent = data.total > 0 ? Math.round((data.completed / data.total) * 100) : 0;
+
+    document.getElementById('progressLevelLabel').textContent = `(HSK ${level})`;
+    document.getElementById('progressCountLabel').innerHTML = `${data.completed} <span class="text-sm text-gray-400 font-sans">/ ${data.total}</span>`;
+    document.getElementById('progressFillBar').style.width = `${percent}%`;
+  }
+
   function switchHskLevel(level) {
     document.querySelectorAll('.hsk-level-tab').forEach(btn => btn.classList.remove('active'));
     document.getElementById(`hskTab${level}`).classList.add('active');
 
     document.querySelectorAll('.hsk-tasks-content').forEach(content => content.classList.add('hidden'));
     document.getElementById(`tasksHsk${level}`).classList.remove('hidden');
+
+    updateProgressBar(level);
   }
 
   function escapeHtml(str) {
@@ -1127,7 +1147,6 @@
 
   function nextToneWord() {
     currentToneIndex = (currentToneIndex + 1) % toneWords.length;
-    // Соңғы сөзден кейін қайта араластырып, қайталанбауын азайтамыз
     if (currentToneIndex === 0) {
       shuffleArray(toneWords);
     }
@@ -1204,6 +1223,7 @@
   }
 
   updateToneWordDisplay();
+  updateProgressBar(2); // Бастапқы белсенді таб — HSK 2
 </script>
 
 </body>
