@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Оқытушы панелі — Қытай тілі</title>
-  <!-- ======================= PRIVACY TAG START ======================= -->
+<!-- ======================= PRIVACY TAG START ======================= -->
 <!-- This tells Google NOT to index this private admin page -->
 <meta name="robots" content="noindex, nofollow">
 <!-- ======================= PRIVACY TAG END ======================= -->
@@ -19,7 +19,7 @@
         colors: {
           ink: '#1B1B1F', seal: '#A61B29', 'seal-dark': '#7D1420',
           paper: '#F4EFE6', 'paper-deep': '#E8DFD1',
-          gold: '#B8933F', jade: '#0D9488', 'jade-dark': '#1B5F58',
+          gold: '#B8933F', jade: '#0D9488', 'jade-dark': '#1B5F58', mist: '#E0F2FE', sand: '#F0E5CE'
         },
         fontFamily: {
           display: ['"Noto Serif"', 'serif'],
@@ -31,7 +31,8 @@
   }
 </script>
 <style>
-  body { font-family: 'Inter', sans-serif; background-color: #F4EFE6; color: #1B1B1F; }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'Inter', sans-serif; background-color: #F4EFE6; color: #1B1B1F; display: flex; flex-direction: column; min-height: 100vh; -webkit-tap-highlight-color: transparent; }
   .seal-stamp {
     background: radial-gradient(circle at 30% 25%, #C4313D 0%, #A61B29 55%, #7D1420 100%);
     box-shadow: 0 1px 2px rgba(0,0,0,0.15); transform: rotate(-4deg); border-radius: 4px;
@@ -39,11 +40,26 @@
   .nav-link { position: relative; padding-bottom: 2px; }
   .nav-link::after {
     content: ''; position: absolute; left: 50%; bottom: -6px; width: 0; height: 3px;
-    background: #A61B29; border-radius: 2px; transform: translateX(-50%); transition: width 0.25s ease;
+    background: #A61B29; border-radius: 2px 6px 2px 6px; transform: translateX(-50%); transition: width 0.25s ease;
   }
   .nav-link:hover::after { width: 60%; }
+  .stamp-btn { background: #A61B29; clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 0 100%); transition: background 0.2s ease, transform 0.15s ease; }
+  .stamp-btn:hover { background: #7D1420; transform: translateY(-1px); }
+  .brush-rule { height: 2px; background: linear-gradient(90deg, transparent 0%, #A61B29 12%, #A61B29 88%, transparent 100%); }
+  .footer-watermark { position: absolute; right: -20px; bottom: -40px; font-family: 'Ma Shan Zheng', cursive; font-size: 220px; line-height: 1; color: #A61B29; opacity: 0.04; pointer-events: none; user-select: none; }
+  .icon-badge { background: #A61B29; }
   tbody tr { border-bottom: 1px solid #E8DFD1; transition: background 0.2s ease; }
   tbody tr:hover { background: rgba(232, 223, 209, 0.4); }
+
+  .modal-enter { animation: modalFadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+  @keyframes modalFadeIn {
+    from { opacity: 0; transform: scale(0.95) translateY(10px); }
+    to { opacity: 1; transform: scale(1) translateY(0); }
+  }
+
+  @media (max-width: 640px) {
+    input, select, button { font-size: 16px !important; }
+  }
 </style>
 
 <script>
@@ -53,9 +69,10 @@
   const urlParams = new URLSearchParams(window.location.search);
   let adminName = urlParams.get('name') || sessionStorage.getItem('currentUser');
 
-  // Бұланай Еркін мен оның нақты поштасын (bulanay04@icloud.com) қатаң түрде бекіту
+  // Бұланай Еркін мен оның нақты поштасын қатаң түрде бекіту
   const allowedAdminEmail = 'bulanay04@icloud.com'; 
 
+  // Егер логин жасалмаған болса немесе админ болмаса, басты бетке лақтырады
   if (!adminName || (adminName !== 'Bulanay Yerkin' && sessionStorage.getItem('userEmail') !== allowedAdminEmail)) {
     alert('Бұл бетке тек оқытушы (Бұланай Еркін) ғана кіре алады!');
     window.location.href = 'index.html';
@@ -63,7 +80,7 @@
 </script>
 </head>
 
-<body class="antialiased min-h-screen flex flex-col">
+<body class="text-ink flex flex-col min-h-screen">
 
 <!-- ХЕДЕР -->
 <header class="sticky top-0 z-40 bg-paper/95 backdrop-blur border-b-2 border-paper-deep">
@@ -86,7 +103,7 @@
         <span class="w-2 h-2 rounded-full bg-jade animate-pulse"></span>
         SQLite Дерекқор қосылды
       </div>
-      <a href="index.html" onclick="sessionStorage.clear()" class="text-xs sm:text-sm font-semibold text-gray-500 hover:text-seal transition-colors">Шығу</a>
+      <a href="index.html" onclick="sessionStorage.clear()" class="text-xs sm:text-sm font-semibold text-seal hover:text-seal-dark transition-colors">Шығу</a>
       
       <!-- Mobile Hamburger Button -->
       <button id="mobileMenuBtn" class="md:hidden p-1.5 text-gray-700 focus:outline-none" aria-label="Мәзір">
@@ -106,8 +123,64 @@
   </div>
 </header>
 
+<!-- КІРУ, ТІРКЕЛУ ЖӘНЕ ҚҰПИЯ СӨЗДІ ҚАЛПЫНА КЕЛТІРУ ТЕРЕЗЕСІ (MODAL) - Басқа беттердегідей -->
+<div id="authModal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm p-4 transition-opacity">
+  <div class="modal-enter relative w-full max-w-sm rounded-2xl bg-white p-6 sm:p-8 shadow-2xl border border-gray-100">
+    <button data-close-auth class="absolute right-5 top-5 text-gray-400 hover:text-gray-700 transition-colors bg-gray-50 rounded-full p-1 cursor-pointer">
+      <svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
+      </svg>
+    </button>
+    
+    <div id="loginSection">
+      <h2 class="font-display mb-6 text-2xl font-bold text-gray-900">Кіру</h2>
+      <form id="loginForm" class="space-y-4">
+        <div>
+          <label class="mb-1.5 block text-sm font-medium text-gray-700">Email немесе Пайдаланушы аты</label>
+          <input type="text" id="loginIdentifier" required class="w-full rounded-lg border border-gray-300 px-4 py-2.5 text-sm outline-none focus:border-seal focus:ring-2 focus:ring-seal/20 transition-all">
+        </div>
+        <div>
+          <label class="mb-1.5 block text-sm font-medium text-gray-700">Құпия сөз</label>
+          <input type="password" id="loginPassword" required class="w-full rounded-lg border border-gray-300 px-4 py-2.5 text-sm outline-none focus:border-seal focus:ring-2 focus:ring-seal/20 transition-all">
+        </div>
+        <div class="flex items-center justify-end text-xs sm:text-sm">
+          <button type="button" id="toForgotBtn" class="text-gray-500 hover:text-seal hover:underline transition-colors cursor-pointer">Құпия сөзді ұмытыңыз ба?</button>
+        </div>
+        <div id="loginError" class="hidden p-3 rounded-lg bg-red-50 border border-red-100 text-sm text-seal font-medium text-center"></div>
+        <button type="submit" id="loginSubmitBtn" class="w-full rounded-lg bg-seal px-4 py-3 text-base font-semibold text-white transition-all hover:bg-seal-dark hover:shadow-lg flex items-center justify-center cursor-pointer">
+          <span>Кіру</span>
+        </button>
+      </form>
+    </div>
+    
+    <div id="registerSection" class="hidden">
+      <!-- (Тіркелу бөлімі бұл жерде қажет емес болса да, құрылымды сақтау үшін қалдырылды) -->
+    </div>
+
+    <div id="forgotSection" class="hidden">
+      <h2 class="font-display mb-4 text-xl font-bold text-gray-900">Құпия сөзді қалпына келтіру</h2>
+      <p class="text-xs text-gray-600 mb-4">Email адресіңізді жазыңыз, біз сізге нұсқаулық жібереміз.</p>
+      <form id="forgotForm" class="space-y-4">
+        <div>
+          <label class="mb-1.5 block text-sm font-medium text-gray-700">Email</label>
+          <input type="email" id="forgotEmail" required class="w-full rounded-lg border border-gray-300 px-4 py-2.5 text-sm outline-none focus:border-seal focus:ring-2 focus:ring-seal/20 transition-all">
+        </div>
+        <div id="forgotMessage" class="hidden p-3 rounded-lg border text-sm font-medium text-center"></div>
+        <button type="submit" id="forgotSubmitBtn" class="w-full rounded-lg bg-seal px-4 py-3 text-base font-semibold text-white transition-all hover:bg-seal-dark hover:shadow-lg flex items-center justify-center cursor-pointer">
+          <span>Жіберу</span>
+        </button>
+      </form>
+      <div class="mt-6 text-center text-sm text-gray-500">
+        <button type="button" id="backToLoginBtn" class="text-gray-500 font-semibold hover:text-seal transition-colors hover:underline cursor-pointer">← Кіруге қайту</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- MAIN CONTENT -->
 <main class="flex-grow relative bg-gradient-to-br from-[#0c1f4c] to-[#06102a] py-8 sm:py-12 w-full overflow-hidden">
+  <div class="absolute inset-0 opacity-[0.03] pointer-events-none" style="background-image: linear-gradient(#ffffff 1px, transparent 1px), linear-gradient(90deg, #ffffff 1px, transparent 1px); background-size: 40px 40px;"></div>
+
   <div class="max-w-7xl mx-auto px-4 sm:px-8 relative z-10 w-full space-y-8">
 
     <div class="text-center sm:text-left">
@@ -142,11 +215,12 @@
               <th class="px-5 py-4">Email адресі</th>
               <th class="px-5 py-4">Рөлі (Role)</th>
               <th class="px-5 py-4">Пошта статусы</th>
+              <th class="px-5 py-4 text-right">Әрекет</th> <!-- ЖАҢА БАҒАН -->
             </tr>
           </thead>
           <tbody id="usersTableBody" class="text-gray-800">
             <tr>
-              <td colspan="4" class="px-5 py-6 text-center text-gray-500">Деректер жүктелуде...</td>
+              <td colspan="5" class="px-5 py-6 text-center text-gray-500">Деректер жүктелуде...</td>
             </tr>
           </tbody>
         </table>
@@ -155,6 +229,45 @@
 
   </div>
 </main>
+
+<!-- СТАНДАРТТЫ FOOTER -->
+<footer class="relative overflow-hidden border-t border-gray-200 bg-paper pt-3 mt-auto">
+  <div class="brush-rule"></div>
+  <span class="footer-watermark" aria-hidden="true">汉</span>
+  <div class="relative max-w-6xl mx-auto px-4 sm:px-8 grid grid-cols-1 md:grid-cols-3 gap-8 sm:gap-10 mb-8 mt-10 text-sm text-gray-600">
+    <div>
+      <div class="flex items-center gap-2 mb-4">
+        <span class="seal-stamp w-7 h-7 flex items-center justify-center font-brush text-white text-sm">汉</span>
+        <span class="font-display font-semibold text-ink text-lg">Қытай тілі</span>
+      </div>
+      <p class="mb-2 font-semibold text-ink">Impressum / Заңды ақпарат</p>
+      <p class="leading-relaxed">ЖШС (ТОО) «Қытай тілі KZ»<br>БСН (БИН): 123456789012<br>Жетекші: Бұланай Еркін</p>
+    </div>
+    <div>
+      <p class="font-display font-semibold text-ink text-lg mb-4">Байланыс ақпараты</p>
+      <ul class="space-y-3">
+        <li class="flex items-start gap-3">
+          <span class="icon-badge w-6 h-6 rounded-full flex items-center justify-center shrink-0 mt-0.5"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg></span>
+          <span>+7 (777) 123-45-67</span>
+        </li>
+        <li class="flex items-start gap-3">
+          <span class="icon-badge w-6 h-6 rounded-full flex items-center justify-center shrink-0 mt-0.5"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg></span>
+          <a href="https://instagram.com/bulanay_yerkin" target="_blank" class="hover:text-seal transition-colors">@bulanay_yerkin</a>
+        </li>
+      </ul>
+    </div>
+    <div>
+      <p class="font-display font-semibold text-ink text-lg mb-4">Құқықтық құжаттар</p>
+      <ul class="space-y-2.5">
+        <li><a href="privacy.html" class="hover:text-seal transition-colors">Құпиялылық саясаты</a></li>
+        <li><a href="offer.html" class="hover:text-seal transition-colors">Оферта</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="relative max-w-6xl mx-auto px-4 sm:px-8 pt-6 pb-6 border-t border-gray-200 flex flex-col md:flex-row items-center justify-between text-xs text-gray-500">
+    <p>© 2026 Қытай тілі. Барлық құқықтар қорғалған.</p>
+  </div>
+</footer>
 
 <script>
   // Mobile Menu Toggle
@@ -165,6 +278,18 @@
       mobileMenu.classList.toggle('hidden');
     });
   }
+
+  // Auth Modals logic
+  const authModal = document.getElementById('authModal');
+  document.querySelectorAll('[data-open-auth]').forEach(b => {
+    b.addEventListener('click', (e) => {
+      if(e) e.preventDefault();
+      authModal.classList.remove('hidden');
+    });
+  });
+  document.querySelectorAll('[data-close-auth]').forEach(b => {
+    b.addEventListener('click', () => authModal.classList.add('hidden'));
+  });
 
   // Дерекқордан оқушыларды тартып келіп, кестеге толтыру
   async function loadAdminData() {
@@ -190,6 +315,12 @@
           else pending++;
 
           const tr = document.createElement('tr');
+          
+          // Админді өзің-өзі өшіріп тастаудан қорғау үшін шарт
+          const deleteBtnHtml = (u.email === allowedAdminEmail || u.role === 'teacher') 
+            ? `<span class="text-gray-400 text-xs italic">Өшіруге болмайды</span>` 
+            : `<button onclick="deleteUser('${u.email}')" class="text-seal hover:text-seal-dark font-bold text-xs bg-red-50 hover:bg-red-100 px-3 py-1.5 rounded-lg transition-colors">Өшіру 🗑️</button>`;
+
           tr.innerHTML = `
             <td class="px-5 py-4 font-bold text-gray-900">${u.name}</td>
             <td class="px-5 py-4 text-gray-600">${u.email}</td>
@@ -198,6 +329,9 @@
               <span class="rounded-full px-3 py-1 text-xs font-bold border ${u.status === 'Verified' ? 'bg-white border-paper-deep text-jade' : 'bg-gold/10 border-gold/30 text-gold'}">
                 ${u.status}
               </span>
+            </td>
+            <td class="px-5 py-4 text-right">
+              ${deleteBtnHtml}
             </td>
           `;
           tbody.appendChild(tr);
@@ -208,11 +342,36 @@
         document.getElementById('pendingUsersCount').textContent = pending;
 
       } else {
-        document.getElementById('usersTableBody').innerHTML = `<tr><td colspan="4" class="px-5 py-6 text-center text-red-500">Мәліметтерді алу мүмкін болмады.</td></tr>`;
+        document.getElementById('usersTableBody').innerHTML = `<tr><td colspan="5" class="px-5 py-6 text-center text-red-500">Мәліметтерді алу мүмкін болмады.</td></tr>`;
       }
     } catch (err) {
       console.error(err);
-      document.getElementById('usersTableBody').innerHTML = `<tr><td colspan="4" class="px-5 py-6 text-center text-red-500">Сервер қатесі орын алды.</td></tr>`;
+      document.getElementById('usersTableBody').innerHTML = `<tr><td colspan="5" class="px-5 py-6 text-center text-red-500">Сервер қатесі орын алды.</td></tr>`;
+    }
+  }
+
+  // ОҚУШЫНЫ ӨШІРУ (ЖАҢА ФУНКЦИЯ)
+  async function deleteUser(email) {
+    if(!confirm(`Сіз "${email}" оқушысын дерекқордан біржолата өшіруге сенімдісіз бе? Бұл әрекетті қайтару мүмкін емес.`)) {
+      return;
+    }
+
+    try {
+      const response = await fetch(SCRIPT_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'delete_user', email: email })
+      });
+      const result = await response.json();
+
+      if(result.status === 'success') {
+        alert('Оқушы сәтті өшірілді!');
+        loadAdminData(); // Кестені жаңарту
+      } else {
+        alert('Қате: ' + result.message);
+      }
+    } catch (err) {
+      alert('Сервермен байланыс үзілді.');
     }
   }
 
