@@ -7,10 +7,9 @@
 <!-- ======================= SEO & META TAGS START ======================= -->
 <title>Қазақша қытай тілі курсы | HSK Тесттері</title>
 <meta name="google-site-verification" content="rcEzC7VFxAnoCjDg97utxJ2Pt-13WDXDXM4ZwyJFG6Q" />
-<meta name="description" content="Қытай тілін қазақ тілінде үйреніңіз. HSK mock exams және интерактивті тесттер.">
-<meta name="keywords" content="қытай тілі, қазақша қытай тілі, қытай тілі курсы, HSK тесттері, mock exam, онлайн тест">
+<meta name="description" content="Қытай тілін қазақ тілінде үйреніңіз. HSK сынақ емтихандары және интерактивті тесттер.">
+<meta name="keywords" content="қытай тілі, қазақша қытай тілі, қытай тілі курсы, HSK тесттері, сынақ емтиханы, онлайн тест">
 <meta name="author" content="Бұланай Еркін">
-<!-- Бұл жабық бет болғандықтан, іздеу жүйелеріне индекстеуге тыйым саламыз -->
 <meta name="robots" content="noindex, nofollow">
 <!-- ======================= SEO & META TAGS END ======================= -->
 
@@ -66,7 +65,7 @@
     input, select, button { font-size: 16px !important; }
   }
 
-  /* Mock exam specific custom styles adapted to layout */
+  /* Емтиханға арналған стильдер */
   :root { --primary: #A61B29; --secondary: #1B5F58; --bg-light: #faf8f5; --border: #E8DFD1; }
   .exam-nav-tabs, .exam-version-tabs { display: flex; justify-content: center; background: #1B1B1F; flex-wrap: wrap; }
   .exam-version-tabs { background: #2c3e50; border-top: 1px solid #465c71; }
@@ -80,8 +79,8 @@
   .exam-options { display: flex; flex-direction: column; gap: 8px; margin-top: 10px; }
   .exam-options label { cursor: pointer; padding: 8px; background: var(--bg-light); border-radius: 4px; border: 1px solid transparent; transition: 0.2s; }
   .exam-options label:hover { border-color: var(--secondary); }
-  .exam-play-btn { background-color: #e67e22; color: white; border: none; padding: 8px 15px; border-radius: 4px; cursor: pointer; margin-bottom: 15px; font-size: 1em; display: inline-flex; align-items: center; gap: 5px;}
-  .exam-play-btn:hover { background-color: #d35400; }
+  .exam-play-btn { background-color: #0D9488; color: white; border: none; padding: 8px 15px; border-radius: 4px; cursor: pointer; margin-bottom: 15px; font-size: 1em; display: inline-flex; align-items: center; gap: 5px;}
+  .exam-play-btn:hover { background-color: #1B5F58; }
   .exam-writing-area { width: 100%; height: 60px; padding: 10px; box-sizing: border-box; resize: vertical; margin-top: 10px; border: 1px solid var(--border); border-radius: 4px;}
   .exam-submit-btn { display: block; width: 100%; background: #0D9488; color: white; text-align: center; padding: 15px; font-size: 18px; border: none; border-radius: 5px; cursor: pointer; margin-top: 30px; font-weight: bold;}
   .exam-submit-btn:hover { background: #1B5F58; }
@@ -96,48 +95,37 @@
 
 <header class="sticky top-0 z-40 bg-paper/95 backdrop-blur border-b-2 border-paper-deep">
   <div class="max-w-6xl mx-auto px-4 sm:px-8 flex items-center justify-between h-16">
-    
-    <!-- ЛОГОТИП ЖӘНЕ АТАУ -->
     <a href="index.html" class="flex items-center gap-2.5 sm:gap-3 shrink-0 group">
       <span class="seal-stamp w-8 h-8 sm:w-9 sm:h-9 flex items-center justify-center font-brush text-white text-base sm:text-lg leading-none group-hover:rotate-0 transition-transform duration-300">汉</span>
       <span class="font-display text-base sm:text-lg font-semibold tracking-tight text-ink">Қытай тілі</span>
     </a>
-    
-    <!-- НЕГІЗГІ НАВИГАЦИЯ (Десктоп нұсқа) -->
     <nav class="hidden md:flex items-center gap-9 text-[15px] font-medium text-gray-600">
       <a href="index.html" class="nav-link hover:text-ink transition-colors">Басты бет</a>
       <a href="dictionary.html" class="nav-link hover:text-ink transition-colors">Сөздік</a>
       <a href="reels.html" class="nav-link hover:text-ink transition-colors">Рилс/Квиз</a>
-      <a href="mock-exam.html" class="nav-link font-semibold text-seal transition-colors">HSK Тесттері 🔒</a>
-      <a href="trainer.html" class="nav-link hover:text-ink transition-colors protected-link">Тренажер 🔒</a>
+      <a href="mock-exam.html" class="nav-link font-semibold text-seal transition-colors">HSK Тесттері</a>
+      <a href="trainer.html" class="nav-link hover:text-ink transition-colors">Тренажер</a>
     </nav>
-    
-    <!-- ОҢ ЖАҚ ПАНЕЛЬ ЖӘНЕ МОБИЛЬДІ МӘЗІР БАТЫРМАСЫ -->
     <div class="flex items-center gap-2 sm:gap-3">
       <button onclick="window.location.href='dashboard.html'" class="text-xs sm:text-sm font-semibold text-gray-600 hover:text-ink px-1.5 sm:px-2 transition-colors cursor-pointer">Кабинет</button>
       <a href="index.html" onclick="sessionStorage.clear()" class="stamp-btn inline-flex items-center text-white text-xs sm:text-sm font-semibold px-3.5 sm:px-5 py-2 sm:py-2.5 shrink-0 cursor-pointer">Шығу</a>
-      
-      <!-- Мобильді мәзірді ашу/жабу (Hamburger Button) -->
-      <button id="mobileMenuBtn" class="md:hidden p-1.5 text-gray-700 focus:outline-none" aria-label="Menu">
+      <button id="mobileMenuBtn" class="md:hidden p-1.5 text-gray-700 focus:outline-none" aria-label="Мәзір">
         <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"></path>
         </svg>
       </button>
     </div>
   </div>
-  
-  <!-- МОБИЛЬДІ НАВИГАЦИЯ ТЕРЕЗЕСІ -->
   <div id="mobileMenu" class="hidden md:hidden bg-paper border-b border-paper-deep px-4 pt-2 pb-4 space-y-3">
     <a href="index.html" class="block text-sm font-medium text-gray-700 hover:text-seal py-1">Басты бет</a>
     <a href="dictionary.html" class="block text-sm font-medium text-gray-700 hover:text-seal py-1">Сөздік</a>
     <a href="reels.html" class="block text-sm font-medium text-gray-700 hover:text-seal py-1">Рилс/Квиз</a>
-    <a href="mock-exam.html" class="block text-sm font-medium text-seal py-1 font-semibold">🔒 HSK Тесттері</a>
-    <a href="trainer.html" class="block text-sm font-medium text-gray-700 hover:text-seal py-1 protected-link">🔒 Тренажер</a>
+    <a href="mock-exam.html" class="block text-sm font-medium text-seal py-1 font-semibold">HSK Тесттері</a>
+    <a href="trainer.html" class="block text-sm font-medium text-gray-700 hover:text-seal py-1">Тренажер</a>
   </div>
 </header>
 
 <main class="flex-1">
-  <!-- MOCK EXAM SECTION CONTAINER -->
   <section class="py-8 md:py-12 relative overflow-hidden">
     <div class="max-w-4xl mx-auto px-4 sm:px-8">
 
@@ -147,9 +135,9 @@
         <button id="tab-hsk3" onclick="setExam('hsk3')">HSK 3 (三级)</button>
       </div>
       <div class="exam-version-tabs">
-        <button id="tab-v1" class="active" onclick="setVersion(1)">Version 1</button>
-        <button id="tab-v2" onclick="setVersion(2)">Version 2</button>
-        <button id="tab-v3" onclick="setVersion(3)">Version 3</button>
+        <button id="tab-v1" class="active" onclick="setVersion(1)">1-нұсқа</button>
+        <button id="tab-v2" onclick="setVersion(2)">2-нұсқа</button>
+        <button id="tab-v3" onclick="setVersion(3)">3-нұсқа</button>
       </div>
 
       <div id="exam-container" class="bg-white p-6 sm:p-8 rounded-b-2xl shadow-lg border border-paper-deep mt-[-2px]"></div>
@@ -191,7 +179,7 @@
       </ul>
     </div>
   </div>
-  <div class="relative max-w-6xl mx-auto px-4 sm:px-8 pt-6 pb-6 border-t border-gray-200 flex flex-col md:flex-row items-center justify-between text-xs text-gray-500">
+  <div class="relative max-w-6xl mx-auto px-4 sm:px-8 pt-6 pb-6 border-t border-paper-deep flex flex-col md:flex-row items-center justify-between text-xs text-gray-500">
     <p>© 2026 Қытай тілі. Барлық құқықтар қорғалған.</p>
   </div>
 </footer>
@@ -206,7 +194,6 @@
     });
   }
 
-  // Mock Exam Logic Scripts
   let currentExam = 'hsk1';
   let currentVersion = 1;
 
@@ -242,23 +229,23 @@
 
   const examData = {
       hsk1: {
-          title: "HSK Level 1 (一级)",
-          desc: "Total: 40 Questions. Listening (20), Reading (20).",
+          title: "HSK 1 деңгейі (一级)",
+          desc: "Барлығы: 40 сұрақ. Тыңдалым (20), Оқылым (20).",
           sections: [
               {
-                  type: "listening", title: "一、听力 (Listening)",
+                  type: "listening", title: "一、听力 (Тыңдалым)",
                   parts: [
                       {
-                          title: "第一部分 (Part 1: Q1-5) - True/False Picture Match", qCount: 5, startIndex: 1,
+                          title: "第一部分 (1-бөлім: 1-5 сұрақтар) - Сурет пен сөзді сәйкестендіру (Дұрыс/Бұрыс)", qCount: 5, startIndex: 1,
                           generate: (i, v) => {
                               const photos = [photoBank.apple, photoBank.dog, photoBank.rain, photoBank.computer, photoBank.coffee];
                               const words = ["苹果", "狗", "下雨", "电脑", "咖啡"];
                               const idx = (i + v) % words.length;
-                              return { audioText: words[idx], imgHtml: `<div class="exam-single-img"><img src="${photos[idx]}" alt="Test Image"></div>`, opts: ["True (对)", "False (错)"] };
+                              return { audioText: words[idx], imgHtml: `<div class="exam-single-img"><img src="${photos[idx]}" alt="Сұрақ суреті"></div>`, opts: ["Дұрыс (对)", "Бұрыс (错)"] };
                           }
                       },
                       {
-                          title: "第二部分 (Part 2: Q6-10) - Multiple Image Choice (A, B, C)", qCount: 5, startIndex: 6,
+                          title: "第二部分 (2-бөлім: 6-10 сұрақтар) - Суретті таңдау (A, B, C)", qCount: 5, startIndex: 6,
                           generate: (i, v) => ({ 
                               audioText: "我在看书学习呢。", 
                               imgHtml: `<div class="exam-img-grid">
@@ -269,79 +256,79 @@
                               opts: ["A", "B", "C"] 
                           })
                       },
-                      { title: "第三部分 (Part 3: Q11-15) - Dialogue Image Match", qCount: 5, startIndex: 11, generate: (i, v) => ({ audioText: "你好！很高兴认识你。", imgHtml: `<div class="exam-single-img"><img src="${photoBank.people}" alt="Dialogue"></div>`, opts: ["A", "B", "C", "D", "E"] }) },
-                      { title: "第四部分 (Part 4: Q16-20) - Listen & Answer", qCount: 5, startIndex: 16, generate: (i, v) => ({ audioText: "下午我去商店买水果。问：她去哪儿？", opts: ["A. 商店", "B. 医院", "C. 学校"] }) }
+                      { title: "第三部分 (3-бөлім: 11-15 сұрақтар) - Диалог пен суретті сәйкестендіру", qCount: 5, startIndex: 11, generate: (i, v) => ({ audioText: "你好！很高兴认识你。", imgHtml: `<div class="exam-single-img"><img src="${photoBank.people}" alt="Диалог"></div>`, opts: ["A", "B", "C", "D", "E"] }) },
+                      { title: "第四部分 (4-бөлім: 16-20 сұрақтар) - Тыңдау және сұраққа жауап беру", qCount: 5, startIndex: 16, generate: (i, v) => ({ audioText: "下午我去商店买水果。问：她去哪儿？", opts: ["A. 商店", "B. 医院", "C. 学校"] }) }
                   ]
               },
               {
-                  type: "reading", title: "二、阅读 (Reading)",
+                  type: "reading", title: "二、阅读 (Оқылым)",
                   parts: [
                       {
-                          title: "第一部分 (Part 1: Q21-25) - Word & Photo Verification", qCount: 5, startIndex: 21,
+                          title: "第一部分 (1-бөлім: 21-25 сұрақтар) - Сурет пен сөзді тексеру (Дұрыс/Бұрыс)", qCount: 5, startIndex: 21,
                           generate: (i, v) => {
                               const photos = [photoBank.school, photoBank.computer, photoBank.hospital, photoBank.apple, photoBank.train];
                               const labels = ["学校", "电脑", "医院", "苹果", "火车"];
                               const idx = (i + v) % labels.length;
-                              return { qText: `词语：${labels[idx]}`, imgHtml: `<div class="exam-single-img"><img src="${photos[idx]}" alt="Reading Image"></div>`, opts: ["True (对)", "False (错)"] };
+                              return { qText: `Сөз: ${labels[idx]}`, imgHtml: `<div class="exam-single-img"><img src="${photos[idx]}" alt="Оқылым суреті"></div>`, opts: ["Дұрыс (对)", "Бұрыс (错)"] };
                           }
                       },
-                      { title: "第二部分 (Part 2: Q26-30) - Match Sentence to Photo", qCount: 5, startIndex: 26, generate: (i, v) => ({ qText: "他明天坐火车去北京。", imgHtml: `<div class="exam-img-grid"><div class="exam-img-card"><img src="${photoBank.train}">A</div><div class="exam-img-card"><img src="${photoBank.coffee}">B</div><div class="exam-img-card"><img src="${photoBank.dog}">C</div></div>`, opts: ["A", "B", "C", "D", "E"] }) },
-                      { title: "第三部分 (Part 3: Q31-35) - Match Q & A", qCount: 5, startIndex: 31, generate: (i, v) => ({ qText: "你爱吃什么水果？", opts: ["A. 中国人。", "B. 苹果。", "C. 好的。", "D. 20块。", "E. 七点了。"] }) },
-                      { title: "第四部分 (Part 4: Q36-40) - Fill in the Blank", qCount: 5, startIndex: 36, generate: (i, v) => ({ qText: "她在医院(   )工作。", opts: ["A. 名字", "B. 医生", "C. 学习", "D. 长期", "E. 在"] }) }
+                      { title: "第二部分 (2-бөлім: 26-30 сұрақтар) - Сөйлемді суретке сәйкестендіру", qCount: 5, startIndex: 26, generate: (i, v) => ({ qText: "他明天坐火车去北京。", imgHtml: `<div class="exam-img-grid"><div class="exam-img-card"><img src="${photoBank.train}">A</div><div class="exam-img-card"><img src="${photoBank.coffee}">B</div><div class="exam-img-card"><img src="${photoBank.dog}">C</div></div>`, opts: ["A", "B", "C", "D", "E"] }) },
+                      { title: "第三部分 (3-бөлім: 31-35 сұрақтар) - Сұрақ пен жауапты сәйкестендіру", qCount: 5, startIndex: 31, generate: (i, v) => ({ qText: "你爱吃什么水果？", opts: ["A. 中国人。", "B. 苹果。", "C. 好的。", "D. 20块。", "E. 七点了。"] }) },
+                      { title: "第四部分 (4-бөлім: 36-40 сұрақтар) - Көп нүктенің орнын толтыру", qCount: 5, startIndex: 36, generate: (i, v) => ({ qText: "她在医院(   )工作。", opts: ["A. 名字", "B. 医生", "C. 学习", "D. 长期", "E. 在"] }) }
                   ]
               }
           ]
       },
       hsk2: {
-          title: "HSK Level 2 (二级)",
-          desc: "Total: 60 Questions. Listening (35), Reading (25).",
+          title: "HSK 2 деңгейі (二级)",
+          desc: "Барлығы: 60 сұрақ. Тыңдалым (35), Оқылым (25).",
           sections: [
               {
-                  type: "listening", title: "一、听力 (Listening)",
+                  type: "listening", title: "一、听力 (Тыңдалым)",
                   parts: [
-                      { title: "第一部分 (Part 1: Q1-10) - True/False", qCount: 10, startIndex: 1, generate: (i, v) => ({ audioText: "他正在打电话呢。", imgHtml: `<div class="exam-single-img"><img src="${photoBank.phone}" alt="Phone"></div>`, opts: ["True", "False"] }) },
-                      { title: "第二部分 (Part 2: Q11-20) - Choose Image", qCount: 10, startIndex: 11, generate: (i, v) => ({ audioText: "男：你喜欢什么运动？女：我最喜欢踢足球。", imgHtml: `<div class="exam-single-img"><img src="${photoBank.sports}" alt="Sports"></div>`, opts: ["A", "B", "C"] }) },
-                      { title: "第三部分 (Part 3: Q21-30) - Dialogue QA", qCount: 10, startIndex: 21, generate: (i, v) => ({ audioText: "问：男的要去哪儿？", opts: ["A. 机场", "B. 饭馆", "C. 医院"] }) },
-                      { title: "第四部分 (Part 4: Q31-35) - Long Dialogue QA", qCount: 5, startIndex: 31, generate: (i, v) => ({ audioText: "问：他们在说什么？", opts: ["A. 天气", "B. 考试", "C. 衣服"] }) }
+                      { title: "第一部分 (1-бөлім: 1-10 сұрақтар) - Дұрыс/Бұрыс", qCount: 10, startIndex: 1, generate: (i, v) => ({ audioText: "他正在打电话呢。", imgHtml: `<div class="exam-single-img"><img src="${photoBank.phone}" alt="Телефон"></div>`, opts: ["Дұрыс (对)", "Бұрыс (错)"] }) },
+                      { title: "第二部分 (2-бөлім: 11-20 сұрақтар) - Суретті таңдау", qCount: 10, startIndex: 11, generate: (i, v) => ({ audioText: "男：你喜欢什么运动？女：我最喜欢踢足球。", imgHtml: `<div class="exam-single-img"><img src="${photoBank.sports}" alt="Спорт"></div>`, opts: ["A", "B", "C"] }) },
+                      { title: "第三部分 (3-бөлім: 21-30 сұрақтар) - Қысқа диалог сұрақтары", qCount: 10, startIndex: 21, generate: (i, v) => ({ audioText: "问：男的要去哪儿？", opts: ["A. 机场", "B. 饭馆", "C. 医院"] }) },
+                      { title: "第四部分 (4-бөлім: 31-35 сұрақтар) - Ұзын диалог сұрақтары", qCount: 5, startIndex: 31, generate: (i, v) => ({ audioText: "问：他们在说什么？", opts: ["A. 天气", "B. 考试", "C. 衣服"] }) }
                   ]
               },
               {
-                  type: "reading", title: "二、阅读 (Reading)",
+                  type: "reading", title: "二、阅读 (Оқылым)",
                   parts: [
-                      { title: "第一部分 (Part 1: Q36-40) - Match Picture", qCount: 5, startIndex: 36, generate: (i, v) => ({ qText: "小狗生病了，今天没吃东西。", imgHtml: `<div class="exam-single-img"><img src="${photoBank.dog}" alt="Dog"></div>`, opts: ["A", "B", "C", "D", "E"] }) },
-                      { title: "第二部分 (Part 2: Q41-45) - Fill in Blank", qCount: 5, startIndex: 41, generate: (i, v) => ({ qText: "请进，你找我有(   )事情？", opts: ["A. 去年", "B. 什么", "C. 希望", "D. 贵", "E. 向"] }) },
-                      { title: "第三部分 (Part 3: Q46-50) - True/False", qCount: 5, startIndex: 46, generate: (i, v) => ({ qText: "Text: 他家离我家很近。<br>★ 他家很远。", opts: ["True", "False"] }) },
-                      { title: "第四部分 (Part 4: Q51-60) - Sentence Matching", qCount: 10, startIndex: 51, generate: (i, v) => ({ qText: "昨天睡得很晚。", opts: ["A. 所以今天很累。", "B. 因为有很多工作。", "C. 他去旅游了。"] }) }
+                      { title: "第一部分 (1-бөлім: 36-40 сұрақтар) - Сөйлем мен суретті сәйкестендіру", qCount: 5, startIndex: 36, generate: (i, v) => ({ qText: "小狗生病了，今天没吃东西。", imgHtml: `<div class="exam-single-img"><img src="${photoBank.dog}" alt="Ит"></div>`, opts: ["A", "B", "C", "D", "E"] }) },
+                      { title: "第二部分 (2-бөлім: 41-45 сұрақтар) - Көп нүктенің орнын толтыру", qCount: 5, startIndex: 41, generate: (i, v) => ({ qText: "请进，你找我有(   )事情？", opts: ["A. 去年", "B. 什么", "C. 希望", "D. 贵", "E. 向"] }) },
+                      { title: "第三部分 (3-бөлім: 46-50 сұрақтар) - Дұрыс/Бұрыс", qCount: 5, startIndex: 46, generate: (i, v) => ({ qText: "Мәтін: 他家离我家很近。<br>★ 他家很远。", opts: ["Дұрыс (对)", "Бұрыс (错)"] }) },
+                      { title: "第四部分 (4-бөлім: 51-60 сұрақтар) - Сөйлемдерді сәйкестендіру", qCount: 10, startIndex: 51, generate: (i, v) => ({ qText: "昨天睡得很晚。", opts: ["A. 所以今天很累。", "B. 因为有很多工作。", "C. 他去旅游了。"] }) }
                   ]
               }
           ]
       },
       hsk3: {
-          title: "HSK Level 3 (三级)",
-          desc: "Total: 80 Questions. Listening (40), Reading (30), Writing (10).",
+          title: "HSK 3 деңгейі (三级)",
+          desc: "Барлығы: 80 сұрақ. Тыңдалым (40), Оқылым (30), Жазылым (10).",
           sections: [
               {
-                  type: "listening", title: "一、听力 (Listening)",
+                  type: "listening", title: "一、听力 (Тыңдалым)",
                   parts: [
-                      { title: "第一部分 (Part 1: Q1-10) - Match Image", qCount: 10, startIndex: 1, generate: (i, v) => ({ audioText: "我们去前面那家书店看看吧。", imgHtml: `<div class="exam-single-img"><img src="${photoBank.school}" alt="Store"></div>`, opts: ["A", "B", "C", "D"] }) },
-                      { title: "第二部分 (Part 2: Q11-20) - True/False", qCount: 10, startIndex: 11, generate: (i, v) => ({ audioText: "为了让自己更健康，他每天跑步。★ 他希望自己很健康。", opts: ["True", "False"] }) },
-                      { title: "第三部分 (Part 3: Q21-30) - Short QA", qCount: 10, startIndex: 21, generate: (i, v) => ({ audioText: "问：这杯咖啡多少钱？", opts: ["A. 30元", "B. 40元", "C. 50元"] }) },
-                      { title: "第四部分 (Part 4: Q31-40) - Long QA", qCount: 10, startIndex: 31, generate: (i, v) => ({ audioText: "问：刚才说话的人是谁？", opts: ["A. 经理", "B. 老师", "C. 司机"] }) }
+                      { title: "第一部分 (1-бөлім: 1-10 сұрақтар) - Суретті сәйкестендіру", qCount: 10, startIndex: 1, generate: (i, v) => ({ audioText: "我们去前面那家书店看看吧。", imgHtml: `<div class="exam-single-img"><img src="${photoBank.school}" alt="Дүкен"></div>`, opts: ["A", "B", "C", "D"] }) },
+                      { title: "第二部分 (2-бөлім: 11-20 сұрақтар) - Дұрыс/Бұрыс", qCount: 10, startIndex: 11, generate: (i, v) => ({ audioText: "为了让自己更健康，他每天跑步。★ 他希望自己很健康。", opts: ["Дұрыс (对)", "Бұрыс (错)"] }) },
+                      { title: "第三部分 (3-бөлім: 21-30 сұрақтар) - Қысқа сұрақ-жауап", qCount: 10, startIndex: 21, generate: (i, v) => ({ audioText: "问：这杯咖啡多少钱？", opts: ["A. 30元", "B. 40元", "C. 50元"] }) },
+                      { title: "第四部分 (4-бөлім: 31-40 сұрақтар) - Ұзын сұрақ-жауап", qCount: 10, startIndex: 31, generate: (i, v) => ({ audioText: "问：刚才说话的人是谁？", opts: ["A. 经理", "B. 老师", "C. 司机"] }) }
                   ]
               },
               {
-                  type: "reading", title: "二、阅读 (Reading)",
+                  type: "reading", title: "二、阅读 (Оқылым)",
                   parts: [
-                      { title: "第一部分 (Part 1: Q41-50) - Match Sentences", qCount: 10, startIndex: 41, generate: (i, v) => ({ qText: "你知道怎么去那儿吗？", opts: ["A. 我们坐地铁去。", "B. 没关系。", "C. 我吃饱了。"] }) },
-                      { title: "第二部分 (Part 2: Q51-60) - Fill Blanks", qCount: 10, startIndex: 51, generate: (i, v) => ({ qText: "除了数学，弟弟的(   )成绩都不错。", opts: ["A. 声音", "B. 其他", "C. 干净"] }) },
-                      { title: "第三部分 (Part 3: Q61-70) - Passages", qCount: 10, startIndex: 61, generate: (i, v) => ({ qText: "中国人经常说：早饭要吃好，午饭要吃饱...<br>★ 根据这句话：", opts: ["A. 晚饭要少吃", "B. 不要吃晚饭", "C. 午饭吃少"] }) }
+                      { title: "第一部分 (1-бөлім: 41-50 сұрақтар) - Сөйлемдерді сәйкестендіру", qCount: 10, startIndex: 41, generate: (i, v) => ({ qText: "你知道怎么去那儿吗？", opts: ["A. 我们坐地铁去。", "B. 没关系。", "C. 我吃饱了。"] }) },
+                      { title: "第二部分 (2-бөлім: 51-60 сұрақтар) - Көп нүктенің орнын толтыру", qCount: 10, startIndex: 51, generate: (i, v) => ({ qText: "除了数学，弟弟的(   )成绩都不错。", opts: ["A. 声音", "B. 其他", "C. 干净"] }) },
+                      { title: "第三部分 (3-бөлім: 61-70 сұрақтар) - Мәтінге сұрақтар", qCount: 10, startIndex: 61, generate: (i, v) => ({ qText: "中国人经常说：早饭要吃好，午饭要吃饱...<br>★ 根据这句话：", opts: ["A. 晚饭要少吃", "B. 不要吃晚饭", "C. 午饭吃少"] }) }
                   ]
               },
               {
-                  type: "writing", title: "三、书写 (Writing)",
+                  type: "writing", title: "三、书写 (Жазылым)",
                   parts: [
-                      { title: "第一部分 (Part 1: Q71-75) - Form Sentences", qCount: 5, startIndex: 71, generate: (i, v) => ({ qText: "最 / 吃 / 我 / 西瓜 / 爱", isText: true }) },
-                      { title: "第二部分 (Part 2: Q76-80) - Write Character", qCount: 5, startIndex: 76, generate: (i, v) => ({ qText: "今天的云很多，看不见( tài )阳。", isText: true }) }
+                      { title: "第一部分 (1-бөлім: 71-75 сұрақтар) - Сөйлем құрастыру", qCount: 5, startIndex: 71, generate: (i, v) => ({ qText: "最 / 吃 / 我 / 西瓜 / 爱", isText: true }) },
+                      { title: "第二部分 (2-бөлім: 76-80 сұрақтар) - Иероглифті жазу", qCount: 5, startIndex: 76, generate: (i, v) => ({ qText: "今天的云很多，看不见( tài )阳。", isText: true }) }
                   ]
               }
           ]
@@ -366,7 +353,7 @@
       const container = document.getElementById('exam-container');
       const exam = examData[currentExam];
       
-      let html = `<h2 class="font-display text-2xl font-bold text-ink mb-1">${exam.title} - Version ${currentVersion}</h2><p class="text-sm text-gray-600 mb-6"><em>${exam.desc}</em></p>`;
+      let html = `<h2 class="font-display text-2xl font-bold text-ink mb-1">${exam.title} - ${currentVersion}-нұсқа</h2><p class="text-sm text-gray-600 mb-6"><em>${exam.desc}</em></p>`;
       
       exam.sections.forEach(sec => {
           html += `<div class="exam-section-title">${sec.title}</div>`;
@@ -380,7 +367,7 @@
                   
                   if(qData.audioText) {
                       const safeText = qData.audioText.replace(/'/g, "\\'");
-                      html += `<br><button class="exam-play-btn" onclick="playAudio('${safeText}')">🔊 Play Audio</button>`;
+                      html += `<br><button class="exam-play-btn" onclick="playAudio('${safeText}')">🔊 Тыңдау</button>`;
                   }
                   
                   if(qData.imgHtml) {
@@ -392,7 +379,7 @@
                   }
                   
                   if(qData.isText) {
-                      html += `<textarea class="exam-writing-area" placeholder="Осында жазыңыз..."></textarea>`;
+                      html += `<textarea class="exam-writing-area" placeholder="Жауабыңызды осында жазыңыз..."></textarea>`;
                   } else if (qData.opts) {
                       html += `<div class="exam-options">`;
                       qData.opts.forEach((opt, idx) => {
