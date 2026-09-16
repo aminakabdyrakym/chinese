@@ -46,6 +46,10 @@
   .level-btn, .mode-btn { transition: all 0.3s ease; }
   .level-btn.active, .mode-btn.active { background-color: #0D9488; color: white; box-shadow: 0 4px 10px rgba(13, 148, 136, 0.3); border-color: #0D9488; }
   
+  .task-tab-btn { transition: all 0.2s ease; border-left: 4px solid transparent; }
+  .task-tab-btn:hover { background-color: rgba(232, 223, 209, 0.6); }
+  .task-tab-btn.active { background-color: #F4EFE6; color: #0D9488; border-left-color: #0D9488; font-weight: 700; }
+  
   .opt-label { transition: all 0.2s ease; }
   .opt-label:hover { background-color: #E8DFD1; border-color: #A61B29; }
   input[type="radio"] { accent-color: #A61B29; width: 18px; height: 18px; cursor: pointer; }
@@ -57,7 +61,7 @@
   .submit-btn { background-color: #A61B29; transition: all 0.2s ease; }
   .submit-btn:hover { background-color: #7D1420; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(166, 27, 41, 0.3); }
   
-  .audio-btn { background-color: #0D9488; color: white; transition: background 0.2s; display: inline-flex; align-items: center; gap: 6px; padding: 6px 14px; border-radius: 8px; font-size: 0.85rem; font-weight: 600; margin-bottom: 12px; }
+  .audio-btn { background-color: #0D9488; color: white; transition: background 0.2s; display: inline-flex; align-items: center; gap: 6px; padding: 6px 14px; border-radius: 8px; font-size: 0.85rem; font-weight: 600; margin-bottom: 12px; border: none; cursor: pointer;}
   .audio-btn:hover { background-color: #1B5F58; }
 
   .modal-enter { animation: modalFadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
@@ -68,6 +72,9 @@
 
   @media (max-width: 640px) {
     input, select, button { font-size: 16px !important; }
+    #sidebar { flex-direction: row; overflow-x: auto; border-right: none; border-bottom: 1px solid #E8DFD1; padding-bottom: 8px; }
+    .task-tab-btn { border-left: none; border-bottom: 3px solid transparent; padding: 12px 16px; white-space: nowrap; }
+    .task-tab-btn.active { border-left-color: transparent; border-bottom-color: #0D9488; }
   }
 </style>
 
@@ -86,33 +93,42 @@
       <span class="seal-stamp w-8 h-8 sm:w-9 sm:h-9 flex items-center justify-center font-brush text-white text-base sm:text-lg leading-none group-hover:rotate-0 transition-transform duration-300">汉</span>
       <span class="font-display text-base sm:text-lg font-semibold tracking-tight text-ink">Қытай тілі</span>
     </a>
-    <nav class="hidden md:flex items-center gap-7 text-[15px] font-medium text-gray-600">
+    <nav class="hidden md:flex items-center gap-9 text-[15px] font-medium text-gray-600">
       <a href="index.html" class="nav-link hover:text-ink transition-colors">Басты бет</a>
       <a href="dictionary.html" class="nav-link hover:text-ink transition-colors">Сөздік</a>
-      <a href="tasks.html" class="nav-link hover:text-ink transition-colors font-semibold text-seal">Тапсырмалар</a>
       <a href="reels.html" class="nav-link hover:text-ink transition-colors">Рилс/Квиз</a>
       <a href="mock-exam.html" class="nav-link hover:text-ink transition-colors protected-link">HSK Тесттері 🔒</a>
-      <a href="trainer.html" class="nav-link hover:text-ink transition-colors protected-link">Тренажер 🔒</a>
+      <a href="trainer.html" class="nav-link font-semibold text-seal transition-colors protected-link">Тренажер 🔒</a>
     </nav>
+    
+    <!-- Динамикалық Хедер (Жүйеге кіріп тұрғанын көрсетеді) -->
     <div class="flex items-center gap-2 sm:gap-3">
       <button onclick="window.location.href='dashboard.html'" class="text-xs sm:text-sm font-semibold text-gray-600 hover:text-ink px-1.5 sm:px-2 transition-colors cursor-pointer">Кабинет</button>
-      <a href="index.html" onclick="sessionStorage.clear()" class="stamp-btn inline-flex items-center text-white text-xs sm:text-sm font-semibold px-3.5 sm:px-5 py-2 sm:py-2.5 shrink-0 cursor-pointer">Шығу</a>
+      
+      <!-- Осы жерде пайдаланушының Аватары мен Поштасы көрінеді -->
+      <div class="hidden sm:flex items-center gap-2.5 rounded-full bg-paper-deep/50 border border-paper-deep pl-1.5 pr-4 py-1.5">
+        <span id="userAvatar" class="w-7 h-7 rounded-full bg-jade text-paper flex items-center justify-center font-display text-xs font-bold shadow-sm">K</span>
+        <span id="userNameLabel" class="text-sm font-bold text-gray-800 max-w-[160px] truncate">User</span>
+      </div>
+      
+      <a href="index.html" onclick="sessionStorage.clear()" class="text-xs sm:text-sm font-semibold text-gray-500 hover:text-seal transition-colors px-1.5 sm:px-2">Шығу</a>
+      
       <!-- Mobile Hamburger Button -->
-      <button id="mobileMenuBtn" class="md:hidden p-1.5 text-gray-700 focus:outline-none" aria-label="Menu">
+      <button id="mobileMenuBtn" class="md:hidden p-1.5 text-gray-700 focus:outline-none" aria-label="Мәзір">
         <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"></path>
         </svg>
       </button>
     </div>
   </div>
+  
   <!-- Mobile Navigation Drawer -->
   <div id="mobileMenu" class="hidden md:hidden bg-paper border-b border-paper-deep px-4 pt-2 pb-4 space-y-3">
     <a href="index.html" class="block text-sm font-medium text-gray-700 hover:text-seal py-1">Басты бет</a>
     <a href="dictionary.html" class="block text-sm font-medium text-gray-700 hover:text-seal py-1">Сөздік</a>
-    <a href="tasks.html" class="block text-sm font-medium text-seal py-1 font-semibold">Тапсырмалар</a>
     <a href="reels.html" class="block text-sm font-medium text-gray-700 hover:text-seal py-1">Рилс/Квиз</a>
     <a href="mock-exam.html" class="block text-sm font-medium text-gray-700 hover:text-seal py-1 protected-link">🔒 HSK Тесттері</a>
-    <a href="trainer.html" class="block text-sm font-medium text-gray-700 hover:text-seal py-1 protected-link">🔒 Тренажер</a>
+    <a href="trainer.html" class="block text-sm font-medium text-seal py-1 font-semibold protected-link">🔒 Тренажер</a>
   </div>
 </header>
 
@@ -169,14 +185,14 @@
       </div>
     </div>
 
-    <!-- ЕКІ БАҒАНДЫ ДИЗАЙН (СУРЕТТЕГІДЕЙ) -->
+    <!-- ЕКІ БАҒАНДЫ ДИЗАЙН -->
     <div class="flex flex-col md:flex-row gap-6 items-start">
       
       <!-- Бүйірлік мәзір (Тараулар - Беж) -->
       <div class="w-full md:w-80 bg-paper border border-paper-deep rounded-2xl p-4 shadow-xl shrink-0 md:sticky md:top-36 md:max-h-[calc(100vh-160px)] md:overflow-y-auto">
         <div class="text-xs font-bold text-gray-500 px-2 py-1 mb-2 hidden md:block uppercase tracking-wider">Тараулар тізімі</div>
         
-        <!-- Mobile (көлденең скролл) -->
+        <!-- Mobile (көлденең скролл) / Desktop (тік тізім) -->
         <div id="sidebar" class="flex md:flex-col gap-2 overflow-x-auto md:overflow-visible pb-2 md:pb-0">
           <!-- ЖС арқылы толтырылады -->
         </div>
@@ -220,7 +236,7 @@
       <ul class="space-y-3">
         <li class="flex items-start gap-3">
           <span class="icon-badge w-6 h-6 rounded-full flex items-center justify-center shrink-0 mt-0.5"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg></span>
-          <span>+7 (777) 123-45-67</span>
+          <span>+7 771 130 5701</span>
         </li>
         <li class="flex items-start gap-3">
           <span class="icon-badge w-6 h-6 rounded-full flex items-center justify-center shrink-0 mt-0.5"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg></span>
@@ -244,10 +260,22 @@
 <script>
   const SCRIPT_URL = 'https://chinese-backend-yurc.onrender.com/api';
 
+  // Хедердегі Пайдаланушы атын өзгерту логикасы
+  document.addEventListener('DOMContentLoaded', () => {
+    const currentUser = sessionStorage.getItem('currentUser');
+    if (currentUser) {
+      const nameLabel = document.getElementById('userNameLabel');
+      const avatarLabel = document.getElementById('userAvatar');
+      if (nameLabel) nameLabel.textContent = currentUser;
+      if (avatarLabel) avatarLabel.textContent = currentUser.charAt(0).toUpperCase();
+    }
+  });
+
   const authModal = document.getElementById('authModal');
   const loginError = document.getElementById('loginError');
   const loginForm = document.getElementById('loginForm');
 
+  // Mobile Menu Toggle
   const mobileMenuBtn = document.getElementById('mobileMenuBtn');
   const mobileMenu = document.getElementById('mobileMenu');
   if (mobileMenuBtn && mobileMenu) {
@@ -434,7 +462,7 @@
     
     currentDataSet.forEach(chapterData => {
       const btn = document.createElement('button'); 
-      btn.className = "task-tab-btn px-4 py-3 rounded-xl text-sm font-semibold transition-colors text-left w-full shrink-0 text-gray-700 hover:bg-paper-deep whitespace-nowrap md:whitespace-normal mb-1 md:mb-2";
+      btn.className = "task-tab-btn px-4 py-3 text-sm font-semibold transition-colors text-left w-full shrink-0 text-gray-700 hover:bg-paper-deep whitespace-nowrap md:whitespace-normal mb-1 md:mb-2 rounded-xl";
       btn.innerText = `Тарау ${chapterData.chapter}: ${chapterData.title}`;
       btn.onclick = () => loadChapter(chapterData.chapter); 
       sidebar.appendChild(btn);
@@ -499,7 +527,6 @@
     });
     document.getElementById('actions').style.display = 'block';
     
-    // Мобильді нұсқада тарауды таңдаған соң жоғарыға сәл айналдыру
     window.scrollTo({ top: document.getElementById('chapter-title').offsetTop - 80, behavior: 'smooth' });
   }
 
