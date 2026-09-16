@@ -3,8 +3,23 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+<!-- ======================= SEO & META TAGS START ======================= -->
+<title>Қазақша қытай тілі курсы | HSK Тесттері</title>
+<meta name="google-site-verification" content="rcEzC7VFxAnoCjDg97utxJ2Pt-13WDXDXM4ZwyJFG6Q" />
+<meta name="description" content="Қытай тілін қазақ тілінде үйреніңіз. HSK сынақ емтихандары және интерактивті тесттер.">
+<meta name="keywords" content="қытай тілі, қазақша қытай тілі, қытай тілі курсы, HSK тесттері, сынақ емтиханы, онлайн тест">
+<meta name="author" content="Бұланай Еркін">
 <meta name="robots" content="noindex, nofollow">
-<title>Тапсырмалар — HSK 1-3 Practice</title>
+<!-- ======================= SEO & META TAGS END ======================= -->
+
+<!-- ЖАБЫҚ БӨЛІМДІ ҚОРҒАУ СКРИПТІ -->
+<script>
+  if (!sessionStorage.getItem('currentUser')) {
+    window.location.href = 'index.html';
+  }
+</script>
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif:wght@500;600;700&family=Inter:wght@400;500;600&family=Ma+Shan+Zheng&display=swap" rel="stylesheet">
@@ -15,9 +30,7 @@
       extend: {
         colors: {
           ink: '#1B1B1F', seal: '#A61B29', 'seal-dark': '#7D1420',
-          paper: '#F4EFE6', /* Жылы беж қағаз түсі */
-          'paper-deep': '#E8DFD1', /* Қоңырлау беж (шекаралар мен ховер) */
-          gold: '#B8933F',
+          paper: '#F4EFE6', 'paper-deep': '#E8DFD1', gold: '#B8933F',
           jade: '#0D9488', 'jade-dark': '#1B5F58', mist: '#E0F2FE', sand: '#F0E5CE'
         },
         fontFamily: {
@@ -41,29 +54,7 @@
   .brush-rule { height: 2px; background: linear-gradient(90deg, transparent 0%, #A61B29 12%, #A61B29 88%, transparent 100%); }
   .footer-watermark { position: absolute; right: -20px; bottom: -40px; font-family: 'Ma Shan Zheng', cursive; font-size: 220px; line-height: 1; color: #A61B29; opacity: 0.04; pointer-events: none; user-select: none; }
   .icon-badge { background: #A61B29; }
-
-  /* ЖАҢАРТЫЛҒАН КВИЗ СТИЛЬДЕРІ */
-  .level-btn, .mode-btn { transition: all 0.3s ease; }
-  .level-btn.active, .mode-btn.active { background-color: #0D9488; color: white; box-shadow: 0 4px 10px rgba(13, 148, 136, 0.3); border-color: #0D9488; }
   
-  .task-tab-btn { transition: all 0.2s ease; border-left: 4px solid transparent; }
-  .task-tab-btn:hover { background-color: rgba(232, 223, 209, 0.6); }
-  .task-tab-btn.active { background-color: #F4EFE6; color: #0D9488; border-left-color: #0D9488; font-weight: 700; }
-  
-  .opt-label { transition: all 0.2s ease; }
-  .opt-label:hover { background-color: #E8DFD1; border-color: #A61B29; }
-  input[type="radio"] { accent-color: #A61B29; width: 18px; height: 18px; cursor: pointer; }
-  
-  .feedback { margin-top: 12px; font-weight: 700; display: none; font-size: 0.95rem; }
-  .feedback.correct { color: #10B981; display: block; }
-  .feedback.wrong { color: #EF4444; display: block; }
-  
-  .submit-btn { background-color: #A61B29; transition: all 0.2s ease; }
-  .submit-btn:hover { background-color: #7D1420; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(166, 27, 41, 0.3); }
-  
-  .audio-btn { background-color: #0D9488; color: white; transition: background 0.2s; display: inline-flex; align-items: center; gap: 6px; padding: 6px 14px; border-radius: 8px; font-size: 0.85rem; font-weight: 600; margin-bottom: 12px; border: none; cursor: pointer;}
-  .audio-btn:hover { background-color: #1B5F58; }
-
   .modal-enter { animation: modalFadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
   @keyframes modalFadeIn {
     from { opacity: 0; transform: scale(0.95) translateY(10px); }
@@ -72,36 +63,56 @@
 
   @media (max-width: 640px) {
     input, select, button { font-size: 16px !important; }
-    #sidebar { flex-direction: row; overflow-x: auto; border-right: none; border-bottom: 1px solid #E8DFD1; padding-bottom: 8px; }
-    .task-tab-btn { border-left: none; border-bottom: 3px solid transparent; padding: 12px 16px; white-space: nowrap; }
-    .task-tab-btn.active { border-left-color: transparent; border-bottom-color: #0D9488; }
   }
-</style>
 
-<!-- ЖАБЫҚ БӨЛІМДІ ҚОРҒАУ СКРИПТІ -->
-<script>
-  if (!sessionStorage.getItem('currentUser')) {
-    window.location.href = 'index.html';
-  }
-</script>
+  /* Емтиханға арналған стильдер */
+  :root { --primary: #A61B29; --secondary: #1B5F58; --bg-light: #faf8f5; --border: #E8DFD1; }
+  .exam-nav-tabs, .exam-version-tabs { display: flex; justify-content: center; background: #1B1B1F; flex-wrap: wrap; }
+  .exam-version-tabs { background: #2c3e50; border-top: 1px solid #465c71; }
+  .exam-nav-tabs button, .exam-version-tabs button { background: none; border: none; color: white; padding: 15px 30px; font-size: 16px; cursor: pointer; transition: 0.3s; }
+  .exam-version-tabs button { padding: 10px 20px; font-size: 14px; }
+  .exam-nav-tabs button:hover, .exam-nav-tabs button.active, .exam-version-tabs button:hover, .exam-version-tabs button.active { background: var(--primary); }
+  .exam-section-title { color: var(--secondary); border-bottom: 2px solid var(--secondary); padding-bottom: 5px; margin-top: 30px; font-weight: bold; font-size: 1.25rem; }
+  .exam-part-title { font-weight: bold; background: var(--bg-light); padding: 10px; border-left: 4px solid var(--primary); margin: 20px 0 10px 0; }
+  .exam-question-block { margin-bottom: 20px; padding: 15px; border: 1px solid var(--border); border-radius: 5px; background: white; }
+  .exam-question-text { font-size: 1.1em; margin-bottom: 10px; font-weight: 500;}
+  .exam-options { display: flex; flex-direction: column; gap: 8px; margin-top: 10px; }
+  .exam-options label { cursor: pointer; padding: 8px; background: var(--bg-light); border-radius: 4px; border: 1px solid transparent; transition: 0.2s; }
+  .exam-options label:hover { border-color: var(--secondary); }
+  .exam-play-btn { background-color: #0D9488; color: white; border: none; padding: 8px 15px; border-radius: 4px; cursor: pointer; margin-bottom: 15px; font-size: 1em; display: inline-flex; align-items: center; gap: 5px;}
+  .exam-play-btn:hover { background-color: #1B5F58; }
+  .exam-writing-area { width: 100%; height: 60px; padding: 10px; box-sizing: border-box; resize: vertical; margin-top: 10px; border: 1px solid var(--border); border-radius: 4px; outline: none;}
+  .exam-writing-area:focus { border-color: #0D9488; }
+  .exam-submit-btn { display: block; width: 100%; background: #0D9488; color: white; text-align: center; padding: 15px; font-size: 18px; border: none; border-radius: 5px; cursor: pointer; margin-top: 30px; font-weight: bold;}
+  .exam-submit-btn:hover { background: #1B5F58; }
+  .exam-img-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 15px 0; text-align: center; }
+  .exam-img-card { border: 1px solid #ddd; padding: 5px; border-radius: 5px; background: #fafafa; }
+  .exam-img-card img { width: 100%; height: 120px; object-fit: cover; border-radius: 4px; }
+  .exam-single-img { text-align: center; margin: 15px 0; }
+  .exam-single-img img { max-width: 280px; height: 180px; object-fit: cover; border-radius: 6px; border: 1px solid #ccc; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+</style>
 </head>
 <body class="text-ink flex flex-col min-h-screen">
 
 <header class="sticky top-0 z-40 bg-paper/95 backdrop-blur border-b-2 border-paper-deep">
   <div class="max-w-6xl mx-auto px-4 sm:px-8 flex items-center justify-between h-16">
+    
+    <!-- ЛОГОТИП ЖӘНЕ АТАУ -->
     <a href="index.html" class="flex items-center gap-2.5 sm:gap-3 shrink-0 group">
       <span class="seal-stamp w-8 h-8 sm:w-9 sm:h-9 flex items-center justify-center font-brush text-white text-base sm:text-lg leading-none group-hover:rotate-0 transition-transform duration-300">汉</span>
       <span class="font-display text-base sm:text-lg font-semibold tracking-tight text-ink">Қытай тілі</span>
     </a>
+    
+    <!-- НЕГІЗГІ НАВИГАЦИЯ (Десктоп нұсқа) -->
     <nav class="hidden md:flex items-center gap-9 text-[15px] font-medium text-gray-600">
       <a href="index.html" class="nav-link hover:text-ink transition-colors">Басты бет</a>
       <a href="dictionary.html" class="nav-link hover:text-ink transition-colors">Сөздік</a>
       <a href="reels.html" class="nav-link hover:text-ink transition-colors">Рилс/Квиз</a>
-      <a href="mock-exam.html" class="nav-link hover:text-ink transition-colors protected-link">HSK Тесттері 🔒</a>
-      <a href="trainer.html" class="nav-link font-semibold text-seal transition-colors protected-link">Тренажер 🔒</a>
+      <a href="mock-exam.html" class="nav-link font-semibold text-seal transition-colors">HSK Тесттері 🔒</a>
+      <a href="trainer.html" class="nav-link hover:text-ink transition-colors protected-link">Тренажер 🔒</a>
     </nav>
     
-    <!-- Динамикалық Хедер (Жүйеге кіріп тұрғанын көрсетеді) -->
+    <!-- ОҢ ЖАҚ ПАНЕЛЬ ЖӘНЕ МОБИЛЬДІ МӘЗІР БАТЫРМАСЫ -->
     <div class="flex items-center gap-2 sm:gap-3">
       <button onclick="window.location.href='dashboard.html'" class="text-xs sm:text-sm font-semibold text-gray-600 hover:text-ink px-1.5 sm:px-2 transition-colors cursor-pointer">Кабинет</button>
       
@@ -113,8 +124,8 @@
       
       <a href="index.html" onclick="sessionStorage.clear()" class="text-xs sm:text-sm font-semibold text-gray-500 hover:text-seal transition-colors px-1.5 sm:px-2">Шығу</a>
       
-      <!-- Mobile Hamburger Button -->
-      <button id="mobileMenuBtn" class="md:hidden p-1.5 text-gray-700 focus:outline-none" aria-label="Мәзір">
+      <!-- Мобильді мәзірді ашу/жабу (Hamburger Button) -->
+      <button id="mobileMenuBtn" class="md:hidden p-1.5 text-gray-700 focus:outline-none" aria-label="Menu">
         <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"></path>
         </svg>
@@ -122,104 +133,39 @@
     </div>
   </div>
   
-  <!-- Mobile Navigation Drawer -->
+  <!-- МОБИЛЬДІ НАВИГАЦИЯ ТЕРЕЗЕСІ -->
   <div id="mobileMenu" class="hidden md:hidden bg-paper border-b border-paper-deep px-4 pt-2 pb-4 space-y-3">
     <a href="index.html" class="block text-sm font-medium text-gray-700 hover:text-seal py-1">Басты бет</a>
     <a href="dictionary.html" class="block text-sm font-medium text-gray-700 hover:text-seal py-1">Сөздік</a>
     <a href="reels.html" class="block text-sm font-medium text-gray-700 hover:text-seal py-1">Рилс/Квиз</a>
-    <a href="mock-exam.html" class="block text-sm font-medium text-gray-700 hover:text-seal py-1 protected-link">🔒 HSK Тесттері</a>
-    <a href="trainer.html" class="block text-sm font-medium text-seal py-1 font-semibold protected-link">🔒 Тренажер</a>
+    <a href="mock-exam.html" class="block text-sm font-medium text-seal py-1 font-semibold">🔒 HSK Тесттері</a>
+    <a href="trainer.html" class="block text-sm font-medium text-gray-700 hover:text-seal py-1 protected-link">🔒 Тренажер</a>
   </div>
 </header>
 
-<!-- КІРУ ТЕРЕЗЕСІ (Беж фоны) -->
-<div id="authModal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4">
-  <div class="relative w-full max-w-sm rounded-2xl bg-paper p-6 sm:p-8 shadow-2xl border border-paper-deep">
-    <button data-close-auth class="absolute right-5 top-5 text-gray-400 hover:text-gray-700">
-      <svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
-      </svg>
-    </button>
-    
-    <div id="loginSection">
-      <h2 class="font-display mb-6 text-2xl font-bold text-gray-900">Кіру</h2>
-      <form id="loginForm" class="space-y-5">
-        <div>
-          <label class="mb-1.5 block text-sm font-medium text-gray-700">Email немесе Пайдаланушы аты</label>
-          <input type="text" id="loginIdentifier" required class="w-full rounded-xl border border-paper-deep bg-transparent px-4 py-3 text-sm outline-none focus:border-seal focus:ring-1 focus:ring-seal" placeholder="Мысалы: Bulanay Yerkin">
-        </div>
-        <div>
-          <label class="mb-1.5 block text-sm font-medium text-gray-700">Құпия сөз</label>
-          <input type="password" id="loginPassword" required class="w-full rounded-xl border border-paper-deep bg-transparent px-4 py-3 text-sm outline-none focus:border-seal focus:ring-1 focus:ring-seal">
-        </div>
-        <div id="loginError" class="hidden text-sm text-seal font-medium p-3 bg-red-50 rounded-lg border border-red-100 text-center">Қате деректер енгізілді.</div>
-        <button type="submit" id="loginSubmitBtn" class="mt-2 w-full rounded-xl bg-seal px-4 py-3 text-base font-bold text-white transition-colors hover:bg-seal-dark shadow-md">Кіру</button>
-      </form>
-    </div>
-  </div>
-</div>
+<main class="flex-1">
+  <!-- MOCK EXAM SECTION CONTAINER -->
+  <section class="py-8 md:py-12 relative overflow-hidden">
+    <div class="max-w-4xl mx-auto px-4 sm:px-8">
 
-<!-- НЕГІЗГІ БӨЛІМ (Көк градиент фон + Тор) -->
-<main class="flex-grow relative bg-gradient-to-br from-[#0c1f4c] to-[#06102a] py-8 sm:py-12 w-full overflow-hidden">
-  <div class="absolute inset-0 opacity-[0.03] pointer-events-none" style="background-image: linear-gradient(#ffffff 1px, transparent 1px), linear-gradient(90deg, #ffffff 1px, transparent 1px); background-size: 40px 40px;"></div>
-  
-  <div class="max-w-6xl mx-auto px-4 sm:px-8 relative z-10 w-full flex flex-col">
-    <!-- Басқы Тақырып -->
-    <div class="text-center mb-8">
-      <h1 id="main-header-title" class="font-display text-3xl sm:text-4xl font-bold text-white">HSK Интерактивті жұмыс дәптері</h1>
-      <p id="main-header-desc" class="text-sm sm:text-base text-white/80 mt-2">Деңгей мен бөлімді таңдап, тапсырмаларды орындаңыз</p>
-    </div>
-
-    <!-- Мәзірлер (Табтар) -->
-    <div class="sticky top-16 z-30 bg-[#0c1f4c]/95 backdrop-blur py-4 border-b border-white/10 mb-8 flex flex-col sm:flex-row items-center justify-center gap-4">
-      <!-- Деңгей таңдау -->
-      <div class="flex justify-center gap-2 sm:gap-3 bg-paper p-2 rounded-2xl shadow-xl border border-paper-deep w-max">
-        <button class="level-btn active px-4 py-2 rounded-xl font-bold text-sm text-gray-600 border border-transparent" id="btn-hsk1" onclick="switchLevel(1)">HSK 1</button>
-        <button class="level-btn px-4 py-2 rounded-xl font-bold text-sm text-gray-600 border border-transparent" id="btn-hsk2" onclick="switchLevel(2)">HSK 2</button>
-        <button class="level-btn px-4 py-2 rounded-xl font-bold text-sm text-gray-600 border border-transparent" id="btn-hsk3" onclick="switchLevel(3)">HSK 3</button>
+      <div class="exam-nav-tabs">
+        <button id="tab-hsk1" class="active" onclick="setExam('hsk1')">HSK 1 (一级)</button>
+        <button id="tab-hsk2" onclick="setExam('hsk2')">HSK 2 (二级)</button>
+        <button id="tab-hsk3" onclick="setExam('hsk3')">HSK 3 (三级)</button>
       </div>
-      <!-- Режим таңдау -->
-      <div class="flex justify-center gap-2 sm:gap-3 bg-paper p-2 rounded-2xl shadow-xl border border-paper-deep w-max">
-        <button class="mode-btn active px-4 py-2 rounded-xl font-bold text-sm text-gray-600 border border-transparent" id="btn-reading" onclick="switchMode('reading')">Оқылым</button>
-        <button class="mode-btn px-4 py-2 rounded-xl font-bold text-sm text-gray-600 border border-transparent" id="btn-listening" onclick="switchMode('listening')">Тыңдалым</button>
-      </div>
-    </div>
-
-    <!-- ЕКІ БАҒАНДЫ ДИЗАЙН -->
-    <div class="flex flex-col md:flex-row gap-6 items-start">
-      
-      <!-- Бүйірлік мәзір (Тараулар - Беж) -->
-      <div class="w-full md:w-80 bg-paper border border-paper-deep rounded-2xl p-4 shadow-xl shrink-0 md:sticky md:top-36 md:max-h-[calc(100vh-160px)] md:overflow-y-auto">
-        <div class="text-xs font-bold text-gray-500 px-2 py-1 mb-2 hidden md:block uppercase tracking-wider">Тараулар тізімі</div>
-        
-        <!-- Mobile (көлденең скролл) / Desktop (тік тізім) -->
-        <div id="sidebar" class="flex md:flex-col gap-2 overflow-x-auto md:overflow-visible pb-2 md:pb-0">
-          <!-- ЖС арқылы толтырылады -->
-        </div>
-      </div>
-      
-      <!-- Негізгі Контент (Тапсырмалар) -->
-      <div class="flex-1 w-full bg-paper rounded-2xl shadow-xl border border-paper-deep p-6 sm:p-8 min-h-[500px]">
-        <div class="text-center mb-8 border-b border-paper-deep pb-6">
-          <h2 class="font-display text-2xl font-bold text-gray-900" id="chapter-title">Тарауды таңдаңыз</h2>
-          <p class="text-sm text-gray-600 mt-2">Мұқият оқып (немесе тыңдап), дұрыс жауабын белгілеңіз.</p>
-        </div>
-        
-        <div id="quiz-container" class="space-y-6">
-          <!-- Сұрақтар ЖС арқылы осында түседі -->
-        </div>
-        
-        <div class="actions mt-10 pt-6 border-t border-paper-deep text-center" id="actions" style="display: none;">
-          <button class="submit-btn text-white px-8 py-3.5 rounded-xl font-bold text-base shadow-md w-full sm:w-auto" onclick="checkAnswers()" id="submit-btn-text">Жауаптарды тексеру</button>
-          <div id="score-display" class="mt-6 font-display font-bold text-2xl text-jade"></div>
-        </div>
+      <div class="exam-version-tabs">
+        <button id="tab-v1" class="active" onclick="setVersion(1)">1-нұсқа</button>
+        <button id="tab-v2" onclick="setVersion(2)">2-нұсқа</button>
+        <button id="tab-v3" onclick="setVersion(3)">3-нұсқа</button>
       </div>
 
+      <div id="exam-container" class="bg-white p-6 sm:p-8 rounded-b-2xl shadow-lg border border-paper-deep mt-[-2px]"></div>
+
     </div>
-  </div>
+  </section>
 </main>
 
-<footer class="relative overflow-hidden border-t border-paper-deep bg-paper pt-3 mt-auto">
+<footer class="relative overflow-hidden border-t border-gray-200 bg-paper pt-3 mt-auto">
   <div class="brush-rule"></div>
   <span class="footer-watermark" aria-hidden="true">汉</span>
   <div class="relative max-w-6xl mx-auto px-4 sm:px-8 grid grid-cols-1 md:grid-cols-3 gap-8 sm:gap-10 mb-8 mt-10 text-sm text-gray-600">
@@ -258,8 +204,6 @@
 </footer>
 
 <script>
-  const SCRIPT_URL = 'https://chinese-backend-yurc.onrender.com/api';
-
   // Хедердегі Пайдаланушы атын өзгерту логикасы
   document.addEventListener('DOMContentLoaded', () => {
     const currentUser = sessionStorage.getItem('currentUser');
@@ -271,10 +215,6 @@
     }
   });
 
-  const authModal = document.getElementById('authModal');
-  const loginError = document.getElementById('loginError');
-  const loginForm = document.getElementById('loginForm');
-
   // Mobile Menu Toggle
   const mobileMenuBtn = document.getElementById('mobileMenuBtn');
   const mobileMenu = document.getElementById('mobileMenu');
@@ -284,282 +224,211 @@
     });
   }
 
-  document.querySelectorAll('[data-open-auth]').forEach(b => {
-    b.addEventListener('click', (e) => { 
-      if (e) e.preventDefault();
-      authModal.classList.remove('hidden'); 
-      loginError.classList.add('hidden'); 
-    });
-  });
-  document.querySelectorAll('[data-close-auth]').forEach(b => {
-    b.addEventListener('click', () => authModal.classList.add('hidden'));
-  });
-
-  function setLoadingState(buttonId, isLoading, originalText) {
-    const btn = document.getElementById(buttonId);
-    if (!btn) return;
-    if (isLoading) {
-      btn.disabled = true;
-      btn.classList.add('opacity-80', 'cursor-not-allowed');
-      btn.innerHTML = `<svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white inline" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg> Күте тұрыңыз...`;
-    } else {
-      btn.disabled = false;
-      btn.classList.remove('opacity-80', 'cursor-not-allowed');
-      btn.innerHTML = `<span>${originalText}</span>`;
-    }
-  }
-
-  loginForm.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const identifier = document.getElementById('loginIdentifier').value.trim();
-    const password = document.getElementById('loginPassword').value.trim();
-    
-    loginError.classList.add('hidden');
-    setLoadingState('loginSubmitBtn', true, 'Кіру');
-
-    try {
-      const response = await fetch(SCRIPT_URL, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ action: 'login', identifier, password })
-      });
-      const result = await response.json();
-
-      if (result.status === 'success') {
-        authModal.classList.add('hidden');
-        sessionStorage.setItem('currentUser', result.name);
-        if (result.role === 'teacher' || result.name === 'Bulanay Yerkin') {
-          window.location.href = `admin.html?name=${encodeURIComponent(result.name)}`;
-        } else {
-          window.location.href = `dashboard.html?name=${encodeURIComponent(result.name)}`;
-        }
-      } else {
-        loginError.textContent = result.message || 'Қате деректер енгізілді.';
-        loginError.classList.remove('hidden');
-      }
-    } catch (err) {
-      loginError.textContent = 'Сервермен байланыс үзілді. Қайта көріңіз.';
-      loginError.classList.remove('hidden');
-    } finally {
-      setLoadingState('loginSubmitBtn', false, 'Кіру');
-    }
-  });
-
-  let currentLevel = 2;
-  let currentMode = 'reading';
-  let currentChapterId = 1;
-
-  const dataBase = {
-    1: {
-      reading: [
-        {
-          chapter: 1,
-          title: "你好 (Сәлем)",
-          questions: [
-            { id: "h1_r1_1", num: 1, text: "我很高兴认识你。", pinyin: "Wǒ hěn gāoxìng rènshi nǐ.", statement: "★ 他很高兴。", answer: "true" }
-          ]
-        }
-      ],
-      listening: [
-        {
-          chapter: 1,
-          title: "你好 (Сәлем)",
-          questions: [
-            { id: "h1_l1_1", num: 1, audioText: "你好！你叫什么名字？", pinyin: "Nǐ hǎo! Nǐ jiào shénme míngzi?", statement: "★ 对方在问名字。", answer: "true" }
-          ]
-        }
-      ]
-    },
-    2: {
-      reading: [
-        {
-          chapter: 1,
-          title: "九月去北京旅游最好 (Бейжіңге қыркүйекте барған жақсы)",
-          questions: [
-            { id: "r1_1", num: 1, text: "她喜欢在家看电影，也喜欢睡觉，不喜欢出去。", pinyin: "Tā xǐhuan zài jiâ kàn diànyǐng, yě xǐhuan shuìjiào, bù xǐhuan chūqu.", statement: "★ 她最喜欢运动。", answer: "false" }
-          ]
-        }
-      ],
-      listening: [
-        {
-          chapter: 1,
-          title: "九月去北京旅游最好 (Бейжіңге қыркүйекте барған жақсы)",
-          questions: [
-            { id: "l1_1", num: 1, audioText: "喂，你去哪儿啊？我去商店买点儿水。", pinyin: "Wèi, nǐ qù nǎr a? Wǒ qù shāngdiàn mǎi diǎnr shuǐ.", statement: "★ 他去商店买水。", answer: "true" }
-          ]
-        }
-      ]
-    },
-    3: {
-      reading: [
-        {
-          chapter: 1,
-          title: "周末你有什么打算？ (Демалысқа қандай жоспар бар?)",
-          questions: [
-            { id: "h3_r1_1", num: 1, text: "我打算星期六去图书馆看书，顺便借几本小说。", pinyin: "Wǒ dǎsuàn xīngqīliù qù túshūguǎn kàn shū, shùnbiàn jiè jǐ běn xiǎoshuō.", statement: "★ 他星期六要去图书馆。", answer: "true" }
-          ]
-        }
-      ],
-      listening: [
-        {
-          chapter: 1,
-          title: "周末你有什么打算？ (Демалысқа қандай жоспар бар?)",
-          questions: [
-            { id: "h3_l1_1", num: 1, audioText: "请问电梯在哪儿？在前面左边。", pinyin: "Qǐngwèn diàntī zài nǎr? Zài qiánmian zuǒbiān.", statement: "★ 电梯在左边。", answer: "true" }
-          ]
-        }
-      ]
-    }
-  };
-
-  const urlParams = new URLSearchParams(window.location.search);
-  const paramLevel = urlParams.get('level');
-  if (paramLevel && dataBase[paramLevel]) {
-    currentLevel = parseInt(paramLevel);
-  }
-
-  function switchLevel(level) {
-    currentLevel = level;
-    document.getElementById('btn-hsk1').classList.toggle('active', level === 1);
-    document.getElementById('btn-hsk2').classList.toggle('active', level === 2);
-    document.getElementById('btn-hsk3').classList.toggle('active', level === 3);
-    updateHeader();
-    initSidebar();
-    loadChapter(1);
-  }
-
-  function switchMode(mode) {
-    currentMode = mode;
-    document.getElementById('btn-reading').classList.toggle('active', mode === 'reading');
-    document.getElementById('btn-listening').classList.toggle('active', mode === 'listening');
-    updateHeader();
-    initSidebar();
-    loadChapter(1);
-  }
-
-  function updateHeader() {
-    const modeName = currentMode === 'reading' ? 'Оқылым бөлімі' : 'Тыңдалым бөлімі';
-    document.getElementById('main-header-title').innerText = `HSK ${currentLevel} Жұмыс дәптері`;
-    document.getElementById('main-header-desc').innerText = `HSK ${currentLevel} деңгейіне арналған жаттығулар (${modeName})`;
-  }
+  let currentExam = 'hsk1';
+  let currentVersion = 1;
 
   function playAudio(text) {
-    if ('speechSynthesis' in window) {
-      window.speechSynthesis.cancel();
-      const utterance = new SpeechSynthesisUtterance(text);
-      utterance.lang = 'zh-CN';
-      utterance.rate = 0.85;
-      window.speechSynthesis.speak(utterance);
-    } else {
-      alert('Браузеріңіз дыбыстау функциясын қолдамайды.');
-    }
-  }
-
-  function initSidebar() {
-    const sidebar = document.getElementById('sidebar');
-    sidebar.innerHTML = '';
-    const currentDataSet = dataBase[currentLevel][currentMode];
-    
-    currentDataSet.forEach(chapterData => {
-      const btn = document.createElement('button'); 
-      btn.className = "task-tab-btn px-4 py-3 text-sm font-semibold transition-colors text-left w-full shrink-0 text-gray-700 hover:bg-paper-deep whitespace-nowrap md:whitespace-normal mb-1 md:mb-2 rounded-xl";
-      btn.innerText = `Тарау ${chapterData.chapter}: ${chapterData.title}`;
-      btn.onclick = () => loadChapter(chapterData.chapter); 
-      sidebar.appendChild(btn);
-    });
-  }
-
-  function loadChapter(chapterId) {
-    currentChapterId = chapterId;
-    const currentDataSet = dataBase[currentLevel][currentMode];
-    const currentChapter = currentDataSet.find(c => c.chapter === chapterId);
-    
-    const sidebarButtons = document.querySelectorAll('.task-tab-btn');
-    sidebarButtons.forEach((btn, idx) => {
-      if (idx + 1 === chapterId) {
-        btn.classList.add('bg-jade', 'text-white', 'shadow-md');
-        btn.classList.remove('text-gray-700', 'hover:bg-paper-deep');
+      if ('speechSynthesis' in window) {
+          window.speechSynthesis.cancel(); 
+          let msg = new SpeechSynthesisUtterance();
+          msg.text = text;
+          msg.lang = 'zh-CN'; 
+          msg.rate = 0.85; 
+          window.speechSynthesis.speak(msg);
       } else {
-        btn.classList.remove('bg-jade', 'text-white', 'shadow-md');
-        btn.classList.add('text-gray-700', 'hover:bg-paper-deep');
+          alert("Браузеріңіз дыбыстау функциясын қолдамайды.");
       }
-    });
-
-    document.getElementById('chapter-title').innerText = `Тарау ${currentChapter.chapter}: ${currentChapter.title}`;
-    const container = document.getElementById('quiz-container'); 
-    container.innerHTML = ''; 
-    document.getElementById('score-display').innerText = '';
-    
-    currentChapter.questions.forEach(q => {
-      const qDiv = document.createElement('div'); 
-      qDiv.className = 'bg-paper-deep/20 border border-paper-deep rounded-2xl p-5 sm:p-6 shadow-inner';
-      
-      let contentHtml = '';
-      if (currentMode === 'reading') {
-        contentHtml = `<div class="text-lg text-gray-900 mb-4 leading-relaxed"><strong class="text-seal mr-2">${q.num}.</strong> ${q.text}
-          <div class="text-sm text-jade font-semibold mt-1 mb-3">${q.pinyin}</div>
-          <div class="font-bold text-gray-800 bg-white/60 inline-block px-4 py-2 rounded-xl border border-paper-deep">${q.statement}</div>
-        </div>`;
-      } else {
-        contentHtml = `<div class="text-lg text-gray-900 mb-4 leading-relaxed"><strong class="text-seal mr-2">${q.num}.</strong> 
-          <button class="audio-btn shadow-sm" onclick="playAudio('${q.audioText.replace(/'/g, "\\'")}')">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
-            Тыңдау
-          </button>
-          <div class="text-sm text-jade font-semibold mt-1 mb-3">${q.pinyin}</div>
-          <div class="font-bold text-gray-800 bg-white/60 inline-block px-4 py-2 rounded-xl border border-paper-deep">${q.statement}</div>
-        </div>`;
-      }
-
-      qDiv.innerHTML = `
-        ${contentHtml}
-        <div class="flex flex-wrap gap-4 mt-5">
-          <label class="opt-label flex items-center gap-3 bg-white px-5 py-3 rounded-xl border border-paper-deep cursor-pointer shadow-sm flex-1 sm:flex-none">
-            <input type="radio" name="q_${q.id}" value="true"> <span class="font-semibold text-gray-800">Дұрыс (对)</span>
-          </label>
-          <label class="opt-label flex items-center gap-3 bg-white px-5 py-3 rounded-xl border border-paper-deep cursor-pointer shadow-sm flex-1 sm:flex-none">
-            <input type="radio" name="q_${q.id}" value="false"> <span class="font-semibold text-gray-800">Қате (错)</span>
-          </label>
-        </div>
-        <div class="feedback" id="feedback_${q.id}"></div>
-      `;
-      container.appendChild(qDiv);
-    });
-    document.getElementById('actions').style.display = 'block';
-    
-    window.scrollTo({ top: document.getElementById('chapter-title').offsetTop - 80, behavior: 'smooth' });
   }
 
-  function checkAnswers() {
-    const currentDataSet = dataBase[currentLevel][currentMode];
-    const currentChapter = currentDataSet.find(c => c.chapter === currentChapterId);
-    
-    let score = 0; 
-    let total = currentChapter.questions.length;
-    
-    currentChapter.questions.forEach(q => {
-      const selected = document.querySelector(`input[name="q_${q.id}"]:checked`); 
-      const feedback = document.getElementById(`feedback_${q.id}`);
-      if (selected) { 
-        if (selected.value === q.answer) { 
-          score++; 
-          feedback.innerHTML = "✓ Дұрыс жауап! Жарайсың!"; 
-          feedback.className = "feedback correct"; 
-        } else { 
-          feedback.innerHTML = `✗ Қате. Мұқият қайта оқып көріңіз.`; 
-          feedback.className = "feedback wrong"; 
-        } 
-      } else { 
-        feedback.innerHTML = "⚠ Жауапты таңдамадыңыз."; 
-        feedback.className = "feedback wrong"; 
-      }
-    });
-    document.getElementById('score-display').innerText = `Нәтиже: ${score} / ${total}`;
-  }
-
-  window.onload = () => {
-    switchLevel(currentLevel);
+  const photoBank = {
+      apple: "https://picsum.photos/id/1080/300/200",
+      dog: "https://picsum.photos/id/237/300/200",
+      rain: "https://picsum.photos/id/538/300/200",
+      computer: "https://picsum.photos/id/0/300/200",
+      coffee: "https://picsum.photos/id/425/300/200",
+      reading: "https://picsum.photos/id/367/300/200",
+      hospital: "https://picsum.photos/id/1060/300/200",
+      school: "https://picsum.photos/id/1/300/200",
+      train: "https://picsum.photos/id/1070/300/200",
+      food: "https://picsum.photos/id/292/300/200",
+      people: "https://picsum.photos/id/64/300/200",
+      phone: "https://picsum.photos/id/160/300/200",
+      sports: "https://picsum.photos/id/399/300/200",
+      nature: "https://picsum.photos/id/10/300/200"
   };
+
+  const examData = {
+      hsk1: {
+          title: "HSK 1 деңгейі (一级)",
+          desc: "Барлығы: 40 сұрақ. Тыңдалым (20), Оқылым (20).",
+          sections: [
+              {
+                  type: "listening", title: "一、听力 (Тыңдалым)",
+                  parts: [
+                      {
+                          title: "第一部分 (1-бөлім: 1-5 сұрақтар) - Сурет пен сөзді сәйкестендіру (Дұрыс/Бұрыс)", qCount: 5, startIndex: 1,
+                          generate: (i, v) => {
+                              const photos = [photoBank.apple, photoBank.dog, photoBank.rain, photoBank.computer, photoBank.coffee];
+                              const words = ["苹果", "狗", "下雨", "电脑", "咖啡"];
+                              const idx = (i + v) % words.length;
+                              return { audioText: words[idx], imgHtml: `<div class="exam-single-img"><img src="${photos[idx]}" alt="Сұрақ суреті"></div>`, opts: ["Дұрыс (对)", "Бұрыс (错)"] };
+                          }
+                      },
+                      {
+                          title: "第二部分 (2-бөлім: 6-10 сұрақтар) - Суретті таңдау (A, B, C)", qCount: 5, startIndex: 6,
+                          generate: (i, v) => ({ 
+                              audioText: "我在看书学习呢。", 
+                              imgHtml: `<div class="exam-img-grid">
+                                  <div class="exam-img-card"><img src="${photoBank.reading}" alt="A"><div>A</div></div>
+                                  <div class="exam-img-card"><img src="${photoBank.hospital}" alt="B"><div>B</div></div>
+                                  <div class="exam-img-card"><img src="${photoBank.train}" alt="C"><div>C</div></div>
+                              </div>`, 
+                              opts: ["A", "B", "C"] 
+                          })
+                      },
+                      { title: "第三部分 (3-бөлім: 11-15 сұрақтар) - Диалог пен суретті сәйкестендіру", qCount: 5, startIndex: 11, generate: (i, v) => ({ audioText: "你好！很高兴认识你。", imgHtml: `<div class="exam-single-img"><img src="${photoBank.people}" alt="Диалог"></div>`, opts: ["A", "B", "C", "D", "E"] }) },
+                      { title: "第四部分 (4-бөлім: 16-20 сұрақтар) - Тыңдау және сұраққа жауап беру", qCount: 5, startIndex: 16, generate: (i, v) => ({ audioText: "下午我去商店买水果。问：她去哪儿？", opts: ["A. 商店", "B. 医院", "C. 学校"] }) }
+                  ]
+              },
+              {
+                  type: "reading", title: "二、阅读 (Оқылым)",
+                  parts: [
+                      {
+                          title: "第一部分 (1-бөлім: 21-25 сұрақтар) - Сурет пен сөзді тексеру (Дұрыс/Бұрыс)", qCount: 5, startIndex: 21,
+                          generate: (i, v) => {
+                              const photos = [photoBank.school, photoBank.computer, photoBank.hospital, photoBank.apple, photoBank.train];
+                              const labels = ["学校", "电脑", "医院", "苹果", "火车"];
+                              const idx = (i + v) % labels.length;
+                              return { qText: `Сөз: ${labels[idx]}`, imgHtml: `<div class="exam-single-img"><img src="${photos[idx]}" alt="Оқылым суреті"></div>`, opts: ["Дұрыс (对)", "Бұрыс (错)"] };
+                          }
+                      },
+                      { title: "第二部分 (2-бөлім: 26-30 сұрақтар) - Сөйлемді суретке сәйкестендіру", qCount: 5, startIndex: 26, generate: (i, v) => ({ qText: "他明天坐火车去北京。", imgHtml: `<div class="exam-img-grid"><div class="exam-img-card"><img src="${photoBank.train}">A</div><div class="exam-img-card"><img src="${photoBank.coffee}">B</div><div class="exam-img-card"><img src="${photoBank.dog}">C</div></div>`, opts: ["A", "B", "C", "D", "E"] }) },
+                      { title: "第三部分 (3-бөлім: 31-35 сұрақтар) - Сұрақ пен жауапты сәйкестендіру", qCount: 5, startIndex: 31, generate: (i, v) => ({ qText: "你爱吃什么水果？", opts: ["A. 中国人。", "B. 苹果。", "C. 好的。", "D. 20块。", "E. 七点了。"] }) },
+                      { title: "第四部分 (4-бөлім: 36-40 сұрақтар) - Көп нүктенің орнын толтыру", qCount: 5, startIndex: 36, generate: (i, v) => ({ qText: "她在医院(   )工作。", opts: ["A. 名字", "B. 医生", "C. 学习", "D. 长期", "E. 在"] }) }
+                  ]
+              }
+          ]
+      },
+      hsk2: {
+          title: "HSK 2 деңгейі (二级)",
+          desc: "Барлығы: 60 сұрақ. Тыңдалым (35), Оқылым (25).",
+          sections: [
+              {
+                  type: "listening", title: "一、听力 (Тыңдалым)",
+                  parts: [
+                      { title: "第一部分 (1-бөлім: 1-10 сұрақтар) - Дұрыс/Бұрыс", qCount: 10, startIndex: 1, generate: (i, v) => ({ audioText: "他正在打电话呢。", imgHtml: `<div class="exam-single-img"><img src="${photoBank.phone}" alt="Телефон"></div>`, opts: ["Дұрыс (对)", "Бұрыс (错)"] }) },
+                      { title: "第二部分 (2-бөлім: 11-20 сұрақтар) - Суретті таңдау", qCount: 10, startIndex: 11, generate: (i, v) => ({ audioText: "男：你喜欢什么运动？女：我最喜欢踢足球。", imgHtml: `<div class="exam-single-img"><img src="${photoBank.sports}" alt="Спорт"></div>`, opts: ["A", "B", "C"] }) },
+                      { title: "第三部分 (3-бөлім: 21-30 сұрақтар) - Қысқа диалог сұрақтары", qCount: 10, startIndex: 21, generate: (i, v) => ({ audioText: "问：男的要去哪儿？", opts: ["A. 机场", "B. 饭馆", "C. 医院"] }) },
+                      { title: "第四部分 (4-бөлім: 31-35 сұрақтар) - Ұзын диалог сұрақтары", qCount: 5, startIndex: 31, generate: (i, v) => ({ audioText: "问：他们在说什么？", opts: ["A. 天气", "B. 考试", "C. 衣服"] }) }
+                  ]
+              },
+              {
+                  type: "reading", title: "二、阅读 (Оқылым)",
+                  parts: [
+                      { title: "第一部分 (1-бөлім: 36-40 сұрақтар) - Сөйлем мен суретті сәйкестендіру", qCount: 5, startIndex: 36, generate: (i, v) => ({ qText: "小狗生病了，今天没吃东西。", imgHtml: `<div class="exam-single-img"><img src="${photoBank.dog}" alt="Ит"></div>`, opts: ["A", "B", "C", "D", "E"] }) },
+                      { title: "第二部分 (2-бөлім: 41-45 сұрақтар) - Көп нүктенің орнын толтыру", qCount: 5, startIndex: 41, generate: (i, v) => ({ qText: "请进，你找我有(   )事情？", opts: ["A. 去年", "B. 什么", "C. 希望", "D. 贵", "E. 向"] }) },
+                      { title: "第三部分 (3-бөлім: 46-50 сұрақтар) - Дұрыс/Бұрыс", qCount: 5, startIndex: 46, generate: (i, v) => ({ qText: "Мәтін: 他家离我家很近。<br>★ 他家很远。", opts: ["Дұрыс (对)", "Бұрыс (错)"] }) },
+                      { title: "第四部分 (4-бөлім: 51-60 сұрақтар) - Сөйлемдерді сәйкестендіру", qCount: 10, startIndex: 51, generate: (i, v) => ({ qText: "昨天睡得很晚。", opts: ["A. 所以今天很累。", "B. 因为有很多工作。", "C. 他去旅游了。"] }) }
+                  ]
+              }
+          ]
+      },
+      hsk3: {
+          title: "HSK 3 деңгейі (三级)",
+          desc: "Барлығы: 80 сұрақ. Тыңдалым (40), Оқылым (30), Жазылым (10).",
+          sections: [
+              {
+                  type: "listening", title: "一、听力 (Тыңдалым)",
+                  parts: [
+                      { title: "第一部分 (1-бөлім: 1-10 сұрақтар) - Суретті сәйкестендіру", qCount: 10, startIndex: 1, generate: (i, v) => ({ audioText: "我们去前面那家书店看看吧。", imgHtml: `<div class="exam-single-img"><img src="${photoBank.school}" alt="Дүкен"></div>`, opts: ["A", "B", "C", "D"] }) },
+                      { title: "第二部分 (2-бөлім: 11-20 сұрақтар) - Дұрыс/Бұрыс", qCount: 10, startIndex: 11, generate: (i, v) => ({ audioText: "为了让自己更健康，他每天跑步。★ 他希望自己很健康。", opts: ["Дұрыс (对)", "Бұрыс (错)"] }) },
+                      { title: "第三部分 (3-бөлім: 21-30 сұрақтар) - Қысқа сұрақ-жауап", qCount: 10, startIndex: 21, generate: (i, v) => ({ audioText: "问：这杯咖啡多少钱？", opts: ["A. 30元", "B. 40元", "C. 50元"] }) },
+                      { title: "第四部分 (4-бөлім: 31-40 сұрақтар) - Ұзын сұрақ-жауап", qCount: 10, startIndex: 31, generate: (i, v) => ({ audioText: "问：刚才说话的人是谁？", opts: ["A. 经理", "B. 老师", "C. 司机"] }) }
+                  ]
+              },
+              {
+                  type: "reading", title: "二、阅读 (Оқылым)",
+                  parts: [
+                      { title: "第一部分 (1-бөлім: 41-50 сұрақтар) - Сөйлемдерді сәйкестендіру", qCount: 10, startIndex: 41, generate: (i, v) => ({ qText: "你知道怎么去那儿吗？", opts: ["A. 我们坐地铁去。", "B. 没关系。", "C. 我吃饱了。"] }) },
+                      { title: "第二部分 (2-бөлім: 51-60 сұрақтар) - Көп нүктенің орнын толтыру", qCount: 10, startIndex: 51, generate: (i, v) => ({ qText: "除了数学，弟弟的(   )成绩都不错。", opts: ["A. 声音", "B. 其他", "C. 干净"] }) },
+                      { title: "第三部分 (3-бөлім: 61-70 сұрақтар) - Мәтінге сұрақтар", qCount: 10, startIndex: 61, generate: (i, v) => ({ qText: "中国人经常说：早饭要吃好，午饭要吃饱...<br>★ 根据这句话：", opts: ["A. 晚饭要少吃", "B. 不要吃晚饭", "C. 午饭吃少"] }) }
+                  ]
+              },
+              {
+                  type: "writing", title: "三、书写 (Жазылым)",
+                  parts: [
+                      { title: "第一部分 (1-бөлім: 71-75 сұрақтар) - Сөйлем құрастыру", qCount: 5, startIndex: 71, generate: (i, v) => ({ qText: "最 / 吃 / 我 / 西瓜 / 爱", isText: true }) },
+                      { title: "第二部分 (2-бөлім: 76-80 сұрақтар) - Иероглифті жазу", qCount: 5, startIndex: 76, generate: (i, v) => ({ qText: "今天的云很多，看不见( tài )阳。", isText: true }) }
+                  ]
+              }
+          ]
+      }
+  };
+
+  function setExam(examId) {
+      currentExam = examId;
+      document.querySelectorAll('.exam-nav-tabs button').forEach(btn => btn.classList.remove('active'));
+      document.getElementById('tab-' + examId).classList.add('active');
+      renderExam();
+  }
+
+  function setVersion(version) {
+      currentVersion = version;
+      document.querySelectorAll('.exam-version-tabs button').forEach(btn => btn.classList.remove('active'));
+      document.getElementById('tab-v' + version).classList.add('active');
+      renderExam();
+  }
+
+  function renderExam() {
+      const container = document.getElementById('exam-container');
+      const exam = examData[currentExam];
+      
+      let html = `<h2 class="font-display text-2xl font-bold text-ink mb-1">${exam.title} - ${currentVersion}-нұсқа</h2><p class="text-sm text-gray-600 mb-6"><em>${exam.desc}</em></p>`;
+      
+      exam.sections.forEach(sec => {
+          html += `<div class="exam-section-title">${sec.title}</div>`;
+          sec.parts.forEach(part => {
+              html += `<div class="exam-part-title">${part.title}</div>`;
+              
+              for(let i=0; i<part.qCount; i++) {
+                  const qData = part.generate(i, currentVersion);
+                  const qNum = part.startIndex + i;
+                  html += `<div class="exam-question-block"><strong>${qNum}. </strong>`;
+                  
+                  if(qData.audioText) {
+                      const safeText = qData.audioText.replace(/'/g, "\\'");
+                      html += `<br><button class="exam-play-btn" onclick="playAudio('${safeText}')">🔊 Тыңдау</button>`;
+                  }
+                  
+                  if(qData.imgHtml) {
+                      html += qData.imgHtml;
+                  }
+                  
+                  if(qData.qText) {
+                      html += `<div class="exam-question-text mt-2">${qData.qText}</div>`;
+                  }
+                  
+                  if(qData.isText) {
+                      html += `<textarea class="exam-writing-area" placeholder="Жауабыңызды осында жазыңыз..."></textarea>`;
+                  } else if (qData.opts) {
+                      html += `<div class="exam-options">`;
+                      qData.opts.forEach((opt, idx) => {
+                          html += `<label><input type="radio" name="v${currentVersion}_q${currentExam}_${qNum}" value="${idx}"> ${opt}</label>`;
+                      });
+                      html += `</div>`;
+                  }
+                  html += `</div>`;
+              }
+          });
+      });
+      
+      html += `<button class="exam-submit-btn" onclick="alert('Тест сәтті тапсырылды!')">Тестті аяқтау</button>`;
+      container.innerHTML = html;
+  }
+
+  window.addEventListener('DOMContentLoaded', () => {
+      renderExam();
+  });
 </script>
 </body>
 </html>
