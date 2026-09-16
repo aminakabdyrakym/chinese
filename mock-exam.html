@@ -6,6 +6,7 @@
 
 <!-- ======================= SEO & META TAGS START ======================= -->
 <title>Қазақша қытай тілі курсы | HSK Тесттері</title>
+<meta name="google-site-verification" content="rcEzC7VFxAnoCjDg97utxJ2Pt-13WDXDXM4ZwyJFG6Q" />
 <meta name="description" content="Қытай тілін қазақ тілінде үйреніңіз. HSK сынақ емтихандары және интерактивті тесттер.">
 <meta name="keywords" content="қытай тілі, қазақша қытай тілі, қытай тілі курсы, HSK тесттері, сынақ емтиханы, онлайн тест">
 <meta name="author" content="Бұланай Еркін">
@@ -63,6 +64,32 @@
   @media (max-width: 640px) {
     input, select, button, textarea { font-size: 16px !important; }
   }
+
+  /* Емтиханға арналған стильдер */
+  :root { --primary: #A61B29; --secondary: #1B5F58; --bg-light: #faf8f5; --border: #E8DFD1; }
+  .exam-nav-tabs, .exam-version-tabs { display: flex; justify-content: center; background: #1B1B1F; flex-wrap: wrap; }
+  .exam-version-tabs { background: #2c3e50; border-top: 1px solid #465c71; }
+  .exam-nav-tabs button, .exam-version-tabs button { background: none; border: none; color: white; padding: 15px 30px; font-size: 16px; cursor: pointer; transition: 0.3s; }
+  .exam-version-tabs button { padding: 10px 20px; font-size: 14px; }
+  .exam-nav-tabs button:hover, .exam-nav-tabs button.active, .exam-version-tabs button:hover, .exam-version-tabs button.active { background: var(--primary); }
+  .exam-section-title { color: var(--secondary); border-bottom: 2px solid var(--secondary); padding-bottom: 5px; margin-top: 30px; font-weight: bold; font-size: 1.25rem; }
+  .exam-part-title { font-weight: bold; background: var(--bg-light); padding: 10px; border-left: 4px solid var(--primary); margin: 20px 0 10px 0; }
+  .exam-question-block { margin-bottom: 20px; padding: 15px; border: 1px solid var(--border); border-radius: 5px; background: white; }
+  .exam-question-text { font-size: 1.1em; margin-bottom: 10px; font-weight: 500;}
+  .exam-options { display: flex; flex-direction: column; gap: 8px; margin-top: 10px; }
+  .exam-options label { cursor: pointer; padding: 8px; background: var(--bg-light); border-radius: 4px; border: 1px solid transparent; transition: 0.2s; }
+  .exam-options label:hover { border-color: var(--secondary); }
+  .exam-play-btn { background-color: #0D9488; color: white; border: none; padding: 8px 15px; border-radius: 4px; cursor: pointer; margin-bottom: 15px; font-size: 1em; display: inline-flex; align-items: center; gap: 5px;}
+  .exam-play-btn:hover { background-color: #1B5F58; }
+  .exam-writing-area { width: 100%; height: 60px; padding: 10px; box-sizing: border-box; resize: vertical; margin-top: 10px; border: 1px solid var(--border); border-radius: 4px; outline: none;}
+  .exam-writing-area:focus { border-color: #0D9488; }
+  .exam-submit-btn { display: block; width: 100%; background: #0D9488; color: white; text-align: center; padding: 15px; font-size: 18px; border: none; border-radius: 5px; cursor: pointer; margin-top: 30px; font-weight: bold;}
+  .exam-submit-btn:hover { background: #1B5F58; }
+  .exam-img-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 15px 0; text-align: center; }
+  .exam-img-card { border: 1px solid #ddd; padding: 5px; border-radius: 5px; background: #fafafa; }
+  .exam-img-card img { width: 100%; height: 120px; object-fit: cover; border-radius: 4px; }
+  .exam-single-img { text-align: center; margin: 15px 0; }
+  .exam-single-img img { max-width: 280px; height: 180px; object-fit: cover; border-radius: 6px; border: 1px solid #ccc; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
 </style>
 </head>
 <body class="text-ink flex flex-col min-h-screen">
@@ -77,10 +104,9 @@
     </a>
     
     <!-- НЕГІЗГІ НАВИГАЦИЯ (Десктоп нұсқа) -->
-    <nav class="hidden md:flex items-center gap-7 text-[15px] font-medium text-gray-600">
+    <nav class="hidden md:flex items-center gap-9 text-[15px] font-medium text-gray-600">
       <a href="index.html" class="nav-link hover:text-ink transition-colors">Басты бет</a>
       <a href="dictionary.html" class="nav-link hover:text-ink transition-colors">Сөздік</a>
-      <a href="tasks.html" class="nav-link hover:text-ink transition-colors protected-link">Тапсырмалар 🔒</a>
       <a href="reels.html" class="nav-link hover:text-ink transition-colors">Рилс/Квиз</a>
       <a href="mock-exam.html" class="nav-link font-semibold text-seal transition-colors">HSK Тесттері</a>
       <a href="trainer.html" class="nav-link hover:text-ink transition-colors protected-link">Тренажер 🔒</a>
@@ -111,51 +137,88 @@
   <div id="mobileMenu" class="hidden md:hidden bg-paper border-b border-paper-deep px-4 pt-2 pb-4 space-y-3">
     <a href="index.html" class="block text-sm font-medium text-gray-700 hover:text-seal py-1">Басты бет</a>
     <a href="dictionary.html" class="block text-sm font-medium text-gray-700 hover:text-seal py-1">Сөздік</a>
-    <a href="tasks.html" class="block text-sm font-medium text-gray-700 hover:text-seal py-1 protected-link">🔒 Тапсырмалар</a>
     <a href="reels.html" class="block text-sm font-medium text-gray-700 hover:text-seal py-1">Рилс/Квиз</a>
     <a href="mock-exam.html" class="block text-sm font-medium text-seal py-1 font-semibold">HSK Тесттері</a>
     <a href="trainer.html" class="block text-sm font-medium text-gray-700 hover:text-seal py-1 protected-link">🔒 Тренажер</a>
   </div>
 </header>
 
-<main class="flex-grow relative bg-gradient-to-br from-[#0c1f4c] to-[#06102a] py-8 sm:py-12 w-full overflow-hidden">
-  <div class="absolute inset-0 opacity-[0.03] pointer-events-none" style="background-image: linear-gradient(#ffffff 1px, transparent 1px), linear-gradient(90deg, #ffffff 1px, transparent 1px); background-size: 40px 40px;"></div>
-  
-  <div class="max-w-4xl mx-auto px-4 sm:px-8 relative z-10 w-full flex flex-col">
-    <!-- Басқы Тақырып -->
-    <div class="text-center mb-8">
-      <h1 class="font-display text-3xl sm:text-4xl font-bold text-white mb-2">HSK Тесттері (Mock Exams)</h1>
-      <p class="text-sm sm:text-base text-white/80 mt-2">Деңгей мен нұсқаны таңдап, емтиханды бастаңыз</p>
+<!-- КІРУ, ТІРКЕЛУ ЖӘНЕ ҚҰПИЯ СӨЗДІ ҚАЛПЫНА КЕЛТІРУ ТЕРЕЗЕСІ (MODAL) -->
+<div id="authModal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm p-4 transition-opacity">
+  <div class="modal-enter relative w-full max-w-sm rounded-2xl bg-white p-6 sm:p-8 shadow-2xl border border-gray-100">
+    <button data-close-auth class="absolute right-5 top-5 text-gray-400 hover:text-gray-700 transition-colors bg-gray-50 rounded-full p-1 cursor-pointer">
+      <svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
+      </svg>
+    </button>
+    
+    <div id="loginSection">
+      <h2 class="font-display mb-6 text-2xl font-bold text-gray-900">Кіру</h2>
+      <form id="loginForm" class="space-y-4">
+        <div>
+          <label class="mb-1.5 block text-sm font-medium text-gray-700">Email немесе Пайдаланушы аты</label>
+          <input type="text" id="loginIdentifier" required class="w-full rounded-lg border border-gray-300 px-4 py-2.5 text-sm outline-none focus:border-seal focus:ring-2 focus:ring-seal/20 transition-all">
+        </div>
+        <div>
+          <label class="mb-1.5 block text-sm font-medium text-gray-700">Құпия сөз</label>
+          <input type="password" id="loginPassword" required class="w-full rounded-lg border border-gray-300 px-4 py-2.5 text-sm outline-none focus:border-seal focus:ring-2 focus:ring-seal/20 transition-all">
+        </div>
+        <div class="flex items-center justify-end text-xs sm:text-sm">
+          <button type="button" id="toForgotBtn" class="text-gray-500 hover:text-seal hover:underline transition-colors cursor-pointer">Құпия сөзді ұмытыңыз ба?</button>
+        </div>
+        <div id="loginError" class="hidden p-3 rounded-lg bg-red-50 border border-red-100 text-sm text-seal font-medium text-center"></div>
+        <button type="submit" id="loginSubmitBtn" class="w-full rounded-lg bg-seal px-4 py-3 text-base font-semibold text-white transition-all hover:bg-seal-dark hover:shadow-lg flex items-center justify-center cursor-pointer">
+          <span>Кіру</span>
+        </button>
+      </form>
     </div>
 
-    <!-- Мәзірлер (Табтар) -->
-    <div class="sticky top-16 z-30 bg-[#0c1f4c]/95 backdrop-blur py-4 border-b border-white/10 mb-8 flex flex-col items-center justify-center gap-4">
-      
-      <!-- Деңгей таңдау -->
-      <div class="flex justify-center gap-2 sm:gap-3 bg-paper p-2 rounded-2xl shadow-xl border border-paper-deep w-max exam-nav-tabs">
-        <button id="tab-hsk1" class="bg-jade text-white shadow-md px-4 py-2 rounded-xl font-bold text-sm transition-colors" onclick="setExam('hsk1')">HSK 1 (一级)</button>
-        <button id="tab-hsk2" class="text-gray-600 px-4 py-2 rounded-xl font-bold text-sm transition-colors hover:bg-paper-deep" onclick="setExam('hsk2')">HSK 2 (二级)</button>
-        <button id="tab-hsk3" class="text-gray-600 px-4 py-2 rounded-xl font-bold text-sm transition-colors hover:bg-paper-deep" onclick="setExam('hsk3')">HSK 3 (三级)</button>
+    <!-- Тіркелу формасы (осы бетке қажет емес болса да, логиканың дұрыс жұмыс істеуі үшін қалдырылды) -->
+    <div id="registerSection" class="hidden"></div>
+
+    <div id="forgotSection" class="hidden">
+      <h2 class="font-display mb-4 text-xl font-bold text-gray-900">Құпия сөзді қалпына келтіру</h2>
+      <p class="text-xs text-gray-600 mb-4">Email адресіңізді жазыңыз, біз сізге нұсқаулық жібереміз.</p>
+      <form id="forgotForm" class="space-y-4">
+        <div>
+          <label class="mb-1.5 block text-sm font-medium text-gray-700">Email</label>
+          <input type="email" id="forgotEmail" required class="w-full rounded-lg border border-gray-300 px-4 py-2.5 text-sm outline-none focus:border-seal focus:ring-2 focus:ring-seal/20 transition-all">
+        </div>
+        <div id="forgotMessage" class="hidden p-3 rounded-lg border text-sm font-medium text-center"></div>
+        <button type="submit" id="forgotSubmitBtn" class="w-full rounded-lg bg-seal px-4 py-3 text-base font-semibold text-white transition-all hover:bg-seal-dark hover:shadow-lg flex items-center justify-center cursor-pointer">
+          <span>Жіберу</span>
+        </button>
+      </form>
+      <div class="mt-6 text-center text-sm text-gray-500">
+        <button type="button" id="backToLoginBtn" class="text-gray-500 font-semibold hover:text-seal transition-colors hover:underline cursor-pointer">← Кіруге қайту</button>
       </div>
-      
-      <!-- Нұсқа таңдау -->
-      <div class="flex justify-center gap-2 sm:gap-3 bg-paper p-2 rounded-2xl shadow-xl border border-paper-deep w-max exam-version-tabs">
-        <button id="tab-v1" class="bg-seal text-white shadow-md px-4 py-2 rounded-xl font-bold text-sm transition-colors" onclick="setVersion(1)">1-нұсқа</button>
-        <button id="tab-v2" class="text-gray-600 px-4 py-2 rounded-xl font-bold text-sm transition-colors hover:bg-paper-deep" onclick="setVersion(2)">2-нұсқа</button>
-        <button id="tab-v3" class="text-gray-600 px-4 py-2 rounded-xl font-bold text-sm transition-colors hover:bg-paper-deep" onclick="setVersion(3)">3-нұсқа</button>
-      </div>
-
     </div>
-
-    <!-- ТАПСЫРМАЛАР КОНТЕЙНЕРІ (БЕЖ ҚАҒАЗ) -->
-    <div id="exam-container" class="bg-paper rounded-2xl shadow-2xl border border-paper-deep p-6 sm:p-8 w-full min-h-[500px]">
-      <!-- ЖС арқылы генерацияланады -->
-    </div>
-
   </div>
+</div>
+
+<main class="flex-1">
+  <!-- MOCK EXAM SECTION CONTAINER -->
+  <section class="py-8 md:py-12 relative overflow-hidden">
+    <div class="max-w-4xl mx-auto px-4 sm:px-8">
+
+      <div class="exam-nav-tabs">
+        <button id="tab-hsk1" class="active" onclick="setExam('hsk1')">HSK 1 (一级)</button>
+        <button id="tab-hsk2" onclick="setExam('hsk2')">HSK 2 (二级)</button>
+        <button id="tab-hsk3" onclick="setExam('hsk3')">HSK 3 (三级)</button>
+      </div>
+      <div class="exam-version-tabs">
+        <button id="tab-v1" class="active" onclick="setVersion(1)">1-нұсқа</button>
+        <button id="tab-v2" onclick="setVersion(2)">2-нұсқа</button>
+        <button id="tab-v3" onclick="setVersion(3)">3-нұсқа</button>
+      </div>
+
+      <div id="exam-container" class="bg-white p-6 sm:p-8 rounded-b-2xl shadow-lg border border-paper-deep mt-[-2px]"></div>
+
+    </div>
+  </section>
 </main>
 
-<footer class="relative overflow-hidden border-t border-paper-deep bg-paper pt-3 mt-auto">
+<footer class="relative overflow-hidden border-t border-gray-200 bg-paper pt-3 mt-auto">
   <div class="brush-rule"></div>
   <span class="footer-watermark" aria-hidden="true">汉</span>
   <div class="relative max-w-6xl mx-auto px-4 sm:px-8 grid grid-cols-1 md:grid-cols-3 gap-8 sm:gap-10 mb-8 mt-10 text-sm text-gray-600">
@@ -205,7 +268,19 @@
     }
   });
 
-  // Mobile Menu Toggle
+  const SCRIPT_URL = 'https://chinese-backend-yurc.onrender.com/api';
+
+  const authModal = document.getElementById('authModal');
+  const loginSection = document.getElementById('loginSection');
+  const forgotSection = document.getElementById('forgotSection');
+
+  const loginForm = document.getElementById('loginForm');
+  const forgotForm = document.getElementById('forgotForm');
+
+  const loginError = document.getElementById('loginError');
+  const forgotMessage = document.getElementById('forgotMessage');
+
+  // Мобильді мәзірді қосу/өшіру
   const mobileMenuBtn = document.getElementById('mobileMenuBtn');
   const mobileMenu = document.getElementById('mobileMenu');
   if (mobileMenuBtn && mobileMenu) {
@@ -213,6 +288,119 @@
       mobileMenu.classList.toggle('hidden');
     });
   }
+
+  // ЖАБЫҚ СІЛТЕМЕЛЕРДІ ҚОРҒАУ ЛОГИКАСЫ
+  document.querySelectorAll('.protected-link').forEach(link => {
+    link.addEventListener('click', (e) => {
+      if (!sessionStorage.getItem('currentUser')) {
+        e.preventDefault(); 
+        authModal.classList.remove('hidden');
+        showSection('login');
+        loginError.textContent = 'Бұл бөлімді көру үшін алдымен жүйеге кіріңіз.';
+        loginError.className = 'p-3 rounded-lg bg-blue-50 border border-blue-100 text-sm text-blue-800 font-medium text-center block';
+        loginError.classList.remove('hidden');
+      }
+    });
+  });
+
+  document.querySelectorAll('[data-open-auth]').forEach(b => {
+    b.addEventListener('click', (e) => {
+      if (e) e.preventDefault();
+      authModal.classList.remove('hidden');
+      showSection('login');
+    });
+  });
+  
+  document.querySelectorAll('[data-close-auth]').forEach(b => {
+    b.addEventListener('click', () => authModal.classList.add('hidden'));
+  });
+
+  function showSection(type) {
+    loginSection.classList.add('hidden');
+    forgotSection.classList.add('hidden');
+    loginError.classList.add('hidden');
+    forgotMessage.classList.add('hidden');
+
+    if (type === 'login') loginSection.classList.remove('hidden');
+    if (type === 'forgot') forgotSection.classList.remove('hidden');
+  }
+
+  document.getElementById('toForgotBtn').addEventListener('click', () => showSection('forgot'));
+  document.getElementById('backToLoginBtn').addEventListener('click', () => showSection('login'));
+
+  function setLoadingState(buttonId, isLoading, originalText) {
+    const btn = document.getElementById(buttonId);
+    if (!btn) return;
+    if (isLoading) {
+      btn.disabled = true;
+      btn.classList.add('opacity-80', 'cursor-not-allowed');
+      btn.innerHTML = `<svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white inline" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg> Күте тұрыңыз...`;
+    } else {
+      btn.disabled = false;
+      btn.classList.remove('opacity-80', 'cursor-not-allowed');
+      btn.innerHTML = `<span>${originalText}</span>`;
+    }
+  }
+
+  loginForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const identifier = document.getElementById('loginIdentifier').value.trim();
+    const password = document.getElementById('loginPassword').value.trim();
+    
+    loginError.classList.add('hidden');
+    setLoadingState('loginSubmitBtn', true, 'Кіру');
+
+    try {
+      const response = await fetch(SCRIPT_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'login', identifier, password })
+      });
+      const result = await response.json();
+
+      if (result.status === 'success') {
+        sessionStorage.setItem('currentUser', result.name);
+        window.location.href = result.role === 'teacher' || result.name === 'Bulanay Yerkin' 
+          ? `admin.html?name=${encodeURIComponent(result.name)}`
+          : `dashboard.html?name=${encodeURIComponent(result.name)}`;
+      } else {
+        loginError.textContent = result.message || 'Қате деректер енгізілді.';
+        loginError.className = 'p-3 rounded-lg bg-red-50 border border-red-100 text-sm text-seal font-medium text-center block';
+      }
+    } catch (err) {
+      loginError.textContent = 'Сервермен байланыс үзілді. Қайта көріңіз.';
+      loginError.className = 'p-3 rounded-lg bg-red-50 border border-red-100 text-sm text-seal font-medium text-center block';
+    } finally {
+      setLoadingState('loginSubmitBtn', false, 'Кіру');
+    }
+  });
+
+  forgotForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const email = document.getElementById('forgotEmail').value.trim();
+    
+    forgotMessage.classList.add('hidden');
+    setLoadingState('forgotSubmitBtn', true, 'Жіберу');
+
+    try {
+      const response = await fetch(SCRIPT_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'forgotPassword', email })
+      });
+      const result = await response.json();
+
+      forgotMessage.textContent = result.message || 'Қалпына келтіру сілтемесі поштаңызға жіберілді.';
+      forgotMessage.className = result.status === 'success' 
+        ? 'p-3 rounded-lg bg-green-50 border border-green-100 text-sm text-jade font-medium text-center block' 
+        : 'p-3 rounded-lg bg-red-50 border border-red-100 text-sm text-seal font-medium text-center block';
+    } catch (err) {
+      forgotMessage.textContent = 'Қате орын алды.';
+      forgotMessage.className = 'p-3 rounded-lg bg-red-50 border border-red-100 text-sm text-seal font-medium text-center block';
+    } finally {
+      setLoadingState('forgotSubmitBtn', false, 'Жіберу');
+    }
+  });
 
   let currentExam = 'hsk1';
   let currentVersion = 1;
