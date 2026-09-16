@@ -9,25 +9,15 @@
 <meta name="description" content="Қытай тілін қысқа видеолар (рилс) арқылы үйреніп, арнайы квиздермен біліміңізді тексеріңіз. Күнделікті сөздер мен фразаларды тез жаттап алыңыз.">
 <meta name="keywords" content="қытай тілі сабақтары, қытайша рилс, қытайша квиз, қытай тілі тест, сөздік жаттау, Бұланай Еркін, видео сабақтар, қазақша қытай тілі">
 <meta name="author" content="Бұланай Еркін">
-<meta name="robots" content="index, follow">
-<link rel="canonical" href="https://bubukz.vercel.app/reels.html">
-
-<!-- Open Graph / Facebook / WhatsApp / Telegram -->
-<meta property="og:type" content="website">
-<meta property="og:url" content="https://bubukz.vercel.app/reels.html">
-<meta property="og:title" content="Рилс сабақтары және Квиздер | Қытай тілін үйрену">
-<meta property="og:description" content="Қысқа видеолар арқылы қытай тілін үйреніп, квиздер арқылы өзіңді сынап көр! Жаңа сөздерді тез жатта.">
-<meta property="og:image" content="https://bubukz.vercel.app/images/social-preview.jpg">
-<meta property="og:site_name" content="Қытай тілі KZ">
-<meta property="og:locale" content="kk_KZ">
-
-<!-- Twitter -->
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:url" content="https://bubukz.vercel.app/reels.html">
-<meta name="twitter:title" content="Рилс сабақтары және Квиздер | Қытай тілін үйрену">
-<meta name="twitter:description" content="Қысқа видеолар арқылы қытай тілін үйреніп, квиздер арқылы өзіңді сынап көр! Жаңа сөздерді тез жатта.">
-<meta name="twitter:image" content="https://bubukz.vercel.app/images/social-preview.jpg">
+<meta name="robots" content="noindex, nofollow">
 <!-- ======================= SEO & META TAGS END ======================= -->
+
+<!-- ЖАБЫҚ БӨЛІМДІ ҚОРҒАУ СКРИПТІ -->
+<script>
+  if (!sessionStorage.getItem('currentUser')) {
+    window.location.href = 'index.html';
+  }
+</script>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -74,12 +64,6 @@
   .audio-btn { background-color: #0D9488; color: white; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 0.85rem; font-weight: 600; display: inline-flex; align-items: center; gap: 5px; transition: background 0.2s; }
   .audio-btn:hover { background-color: #1B5F58; }
 
-  .modal-enter { animation: modalFadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
-  @keyframes modalFadeIn {
-    from { opacity: 0; transform: scale(0.95) translateY(10px); }
-    to { opacity: 1; transform: scale(1) translateY(0); }
-  }
-
   @media (max-width: 640px) {
     input, select, button { font-size: 16px !important; }
   }
@@ -93,6 +77,7 @@
       <span class="seal-stamp w-8 h-8 sm:w-9 sm:h-9 flex items-center justify-center font-brush text-white text-base sm:text-lg leading-none group-hover:rotate-0 transition-transform duration-300">汉</span>
       <span class="font-display text-base sm:text-lg font-semibold tracking-tight text-ink">Қытай тілі</span>
     </a>
+    
     <nav class="hidden md:flex items-center gap-9 text-[15px] font-medium text-gray-600">
       <a href="index.html" class="nav-link hover:text-ink transition-colors">Басты бет</a>
       <a href="dictionary.html" class="nav-link hover:text-ink transition-colors">Сөздік</a>
@@ -100,16 +85,28 @@
       <a href="mock-exam.html" class="nav-link hover:text-ink transition-colors protected-link">HSK Тесттері 🔒</a>
       <a href="trainer.html" class="nav-link hover:text-ink transition-colors protected-link">Тренажер 🔒</a>
     </nav>
+    
+    <!-- Динамикалық Хедер (Жүйеге кіріп тұрғанын көрсетеді) -->
     <div class="flex items-center gap-2 sm:gap-3">
-      <button data-open-auth="login" class="text-xs sm:text-sm font-semibold text-gray-600 hover:text-ink px-1.5 sm:px-2 transition-colors cursor-pointer">Кабинет</button>
-      <button data-open-auth="register" class="stamp-btn inline-flex items-center text-white text-xs sm:text-sm font-semibold px-3.5 sm:px-5 py-2 sm:py-2.5 shrink-0 cursor-pointer">Жазылу</button>
-      <button id="mobileMenuBtn" class="md:hidden p-1.5 text-gray-700 focus:outline-none" aria-label="Menu">
+      <button onclick="window.location.href='dashboard.html'" class="text-xs sm:text-sm font-semibold text-gray-600 hover:text-ink px-1.5 sm:px-2 transition-colors cursor-pointer">Кабинет</button>
+      
+      <!-- Осы жерде пайдаланушының Аватары мен Поштасы көрінеді -->
+      <div class="hidden sm:flex items-center gap-2.5 rounded-full bg-paper-deep/50 border border-paper-deep pl-1.5 pr-4 py-1.5">
+        <span id="userAvatar" class="w-7 h-7 rounded-full bg-jade text-paper flex items-center justify-center font-display text-xs font-bold shadow-sm">K</span>
+        <span id="userNameLabel" class="text-sm font-bold text-gray-800 max-w-[160px] truncate">User</span>
+      </div>
+      
+      <a href="index.html" onclick="sessionStorage.clear()" class="text-xs sm:text-sm font-semibold text-gray-500 hover:text-seal transition-colors px-1.5 sm:px-2">Шығу</a>
+      
+      <!-- Mobile Hamburger Button -->
+      <button id="mobileMenuBtn" class="md:hidden p-1.5 text-gray-700 focus:outline-none" aria-label="Мәзір">
         <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"></path>
         </svg>
       </button>
     </div>
   </div>
+  
   <div id="mobileMenu" class="hidden md:hidden bg-paper border-b border-paper-deep px-4 pt-2 pb-4 space-y-3">
     <a href="index.html" class="block text-sm font-medium text-gray-700 hover:text-seal py-1">Басты бет</a>
     <a href="dictionary.html" class="block text-sm font-medium text-gray-700 hover:text-seal py-1">Сөздік</a>
@@ -119,84 +116,6 @@
   </div>
 </header>
 
-<!-- КІРУ, ТІРКЕЛУ ЖӘНЕ ҚҰПИЯ СӨЗДІ ҚАЛПЫНА КЕЛТІРУ ТЕРЕЗЕСІ (MODAL) -->
-<div id="authModal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm p-4 transition-opacity">
-  <div class="modal-enter relative w-full max-w-sm rounded-2xl bg-white p-6 sm:p-8 shadow-2xl border border-gray-100">
-    <button data-close-auth class="absolute right-5 top-5 text-gray-400 hover:text-gray-700 transition-colors bg-gray-50 rounded-full p-1 cursor-pointer">
-      <svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
-      </svg>
-    </button>
-    
-    <div id="loginSection">
-      <h2 class="font-display mb-6 text-2xl font-bold text-gray-900">Кіру</h2>
-      <form id="loginForm" class="space-y-4">
-        <div>
-          <label class="mb-1.5 block text-sm font-medium text-gray-700">Email немесе Пайдаланушы аты</label>
-          <input type="text" id="loginIdentifier" required class="w-full rounded-lg border border-gray-300 px-4 py-2.5 text-sm outline-none focus:border-seal focus:ring-2 focus:ring-seal/20 transition-all" placeholder="Мысалы: Bulanay Yerkin">
-        </div>
-        <div>
-          <label class="mb-1.5 block text-sm font-medium text-gray-700">Құпия сөз</label>
-          <input type="password" id="loginPassword" required class="w-full rounded-lg border border-gray-300 px-4 py-2.5 text-sm outline-none focus:border-seal focus:ring-2 focus:ring-seal/20 transition-all">
-        </div>
-        <div class="flex items-center justify-end text-xs sm:text-sm">
-          <button type="button" id="toForgotBtn" class="text-gray-500 hover:text-seal hover:underline transition-colors cursor-pointer">Құпия сөзді ұмытыңыз ба?</button>
-        </div>
-        <div id="loginError" class="hidden p-3 rounded-lg bg-red-50 border border-red-100 text-sm text-seal font-medium text-center"></div>
-        <button type="submit" id="loginSubmitBtn" class="w-full rounded-lg bg-seal px-4 py-3 text-base font-semibold text-white transition-all hover:bg-seal-dark hover:shadow-lg flex items-center justify-center cursor-pointer">
-          <span>Кіру</span>
-        </button>
-      </form>
-      <div class="mt-6 text-center text-sm text-gray-500">
-        Аккаунтыңыз жоқ па? <button type="button" id="toRegisterBtn" class="text-seal font-semibold hover:underline cursor-pointer">Тіркелу</button>
-      </div>
-    </div>
-    
-    <div id="registerSection" class="hidden">
-      <h2 class="font-display mb-6 text-2xl font-bold text-gray-900">Тіркелу</h2>
-      <form id="registerForm" class="space-y-4">
-        <div>
-          <label class="mb-1.5 block text-sm font-medium text-gray-700">Аты-жөні</label>
-          <input type="text" id="regName" required class="w-full rounded-lg border border-gray-300 px-4 py-2.5 text-sm outline-none focus:border-seal focus:ring-2 focus:ring-seal/20 transition-all">
-        </div>
-        <div>
-          <label class="mb-1.5 block text-sm font-medium text-gray-700">Email</label>
-          <input type="email" id="regEmail" required class="w-full rounded-lg border border-gray-300 px-4 py-2.5 text-sm outline-none focus:border-seal focus:ring-2 focus:ring-seal/20 transition-all">
-        </div>
-        <div>
-          <label class="mb-1.5 block text-sm font-medium text-gray-700">Құпия сөз</label>
-          <input type="password" id="regPassword" required class="w-full rounded-lg border border-gray-300 px-4 py-2.5 text-sm outline-none focus:border-seal focus:ring-2 focus:ring-seal/20 transition-all">
-        </div>
-        <div id="registerError" class="hidden p-3 rounded-lg border text-sm font-medium text-center"></div>
-        <button type="submit" id="registerSubmitBtn" class="w-full rounded-lg bg-seal px-4 py-3 text-base font-semibold text-white transition-all hover:bg-seal-dark hover:shadow-lg flex items-center justify-center cursor-pointer">
-          <span>Тіркелу</span>
-        </button>
-      </form>
-      <div class="mt-6 text-center text-sm text-gray-500">
-        Аккаунтыңыз бар ма? <button type="button" id="toLoginBtn" class="text-seal font-semibold hover:underline cursor-pointer">Кіру</button>
-      </div>
-    </div>
-
-    <div id="forgotSection" class="hidden">
-      <h2 class="font-display mb-4 text-xl font-bold text-gray-900">Құпия сөзді қалпына келтіру</h2>
-      <p class="text-xs text-gray-600 mb-4">Email адресіңізді жазыңыз, біз сізге нұсқаулық жібереміз.</p>
-      <form id="forgotForm" class="space-y-4">
-        <div>
-          <label class="mb-1.5 block text-sm font-medium text-gray-700">Email</label>
-          <input type="email" id="forgotEmail" required class="w-full rounded-lg border border-gray-300 px-4 py-2.5 text-sm outline-none focus:border-seal focus:ring-2 focus:ring-seal/20 transition-all">
-        </div>
-        <div id="forgotMessage" class="hidden p-3 rounded-lg border text-sm font-medium text-center"></div>
-        <button type="submit" id="forgotSubmitBtn" class="w-full rounded-lg bg-seal px-4 py-3 text-base font-semibold text-white transition-all hover:bg-seal-dark hover:shadow-lg flex items-center justify-center cursor-pointer">
-          <span>Жіберу</span>
-        </button>
-      </form>
-      <div class="mt-6 text-center text-sm text-gray-500">
-        <button type="button" id="backToLoginBtn" class="text-gray-500 font-semibold hover:text-seal transition-colors hover:underline cursor-pointer">← Кіруге қайту</button>
-      </div>
-    </div>
-  </div>
-</div>
-
 <!-- НЕГІЗГІ БӨЛІМ (Көк фон + Тор сызықтары) -->
 <main class="flex-grow relative bg-gradient-to-br from-[#0c1f4c] to-[#06102a] py-8 sm:py-12 w-full overflow-hidden">
   <div class="absolute inset-0 opacity-[0.03] pointer-events-none" style="background-image: linear-gradient(#ffffff 1px, transparent 1px), linear-gradient(90deg, #ffffff 1px, transparent 1px); background-size: 40px 40px;"></div>
@@ -204,7 +123,7 @@
   <div class="max-w-6xl mx-auto w-full px-4 sm:px-8 relative z-10">
     <div class="text-center mb-8">
       <h1 class="font-display text-3xl sm:text-4xl font-bold text-white mb-2">Рилс сабақтары және Квиздер</h1>
-      <p class="text-white/80 text-sm sm:text-base">Қалаған сабағыңызды таңдап, сөздерді жаттап, біліміңді тексеріңіз!</p>
+      <p class="text-white/80 text-sm sm:text-base">Қалаған сабағыңызды таңдап, сөздерді жаттап, біліміңізді тексеріңіз!</p>
     </div>
 
     <div class="flex flex-col md:flex-row gap-6 items-start">
@@ -238,7 +157,7 @@
           <h3 class="font-display font-bold text-[#111111] text-xl mb-3">Қытай тілін терең меңгергің келе ме? 🚀</h3>
           <p class="text-sm sm:text-base text-gray-700 mb-6">Бұдан да көп қызықты сабақтар, жеке куратор және жүйелі курстарға қатысу үшін бізге жазыл!</p>
           <div class="flex flex-col sm:flex-row gap-4 justify-center">
-            <button data-open-auth="register" class="rounded-full bg-gradient-to-r from-[#59c3ff] to-[#3a9ee0] text-[#0c1f4c] font-bold px-8 py-3.5 text-center hover:shadow-[0_0_15px_rgba(89,195,255,0.4)] transition-all cursor-pointer">Курсқа жазылу →</button>
+            <button onclick="window.location.href='dashboard.html'" class="rounded-full bg-gradient-to-r from-[#59c3ff] to-[#3a9ee0] text-[#0c1f4c] font-bold px-8 py-3.5 text-center hover:shadow-[0_0_15px_rgba(89,195,255,0.4)] transition-all cursor-pointer">Кабинетке өту →</button>
             <a href="https://wa.me/77711305701" target="_blank" class="rounded-full bg-transparent border border-[#0c1f4c]/30 text-[#0c1f4c] font-bold px-8 py-3.5 text-center hover:bg-[#0c1f4c]/5 transition-colors flex items-center justify-center gap-2">
               <svg class="w-5 h-5 text-[#25D366]" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.878-.788-1.471-1.761-1.644-2.06-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 00-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
               Менеджерге хабарласу
@@ -284,58 +203,24 @@
       </ul>
     </div>
   </div>
-  <div class="relative max-w-6xl mx-auto px-4 sm:px-8 pt-6 pb-6 border-t border-gray-200 flex flex-col md:flex-row items-center justify-between text-xs text-gray-500">
+  <div class="relative max-w-6xl mx-auto px-4 sm:px-8 pt-6 pb-6 border-t border-paper-deep flex flex-col md:flex-row items-center justify-between text-xs text-gray-500">
     <p>© 2026 Қытай тілі. Барлық құқықтар қорғалған.</p>
   </div>
 </footer>
 
 <script>
-  const SCRIPT_URL = 'https://chinese-backend-yurc.onrender.com/api';
-
-  const authModal = document.getElementById('authModal');
-  const loginSection = document.getElementById('loginSection');
-  const registerSection = document.getElementById('registerSection');
-  const forgotSection = document.getElementById('forgotSection');
-
-  const loginForm = document.getElementById('loginForm');
-  const registerForm = document.getElementById('registerForm');
-  const forgotForm = document.getElementById('forgotForm');
-
-  const loginError = document.getElementById('loginError');
-  const registerError = document.getElementById('registerError');
-  const forgotMessage = document.getElementById('forgotMessage');
-
-  // URL арқылы поштаның расталғанын тексеру
-  window.addEventListener('DOMContentLoaded', () => {
-    const urlParams = new URLSearchParams(window.location.search);
-    if (urlParams.get('verified') === 'true') {
-      authModal.classList.remove('hidden');
-      showSection('login');
-      loginError.textContent = 'Поштаңыз сәтті расталды! Енді жүйеге кіріңіз.';
-      loginError.className = 'p-3 rounded-lg bg-green-50 border border-green-100 text-sm text-jade font-medium text-center block';
-      window.history.replaceState({}, document.title, window.location.pathname);
-    } else if (urlParams.get('verified') === 'false') {
-      authModal.classList.remove('hidden');
-      showSection('login');
-      loginError.textContent = 'Қате: Сілтеме ескірген немесе жарамсыз.';
-      loginError.className = 'p-3 rounded-lg bg-red-50 border border-red-100 text-sm text-seal font-medium text-center block';
-      window.history.replaceState({}, document.title, window.location.pathname);
+  // Хедердегі Пайдаланушы атын өзгерту логикасы
+  document.addEventListener('DOMContentLoaded', () => {
+    const currentUser = sessionStorage.getItem('currentUser');
+    if (currentUser) {
+      const nameLabel = document.getElementById('userNameLabel');
+      const avatarLabel = document.getElementById('userAvatar');
+      if (nameLabel) nameLabel.textContent = currentUser;
+      if (avatarLabel) avatarLabel.textContent = currentUser.charAt(0).toUpperCase();
     }
   });
 
-  function setLoadingState(buttonId, isLoading, originalText) {
-    const btn = document.getElementById(buttonId);
-    if (isLoading) {
-      btn.disabled = true;
-      btn.classList.add('opacity-80', 'cursor-not-allowed');
-      btn.innerHTML = `<svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg> Күте тұрыңыз...`;
-    } else {
-      btn.disabled = false;
-      btn.classList.remove('opacity-80', 'cursor-not-allowed');
-      btn.innerHTML = `<span>${originalText}</span>`;
-    }
-  }
-
+  // Mobile Menu Toggle
   const mobileMenuBtn = document.getElementById('mobileMenuBtn');
   const mobileMenu = document.getElementById('mobileMenu');
   if (mobileMenuBtn && mobileMenu) {
@@ -343,146 +228,6 @@
       mobileMenu.classList.toggle('hidden');
     });
   }
-
-  document.querySelectorAll('[data-open-auth]').forEach(b => {
-    b.addEventListener('click', (e) => {
-      if (e) e.preventDefault();
-      const target = b.getAttribute('data-open-auth');
-      authModal.classList.remove('hidden');
-      showSection(target);
-    });
-  });
-
-  document.querySelectorAll('[data-close-auth]').forEach(b => {
-    b.addEventListener('click', () => authModal.classList.add('hidden'));
-  });
-
-  function showSection(type) {
-    loginSection.classList.add('hidden');
-    registerSection.classList.add('hidden');
-    forgotSection.classList.add('hidden');
-    loginError.classList.add('hidden');
-    registerError.classList.add('hidden');
-    forgotMessage.classList.add('hidden');
-
-    if (type === 'login') loginSection.classList.remove('hidden');
-    if (type === 'register') registerSection.classList.remove('hidden');
-    if (type === 'forgot') forgotSection.classList.remove('hidden');
-  }
-
-  document.getElementById('toRegisterBtn').addEventListener('click', () => showSection('register'));
-  document.getElementById('toLoginBtn').addEventListener('click', () => showSection('login'));
-  document.getElementById('toForgotBtn').addEventListener('click', () => showSection('forgot'));
-  document.getElementById('backToLoginBtn').addEventListener('click', () => showSection('login'));
-
-  // ЖАБЫҚ СІЛТЕМЕЛЕРДІ ҚОРҒАУ ЛОГИКАСЫ
-  document.querySelectorAll('.protected-link').forEach(link => {
-    link.addEventListener('click', (e) => {
-      if (!sessionStorage.getItem('currentUser')) {
-        e.preventDefault(); 
-        authModal.classList.remove('hidden');
-        showSection('login');
-        loginError.textContent = 'Бұл бөлімді көру үшін алдымен жүйеге кіріңіз.';
-        loginError.className = 'p-3 rounded-lg bg-blue-50 border border-blue-100 text-sm text-blue-800 font-medium text-center block';
-        loginError.classList.remove('hidden');
-      }
-    });
-  });
-
-  loginForm.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const identifier = document.getElementById('loginIdentifier').value.trim();
-    const password = document.getElementById('loginPassword').value.trim();
-    
-    loginError.classList.add('hidden');
-    setLoadingState('loginSubmitBtn', true, 'Кіру');
-
-    try {
-      const response = await fetch(SCRIPT_URL, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ action: 'login', identifier, password })
-      });
-      const result = await response.json();
-
-      if (result.status === 'success') {
-        sessionStorage.setItem('currentUser', result.name);
-        window.location.href = result.role === 'teacher' || result.name === 'Bulanay Yerkin' 
-          ? `admin.html?name=${encodeURIComponent(result.name)}`
-          : `dashboard.html?name=${encodeURIComponent(result.name)}`;
-      } else {
-        loginError.textContent = result.message || 'Қате деректер енгізілді.';
-        loginError.className = 'p-3 rounded-lg bg-red-50 border border-red-100 text-sm text-seal font-medium text-center block';
-        loginError.classList.remove('hidden');
-      }
-    } catch (err) {
-      loginError.textContent = 'Сервермен байланыс үзілді. Қайта көріңіз.';
-      loginError.className = 'p-3 rounded-lg bg-red-50 border border-red-100 text-sm text-seal font-medium text-center block';
-      loginError.classList.remove('hidden');
-    } finally {
-      setLoadingState('loginSubmitBtn', false, 'Кіру');
-    }
-  });
-
-  registerForm.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const name = document.getElementById('regName').value.trim();
-    const email = document.getElementById('regEmail').value.trim();
-    const password = document.getElementById('regPassword').value.trim();
-    
-    registerError.classList.add('hidden');
-    setLoadingState('registerSubmitBtn', true, 'Тіркелу');
-
-    try {
-      const response = await fetch(SCRIPT_URL, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ action: 'register', name, email, password })
-      });
-      const result = await response.json();
-
-      if (result.status === 'success') {
-        registerError.textContent = result.message || 'Почтаңызға растау хаты жіберілді. Поштаңызды тексеріңіз!';
-        registerError.className = 'p-3 rounded-lg bg-green-50 border border-green-100 text-sm text-jade font-medium text-center block';
-        registerForm.reset();
-      } else {
-        registerError.textContent = result.message || 'Тіркелу кезінде қате орын алды.';
-        registerError.className = 'p-3 rounded-lg bg-red-50 border border-red-100 text-sm text-seal font-medium text-center block';
-      }
-    } catch (err) {
-      registerError.textContent = 'Сервермен байланыс үзілді. Қайта көріңіз.';
-      registerError.className = 'p-3 rounded-lg bg-red-50 border border-red-100 text-sm text-seal font-medium text-center block';
-    } finally {
-      setLoadingState('registerSubmitBtn', false, 'Тіркелу');
-    }
-  });
-
-  forgotForm.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const email = document.getElementById('forgotEmail').value.trim();
-    
-    forgotMessage.classList.add('hidden');
-    setLoadingState('forgotSubmitBtn', true, 'Жіберу');
-
-    try {
-      const response = await fetch(SCRIPT_URL, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ action: 'forgotPassword', email })
-      });
-      const result = await response.json();
-
-      forgotMessage.textContent = result.message || 'Қалпына келтіру сілтемесі поштаңызға жіберілді.';
-      forgotMessage.className = result.status === 'success' 
-        ? 'p-3 rounded-lg bg-green-50 border border-green-100 text-sm text-jade font-medium text-center block' 
-        : 'p-3 rounded-lg bg-red-50 border border-red-100 text-sm text-seal font-medium text-center block';
-    } catch (err) {
-      forgotMessage.textContent = 'Қате орын алды.';
-      forgotMessage.className = 'p-3 rounded-lg bg-red-50 border border-red-100 text-sm text-seal font-medium text-center block';
-    } finally {
-      setLoadingState('forgotSubmitBtn', false, 'Жіберу');
-    }
-  });
 
   function playAudio(text) {
     if ('speechSynthesis' in window) {
@@ -816,4 +561,4 @@
   }
 </script>
 </body>
-</html>
+</html> i can t open it
