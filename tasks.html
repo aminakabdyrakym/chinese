@@ -40,7 +40,6 @@
   .footer-watermark { position: absolute; right: -20px; bottom: -40px; font-family: 'Ma Shan Zheng', cursive; font-size: 220px; line-height: 1; color: #A61B29; opacity: 0.04; pointer-events: none; user-select: none; }
   .icon-badge { background: #A61B29; }
 
-  /* ЖАҢАРТЫЛҒАН КВИЗ СТИЛЬДЕРІ */
   .level-btn, .mode-btn { transition: all 0.3s ease; }
   .level-btn.active, .mode-btn.active { background-color: #0D9488; color: white; box-shadow: 0 4px 10px rgba(13, 148, 136, 0.3); }
   
@@ -102,7 +101,6 @@
     <div class="flex items-center gap-2 sm:gap-3">
       <button onclick="window.location.href='dashboard.html'" class="text-xs sm:text-sm font-semibold text-gray-600 hover:text-ink px-1.5 sm:px-2 transition-colors cursor-pointer">Кабинет</button>
       <a href="index.html" onclick="sessionStorage.clear()" class="stamp-btn inline-flex items-center text-white text-xs sm:text-sm font-semibold px-3.5 sm:px-5 py-2 sm:py-2.5 shrink-0 cursor-pointer">Шығу</a>
-      <!-- Mobile Hamburger Button -->
       <button id="mobileMenuBtn" class="md:hidden p-1.5 text-gray-700 focus:outline-none" aria-label="Menu">
         <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"></path>
@@ -110,7 +108,6 @@
       </button>
     </div>
   </div>
-  <!-- Mobile Navigation Drawer -->
   <div id="mobileMenu" class="hidden md:hidden bg-paper border-b border-paper-deep px-4 pt-2 pb-4 space-y-3">
     <a href="index.html" class="block text-sm font-medium text-gray-700 hover:text-seal py-1">Басты бет</a>
     <a href="dictionary.html" class="block text-sm font-medium text-gray-700 hover:text-seal py-1">Сөздік</a>
@@ -121,62 +118,6 @@
   </div>
 </header>
 
-<!-- КІРУ, ТІРКЕЛУ ЖӘНЕ ҚҰПИЯ СӨЗДІ ҚАЛПЫНА КЕЛТІРУ ТЕРЕЗЕСІ (MODAL) -->
-<div id="authModal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm p-4 transition-opacity">
-  <div class="modal-enter relative w-full max-w-sm rounded-2xl bg-white p-6 sm:p-8 shadow-2xl border border-gray-100">
-    <button data-close-auth class="absolute right-5 top-5 text-gray-400 hover:text-gray-700 transition-colors bg-gray-50 rounded-full p-1 cursor-pointer">
-      <svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
-      </svg>
-    </button>
-
-    <!-- 1. КІРУ ФОРМАСЫ -->
-    <div id="loginSection">
-      <h2 class="font-display mb-6 text-2xl font-bold text-gray-900">Кіру</h2>
-      <form id="loginForm" class="space-y-4">
-        <div>
-          <label class="mb-1.5 block text-sm font-medium text-gray-700">Email немесе Пайдаланушы аты</label>
-          <input type="text" id="loginIdentifier" required class="w-full rounded-lg border border-gray-300 px-4 py-2.5 text-sm outline-none focus:border-seal focus:ring-2 focus:ring-seal/20 transition-all">
-        </div>
-        <div>
-          <label class="mb-1.5 block text-sm font-medium text-gray-700">Құпия сөз</label>
-          <input type="password" id="loginPassword" required class="w-full rounded-lg border border-gray-300 px-4 py-2.5 text-sm outline-none focus:border-seal focus:ring-2 focus:ring-seal/20 transition-all">
-        </div>
-        <div class="flex items-center justify-end text-xs sm:text-sm">
-          <button type="button" id="toForgotBtn" class="text-gray-500 hover:text-seal hover:underline transition-colors cursor-pointer">Құпия сөзді ұмытыңыз ба?</button>
-        </div>
-        <div id="loginError" class="hidden p-3 rounded-lg bg-red-50 border border-red-100 text-sm text-seal font-medium text-center"></div>
-        <button type="submit" id="loginSubmitBtn" class="w-full rounded-lg bg-seal px-4 py-3 text-base font-semibold text-white transition-all hover:bg-seal-dark hover:shadow-lg flex items-center justify-center cursor-pointer">
-          <span>Кіру</span>
-        </button>
-      </form>
-    </div>
-
-    <!-- 2. ТІРКЕЛУ ФОРМАСЫ (Құрылымды сақтау үшін қалдырылды) -->
-    <div id="registerSection" class="hidden"></div>
-
-    <!-- 3. ҚҰПИЯ СӨЗДІ ҚАЛПЫНА КЕЛТІРУ -->
-    <div id="forgotSection" class="hidden">
-      <h2 class="font-display mb-4 text-xl font-bold text-gray-900">Құпия сөзді қалпына келтіру</h2>
-      <p class="text-xs text-gray-600 mb-4">Email адресіңізді жазыңыз, біз сізге нұсқаулық жібереміз.</p>
-      <form id="forgotForm" class="space-y-4">
-        <div>
-          <label class="mb-1.5 block text-sm font-medium text-gray-700">Email</label>
-          <input type="email" id="forgotEmail" required class="w-full rounded-lg border border-gray-300 px-4 py-2.5 text-sm outline-none focus:border-seal focus:ring-2 focus:ring-seal/20 transition-all">
-        </div>
-        <div id="forgotMessage" class="hidden p-3 rounded-lg border text-sm font-medium text-center"></div>
-        <button type="submit" id="forgotSubmitBtn" class="w-full rounded-lg bg-seal px-4 py-3 text-base font-semibold text-white transition-all hover:bg-seal-dark hover:shadow-lg flex items-center justify-center cursor-pointer">
-          <span>Жіберу</span>
-        </button>
-      </form>
-      <div class="mt-6 text-center text-sm text-gray-500">
-        <button type="button" id="backToLoginBtn" class="text-gray-500 font-semibold hover:text-seal transition-colors hover:underline cursor-pointer">← Кіруге қайту</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- НЕГІЗГІ БӨЛІМ (Көк градиент фон + Тор) -->
 <main class="flex-grow relative bg-gradient-to-br from-[#0c1f4c] to-[#06102a] py-8 sm:py-12 w-full overflow-hidden">
   <div class="absolute inset-0 opacity-[0.03] pointer-events-none" style="background-image: linear-gradient(#ffffff 1px, transparent 1px), linear-gradient(90deg, #ffffff 1px, transparent 1px); background-size: 40px 40px;"></div>
   
@@ -202,7 +143,7 @@
       </div>
     </div>
 
-    <!-- Тапсырмалар Контейнері (Беж / Қағаз карточка) -->
+    <!-- Тапсырмалар Контейнері -->
     <div class="bg-paper rounded-2xl shadow-2xl border border-paper-deep flex flex-col md:flex-row overflow-hidden w-full max-w-5xl mx-auto">
       
       <!-- Бүйірлік мәзір (Тараулар) -->
@@ -247,10 +188,6 @@
           <span class="icon-badge w-6 h-6 rounded-full flex items-center justify-center shrink-0 mt-0.5"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg></span>
           <span>+7 (777) 123-45-67</span>
         </li>
-        <li class="flex items-start gap-3">
-          <span class="icon-badge w-6 h-6 rounded-full flex items-center justify-center shrink-0 mt-0.5"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg></span>
-          <a href="https://instagram.com/bulanay_yerkin" target="_blank" class="hover:text-seal transition-colors">@bulanay_yerkin</a>
-        </li>
       </ul>
     </div>
     <div>
@@ -267,18 +204,6 @@
 </footer>
 
 <script>
-  const SCRIPT_URL = 'https://chinese-backend-yurc.onrender.com/api';
-
-  const authModal = document.getElementById('authModal');
-  const loginSection = document.getElementById('loginSection');
-  const forgotSection = document.getElementById('forgotSection');
-
-  const loginForm = document.getElementById('loginForm');
-  const forgotForm = document.getElementById('forgotForm');
-
-  const loginError = document.getElementById('loginError');
-  const forgotMessage = document.getElementById('forgotMessage');
-
   // Mobile Menu Toggle
   const mobileMenuBtn = document.getElementById('mobileMenuBtn');
   const mobileMenu = document.getElementById('mobileMenu');
@@ -288,210 +213,169 @@
     });
   }
 
-  // ЖАБЫҚ СІЛТЕМЕЛЕРДІ ҚОРҒАУ ЛОГИКАСЫ
-  document.querySelectorAll('.protected-link').forEach(link => {
-    link.addEventListener('click', (e) => {
-      if (!sessionStorage.getItem('currentUser')) {
-        e.preventDefault(); 
-        authModal.classList.remove('hidden');
-        showSection('login');
-        loginError.textContent = 'Бұл бөлімді көру үшін алдымен жүйеге кіріңіз.';
-        loginError.className = 'p-3 rounded-lg bg-blue-50 border border-blue-100 text-sm text-blue-800 font-medium text-center block';
-        loginError.classList.remove('hidden');
-      }
-    });
-  });
-
-  document.querySelectorAll('[data-open-auth]').forEach(b => {
-    b.addEventListener('click', (e) => {
-      if (e) e.preventDefault();
-      const target = b.getAttribute('data-open-auth');
-      authModal.classList.remove('hidden');
-      showSection(target);
-    });
-  });
-  
-  document.querySelectorAll('[data-close-auth]').forEach(b => {
-    b.addEventListener('click', () => authModal.classList.add('hidden'));
-  });
-
-  function showSection(type) {
-    loginSection.classList.add('hidden');
-    forgotSection.classList.add('hidden');
-    loginError.classList.add('hidden');
-    forgotMessage.classList.add('hidden');
-
-    if (type === 'login') loginSection.classList.remove('hidden');
-    if (type === 'forgot') forgotSection.classList.remove('hidden');
-  }
-
-  document.getElementById('toForgotBtn').addEventListener('click', () => showSection('forgot'));
-  document.getElementById('backToLoginBtn').addEventListener('click', () => showSection('login'));
-
-  function setLoadingState(buttonId, isLoading, originalText) {
-    const btn = document.getElementById(buttonId);
-    if (!btn) return;
-    if (isLoading) {
-      btn.disabled = true;
-      btn.classList.add('opacity-80', 'cursor-not-allowed');
-      btn.innerHTML = `<svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white inline" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg> Күте тұрыңыз...`;
-    } else {
-      btn.disabled = false;
-      btn.classList.remove('opacity-80', 'cursor-not-allowed');
-      btn.innerHTML = `<span>${originalText}</span>`;
-    }
-  }
-
-  loginForm.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const identifier = document.getElementById('loginIdentifier').value.trim();
-    const password = document.getElementById('loginPassword').value.trim();
-    
-    loginError.classList.add('hidden');
-    setLoadingState('loginSubmitBtn', true, 'Кіру');
-
-    try {
-      const response = await fetch(SCRIPT_URL, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ action: 'login', identifier, password })
-      });
-      const result = await response.json();
-
-      if (result.status === 'success') {
-        sessionStorage.setItem('currentUser', result.name);
-        window.location.href = result.role === 'teacher' || result.name === 'Bulanay Yerkin' 
-          ? `admin.html?name=${encodeURIComponent(result.name)}`
-          : `dashboard.html?name=${encodeURIComponent(result.name)}`;
-      } else {
-        loginError.textContent = result.message || 'Қате деректер енгізілді.';
-        loginError.className = 'p-3 rounded-lg bg-red-50 border border-red-100 text-sm text-seal font-medium text-center block';
-      }
-    } catch (err) {
-      loginError.textContent = 'Сервермен байланыс үзілді. Қайта көріңіз.';
-      loginError.className = 'p-3 rounded-lg bg-red-50 border border-red-100 text-sm text-seal font-medium text-center block';
-    } finally {
-      setLoadingState('loginSubmitBtn', false, 'Кіру');
-    }
-  });
-
-  forgotForm.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const email = document.getElementById('forgotEmail').value.trim();
-    
-    forgotMessage.classList.add('hidden');
-    setLoadingState('forgotSubmitBtn', true, 'Жіберу');
-
-    try {
-      const response = await fetch(SCRIPT_URL, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ action: 'forgotPassword', email })
-      });
-      const result = await response.json();
-
-      forgotMessage.textContent = result.message || 'Қалпына келтіру сілтемесі поштаңызға жіберілді.';
-      forgotMessage.className = result.status === 'success' 
-        ? 'p-3 rounded-lg bg-green-50 border border-green-100 text-sm text-jade font-medium text-center block' 
-        : 'p-3 rounded-lg bg-red-50 border border-red-100 text-sm text-seal font-medium text-center block';
-    } catch (err) {
-      forgotMessage.textContent = 'Қате орын алды.';
-      forgotMessage.className = 'p-3 rounded-lg bg-red-50 border border-red-100 text-sm text-seal font-medium text-center block';
-    } finally {
-      setLoadingState('forgotSubmitBtn', false, 'Жіберу');
-    }
-  });
-
-  let currentLevel = 2;
-  let currentMode = 'reading';
-  let currentChapterId = 1;
-
+  // ==============================================
+  // СҰРАҚТАР БАЗАСЫ (DATABASE)
+  // Осы жерге жаңа сабақтар мен сұрақтарды қосасыз
+  // ==============================================
   const dataBase = {
-    1: {
+    1: { // HSK 1
       reading: [
         {
           chapter: 1,
-          title: "你好",
+          title: "校园问候与再见 (Академиялық амандасу және қоштасу)",
           questions: [
-            { id: "h1_r1_1", num: 1, text: "我很高兴认识你。", pinyin: "Wǒ hěn gāoxìng rènshi nǐ.", statement: "★ 他很高兴。", answer: "true" }
+            { id: "h1_r1_1", num: 1, text: "你好！我叫李月。", pinyin: "Nǐ hǎo! Wǒ jiào Lǐ Yuè.", statement: "★ 她叫李月。", answer: "true" },
+            { id: "h1_r1_2", num: 2, text: "老师，再见！", pinyin: "Lǎoshī, zàijiàn!", statement: "★ 他在和朋友打招呼。", answer: "false" }
+          ]
+        },
+        {
+          chapter: 2,
+          title: "名字与问候 (Есімдер және амандасу)",
+          questions: [
+            { id: "h1_r2_1", num: 1, text: "你叫什么名字？", pinyin: "Nǐ jiào shénme míngzi?", statement: "★ 对方在问名字。", answer: "true" },
+            { id: "h1_r2_2", num: 2, text: "我是中国人，你呢？", pinyin: "Wǒ shì Zhōngguó rén, nǐ ne?", statement: "★ 他是美国人。", answer: "false" }
+          ]
+        }
+        // Осы жерге 3-ші, 4-ші сабақтарды қоса бересіз...
+      ],
+      listening: [
+        {
+          chapter: 1,
+          title: "校园问候与再见 (Академиялық амандасу және қоштасу)",
+          questions: [
+            { id: "h1_l1_1", num: 1, audioText: "明天见！", pinyin: "Míngtiān jiàn!", statement: "★ 他们明天见面。", answer: "true" }
+          ]
+        },
+        {
+          chapter: 2,
+          title: "名字与问候 (Есімдер және амандасу)",
+          questions: [
+            { id: "h1_l2_1", num: 1, audioText: "我是学生。", pinyin: "Wǒ shì xuésheng.", statement: "★ 他是老师。", answer: "false" }
+          ]
+        }
+      ]
+    },
+    2: { // HSK 2
+      reading: [
+        {
+          chapter: 1,
+          title: "到达与接送 (Келу және қарсы алу)",
+          questions: [
+            { id: "h2_r1_1", num: 1, text: "她喜欢在家看电影，也喜欢睡觉，不喜欢出去。", pinyin: "Tā xǐhuan zài jiā kàn diànyǐng, yě xǐhuan shuìjiào, bù xǐhuan chūqu.", statement: "★ 她最喜欢运动。", answer: "false" },
+            { id: "h2_r1_2", num: 2, text: "机场离这里很远，我们需要坐出租车。", pinyin: "Jīchǎng lí zhèlǐ hěn yuǎn, wǒmen xūyào zuò chūzūchē.", statement: "★ 他们要坐出租车去机场。", answer: "true" }
+          ]
+        },
+        {
+          chapter: 2,
+          title: "探索校园与出行方式 (Кампусты зерттеу және көлік түрлері)",
+          questions: [
+            { id: "h2_r2_1", num: 1, text: "我每天骑自行车去学校。", pinyin: "Wǒ měitiān qí zìxíngchē qù xuéxiào.", statement: "★ 他坐公共汽车去学校。", answer: "false" }
           ]
         }
       ],
       listening: [
         {
           chapter: 1,
-          title: "你好",
+          title: "到达与接送 (Келу және қарсы алу)",
           questions: [
-            { id: "h1_l1_1", num: 1, audioText: "你好！你叫什么名字？", pinyin: "Nǐ hǎo! Nǐ jiào shénme míngzi?", statement: "★ 对方在问名字。", answer: "true" }
+            { id: "h2_l1_1", num: 1, audioText: "喂，你去哪儿啊？我去商店买点儿水。", pinyin: "Wèi, nǐ qù nǎr a? Wǒ qù shāngdiàn mǎi diǎnr shuǐ.", statement: "★ 他去商店买水。", answer: "true" },
+            { id: "h2_l1_2", num: 2, audioText: "我们明天早上八点去机场。", pinyin: "Wǒmen míngtiān zǎoshang bā diǎn qù jīchǎng.", statement: "★ 他们晚上去机场。", answer: "false" }
+          ]
+        },
+        {
+          chapter: 2,
+          title: "探索校园与出行方式 (Кампусты зерттеу және көлік түрлері)",
+          questions: [
+            { id: "h2_l2_1", num: 1, audioText: "学校在医院的旁边。", pinyin: "Xuéxiào zài yīyuàn de pángbiān.", statement: "★ 学校离医院很近。", answer: "true" }
           ]
         }
       ]
     },
-    2: {
+    3: { // HSK 3
       reading: [
         {
           chapter: 1,
-          title: "九月去北京旅游最好",
-          questions: [
-            { id: "r1_1", num: 1, text: "她喜欢在家看电影，也喜欢睡觉，不喜欢出去。", pinyin: "Tā xǐhuan zài jiâ kàn diànyǐng, yě xǐhuan shuìjiào, bù xǐhuan chūqu.", statement: "★ 她最喜欢运动。", answer: "false" }
-          ]
-        }
-      ],
-      listening: [
-        {
-          chapter: 1,
-          title: "九月去北京旅游最好",
-          questions: [
-            { id: "l1_1", num: 1, audioText: "喂，你去哪儿啊？我去商店买点儿水。", pinyin: "Wèi, nǐ qù nǎr a? Wǒ qù shāngdiàn mǎi diǎnr shuǐ.", statement: "★ 他去商店买水。", answer: "true" }
-          ]
-        }
-      ]
-    },
-    3: {
-      reading: [
-        {
-          chapter: 1,
-          title: "周末你有什么打算？",
+          title: "外貌描述与机场接人 (Сырт келбетті сипаттау және әуежайда қарсы алу)",
           questions: [
             { id: "h3_r1_1", num: 1, text: "我打算星期六去图书馆看书，顺便借几本小说。", pinyin: "Wǒ dǎsuàn xīngqīliù qù túshūguǎn kàn shū, shùnbiàn jiè jǐ běn xiǎoshuō.", statement: "★ 他星期六要去图书馆。", answer: "true" }
           ]
+        },
+        {
+          chapter: 2,
+          title: "餐饮与服务 (Тамақтану және мейрамхана қызметі)",
+          questions: [
+            { id: "h3_r2_1", num: 1, text: "这家饭馆的菜很好吃，但是有点儿贵。", pinyin: "Zhè jiā fànguǎn de cài hěn hǎochī, dànshì yǒudiǎnr guì.", statement: "★ 这家饭馆的菜很便宜。", answer: "false" }
+          ]
         }
       ],
       listening: [
         {
           chapter: 1,
-          title: "周末你有什么打算？",
+          title: "外貌描述与机场接人 (Сырт келбетті сипаттау және әуежайда қарсы алу)",
           questions: [
-            { id: "h3_l1_1", num: 1, audioText: "请问电梯在哪儿？在前面左边。", pinyin: "Qǐngwèn diàntī zài nǎr? Zài qiánmian zuǒbiān.", statement: "★ 电梯在左边。", answer: "true" }
+            { id: "h3_l1_1", num: 1, audioText: "请问电梯在哪儿？在前面左边。", pinyin: "Qǐngwèn diàntī zài nǎr? Zài qiánmian zuǒbiān.", statement: "★ 电梯在右边。", answer: "false" }
+          ]
+        },
+        {
+          chapter: 2,
+          title: "餐饮与服务 (Тамақтану және мейрамхана қызметі)",
+          questions: [
+            { id: "h3_l2_1", num: 1, audioText: "服务员，请给我一杯绿茶。", pinyin: "Fúwùyuán, qǐng gěi wǒ yī bēi lǜchá.", statement: "★ 顾客想要一杯咖啡。", answer: "false" }
           ]
         }
       ]
     }
   };
 
+  // Жүйенің бастапқы мәндері
+  let currentLevel = 2;
+  let currentMode = 'reading';
+  let currentChapterId = 1;
+
+  // URL-ден level және lesson параметерлерін оқу
   const urlParams = new URLSearchParams(window.location.search);
   const paramLevel = urlParams.get('level');
+  const paramLesson = urlParams.get('lesson');
+
   if (paramLevel && dataBase[paramLevel]) {
     currentLevel = parseInt(paramLevel);
   }
+  if (paramLesson) {
+    currentChapterId = parseInt(paramLesson);
+  }
 
-  function switchLevel(level) {
+  function switchLevel(level, chapterToLoad = 1) {
     currentLevel = level;
     document.getElementById('btn-hsk1').classList.toggle('active', level === 1);
     document.getElementById('btn-hsk2').classList.toggle('active', level === 2);
     document.getElementById('btn-hsk3').classList.toggle('active', level === 3);
+    
     updateHeader();
     initSidebar();
-    loadChapter(1);
+    
+    // Егер базада бұл сабақ болмаса, автоматты түрде 1-сабаққа өтеді
+    const hasChapter = dataBase[level][currentMode].find(c => c.chapter === chapterToLoad);
+    if (!hasChapter) {
+      chapterToLoad = 1;
+    }
+    
+    loadChapter(chapterToLoad);
   }
 
   function switchMode(mode) {
     currentMode = mode;
     document.getElementById('btn-reading').classList.toggle('active', mode === 'reading');
     document.getElementById('btn-listening').classList.toggle('active', mode === 'listening');
+    
     updateHeader();
     initSidebar();
-    loadChapter(1);
+    
+    const hasChapter = dataBase[currentLevel][mode].find(c => c.chapter === currentChapterId);
+    if(hasChapter) {
+        loadChapter(currentChapterId);
+    } else {
+        loadChapter(1);
+    }
   }
 
   function updateHeader() {
@@ -530,6 +414,13 @@
     currentChapterId = chapterId;
     const currentDataSet = dataBase[currentLevel][currentMode];
     const currentChapter = currentDataSet.find(c => c.chapter === chapterId);
+    
+    if(!currentChapter) {
+      document.getElementById('quiz-container').innerHTML = '<p class="text-red-500 text-center py-10">Бұл сабақтың сұрақтары әлі қосылмаған.</p>';
+      document.getElementById('actions').style.display = 'none';
+      document.getElementById('chapter-title').innerText = `Тарау табылмады`;
+      return;
+    }
     
     const sidebarButtons = document.querySelectorAll('.sidebar button');
     sidebarButtons.forEach((btn, idx) => {
@@ -610,8 +501,9 @@
     document.getElementById('score-display').innerText = `Нәтиже: ${score} / ${total}`;
   }
 
+  // Бет жүктелгенде дұрыс сабақты ашу
   window.onload = () => {
-    switchLevel(currentLevel);
+    switchLevel(currentLevel, currentChapterId);
   };
 </script>
 </body>
