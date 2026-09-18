@@ -533,14 +533,18 @@
     submitBtn.disabled = true;
     submitBtnText.innerHTML = '<span class="spinner inline-block align-middle mr-2"></span>Күте тұрыңыз...';
 
+    // Вытягиваем полный текст названия группы (а не просто цифру 1 или 2)
+    const groupSelect = document.getElementById('groupNum');
+    const selectedGroupText = groupSelect.options[groupSelect.selectedIndex].text;
+
     const data = {
       action: 'register',
-      plan: selectedPlan, // Note: Backend currently ignores this, but safe to send
+      plan: selectedPlan,
       name: document.getElementById('fullName').value.trim(),
-      phone: document.getElementById('phone').value.trim(), // Note: Backend currently ignores this
+      phone: document.getElementById('phone').value.trim(),
       email: document.getElementById('email').value.trim(),
       password: document.getElementById('password').value.trim(),
-      group: document.getElementById('groupNum').value // Note: Backend currently ignores this
+      group: selectedGroupText
     };
 
     try {
