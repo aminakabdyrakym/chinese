@@ -211,16 +211,17 @@
         <table class="w-full text-sm">
           <thead>
             <tr class="text-left text-xs text-gray-500 font-bold uppercase tracking-wider border-b border-paper-deep bg-paper-deep/40">
-              <th class="px-5 py-4">Аты-жөні</th>
-              <th class="px-5 py-4">Email адресі</th>
-              <th class="px-5 py-4">Рөлі (Role)</th>
-              <th class="px-5 py-4">Пошта статусы</th>
-              <th class="px-5 py-4 text-right">Әрекет</th> <!-- ЖАҢА БАҒАН -->
+              <th class="px-5 py-4">Аты-жөні / Email</th>
+              <th class="px-5 py-4">Телефон</th>
+              <th class="px-5 py-4">Тариф</th>
+              <th class="px-5 py-4">Топ</th>
+              <th class="px-5 py-4">Статус</th>
+              <th class="px-5 py-4 text-right">Әрекет</th>
             </tr>
           </thead>
           <tbody id="usersTableBody" class="text-gray-800">
             <tr>
-              <td colspan="5" class="px-5 py-6 text-center text-gray-500">Деректер жүктелуде...</td>
+              <td colspan="6" class="px-5 py-6 text-center text-gray-500">Деректер жүктелуде...</td>
             </tr>
           </tbody>
         </table>
@@ -321,10 +322,18 @@
             ? `<span class="text-gray-400 text-xs italic">Өшіруге болмайды</span>` 
             : `<button onclick="deleteUser('${u.email}')" class="text-seal hover:text-seal-dark font-bold text-xs bg-red-50 hover:bg-red-100 px-3 py-1.5 rounded-lg transition-colors">Өшіру 🗑️</button>`;
 
+          let planName = u.plan;
+          if(u.plan === 'hsk1') planName = 'HSK 1';
+          if(u.plan === 'hsk2') planName = 'HSK 2';
+
           tr.innerHTML = `
-            <td class="px-5 py-4 font-bold text-gray-900">${u.name}</td>
-            <td class="px-5 py-4 text-gray-600">${u.email}</td>
-            <td class="px-5 py-4 font-medium">${u.role}</td>
+            <td class="px-5 py-4">
+              <p class="font-bold text-gray-900">${u.name}</p>
+              <p class="text-xs text-gray-500">${u.email}</p>
+            </td>
+            <td class="px-5 py-4 font-medium text-gray-900">${u.phone}</td>
+            <td class="px-5 py-4 text-gray-600">${planName}</td>
+            <td class="px-5 py-4 text-gray-600 text-xs">${u.group}</td>
             <td class="px-5 py-4">
               <span class="rounded-full px-3 py-1 text-xs font-bold border ${u.status === 'Verified' ? 'bg-white border-paper-deep text-jade' : 'bg-gold/10 border-gold/30 text-gold'}">
                 ${u.status}
@@ -342,11 +351,11 @@
         document.getElementById('pendingUsersCount').textContent = pending;
 
       } else {
-        document.getElementById('usersTableBody').innerHTML = `<tr><td colspan="5" class="px-5 py-6 text-center text-red-500">Мәліметтерді алу мүмкін болмады.</td></tr>`;
+        document.getElementById('usersTableBody').innerHTML = `<tr><td colspan="6" class="px-5 py-6 text-center text-red-500">Мәліметтерді алу мүмкін болмады.</td></tr>`;
       }
     } catch (err) {
       console.error(err);
-      document.getElementById('usersTableBody').innerHTML = `<tr><td colspan="5" class="px-5 py-6 text-center text-red-500">Сервер қатесі орын алды.</td></tr>`;
+      document.getElementById('usersTableBody').innerHTML = `<tr><td colspan="6" class="px-5 py-6 text-center text-red-500">Сервер қатесі орын алды.</td></tr>`;
     }
   }
 
