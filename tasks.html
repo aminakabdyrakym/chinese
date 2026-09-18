@@ -118,6 +118,57 @@
   </div>
 </header>
 
+<div id="authModal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm p-4 transition-opacity">
+  <div class="modal-enter relative w-full max-w-sm rounded-2xl bg-white p-6 sm:p-8 shadow-2xl border border-gray-100">
+    <button data-close-auth class="absolute right-5 top-5 text-gray-400 hover:text-gray-700 transition-colors bg-gray-50 rounded-full p-1 cursor-pointer">
+      <svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
+      </svg>
+    </button>
+
+    <div id="loginSection">
+      <h2 class="font-display mb-6 text-2xl font-bold text-gray-900">Кіру</h2>
+      <form id="loginForm" class="space-y-4">
+        <div>
+          <label class="mb-1.5 block text-sm font-medium text-gray-700">Email немесе Пайдаланушы аты</label>
+          <input type="text" id="loginIdentifier" required class="w-full rounded-lg border border-gray-300 px-4 py-2.5 text-sm outline-none focus:border-seal focus:ring-2 focus:ring-seal/20 transition-all">
+        </div>
+        <div>
+          <label class="mb-1.5 block text-sm font-medium text-gray-700">Құпия сөз</label>
+          <input type="password" id="loginPassword" required class="w-full rounded-lg border border-gray-300 px-4 py-2.5 text-sm outline-none focus:border-seal focus:ring-2 focus:ring-seal/20 transition-all">
+        </div>
+        <div class="flex items-center justify-end text-xs sm:text-sm">
+          <button type="button" id="toForgotBtn" class="text-gray-500 hover:text-seal hover:underline transition-colors cursor-pointer">Құпия сөзді ұмытыңыз ба?</button>
+        </div>
+        <div id="loginError" class="hidden p-3 rounded-lg bg-red-50 border border-red-100 text-sm text-seal font-medium text-center"></div>
+        <button type="submit" id="loginSubmitBtn" class="w-full rounded-lg bg-seal px-4 py-3 text-base font-semibold text-white transition-all hover:bg-seal-dark hover:shadow-lg flex items-center justify-center cursor-pointer">
+          <span>Кіру</span>
+        </button>
+      </form>
+    </div>
+
+    <div id="registerSection" class="hidden"></div>
+
+    <div id="forgotSection" class="hidden">
+      <h2 class="font-display mb-4 text-xl font-bold text-gray-900">Құпия сөзді қалпына келтіру</h2>
+      <p class="text-xs text-gray-600 mb-4">Email адресіңізді жазыңыз, біз сізге нұсқаулық жібереміз.</p>
+      <form id="forgotForm" class="space-y-4">
+        <div>
+          <label class="mb-1.5 block text-sm font-medium text-gray-700">Email</label>
+          <input type="email" id="forgotEmail" required class="w-full rounded-lg border border-gray-300 px-4 py-2.5 text-sm outline-none focus:border-seal focus:ring-2 focus:ring-seal/20 transition-all">
+        </div>
+        <div id="forgotMessage" class="hidden p-3 rounded-lg border text-sm font-medium text-center"></div>
+        <button type="submit" id="forgotSubmitBtn" class="w-full rounded-lg bg-seal px-4 py-3 text-base font-semibold text-white transition-all hover:bg-seal-dark hover:shadow-lg flex items-center justify-center cursor-pointer">
+          <span>Жіберу</span>
+        </button>
+      </form>
+      <div class="mt-6 text-center text-sm text-gray-500">
+        <button type="button" id="backToLoginBtn" class="text-gray-500 font-semibold hover:text-seal transition-colors hover:underline cursor-pointer">← Кіруге қайту</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <main class="flex-grow relative bg-gradient-to-br from-[#0c1f4c] to-[#06102a] py-8 sm:py-12 w-full overflow-hidden">
   <div class="absolute inset-0 opacity-[0.03] pointer-events-none" style="background-image: linear-gradient(#ffffff 1px, transparent 1px), linear-gradient(90deg, #ffffff 1px, transparent 1px); background-size: 40px 40px;"></div>
   
@@ -204,6 +255,18 @@
 </footer>
 
 <script>
+  const SCRIPT_URL = 'https://chinese-backend-yurc.onrender.com/api';
+
+  const authModal = document.getElementById('authModal');
+  const loginSection = document.getElementById('loginSection');
+  const forgotSection = document.getElementById('forgotSection');
+
+  const loginForm = document.getElementById('loginForm');
+  const forgotForm = document.getElementById('forgotForm');
+
+  const loginError = document.getElementById('loginError');
+  const forgotMessage = document.getElementById('forgotMessage');
+
   // Mobile Menu Toggle
   const mobileMenuBtn = document.getElementById('mobileMenuBtn');
   const mobileMenu = document.getElementById('mobileMenu');
@@ -213,119 +276,242 @@
     });
   }
 
+  // ЖАБЫҚ СІЛТЕМЕЛЕРДІ ҚОРҒАУ ЛОГИКАСЫ
+  document.querySelectorAll('.protected-link').forEach(link => {
+    link.addEventListener('click', (e) => {
+      if (!sessionStorage.getItem('currentUser')) {
+        e.preventDefault(); 
+        authModal.classList.remove('hidden');
+        showSection('login');
+        loginError.textContent = 'Бұл бөлімді көру үшін алдымен жүйеге кіріңіз.';
+        loginError.className = 'p-3 rounded-lg bg-blue-50 border border-blue-100 text-sm text-blue-800 font-medium text-center block';
+        loginError.classList.remove('hidden');
+      }
+    });
+  });
+
+  document.querySelectorAll('[data-open-auth]').forEach(b => {
+    b.addEventListener('click', (e) => {
+      if (e) e.preventDefault();
+      const target = b.getAttribute('data-open-auth');
+      authModal.classList.remove('hidden');
+      showSection(target);
+    });
+  });
+  
+  document.querySelectorAll('[data-close-auth]').forEach(b => {
+    b.addEventListener('click', () => authModal.classList.add('hidden'));
+  });
+
+  function showSection(type) {
+    loginSection.classList.add('hidden');
+    forgotSection.classList.add('hidden');
+    loginError.classList.add('hidden');
+    forgotMessage.classList.add('hidden');
+
+    if (type === 'login') loginSection.classList.remove('hidden');
+    if (type === 'forgot') forgotSection.classList.remove('hidden');
+  }
+
+  document.getElementById('toForgotBtn').addEventListener('click', () => showSection('forgot'));
+  document.getElementById('backToLoginBtn').addEventListener('click', () => showSection('login'));
+
+  function setLoadingState(buttonId, isLoading, originalText) {
+    const btn = document.getElementById(buttonId);
+    if (!btn) return;
+    if (isLoading) {
+      btn.disabled = true;
+      btn.classList.add('opacity-80', 'cursor-not-allowed');
+      btn.innerHTML = `<svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white inline" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg> Күте тұрыңыз...`;
+    } else {
+      btn.disabled = false;
+      btn.classList.remove('opacity-80', 'cursor-not-allowed');
+      btn.innerHTML = `<span>${originalText}</span>`;
+    }
+  }
+
+  loginForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const identifier = document.getElementById('loginIdentifier').value.trim();
+    const password = document.getElementById('loginPassword').value.trim();
+    
+    loginError.classList.add('hidden');
+    setLoadingState('loginSubmitBtn', true, 'Кіру');
+
+    try {
+      const response = await fetch(SCRIPT_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'login', identifier, password })
+      });
+      const result = await response.json();
+
+      if (result.status === 'success') {
+        sessionStorage.setItem('currentUser', result.name);
+        window.location.href = result.role === 'teacher' || result.name === 'Bulanay Yerkin' 
+          ? `admin.html?name=${encodeURIComponent(result.name)}`
+          : `dashboard.html?name=${encodeURIComponent(result.name)}`;
+      } else {
+        loginError.textContent = result.message || 'Қате деректер енгізілді.';
+        loginError.className = 'p-3 rounded-lg bg-red-50 border border-red-100 text-sm text-seal font-medium text-center block';
+      }
+    } catch (err) {
+      loginError.textContent = 'Сервермен байланыс үзілді. Қайта көріңіз.';
+      loginError.className = 'p-3 rounded-lg bg-red-50 border border-red-100 text-sm text-seal font-medium text-center block';
+    } finally {
+      setLoadingState('loginSubmitBtn', false, 'Кіру');
+    }
+  });
+
+  forgotForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const email = document.getElementById('forgotEmail').value.trim();
+    
+    forgotMessage.classList.add('hidden');
+    setLoadingState('forgotSubmitBtn', true, 'Жіберу');
+
+    try {
+      const response = await fetch(SCRIPT_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'forgotPassword', email })
+      });
+      const result = await response.json();
+
+      forgotMessage.textContent = result.message || 'Қалпына келтіру сілтемесі поштаңызға жіберілді.';
+      forgotMessage.className = result.status === 'success' 
+        ? 'p-3 rounded-lg bg-green-50 border border-green-100 text-sm text-jade font-medium text-center block' 
+        : 'p-3 rounded-lg bg-red-50 border border-red-100 text-sm text-seal font-medium text-center block';
+    } catch (err) {
+      forgotMessage.textContent = 'Қате орын алды.';
+      forgotMessage.className = 'p-3 rounded-lg bg-red-50 border border-red-100 text-sm text-seal font-medium text-center block';
+    } finally {
+      setLoadingState('forgotSubmitBtn', false, 'Жіберу');
+    }
+  });
+
   // ==============================================
-  // СҰРАҚТАР БАЗАСЫ (DATABASE)
-  // Осы жерге жаңа сабақтар мен сұрақтарды қосасыз
+  // СҰРАҚТАР БАЗАСЫ (ТОЛЫҚ HSK 1, 2 ЖӘНЕ 3)
   // ==============================================
   const dataBase = {
     1: { // HSK 1
       reading: [
-        {
-          chapter: 1,
-          title: "校园问候与再见 (Академиялық амандасу және қоштасу)",
-          questions: [
-            { id: "h1_r1_1", num: 1, text: "你好！我叫李月。", pinyin: "Nǐ hǎo! Wǒ jiào Lǐ Yuè.", statement: "★ 她叫李月。", answer: "true" },
-            { id: "h1_r1_2", num: 2, text: "老师，再见！", pinyin: "Lǎoshī, zàijiàn!", statement: "★ 他在和朋友打招呼。", answer: "false" }
-          ]
-        },
-        {
-          chapter: 2,
-          title: "名字与问候 (Есімдер және амандасу)",
-          questions: [
-            { id: "h1_r2_1", num: 1, text: "你叫什么名字？", pinyin: "Nǐ jiào shénme míngzi?", statement: "★ 对方在问名字。", answer: "true" },
-            { id: "h1_r2_2", num: 2, text: "我是中国人，你呢？", pinyin: "Wǒ shì Zhōngguó rén, nǐ ne?", statement: "★ 他是美国人。", answer: "false" }
-          ]
-        }
-        // Осы жерге 3-ші, 4-ші сабақтарды қоса бересіз...
+        { chapter: 1, title: "校园问候与再见", questions: [ { id: "h1_r1", num: 1, text: "你好！我叫李月。", pinyin: "Nǐ hǎo! Wǒ jiào Lǐ Yuè.", statement: "★ 她叫李月。", answer: "true" } ] },
+        { chapter: 2, title: "名字与问候", questions: [ { id: "h1_r2", num: 1, text: "你是老师吗？", pinyin: "Nǐ shì lǎoshī ma?", statement: "★ 他在问对方是不是学生。", answer: "false" } ] },
+        { chapter: 3, title: "国籍与关系", questions: [ { id: "h1_r3", num: 1, text: "我是中国人，她也是中国人。", pinyin: "Wǒ shì Zhōngguó rén, tā yě shì Zhōngguó rén.", statement: "★ 他们都是中国人。", answer: "true" } ] },
+        { chapter: 4, title: "家庭、数量与年龄", questions: [ { id: "h1_r4", num: 1, text: "我家有四口人。", pinyin: "Wǒ jiā yǒu sì kǒu rén.", statement: "★ 他家有三口人。", answer: "false" } ] },
+        { chapter: 5, title: "日期、做饭与新电脑", questions: [ { id: "h1_r5", num: 1, text: "今天星期五。", pinyin: "Jīntiān xīngqīwǔ.", statement: "★ 明天星期六。", answer: "true" } ] },
+        { chapter: 6, title: "电话号码、超市购物与晚餐计划", questions: [ { id: "h1_r6", num: 1, text: "我想去商店买水。", pinyin: "Wǒ xiǎng qù shāngdiàn mǎi shuǐ.", statement: "★ 他想买书。", answer: "false" } ] },
+        { chapter: 7, title: "日常时间与安排", questions: [ { id: "h1_r7", num: 1, text: "现在上午十点半。", pinyin: "Xiànzài shàngwǔ shí diǎn bàn.", statement: "★ 现在是10:30。", answer: "true" } ] },
+        { chapter: 8, title: "位置与工作", questions: [ { id: "h1_r8", num: 1, text: "小猫在椅子下面。", pinyin: "Xiǎo māo zài yǐzi xiàmiàn.", statement: "★ 猫在椅子上面。", answer: "false" } ] },
+        { chapter: 9, title: "地方、书和日常活动", questions: [ { id: "h1_r9", num: 1, text: "我在学校看书。", pinyin: "Wǒ zài xuéxiào kàn shū.", statement: "★ 他在学校读书。", answer: "true" } ] },
+        { chapter: 10, title: "买水果和衣服", questions: [ { id: "h1_r10", num: 1, text: "这个苹果十块钱。", pinyin: "Zhège píngguǒ shí kuài qián.", statement: "★ 苹果很便宜。", answer: "false" } ] },
+        { chapter: 11, title: "正在做的事", questions: [ { id: "h1_r11", num: 1, text: "他们在打电话。", pinyin: "Tāmen zài dǎ diànhuà.", statement: "★ 他们在说话。", answer: "true" } ] },
+        { chapter: 12, title: "天气和生病", questions: [ { id: "h1_r12", num: 1, text: "今天天气不好，很冷。", pinyin: "Jīntiān tiānqì bù hǎo, hěn lěng.", statement: "★ 今天很热。", answer: "false" } ] },
+        { chapter: 13, title: "点餐与课后询问", questions: [ { id: "h1_r13", num: 1, text: "你想吃米饭吗？", pinyin: "Nǐ xiǎng chī mǐfàn ma?", statement: "★ 对方在问关于食物。", answer: "true" } ] },
+        { chapter: 14, title: "完成的事情与学习阶段", questions: [ { id: "h1_r14", num: 1, text: "我已经看完了。", pinyin: "Wǒ yǐjīng kàn wán le.", statement: "★ 他还没看。", answer: "false" } ] },
+        { chapter: 15, title: "旅行计划与喜好", questions: [ { id: "h1_r15", num: 1, text: "我喜欢坐飞机去旅游。", pinyin: "Wǒ xǐhuan zuò fēijī qù lǚyóu.", statement: "★ 他喜欢坐飞机。", answer: "true" } ] }
       ],
       listening: [
-        {
-          chapter: 1,
-          title: "校园问候与再见 (Академиялық амандасу және қоштасу)",
-          questions: [
-            { id: "h1_l1_1", num: 1, audioText: "明天见！", pinyin: "Míngtiān jiàn!", statement: "★ 他们明天见面。", answer: "true" }
-          ]
-        },
-        {
-          chapter: 2,
-          title: "名字与问候 (Есімдер және амандасу)",
-          questions: [
-            { id: "h1_l2_1", num: 1, audioText: "我是学生。", pinyin: "Wǒ shì xuésheng.", statement: "★ 他是老师。", answer: "false" }
-          ]
-        }
+        { chapter: 1, title: "校园问候与再见", questions: [ { id: "h1_l1", num: 1, audioText: "明天见！", pinyin: "Míngtiān jiàn!", statement: "★ 他们明天见面。", answer: "true" } ] },
+        { chapter: 2, title: "名字与问候", questions: [ { id: "h1_l2", num: 1, audioText: "我不是老师，我是学生。", pinyin: "Wǒ bù shì lǎoshī, wǒ shì xuésheng.", statement: "★ 他是老师。", answer: "false" } ] },
+        { chapter: 3, title: "国籍与关系", questions: [ { id: "h1_l3", num: 1, audioText: "她是我妈妈。", pinyin: "Tā shì wǒ māma.", statement: "★ 她们是母女关系。", answer: "true" } ] },
+        { chapter: 4, title: "家庭、数量与年龄", questions: [ { id: "h1_l4", num: 1, audioText: "我女儿今年五岁了。", pinyin: "Wǒ nǚ'ér jīnnián wǔ suì le.", statement: "★ 她女儿十岁。", answer: "false" } ] },
+        { chapter: 5, title: "日期、做饭与新电脑", questions: [ { id: "h1_l5", num: 1, audioText: "我会做中国菜。", pinyin: "Wǒ huì zuò Zhōngguó cài.", statement: "★ 他会做饭。", answer: "true" } ] },
+        { chapter: 6, title: "电话号码、超市购物与晚餐计划", questions: [ { id: "h1_l6", num: 1, audioText: "他的电话是八九七六。", pinyin: "Tā de diànhuà shì bā jiǔ qī liù.", statement: "★ 电话号码有四位数字。", answer: "true" } ] },
+        { chapter: 7, title: "日常时间与安排", questions: [ { id: "h1_l7", num: 1, audioText: "我下午三点去医院。", pinyin: "Wǒ xiàwǔ sān diǎn qù yīyuàn.", statement: "★ 他上午去医院。", answer: "false" } ] },
+        { chapter: 8, title: "位置与工作", questions: [ { id: "h1_l8", num: 1, audioText: "他在饭馆工作。", pinyin: "Tā zài fànguǎn gōngzuò.", statement: "★ 他的工作地点是饭馆。", answer: "true" } ] },
+        { chapter: 9, title: "地方、书和日常活动", questions: [ { id: "h1_l9", num: 1, audioText: "我在学校看书。", pinyin: "Wǒ zài xuéxiào kàn shū.", statement: "★ 他在睡觉。", answer: "false" } ] },
+        { chapter: 10, title: "买水果和衣服", questions: [ { id: "h1_l10", num: 1, audioText: "这件衣服太大了。", pinyin: "Zhè jiàn yīfu tài dà le.", statement: "★ 衣服尺寸不合适。", answer: "true" } ] },
+        { chapter: 11, title: "正在做的事", questions: [ { id: "h1_l11", num: 1, audioText: "妈妈在做饭呢。", pinyin: "Māma zài zuò fàn ne.", statement: "★ 妈妈在看电视。", answer: "false" } ] },
+        { chapter: 12, title: "天气和生病", questions: [ { id: "h1_l12", num: 1, audioText: "今天下雨了。", pinyin: "Jīntiān xià yǔ le.", statement: "★ 今天有雨。", answer: "true" } ] },
+        { chapter: 13, title: "点餐与课后询问", questions: [ { id: "h1_l13", num: 1, audioText: "服务员，买单。", pinyin: "Fúwùyuán, mǎidān.", statement: "★ 他在饭馆结账。", answer: "true" } ] },
+        { chapter: 14, title: "完成的事情与学习阶段", questions: [ { id: "h1_l14", num: 1, audioText: "我还没看完这本书。", pinyin: "Wǒ hái méi kàn wán zhè běn shū.", statement: "★ 他看完了。", answer: "false" } ] },
+        { chapter: 15, title: "旅行计划与喜好", questions: [ { id: "h1_l15", num: 1, audioText: "八月去北京旅游最好。", pinyin: "Bā yuè qù Běijīng lǚyóu zuì hǎo.", statement: "★ 八月适合去北京旅游。", answer: "true" } ] }
       ]
     },
     2: { // HSK 2
       reading: [
-        {
-          chapter: 1,
-          title: "到达与接送 (Келу және қарсы алу)",
-          questions: [
-            { id: "h2_r1_1", num: 1, text: "她喜欢在家看电影，也喜欢睡觉，不喜欢出去。", pinyin: "Tā xǐhuan zài jiā kàn diànyǐng, yě xǐhuan shuìjiào, bù xǐhuan chūqu.", statement: "★ 她最喜欢运动。", answer: "false" },
-            { id: "h2_r1_2", num: 2, text: "机场离这里很远，我们需要坐出租车。", pinyin: "Jīchǎng lí zhèlǐ hěn yuǎn, wǒmen xūyào zuò chūzūchē.", statement: "★ 他们要坐出租车去机场。", answer: "true" }
-          ]
-        },
-        {
-          chapter: 2,
-          title: "探索校园与出行方式 (Кампусты зерттеу және көлік түрлері)",
-          questions: [
-            { id: "h2_r2_1", num: 1, text: "我每天骑自行车去学校。", pinyin: "Wǒ měitiān qí zìxíngchē qù xuéxiào.", statement: "★ 他坐公共汽车去学校。", answer: "false" }
-          ]
-        }
+        { chapter: 1, title: "到达与接送", questions: [ { id: "h2_r1", num: 1, text: "机场离这里很远，我们需要坐出租车。", pinyin: "Jīchǎng lí zhèlǐ hěn yuǎn...", statement: "★ 他们要坐出租车去机场。", answer: "true" } ] },
+        { chapter: 2, title: "探索校园与出行方式", questions: [ { id: "h2_r2", num: 1, text: "我每天骑自行车去学校。", pinyin: "Wǒ měitiān qí zìxíngchē qù xuéxiào.", statement: "★ 他坐公共汽车去学校。", answer: "false" } ] },
+        { chapter: 3, title: "完成动作与日常生活", questions: [ { id: "h2_r3", num: 1, text: "你吃完药了吗？", pinyin: "Nǐ chī wán yào le ma?", statement: "★ 他在问对方吃没吃药。", answer: "true" } ] },
+        { chapter: 4, title: "商场购物与表达喜好", questions: [ { id: "h2_r4", num: 1, text: "这件红色的衣服比那件漂亮。", pinyin: "Zhè jiàn hóngsè de yīfu bǐ nà jiàn piàoliang.", statement: "★ 他觉得红色的衣服不好看。", answer: "false" } ] },
+        { chapter: 5, title: "方向与拜访", questions: [ { id: "h2_r5", num: 1, text: "一直往前走，学校就在左边。", pinyin: "Yīzhí wǎng qián zǒu, xuéxiào jiù zài zuǒbiān.", statement: "★ 学校在右边。", answer: "false" } ] },
+        { chapter: 6, title: "过生日与特别的时刻", questions: [ { id: "h2_r6", num: 1, text: "祝你生日快乐！这是送给你的礼物。", pinyin: "Zhù nǐ shēngrì kuàilè! Zhè shì sòng gěi nǐ de lǐwù.", statement: "★ 他在送生日礼物。", answer: "true" } ] },
+        { chapter: 7, title: "运动计划与能力评价", questions: [ { id: "h2_r7", num: 1, text: "他打篮球打得非常好。", pinyin: "Tā dǎ lánqiú dǎ de fēicháng hǎo.", statement: "★ 他不擅长打篮球。", answer: "false" } ] },
+        { chapter: 8, title: "日常比较与转折", questions: [ { id: "h2_r8", num: 1, text: "虽然外面很冷，但是他还是去跑步了。", pinyin: "Suīrán wàimiàn hěn lěng, dànshì tā háishì qù pǎobù le.", statement: "★ 他今天去跑步了。", answer: "true" } ] },
+        { chapter: 9, title: "购物与距离", questions: [ { id: "h2_r9", num: 1, text: "超市离我家只有五分钟的路程。", pinyin: "Chāoshì lí wǒ jiā zhǐyǒu wǔ fēnzhōng de lùchéng.", statement: "★ 超市离他家很近。", answer: "true" } ] },
+        { chapter: 10, title: "准备开学与准备考试", questions: [ { id: "h2_r10", num: 1, text: "下个星期就要考试了，我很紧张。", pinyin: "Xià ge xīngqī jiù yào kǎoshì le, wǒ hěn jǐnzhāng.", statement: "★ 考试已经结束了。", answer: "false" } ] },
+        { chapter: 11, title: "健康习惯与身体照顾", questions: [ { id: "h2_r11", num: 1, text: "多喝水，多休息，病很快就会好。", pinyin: "Duō hē shuǐ, duō xiūxi, bìng hěn kuài jiù huì hǎo.", statement: "★ 这是给生病的人的建议。", answer: "true" } ] },
+        { chapter: 12, title: "表达明显的比较", questions: [ { id: "h2_r12", num: 1, text: "弟弟比哥哥高一点儿。", pinyin: "Dìdi bǐ gēge gāo yìdiǎnr.", statement: "★ 哥哥更高。", answer: "false" } ] },
+        { chapter: 13, title: "送礼物与表达比较", questions: [ { id: "h2_r13", num: 1, text: "这块手表是我哥哥送给我的。", pinyin: "Zhè kuài shǒubiǎo shì wǒ gēge sòng gěi wǒ de.", statement: "★ 哥哥买了一块手表送给他。", answer: "true" } ] },
+        { chapter: 14, title: "节日拜访与空间描写", questions: [ { id: "h2_r14", num: 1, text: "房间里有一张大桌子和两把椅子。", pinyin: "Fángjiān li yǒu yì zhāng dà zhuōzi hé liǎng bǎ yǐzi.", statement: "★ 房间里没有桌子。", answer: "false" } ] },
+        { chapter: 15, title: "旅游计划与次数", questions: [ { id: "h2_r15", num: 1, text: "我去过北京三次了。", pinyin: "Wǒ qù guò Běijīng sān cì le.", statement: "★ 他去过北京。", answer: "true" } ] }
       ],
       listening: [
-        {
-          chapter: 1,
-          title: "到达与接送 (Келу және қарсы алу)",
-          questions: [
-            { id: "h2_l1_1", num: 1, audioText: "喂，你去哪儿啊？我去商店买点儿水。", pinyin: "Wèi, nǐ qù nǎr a? Wǒ qù shāngdiàn mǎi diǎnr shuǐ.", statement: "★ 他去商店买水。", answer: "true" },
-            { id: "h2_l1_2", num: 2, audioText: "我们明天早上八点去机场。", pinyin: "Wǒmen míngtiān zǎoshang bā diǎn qù jīchǎng.", statement: "★ 他们晚上去机场。", answer: "false" }
-          ]
-        },
-        {
-          chapter: 2,
-          title: "探索校园与出行方式 (Кампусты зерттеу және көлік түрлері)",
-          questions: [
-            { id: "h2_l2_1", num: 1, audioText: "学校在医院的旁边。", pinyin: "Xuéxiào zài yīyuàn de pángbiān.", statement: "★ 学校离医院很近。", answer: "true" }
-          ]
-        }
+        { chapter: 1, title: "到达与接送", questions: [ { id: "h2_l1", num: 1, audioText: "喂，你去哪儿啊？我去商店买点儿水。", pinyin: "Wèi, nǐ qù nǎr a? Wǒ qù shāngdiàn mǎi diǎnr shuǐ.", statement: "★ 他去商店买水。", answer: "true" } ] },
+        { chapter: 2, title: "探索校园与出行方式", questions: [ { id: "h2_l2", num: 1, audioText: "学校在医院的旁边。", pinyin: "Xuéxiào zài yīyuàn de pángbiān.", statement: "★ 学校离医院很远。", answer: "false" } ] },
+        { chapter: 3, title: "完成动作与日常生活", questions: [ { id: "h2_l3", num: 1, audioText: "衣服洗完了吗？", pinyin: "Yīfu xǐ wán le ma?", statement: "★ 她在问衣服洗了没有。", answer: "true" } ] },
+        { chapter: 4, title: "商场购物与表达喜好", questions: [ { id: "h2_l4", num: 1, audioText: "这件衣服太贵了，我不买了。", pinyin: "Zhè jiàn yīfu tài guì le, wǒ bù mǎi le.", statement: "★ 他买了这件衣服。", answer: "false" } ] },
+        { chapter: 5, title: "方向与拜访", questions: [ { id: "h2_l5", num: 1, audioText: "我明天去你家玩儿，好吗？", pinyin: "Wǒ míngtiān qù nǐ jiā wánr, hǎo ma?", statement: "★ 他明天想去朋友家。", answer: "true" } ] },
+        { chapter: 6, title: "过生日与特别的时刻", questions: [ { id: "h2_l6", num: 1, audioText: "今天是我妻子的生日。", pinyin: "Jīntiān shì wǒ qīzi de shēngrì.", statement: "★ 今天是他自己的生日。", answer: "false" } ] },
+        { chapter: 7, title: "运动计划与能力评价", questions: [ { id: "h2_l7", num: 1, audioText: "你会游泳吗？会，我游得很快。", pinyin: "Nǐ huì yóuyǒng ma? Huì, wǒ yóu de hěn kuài.", statement: "★ 他不会游泳。", answer: "false" } ] },
+        { chapter: 8, title: "日常比较与转折", questions: [ { id: "h2_l8", num: 1, audioText: "虽然这台电脑很旧，但是很好用。", pinyin: "Suīrán zhè tái diànnǎo hěn jiù, dànshì hěn hǎo yòng.", statement: "★ 电脑很旧但好用。", answer: "true" } ] },
+        { chapter: 9, title: "购物与距离", questions: [ { id: "h2_l9", num: 1, audioText: "超市离我家有五百米。", pinyin: "Chāoshì lí wǒ jiā yǒu wǔbǎi mǐ.", statement: "★ 距离是500米。", answer: "true" } ] },
+        { chapter: 10, title: "准备开学与准备考试", questions: [ { id: "h2_l10", num: 1, audioText: "别看电视了，快去复习！", pinyin: "Bié kàn diànshì le, kuài qù fùxí!", statement: "★ 他让对方继续看电视。", answer: "false" } ] },
+        { chapter: 11, title: "健康习惯与身体照顾", questions: [ { id: "h2_l11", num: 1, audioText: "你需要每天运动一个小时。", pinyin: "Nǐ xūyào měitiān yùndòng yí ge xiǎoshí.", statement: "★ 建议每天运动。", answer: "true" } ] },
+        { chapter: 12, title: "表达明显的比较", questions: [ { id: "h2_l12", num: 1, audioText: "今天的西瓜比昨天便宜。", pinyin: "Jīntiān de xīguā bǐ zuótiān piányi.", statement: "★ 昨天的西瓜更贵。", answer: "true" } ] },
+        { chapter: 13, title: "送礼物与表达比较", questions: [ { id: "h2_l13", num: 1, audioText: "这个杯子没有那个好看。", pinyin: "Zhège bēizi méiyǒu nàge hǎokàn.", statement: "★ 他觉得两个杯子一样好看。", answer: "false" } ] },
+        { chapter: 14, title: "节日拜访与空间描写", questions: [ { id: "h2_l14", num: 1, audioText: "门外停着一辆新车。", pinyin: "Mén wài tíng zhe yí liàng xīn chē.", statement: "★ 门外有一辆车。", answer: "true" } ] },
+        { chapter: 15, title: "旅游计划与次数", questions: [ { id: "h2_l15", num: 1, audioText: "这是我第一次来中国。", pinyin: "Zhè shì wǒ dì yī cì lái Zhōngguó.", statement: "★ 他以前来过很多次中国。", answer: "false" } ] }
       ]
     },
     3: { // HSK 3
       reading: [
-        {
-          chapter: 1,
-          title: "外貌描述与机场接人 (Сырт келбетті сипаттау және әуежайда қарсы алу)",
-          questions: [
-            { id: "h3_r1_1", num: 1, text: "我打算星期六去图书馆看书，顺便借几本小说。", pinyin: "Wǒ dǎsuàn xīngqīliù qù túshūguǎn kàn shū, shùnbiàn jiè jǐ běn xiǎoshuō.", statement: "★ 他星期六要去图书馆。", answer: "true" }
-          ]
-        },
-        {
-          chapter: 2,
-          title: "餐饮与服务 (Тамақтану және мейрамхана қызметі)",
-          questions: [
-            { id: "h3_r2_1", num: 1, text: "这家饭馆的菜很好吃，但是有点儿贵。", pinyin: "Zhè jiā fànguǎn de cài hěn hǎochī, dànshì yǒudiǎnr guì.", statement: "★ 这家饭馆的菜很便宜。", answer: "false" }
-          ]
-        }
+        { chapter: 1, title: "外貌描述与机场接人", questions: [ { id: "h3_r1", num: 1, text: "她长着一双大眼睛，头发长长的，很漂亮。", pinyin: "Tā zhǎng zhe yì shuāng dà yǎnjing, tóufa chángcháng de, hěn piàoliang.", statement: "★ 她短头发。", answer: "false" } ] },
+        { chapter: 2, title: "餐饮与服务", questions: [ { id: "h3_r2", num: 1, text: "服务员，请给我们拿两双筷子。", pinyin: "Fúwùyuán, qǐng gěi wǒmen ná liǎng shuāng kuàizi.", statement: "★ 他们需要筷子。", answer: "true" } ] },
+        { chapter: 3, title: "看房与搬家", questions: [ { id: "h3_r3", num: 1, text: "这个房子环境很好，附近有地铁站，交通很方便。", pinyin: "Zhège fángzi huánjìng hěn hǎo, fùjìn yǒu dìtiězhàn, jiāotōng hěn fāngbiàn.", statement: "★ 房子附近交通不方便。", answer: "false" } ] },
+        { chapter: 4, title: "旅游计划与行程安排", questions: [ { id: "h3_r4", num: 1, text: "我们打算先去上海，然后去杭州。", pinyin: "Wǒmen dǎsuàn xiān qù Shànghǎi, ránhòu qù Hángzhōu.", statement: "★ 他们先去杭州。", answer: "false" } ] },
+        { chapter: 5, title: "爬山与拍照", questions: [ { id: "h3_r5", num: 1, text: "我用照相机拍了很多照片。", pinyin: "Wǒ yòng zhàoxiàngjī pāi le hěn duō zhàopiàn.", statement: "★ 他拍了照片。", answer: "true" } ] },
+        { chapter: 6, title: "高铁出行", questions: [ { id: "h3_r6", num: 1, text: "乘坐高铁去北京只需要四个小时。", pinyin: "Chéngzuò gāotiě qù Běijīng zhǐ xūyào sì ge xiǎoshí.", statement: "★ 坐高铁很慢。", answer: "false" } ] },
+        { chapter: 7, title: "比较商品与做决定", questions: [ { id: "h3_r7", num: 1, text: "这双鞋不仅好看，而且很舒服。", pinyin: "Zhè shuāng xié bùjǐn hǎokàn, érqiě hěn shūfu.", statement: "★ 鞋子又好看又舒服。", answer: "true" } ] },
+        { chapter: 8, title: "健康与运动习惯", questions: [ { id: "h3_r8", num: 1, text: "为了保持健康，他每天早上都去跑步。", pinyin: "Wèile bǎochí jiànkāng, tā měitiān zǎoshang dōu qù pǎobù.", statement: "★ 他每天跑步为了健康。", answer: "true" } ] },
+        { chapter: 9, title: "课外活动与生活安排", questions: [ { id: "h3_r9", num: 1, text: "周末我除了去打篮球，还去图书馆看书。", pinyin: "Zhōumò wǒ chúle qù dǎ lánqiú, hái qù túshūguǎn kàn shū.", statement: "★ 他周末只打篮球。", answer: "false" } ] },
+        { chapter: 10, title: "学习方法与进步", questions: [ { id: "h3_r10", num: 1, text: "只要多听多练，你的中文一定会提高。", pinyin: "Zhǐyào duō tīng duō liàn, nǐ de Zhōngwén yídìng huì tígāo.", statement: "★ 多练习可以提高中文。", answer: "true" } ] },
+        { chapter: 11, title: "工作中的沟通与安排", questions: [ { id: "h3_r11", num: 1, text: "经理让我在下班前把这份文件完成。", pinyin: "Jīnglǐ ràng wǒ zài xiàbān qián bǎ zhè fèn wénjiàn wánchéng.", statement: "★ 文件必须在下班前完成。", answer: "true" } ] },
+        { chapter: 12, title: "天气变化与灵活安排", questions: [ { id: "h3_r12", num: 1, text: "如果明天下雨，我们就不去爬山了。", pinyin: "Rúguǒ míngtiān xià yǔ, wǒmen jiù bú qù pá shān le.", statement: "★ 下雨也要去爬山。", answer: "false" } ] },
+        { chapter: 13, title: "款待客人与聚会", questions: [ { id: "h3_r13", num: 1, text: "客人们都已经到了，我们可以开始吃晚饭了。", pinyin: "Kèren men dōu yǐjīng dào le, wǒmen kěyǐ kāishǐ chī wǎnfàn le.", statement: "★ 客人还没到。", answer: "false" } ] },
+        { chapter: 14, title: "校园活动与准备", questions: [ { id: "h3_r14", num: 1, text: "关于这次活动，大家还有什么问题吗？", pinyin: "Guānyú zhè cì huódòng, dàjiā hái yǒu shénme wèntí ma?", statement: "★ 他在询问有没有问题。", answer: "true" } ] },
+        { chapter: 15, title: "社区生活与地方风景", questions: [ { id: "h3_r15", num: 1, text: "公园里的花都开了，特别漂亮。", pinyin: "Gōngyuán li de huā dōu kāi le, tèbié piàoliang.", statement: "★ 公园现在的风景很好。", answer: "true" } ] },
+        { chapter: 16, title: "照顾宠物与了解大熊猫", questions: [ { id: "h3_r16", num: 1, text: "大熊猫主要生活在中国四川省。", pinyin: "Dà xióngmāo zhǔyào shēnghuó zài Zhōngguó Sìchuān shěng.", statement: "★ 大熊猫在中国四川。", answer: "true" } ] },
+        { chapter: 17, title: "总结过去与思考未来", questions: [ { id: "h3_r17", num: 1, text: "过去的一年，我们学到了很多知识。", pinyin: "Guòqù de yì nián, wǒmen xué dào le hěn duō zhīshi.", statement: "★ 去年没学到东西。", answer: "false" } ] },
+        { chapter: 18, title: "过节与留学生活", questions: [ { id: "h3_r18", num: 1, text: "春节是中国人最重要的节日。", pinyin: "Chūnjié shì Zhōngguó rén zuì zhòngyào de jiérì.", statement: "★ 春节在中国很重要。", answer: "true" } ] }
       ],
       listening: [
-        {
-          chapter: 1,
-          title: "外貌描述与机场接人 (Сырт келбетті сипаттау және әуежайда қарсы алу)",
-          questions: [
-            { id: "h3_l1_1", num: 1, audioText: "请问电梯在哪儿？在前面左边。", pinyin: "Qǐngwèn diàntī zài nǎr? Zài qiánmian zuǒbiān.", statement: "★ 电梯在右边。", answer: "false" }
-          ]
-        },
-        {
-          chapter: 2,
-          title: "餐饮与服务 (Тамақтану және мейрамхана қызметі)",
-          questions: [
-            { id: "h3_l2_1", num: 1, audioText: "服务员，请给我一杯绿茶。", pinyin: "Fúwùyuán, qǐng gěi wǒ yī bēi lǜchá.", statement: "★ 顾客想要一杯咖啡。", answer: "false" }
-          ]
-        }
+        { chapter: 1, title: "外貌描述与机场接人", questions: [ { id: "h3_l1", num: 1, audioText: "那个穿白衬衫、戴眼镜的男人是我的哥哥。", pinyin: "Nàge chuān bái chènshān, dài yǎnjìng de nánrén shì wǒ de gēge.", statement: "★ 哥哥戴眼镜。", answer: "true" } ] },
+        { chapter: 2, title: "餐饮与服务", questions: [ { id: "h3_l2", num: 1, audioText: "服务员，请帮我拿一个菜单。", pinyin: "Fúwùyuán, qǐng bāng wǒ ná yí ge càidān.", statement: "★ 顾客要菜单。", answer: "true" } ] },
+        { chapter: 3, title: "看房与搬家", questions: [ { id: "h3_l3", num: 1, audioText: "我打算下个月搬到学校附近去住。", pinyin: "Wǒ dǎsuàn xià ge yuè bān dào xuéxiào fùjìn qù zhù.", statement: "★ 他打算搬家。", answer: "true" } ] },
+        { chapter: 4, title: "旅游计划与行程安排", questions: [ { id: "h3_l4", num: 1, audioText: "你们买好机票了吗？明天的航班几点起飞？", pinyin: "Nǐmen mǎi hǎo jīpiào le ma? Míngtiān de hángbān jǐ diǎn qǐfēi?", statement: "★ 他们打算坐火车。", answer: "false" } ] },
+        { chapter: 5, title: "爬山与拍照", questions: [ { id: "h3_l5", num: 1, audioText: "山上的风景真美，快帮我拍张照！", pinyin: "Shān shàng de fēngjǐng zhēn měi, kuài bāng wǒ pāi zhāng zhào!", statement: "★ 他想拍照。", answer: "true" } ] },
+        { chapter: 6, title: "高铁出行", questions: [ { id: "h3_l6", num: 1, audioText: "高铁虽然比普通火车贵，但是快得多。", pinyin: "Gāotiě suīrán bǐ pǔtōng huǒchē guì, dànshì kuài de duō.", statement: "★ 高铁很慢。", answer: "false" } ] },
+        { chapter: 7, title: "比较商品与做决定", questions: [ { id: "h3_l7", num: 1, audioText: "我觉得红色的更好看，就买这个吧。", pinyin: "Wǒ juéde hóngsè de gèng hǎokàn, jiù mǎi zhège ba.", statement: "★ 他决定买红色的。", answer: "true" } ] },
+        { chapter: 8, title: "健康与运动习惯", questions: [ { id: "h3_l8", num: 1, audioText: "医生让我少吃甜食，多运动。", pinyin: "Yīshēng ràng wǒ shǎo chī tiánshí, duō yùndòng.", statement: "★ 医生让他多吃甜食。", answer: "false" } ] },
+        { chapter: 9, title: "课外活动与生活安排", questions: [ { id: "h3_l9", num: 1, audioText: "我一般周末上午打扫房间，下午跟朋友去踢足球。", pinyin: "Wǒ yìbān zhōumò shàngwǔ dǎsǎo fángjiān, xiàwǔ gēn péngyou qù tī zúqiú.", statement: "★ 他周末去踢足球。", answer: "true" } ] },
+        { chapter: 10, title: "学习方法与进步", questions: [ { id: "h3_l10", num: 1, audioText: "你每天复习几个小时？", pinyin: "Nǐ měitiān fùxí jǐ ge xiǎoshí?", statement: "★ 他在问复习时间。", answer: "true" } ] },
+        { chapter: 11, title: "工作中的沟通与安排", questions: [ { id: "h3_l11", num: 1, audioText: "会议改到下午三点半了，请大家准时参加。", pinyin: "Huìyì gǎi dào xiàwǔ sān diǎn bàn le, qǐng dàjiā zhǔnshí cānjiā.", statement: "★ 会议在上午。", answer: "false" } ] },
+        { chapter: 12, title: "天气变化与灵活安排", questions: [ { id: "h3_l12", num: 1, audioText: "外面刮起大风了，我们还是别出去了。", pinyin: "Wàimiàn guā qǐ dà fēng le, wǒmen háishì bié chūqu le.", statement: "★ 外面风很大。", answer: "true" } ] },
+        { chapter: 13, title: "款待客人与聚会", questions: [ { id: "h3_l13", num: 1, audioText: "欢迎光临！随便坐，别客气。", pinyin: "Huānyíng guānglín! Suíbiàn zuò, bié kèqi.", statement: "★ 这是在迎接客人。", answer: "true" } ] },
+        { chapter: 14, title: "校园活动与准备", questions: [ { id: "h3_l14", num: 1, audioText: "晚会的节目单准备好了吗？", pinyin: "Wǎnhuì de jiémùdān zhǔnbèi hǎo le ma?", statement: "★ 节目单不需要准备。", answer: "false" } ] },
+        { chapter: 15, title: "社区生活与地方风景", questions: [ { id: "h3_l15", num: 1, audioText: "我家附近有一个大超市，还有一个公园。", pinyin: "Wǒ jiā fùjìn yǒu yí ge dà chāoshì, hái yǒu yí ge gōngyuán.", statement: "★ 他家附近有公园。", answer: "true" } ] },
+        { chapter: 16, title: "照顾宠物与了解大熊猫", questions: [ { id: "h3_l16", num: 1, audioText: "我家的狗生病了，我带它去宠物医院了。", pinyin: "Wǒ jiā de gǒu shēngbìng le, wǒ dài tā qù chǒngwù yīyuàn le.", statement: "★ 他的猫生病了。", answer: "false" } ] },
+        { chapter: 17, title: "总结过去与思考未来", questions: [ { id: "h3_l17", num: 1, audioText: "明年我希望能去中国留学。", pinyin: "Míngnián wǒ xīwàng néng qù Zhōngguó liúxué.", statement: "★ 他希望去中国留学。", answer: "true" } ] },
+        { chapter: 18, title: "过节与留学生活", questions: [ { id: "h3_l18", num: 1, audioText: "虽然在国外，但我们也会庆祝中秋节。", pinyin: "Suīrán zài guówài, dàn wǒmen yě huì qìngzhù Zhōngqiūjié.", statement: "★ 他们在国外不庆祝节日。", answer: "false" } ] }
       ]
     }
   };
+  // ==============================================
+  // СҰРАҚТАР БАЗАСЫНЫҢ СОҢЫ
+  // ==============================================
 
   // Жүйенің бастапқы мәндері
   let currentLevel = 2;
