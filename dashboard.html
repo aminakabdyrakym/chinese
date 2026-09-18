@@ -860,17 +860,19 @@
     });
   }
 
-  // ---------- Оқу прогресі: деңгей бойынша аяқталған сабақтар ----------
-  // completed — нақты аяқталған сабақ саны, total — деңгейдегі барлық сабақ саны.
-  // Бұл мәндер деңгей ауыстырғанда прогресс-барды дәл сол таб бойынша көрсетеді.
+  // ---------- Оқу прогресі (Нақты / Real Progress) ----------
+  // Деректер енді браузердің localStorage жадынан алынады
   const lessonProgress = {
-    1: { completed: 0, total: 15 },
-    2: { completed: 6, total: 15 },
-    3: { completed: 0, total: 18 },
+    1: { completed: parseInt(localStorage.getItem('hsk1_progress')) || 0, total: 15 },
+    2: { completed: parseInt(localStorage.getItem('hsk2_progress')) || 0, total: 15 },
+    3: { completed: parseInt(localStorage.getItem('hsk3_progress')) || 0, total: 18 },
   };
 
   function updateProgressBar(level) {
     const data = lessonProgress[level] || { completed: 0, total: 0 };
+    // Сабақ саны жалпы саннан асып кетпеуін қадағалау
+    if (data.completed > data.total) data.completed = data.total; 
+    
     const percent = data.total > 0 ? Math.round((data.completed / data.total) * 100) : 0;
 
     document.getElementById('progressLevelLabel').textContent = `(HSK ${level})`;
@@ -887,6 +889,24 @@
 
     updateProgressBar(level);
   }
+
+  // Сабақтарға кірген кезде прогрессті автоматты түрде қосу
+  document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('a[href^="tasks.html"]').forEach(link => {
+      link.addEventListener('click', function() {
+        const url = new URL(this.href, window.location.origin);
+        const level = url.searchParams.get('level');
+        if(level) {
+           let current = parseInt(localStorage.getItem(`hsk${level}_progress`)) || 0;
+           if(current < lessonProgress[level].total) {
+              localStorage.setItem(`hsk${level}_progress`, current + 1);
+              lessonProgress[level].completed = current + 1;
+              updateProgressBar(level);
+           }
+        }
+      });
+    });
+  });
 
   function escapeHtml(str) {
     return str
@@ -1010,7 +1030,6 @@
     chatBox.scrollTop = chatBox.scrollHeight;
   }
 
-  // HSK 1, 2, 3 сөздері тізімі (кездейсоқ алмасу үшін) — тон/айтылым тренажерінде қолданылады
   const toneWords = [
     { word: "爱 (ài)", desc: "Жақсы көру, сүю (HSK 1)" },
     { word: "八 (bā)", desc: "Сегіз (HSK 1)" },
@@ -1031,7 +1050,6 @@
     { word: "干净 (gānjìng)", desc: "Таза (HSK 3)" }
   ];
 
-  // Массивті кездейсоқ ретпен араластыру (Fisher-Yates shuffle)
   function shuffleArray(array) {
     for (let i = array.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
@@ -1111,7 +1129,29 @@
         const data = await response.json();
 
         if (data.status === 'success') {
-          let scoreVal = data.score !== undefined ? data.score : 8;
+          // --- ДИНАМИКАЛЫҚ БАҒАЛАУ ЛОГИКАСЫ (Dynamic Scoring) ---
+          let scoreVal;
+          if (data.score !== undefined) {
+            scoreVal = data.score;
+          } else {
+            // ИИ жауабынан санды іздеу (мыс: "9/10")
+            const scoreMatch = data.reply.match(/(\d+)(?:\s*\/\s*10)/);
+            if (scoreMatch) {
+              scoreVal = parseInt(scoreMatch[1]);
+            } else {
+              // Егер сан болмаса, мәтіннің мағынасына қарай баға беру
+              const replyLower = data.reply.toLowerCase();
+              if (replyLower.includes("өте жақсы") || replyLower.includes("керемет") || replyLower.includes("тамаша") || replyLower.includes("мүлдем дұрыс")) {
+                scoreVal = Math.floor(Math.random() * 2) + 9; // 9 немесе 10
+              } else if (replyLower.includes("дұрыс") || replyLower.includes("жақсы") || replyLower.includes("жаман емес")) {
+                scoreVal = Math.floor(Math.random() * 2) + 7; // 7 немесе 8
+              } else {
+                scoreVal = Math.floor(Math.random() * 3) + 4; // 4, 5 немесе 6
+              }
+            }
+          }
+          scoreVal = Math.max(1, Math.min(10, scoreVal)); // 1 мен 10 аралығында шектеу
+
           let scoreHtml = `<div class="font-display font-bold text-jade mb-3 text-xl border-b border-paper-deep pb-2">Бағаңыз: ${scoreVal} / 10</div>`;
           const chineseChunks = extractChineseText(data.reply);
           const speakBtnHtml = chineseChunks
