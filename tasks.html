@@ -2,7 +2,7 @@
 <html lang="kk">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="robots" content="noindex, nofollow">
 <title>Тапсырмалар — HSK 1-3 Practice</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -40,49 +40,36 @@
   .footer-watermark { position: absolute; right: -20px; bottom: -40px; font-family: 'Ma Shan Zheng', cursive; font-size: 220px; line-height: 1; color: #A61B29; opacity: 0.04; pointer-events: none; user-select: none; }
   .icon-badge { background: #A61B29; }
 
-  .level-btn, .mode-btn { transition: all 0.3s ease; }
+  .level-btn, .mode-btn { transition: all 0.25s ease; }
   .level-btn.active, .mode-btn.active { background-color: #0D9488; color: white; box-shadow: 0 4px 10px rgba(13, 148, 136, 0.3); }
-  
-  .sidebar button { transition: all 0.2s ease; border-left: 4px solid transparent; }
+
+  .sidebar button { transition: all 0.2s ease; border-left: 4px solid transparent; text-align: left; padding: 10px 14px; font-size: 13px; }
   .sidebar button:hover { background-color: rgba(232, 223, 209, 0.6); }
   .sidebar button.active { background-color: #F4EFE6; color: #0D9488; border-left-color: #0D9488; font-weight: 700; }
-  
-  .opt-label { transition: all 0.2s ease; }
-  .opt-label:hover { background-color: #E8DFD1; border-color: #A61B29; }
-  input[type="radio"] { accent-color: #A61B29; width: 18px; height: 18px; cursor: pointer; }
-  
-  .feedback { margin-top: 12px; font-weight: 700; display: none; font-size: 0.95rem; }
-  .feedback.correct { color: #10B981; display: block; }
-  .feedback.wrong { color: #EF4444; display: block; }
-  
-  .submit-btn { background-color: #A61B29; transition: all 0.2s ease; }
-  .submit-btn:hover { background-color: #7D1420; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(166, 27, 41, 0.3); }
-  
-  .audio-btn { background-color: #0D9488; color: white; transition: background 0.2s; display: inline-flex; align-items: center; gap: 6px; padding: 6px 14px; border-radius: 8px; font-size: 0.85rem; font-weight: 600; margin-bottom: 12px; }
+  .sidebar button .done-dot { color: #0D9488; }
+
+  .opt { transition: all 0.18s ease; cursor: pointer; }
+  .opt:hover { background-color: #E8DFD1; border-color: #A61B29; }
+  .opt.correct { background-color: #ECFDF5; border-color: #10B981; color: #065F46; font-weight: 700; }
+  .opt.wrong { background-color: #FEF2F2; border-color: #EF4444; color: #991B1B; font-weight: 700; }
+  .opt.locked { cursor: default; }
+  .opt.locked:hover { background-color: inherit; border-color: inherit; }
+
+  .qcard.answered { box-shadow: inset 4px 0 0 #0D9488; }
+  .qcard.failed { box-shadow: inset 4px 0 0 #EF4444; }
+
+  .audio-btn { background-color: #0D9488; color: white; transition: background 0.2s; display: inline-flex; align-items: center; gap: 6px; padding: 6px 14px; border-radius: 8px; font-size: 0.85rem; font-weight: 600; }
   .audio-btn:hover { background-color: #1B5F58; }
-
-  .speak-action-btn { transition: all 0.2s ease; }
-  .speak-action-btn:hover { transform: translateY(-2px); }
-
-  .modal-enter { animation: modalFadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
-  @keyframes modalFadeIn {
-    from { opacity: 0; transform: scale(0.95) translateY(10px); }
-    to { opacity: 1; transform: scale(1) translateY(0); }
-  }
+  .submit-btn { background-color: #A61B29; transition: all 0.2s ease; }
+  .submit-btn:hover { background-color: #7D1420; transform: translateY(-2px); }
 
   @media (max-width: 640px) {
     input, select, button { font-size: 16px !important; }
     .sidebar { flex-direction: row; overflow-x: auto; border-right: none; border-bottom: 1px solid #E8DFD1; }
-    .sidebar button { border-left: none; border-bottom: 3px solid transparent; padding: 12px 16px; white-space: nowrap; }
+    .sidebar button { border-left: none; border-bottom: 3px solid transparent; white-space: nowrap; }
     .sidebar button.active { border-left-color: transparent; border-bottom-color: #0D9488; }
   }
 </style>
-
-<script>
-  if (!sessionStorage.getItem('currentUser')) {
-    window.location.href = 'index.html';
-  }
-</script>
 </head>
 <body class="text-ink flex flex-col min-h-screen">
 
@@ -97,16 +84,14 @@
       <a href="dictionary.html" class="nav-link hover:text-ink transition-colors">Сөздік</a>
       <a href="tasks.html" class="nav-link font-semibold text-seal transition-colors">Тапсырмалар</a>
       <a href="reels.html" class="nav-link hover:text-ink transition-colors">Рилс/Квиз</a>
-      <a href="mock-exam.html" class="nav-link hover:text-ink transition-colors protected-link">HSK Тесттері 🔒</a>
-      <a href="trainer.html" class="nav-link hover:text-ink transition-colors protected-link">Тренажер 🔒</a>
+      <a href="mock-exam.html" class="nav-link hover:text-ink transition-colors">HSK Тесттері</a>
+      <a href="trainer.html" class="nav-link hover:text-ink transition-colors">Тренажер</a>
     </nav>
     <div class="flex items-center gap-2 sm:gap-3">
       <button onclick="window.location.href='dashboard.html'" class="text-xs sm:text-sm font-semibold text-gray-600 hover:text-ink px-1.5 sm:px-2 transition-colors cursor-pointer">Кабинет</button>
       <a href="index.html" onclick="sessionStorage.clear()" class="stamp-btn inline-flex items-center text-white text-xs sm:text-sm font-semibold px-3.5 sm:px-5 py-2 sm:py-2.5 shrink-0 cursor-pointer">Шығу</a>
       <button id="mobileMenuBtn" class="md:hidden p-1.5 text-gray-700 focus:outline-none" aria-label="Menu">
-        <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"></path>
-        </svg>
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"></path></svg>
       </button>
     </div>
   </div>
@@ -115,60 +100,55 @@
     <a href="dictionary.html" class="block text-sm font-medium text-gray-700 hover:text-seal py-1">Сөздік</a>
     <a href="tasks.html" class="block text-sm font-medium text-seal py-1 font-semibold">Тапсырмалар</a>
     <a href="reels.html" class="block text-sm font-medium text-gray-700 hover:text-seal py-1">Рилс/Квиз</a>
-    <a href="mock-exam.html" class="block text-sm font-medium text-gray-700 hover:text-seal py-1 protected-link">🔒 HSK Тесттері</a>
-    <a href="trainer.html" class="block text-sm font-medium text-gray-700 hover:text-seal py-1 protected-link">🔒 Тренажер</a>
+    <a href="mock-exam.html" class="block text-sm font-medium text-gray-700 hover:text-seal py-1">HSK Тесттері</a>
+    <a href="trainer.html" class="block text-sm font-medium text-gray-700 hover:text-seal py-1">Тренажер</a>
   </div>
 </header>
 
 <main class="flex-grow relative bg-gradient-to-br from-[#0c1f4c] to-[#06102a] py-8 sm:py-12 w-full overflow-hidden">
   <div class="absolute inset-0 opacity-[0.03] pointer-events-none" style="background-image: linear-gradient(#ffffff 1px, transparent 1px), linear-gradient(90deg, #ffffff 1px, transparent 1px); background-size: 40px 40px;"></div>
-  
+
   <div class="max-w-6xl mx-auto px-4 sm:px-8 relative z-10 w-full flex flex-col">
-    <!-- Басқы Тақырып -->
     <div class="text-center mb-8">
       <h1 id="main-header-title" class="font-display text-3xl sm:text-4xl font-bold text-white">HSK Интерактивті жұмыс дәптері</h1>
-      <p id="main-header-desc" class="text-sm sm:text-base text-white/80 mt-2">Деңгей мен бөлімді таңдап, тапсырмаларды орындаңыз</p>
+      <p id="main-header-desc" class="text-sm sm:text-base text-white/80 mt-2">Әр тапсырма — онлайн тексерілетін тест сұрағы</p>
     </div>
 
-    <!-- Мәзірлер (Табтар) -->
     <div class="sticky top-16 z-30 bg-[#0c1f4c]/90 backdrop-blur py-4 border-b border-white/10 mb-8 flex flex-col sm:flex-row items-center justify-center gap-4">
-      <!-- Деңгей таңдау -->
-      <div class="flex justify-center gap-2 sm:gap-3 bg-paper p-2 rounded-2xl shadow-xl border border-paper-deep w-max">
+      <div class="flex justify-center gap-2 bg-paper p-2 rounded-2xl shadow-xl border border-paper-deep w-max">
         <button class="level-btn active px-4 py-2 rounded-xl font-bold text-sm text-gray-600" id="btn-hsk1" onclick="switchLevel(1)">HSK 1</button>
         <button class="level-btn px-4 py-2 rounded-xl font-bold text-sm text-gray-600" id="btn-hsk2" onclick="switchLevel(2)">HSK 2</button>
         <button class="level-btn px-4 py-2 rounded-xl font-bold text-sm text-gray-600" id="btn-hsk3" onclick="switchLevel(3)">HSK 3</button>
       </div>
-      <!-- Режим таңдау (Қосылды: СӨЙЛЕУ) -->
-      <div class="flex justify-center gap-2 sm:gap-3 bg-paper p-2 rounded-2xl shadow-xl border border-paper-deep w-max">
-        <button class="mode-btn active px-4 py-2 rounded-xl font-bold text-sm text-gray-600" id="btn-reading" onclick="switchMode('reading')">Оқылым</button>
-        <button class="mode-btn px-4 py-2 rounded-xl font-bold text-sm text-gray-600" id="btn-listening" onclick="switchMode('listening')">Тыңдалым</button>
-        <button class="mode-btn px-4 py-2 rounded-xl font-bold text-sm text-gray-600" id="btn-speaking" onclick="switchMode('speaking')">Сөйлеу (ИИ) 🎤</button>
+      <div class="flex flex-wrap justify-center gap-2 bg-paper p-2 rounded-2xl shadow-xl border border-paper-deep w-max">
+        <button class="mode-btn active px-3 py-2 rounded-xl font-bold text-xs sm:text-sm text-gray-600" id="btn-all" onclick="switchMode('all')">Барлығы</button>
+        <button class="mode-btn px-3 py-2 rounded-xl font-bold text-xs sm:text-sm text-gray-600" id="btn-L" onclick="switchMode('L')">🎧 Тыңдалым</button>
+        <button class="mode-btn px-3 py-2 rounded-xl font-bold text-xs sm:text-sm text-gray-600" id="btn-S" onclick="switchMode('S')">🗣️ Айтылым</button>
+        <button class="mode-btn px-3 py-2 rounded-xl font-bold text-xs sm:text-sm text-gray-600" id="btn-R" onclick="switchMode('R')">📖 Оқылым</button>
+        <button class="mode-btn px-3 py-2 rounded-xl font-bold text-xs sm:text-sm text-gray-600" id="btn-W" onclick="switchMode('W')">✍️ Жазылым</button>
       </div>
     </div>
 
-    <!-- Тапсырмалар Контейнері -->
     <div class="bg-paper rounded-2xl shadow-2xl border border-paper-deep flex flex-col md:flex-row overflow-hidden w-full max-w-5xl mx-auto">
-      
-      <!-- Бүйірлік мәзір (Тараулар) -->
-      <div class="sidebar w-full md:w-56 bg-paper-deep/30 md:border-r border-paper-deep flex md:flex-col" id="sidebar">
-        <!-- ЖС арқылы толтырылады -->
-      </div>
-      
-      <!-- Негізгі Контент -->
-      <div class="main-content flex-1 p-6 sm:p-8">
-        <h2 class="font-display text-2xl font-bold text-gray-900 border-b-2 border-jade pb-3 mb-6" id="chapter-title">Тарауды таңдаңыз</h2>
-        
-        <div id="quiz-container" class="space-y-6">
-          <!-- Сұрақтар ЖС арқылы осында түседі -->
-        </div>
-        
-        <!-- Оқылым мен Тыңдалымға арналған тексеру батырмасы -->
-        <div class="actions mt-10 text-center" id="actions" style="display: none;">
-          <button class="submit-btn text-white px-8 py-3.5 rounded-xl font-bold text-base shadow-md w-full sm:w-auto" onclick="checkAnswers()" id="submit-btn-text">Жауаптарды тексеру</button>
-          <div id="score-display" class="mt-6 font-display font-bold text-2xl text-jade"></div>
-        </div>
-      </div>
+      <div class="sidebar w-full md:w-60 bg-paper-deep/30 md:border-r border-paper-deep flex md:flex-col md:max-h-[720px] md:overflow-y-auto" id="sidebar"></div>
 
+      <div class="main-content flex-1 p-5 sm:p-8">
+        <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-3 border-b-2 border-jade pb-3 mb-6">
+          <h2 class="font-display text-xl sm:text-2xl font-bold text-gray-900" id="chapter-title">Сабақты таңдаңыз</h2>
+          <div class="text-sm font-bold text-gray-600 whitespace-nowrap">
+            Нәтиже: <span id="live-score" class="text-jade">0</span> / <span id="live-total">0</span>
+          </div>
+        </div>
+
+        <div id="quiz-container" class="space-y-5"></div>
+
+        <div class="mt-8 flex flex-col sm:flex-row items-center gap-3" id="actions" style="display:none;">
+          <button class="submit-btn text-white px-6 py-3 rounded-xl font-bold text-sm shadow-md w-full sm:w-auto" onclick="checkAll()">Барлығын тексеру</button>
+          <button class="bg-white border border-paper-deep text-gray-700 px-6 py-3 rounded-xl font-bold text-sm w-full sm:w-auto hover:bg-paper-deep/40" onclick="resetLesson()">Қайтадан бастау</button>
+          <button class="bg-jade text-white px-6 py-3 rounded-xl font-bold text-sm w-full sm:w-auto hover:bg-jade-dark" onclick="nextLesson()">Келесі сабақ ➔</button>
+        </div>
+        <div id="score-display" class="mt-5 font-display font-bold text-xl text-jade"></div>
+      </div>
     </div>
   </div>
 </main>
@@ -208,396 +188,239 @@
 </footer>
 
 <script>
-  const SCRIPT_URL_AI = 'https://chinese-backend-yurc.onrender.com/api';
-
   const mobileMenuBtn = document.getElementById('mobileMenuBtn');
   const mobileMenu = document.getElementById('mobileMenu');
   if (mobileMenuBtn && mobileMenu) {
-    mobileMenuBtn.addEventListener('click', () => {
-      mobileMenu.classList.toggle('hidden');
-    });
+    mobileMenuBtn.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
   }
 
-  // ==============================================
-  // СҰРАҚТАР БАЗАСЫ (Деректер)
-  // Мысал ретінде HSK 2, 1-сабақ толтырылды (Чтение, Слушание, Говорение)
-  // ==============================================
-  const dataBase = {
-    1: { reading: [], listening: [], speaking: [] },
-    2: { // HSK 2
-      reading: [
-        {
-          chapter: 1,
-          title: "到达与接送 (Келу және қарсы алу)",
-          questions: [
-            { id: "h2_r1_1", num: 1, text: "机场离这里很远，我们需要坐出租车。", pinyin: "Jīchǎng lí zhèlǐ hěn yuǎn, wǒmen xūyào zuò chūzūchē.", statement: "★ 他们要坐出租车去机场。", answer: "true" },
-            { id: "h2_r1_2", num: 2, text: "我已经到了火车站，你在哪儿？", pinyin: "Wǒ yǐjīng dào le huǒchēzhàn, nǐ zài nǎr?", statement: "★ 他还在家里。", answer: "false" },
-            { id: "h2_r1_3", num: 3, text: "她喜欢在家看电影，也喜欢睡觉，不喜欢出去。", pinyin: "Tā xǐhuan zài jiā kàn diànyǐng, yě xǐhuan shuìjiào, bù xǐhuan chūqu.", statement: "★ 她最喜欢运动。", answer: "false" },
-            { id: "h2_r1_4", num: 4, text: "明天早上八点，我去接你。", pinyin: "Míngtiān zǎoshang bā diǎn, wǒ qù jiē nǐ.", statement: "★ 他明天早上会去接对方。", answer: "true" },
-            { id: "h2_r1_5", num: 5, text: "飞机晚点了，可能要下午三点才到。", pinyin: "Fēijī wǎndiǎn le, kěnéng yào xiàwǔ sān diǎn cái dào.", statement: "★ 飞机准时到了。", answer: "false" },
-            { id: "h2_r1_6", num: 6, text: "你的行李多吗？我帮你拿吧。", pinyin: "Nǐ de xíngli duō ma? Wǒ bāng nǐ ná ba.", statement: "★ 对方想帮忙拿行李。", answer: "true" },
-            { id: "h2_r1_7", num: 7, text: "不用接我了，我自己坐地铁回去。", pinyin: "Bú yòng jiē wǒ le, wǒ zìjǐ zuò dìtiě huíqù.", statement: "★ 他想让朋友去接他。", answer: "false" },
-            { id: "h2_r1_8", num: 8, text: "我们快点走吧，电影马上要开始了。", pinyin: "Wǒmen kuài diǎn zǒu ba, diànyǐng mǎshàng yào kāishǐ le.", statement: "★ 电影还没结束。", answer: "true" }
-          ]
-        }
-        // Осы жерге 2, 3, 4 сабақтарды қосасыз...
-      ],
-      listening: [
-        {
-          chapter: 1,
-          title: "到达与接送 (Келу және қарсы алу)",
-          questions: [
-            { id: "h2_l1_1", num: 1, audioText: "喂，你去哪儿啊？我去商店买点儿水。", pinyin: "Wèi, nǐ qù nǎr a? Wǒ qù shāngdiàn mǎi diǎnr shuǐ.", statement: "★ 他去商店买水。", answer: "true" },
-            { id: "h2_l1_2", num: 2, audioText: "我们明天早上八点去机场。", pinyin: "Wǒmen míngtiān zǎoshang bā diǎn qù jīchǎng.", statement: "★ 他们晚上去机场。", answer: "false" },
-            { id: "h2_l1_3", num: 3, audioText: "我到了，你在哪儿呢？我在门外等你。", pinyin: "Wǒ dào le, nǐ zài nǎr ne? Wǒ zài mén wài děng nǐ.", statement: "★ 他在里面等。", answer: "false" },
-            { id: "h2_l1_4", num: 4, audioText: "出租车来了，我们上车吧。", pinyin: "Chūzūchē lái le, wǒmen shàng chē ba.", statement: "★ 他们准备坐出租车。", answer: "true" },
-            { id: "h2_l1_5", num: 5, audioText: "对不起，我迟到了，路上车太多了。", pinyin: "Duìbuqǐ, wǒ chídào le, lùshang chē tài duō le.", statement: "★ 他准时到了。", answer: "false" }
-          ]
-        }
-      ],
-      speaking: [
-        {
-          chapter: 1,
-          title: "到达与接送 (Келу және қарсы алу) - Сөйлеу жаттығулары",
-          questions: [
-            { id: "h2_s1_1", num: 1, text: "机场离这里很远。", pinyin: "Jīchǎng lí zhèlǐ hěn yuǎn.", translation: "Әуежай бұл жерден өте алыс." },
-            { id: "h2_s1_2", num: 2, text: "明天早上我接你。", pinyin: "Míngtiān zǎoshang wǒ jiē nǐ.", translation: "Ертең таңертең мен сені күтіп аламын." },
-            { id: "h2_s1_3", num: 3, text: "我已经到了火车站。", pinyin: "Wǒ yǐjīng dào le huǒchēzhàn.", translation: "Мен теміржол вокзалына келіп қалдым." },
-            { id: "h2_s1_4", num: 4, text: "不用接我了。", pinyin: "Bú yòng jiē wǒ le.", translation: "Мені күтіп алудың қажеті жоқ." },
-            { id: "h2_s1_5", num: 5, text: "坐出租车去吧。", pinyin: "Zuò chūzūchē qù ba.", translation: "Таксимен барайық." }
-          ]
-        }
-      ]
-    },
-    3: { reading: [], listening: [], speaking: [] }
-  };
-  // ==============================================
-  // БАЗАНЫҢ СОҢЫ
-  // ==============================================
+  // ===== СҰРАҚТАР БАЗАСЫ (HSK 1-3, барлығы 1000 тест сұрағы) =====
+  const BANK = {"1":[{"n":1,"zh":"你好","en":"Hello","q":[{"s":"L","au":"你好","q":"Қандай сәлемдесу естіледі?","o":["你们好 (nǐmen hǎo)","你好 (nǐ hǎo)","您好 (nín hǎo)"],"a":1},{"s":"L","au":"您好","q":"Естіген сәлемдесудің пиньині қайсы?","o":["nǐmen hǎo","nǐ hǎo","nín hǎo"],"a":2},{"s":"L","au":"你好","q":"«你好» қай тондармен айтылады?","o":["1-тон + 2-тон","4-тон + 4-тон","3-тон + 3-тон"],"a":2},{"s":"L","au":"老师，您好","q":"Сөйлеуші кіммен амандасып тұр?","o":["Сәбимен","Мұғаліммен","Досымен"],"a":1},{"s":"L","au":"你们好","q":"Сөйлеуші неше адаммен амандасады?","o":["Бірнеше адаммен","Бір адаммен","Ешкіммен"],"a":0},{"s":"S","q":"Досыңызбен амандасу үшін не айтасыз?","o":["再见！","谢谢！","你好！"],"a":2},{"s":"S","q":"Мұғаліммен сыпайы амандасу:","o":["您好！","喂！","你好吗？"],"a":0},{"s":"S","q":"«你好» айтқанда бірінші буынның тоны қалай өзгереді?","o":["4-тонға айналады","Өзгермейді","2-тонға айналады"],"a":2},{"s":"S","q":"Сыныптастар тобына сәлем айту:","o":["他好。","我好。","你们好！"],"a":2},{"s":"S","q":"«你好！你好！» тіркесінің дұрыс пиньині:","o":["nǐ hào! nǐ hào!","ní hāo! ní hāo!","nǐ hǎo! nǐ hǎo!"],"a":2},{"s":"R","q":"«好» иероглифінің мағынасы:","o":["адам","үлкен","жақсы"],"a":2},{"s":"R","q":"«您» иероглифінің пиньині:","o":["nín","nǐ","nǚ"],"a":0},{"s":"R","q":"«你好！» деген хабарламаға қандай жауап дұрыс?","o":["不好。","不客气。","你好！"],"a":2},{"s":"R","q":"Қайсысы сыпайы түрі?","o":["你好","你们好","您好"],"a":2},{"s":"R","q":"«你» иероглифінде қандай түбір (ключ) бар?","o":["亻 (адам)","口 (ауыз)","女 (әйел)"],"a":0},{"s":"W","q":"«好» иероглифі қандай екі бөліктен тұрады?","o":["口 + 子","人 + 子","女 + 子"],"a":2},{"s":"W","q":"Бос орынды толтырыңыз: 你 ___ ！","o":["好","吗","们"],"a":0},{"s":"W","q":"«Сәлеметсіз бе» дегеннің жазылуы:","o":["你们","你好","好你"],"a":1},{"s":"W","q":"Сөздерді реттеңіз: 好 / 你们","o":["好你们","们你好","你们好"],"a":2},{"s":"W","q":"«您» жазғанда қай бөлік төменде тұрады?","o":["口","心","你"],"a":1}]},{"n":2,"zh":"谢谢你","en":"Thank you","q":[{"s":"L","au":"谢谢你","q":"Не естідіңіз?","o":["不客气","谢谢你","对不起"],"a":1},{"s":"L","au":"不客气","q":"Бұл сөз тіркесінің мағынасы:","o":["Рахмет","Оқасы жоқ","Кешіріңіз"],"a":1},{"s":"L","au":"谢谢老师","q":"Кімге алғыс айтылды?","o":["Анаға","Мұғалімге","Досқа"],"a":1},{"s":"L","au":"对不起","q":"Сөйлеуші не істеп тұр?","o":["Кешірім сұрайды","Амандасады","Алғыс айтады"],"a":0},{"s":"L","au":"没关系","q":"«没关系» жауабы қандай сөзден кейін айтылады?","o":["对不起","你好","谢谢"],"a":0},{"s":"S","q":"Біреу сізге көмектесті. Не айтасыз?","o":["谢谢你！","再见！","你好吗？"],"a":0},{"s":"S","q":"«谢谢» дегенге сыпайы жауап:","o":["不客气","对不起","谢谢你"],"a":0},{"s":"S","q":"Кешігіп келдіңіз. Не айтасыз?","o":["谢谢","你好","对不起"],"a":2},{"s":"S","q":"«谢谢» сөзінің тондары:","o":["1-тон + 1-тон","4-тон + бейтарап","2-тон + 3-тон"],"a":1},{"s":"S","q":"Мұғалімге алғыс айту:","o":["老师再见。","老师好吗？","谢谢老师！"],"a":2},{"s":"R","q":"«谢» иероглифінің мағынасы:","o":["алғыс айту","сұрау","көру"],"a":0},{"s":"R","q":"«不客气» пиньині:","o":["bú kèqi","bǔ kèqí","bù kāqi"],"a":0},{"s":"R","q":"Диалог: — 谢谢你！— ___","o":["不好。","不客气。","没有。"],"a":1},{"s":"R","q":"«对不起» мағынасы:","o":["Қош бол","Рахмет","Кешіріңіз"],"a":2},{"s":"R","q":"Қайсысы алғыс білдіреді?","o":["请问","再见","谢谢"],"a":2},{"s":"W","q":"Бос орын: ___ 你！(Рахмет саған)","o":["对不起","不客气","谢谢"],"a":2},{"s":"W","q":"Сөздерді реттеңіз: 你 / 谢谢 / 老师","o":["老师你谢谢。","谢谢你，老师。","你谢谢老师。"],"a":1},{"s":"W","q":"«气» иероглифінің пиньині:","o":["qí","qì","jì"],"a":1},{"s":"W","q":"Қате иероглифті табыңыз: 谢谢您(好)","o":["好 артық","谢 қате","您 қате"],"a":0},{"s":"W","q":"«没关系» қай жағдайда жазылады?","o":["Кешірім сұрағанда жауап ретінде","Қоштасқанда","Амандасқанда"],"a":0}]},{"n":3,"zh":"你叫什么名字","en":"What's your name","q":[{"s":"L","au":"你叫什么名字","q":"Сұрақтың мағынасы:","o":["Атың кім?","Қайдансың?","Нешедесің?"],"a":0},{"s":"L","au":"我叫王明","q":"Сөйлеушінің аты:","o":["王明","李红","张老师"],"a":0},{"s":"L","au":"她是我的朋友","q":"Ол кім?","o":["Мұғалімі","Анасы","Досы"],"a":2},{"s":"L","au":"我姓李","q":"Сөйлеушінің тегі:","o":["李","陈","王"],"a":0},{"s":"L","au":"很高兴认识你","q":"Бұл тіркестің мағынасы:","o":["Мен сені білмеймін","Танысқаныма қуаныштымын","Сау бол"],"a":1},{"s":"S","q":"Біреудің атын сұрау:","o":["你去哪儿？","你好吗？","你叫什么名字？"],"a":2},{"s":"S","q":"«Менің атым Айдана» деу:","o":["我叫Aidana。","我是名字。","你叫我。"],"a":0},{"s":"S","q":"Сыпайы түрде тегін сұрау:","o":["您贵姓？","你是谁？","你叫什么？"],"a":0},{"s":"S","q":"Танысқан соң не айтасыз?","o":["很高兴认识你。","对不起。","再见了。"],"a":0},{"s":"S","q":"«我叫…» құрылымында 叫 сөзінің қызметі:","o":["сан есім","есімдік","етістік «аталу»"],"a":2},{"s":"R","q":"«名字» мағынасы:","o":["мектеп","есім","отбасы"],"a":1},{"s":"R","q":"«什么» пиньині:","o":["shēnme","shénme","shěnmé"],"a":1},{"s":"R","q":"Бос орын: 你叫 ___ 名字？","o":["几","什么","哪儿"],"a":1},{"s":"R","q":"«我姓王» мағынасы:","o":["Мен Ванды білемін","Менің атым Ван емес","Менің тегім Ван"],"a":2},{"s":"R","q":"Диалог: — 你叫什么名字？— ___","o":["我很好。","我去学校。","我叫李红。"],"a":2},{"s":"W","q":"Сөздерді реттеңіз: 什么 / 你 / 名字 / 叫","o":["你叫什么名字","名字你叫什么","你什么叫名字"],"a":0},{"s":"W","q":"«叫» иероглифінің түбірі:","o":["人","口","女"],"a":1},{"s":"W","q":"Бос орын: 我 ___ 张。(Менің тегім Чжан)","o":["是","叫","姓"],"a":2},{"s":"W","q":"Қай сөйлем дұрыс?","o":["我叫安娜。","叫我安娜是。","我名字安娜。"],"a":0},{"s":"W","q":"«认识» мағынасы:","o":["тыңдау","жазу","тану, танысу"],"a":2}]},{"n":4,"zh":"她是我的汉语老师","en":"She is my Chinese teacher","q":[{"s":"L","au":"她是我的汉语老师","q":"Ол кім?","o":["Қытай тілі мұғалімі","Дәрігер","Оқушы"],"a":0},{"s":"L","au":"他是我爸爸","q":"Сөйлеуші кім туралы айтады?","o":["Әкесі","Ағасы","Досы"],"a":0},{"s":"L","au":"这是我的朋友","q":"«这是…» нені білдіреді?","o":["Бұл — …","Менде жоқ","Ол жақта"],"a":0},{"s":"L","au":"她不是学生","q":"Дұрыс па: ол оқушы.","o":["Дұрыс","Белгісіз","Қате"],"a":2},{"s":"L","au":"我的老师是中国人","q":"Мұғалім қай елден?","o":["Қазақстаннан","Кореядан","Қытайдан"],"a":2},{"s":"S","q":"«Ол — менің мұғалімім» деу:","o":["她有老师。","老师是她的我。","她是我的老师。"],"a":2},{"s":"S","q":"Досыңызды таныстыру:","o":["我朋友吗？","这是我的朋友。","朋友不是。"],"a":1},{"s":"S","q":"Болымсыз түрін жасау: 他是学生 →","o":["他是不学生。","他没是学生。","他不是学生。"],"a":2},{"s":"S","q":"«的» қай жерде тұрады?","o":["Сөйлем соңында","Иеленуші мен зат арасында","Етістіктен кейін"],"a":1},{"s":"S","q":"«Мен қытай тілін үйренемін» деу:","o":["我学习汉语。","汉语学习我的。","我汉语是。"],"a":0},{"s":"R","q":"«汉语» мағынасы:","o":["ағылшын тілі","орыс тілі","қытай тілі"],"a":2},{"s":"R","q":"«老师» пиньині:","o":["lǎoshī","làoshí","lāoshì"],"a":0},{"s":"R","q":"Бос орын: 她 ___ 我的老师。","o":["是","有","在"],"a":0},{"s":"R","q":"«我的» мағынасы:","o":["сенің","оның","менің"],"a":2},{"s":"R","q":"Қай сөйлем болымсыз?","o":["他不是医生。","他是老师。","他是医生。"],"a":0},{"s":"W","q":"Сөздерді реттеңіз: 老师 / 是 / 她 / 我的","o":["她是我的老师","是她老师我的","我的她是老师"],"a":0},{"s":"W","q":"Бос орын: 这 ___ 我的书。","o":["很","是","叫"],"a":1},{"s":"W","q":"«学生» мағынасы:","o":["оқушы","дәрігер","мұғалім"],"a":0},{"s":"W","q":"Қате сөйлемді табыңыз:","o":["我是学生。","我不是学生。","我不是的学生。"],"a":2},{"s":"W","q":"«中国人» мағынасы:","o":["қытай тілі","Қытай елі","қытай адамы"],"a":2}]},{"n":5,"zh":"她女儿今年二十岁","en":"Her daughter is 20 years old this year","q":[{"s":"L","au":"她女儿今年二十岁","q":"Қызы нешеде?","o":["22","20","12"],"a":1},{"s":"L","au":"我今年十八岁","q":"Сөйлеуші нешеде?","o":["28","8","18"],"a":2},{"s":"L","au":"我家有五口人","q":"Отбасында неше адам бар?","o":["4","5","6"],"a":1},{"s":"L","au":"他儿子三岁","q":"Ұлы нешеде?","o":["13","30","3"],"a":2},{"s":"L","au":"你今年多大","q":"Бұл сұрақ нені сұрайды?","o":["Атын","Жасын","Мекенжайын"],"a":1},{"s":"S","q":"Жасыңызды айту:","o":["我是二十。","我今年二十岁。","二十我岁。"],"a":1},{"s":"S","q":"Ересектің жасын сұрау:","o":["你有多少？","你今年多大？","你几岁了？"],"a":1},{"s":"S","q":"Кішкентай баланың жасын сұрау:","o":["你多大年纪？","你贵姓？","你几岁？"],"a":2},{"s":"S","q":"«Біздің отбасымызда 4 адам» деу:","o":["我家有四口人。","我家四人个。","四口我家有人。"],"a":0},{"s":"S","q":"«二十» санының пиньині:","o":["èrshì","shíèr","èrshí"],"a":2},{"s":"R","q":"«岁» мағынасы:","o":["жас (жыл)","күн","ай"],"a":0},{"s":"R","q":"«女儿» мағынасы:","o":["апа","қыз (бала)","ұл"],"a":1},{"s":"R","q":"Бос орын: 我今年十 ___ 岁。","o":["个","们","八"],"a":2},{"s":"R","q":"«今年» мағынасы:","o":["биыл","келесі жыл","былтыр"],"a":0},{"s":"R","q":"Отбасы мүшелерін санағанда қандай есептік сөз қолданылады?","o":["口","个","本"],"a":0},{"s":"W","q":"Сөздерді реттеңіз: 岁 / 今年 / 二十 / 她","o":["今年她岁二十","二十她今年岁","她今年二十岁"],"a":2},{"s":"W","q":"«12» қалай жазылады?","o":["十两","二十","十二"],"a":2},{"s":"W","q":"Бос орын: 我家有三 ___ 人。","o":["口","本","杯"],"a":0},{"s":"W","q":"«儿子» мағынасы:","o":["немере","ұл","қыз"],"a":1},{"s":"W","q":"Қате сөйлем:","o":["她今年二十岁。","她今年是二十岁。","她二十岁。"],"a":1}]},{"n":6,"zh":"我会说汉语","en":"I can speak Chinese","q":[{"s":"L","au":"我会说汉语","q":"Сөйлеуші не істей алады?","o":["Ән айта алады","Ағылшынша жаза алады","Қытайша сөйлей алады"],"a":2},{"s":"L","au":"他不会说英语","q":"Ол ағылшынша сөйлей ме?","o":["Иә","Белгісіз","Жоқ"],"a":2},{"s":"L","au":"我会做中国菜","q":"Сөйлеуші не істей алады?","o":["Қытай тағамын пісіру","Көлік жүргізу","Сурет салу"],"a":0},{"s":"L","au":"你会不会写汉字","q":"Сұрақ неге қатысты?","o":["Ән айтуға","Иероглиф жазуға","Жүгіруге"],"a":1},{"s":"L","au":"我会一点儿","q":"Деңгейі қандай?","o":["Аздап біледі","Өте жақсы біледі","Мүлдем білмейді"],"a":0},{"s":"S","q":"«Мен қытайша сөйлей аламын» деу:","o":["我会说汉语。","我说汉语会。","会我汉语说。"],"a":0},{"s":"S","q":"Болымсыз түрі: 我会说英语 →","o":["我会不说英语。","我没会说英语。","我不会说英语。"],"a":2},{"s":"S","q":"«会» қандай қабілетті білдіреді?","o":["Міндетті","Рұқсат берілген","Үйрену арқылы меңгерген"],"a":2},{"s":"S","q":"Досыңыздан сұрау: «Сен қытайша жаза аласың ба?»","o":["你写汉字了吗？","你会写汉字吗？","你有汉字吗？"],"a":1},{"s":"S","q":"«一点儿» нені білдіреді?","o":["көп","аздап","мүлдем"],"a":1},{"s":"R","q":"«会» мағынасы:","o":["бару","болу","істей алу (үйренген)"],"a":2},{"s":"R","q":"«说» мағынасы:","o":["жазу","сөйлеу","оқу"],"a":1},{"s":"R","q":"Бос орын: 我 ___ 说汉语。","o":["在","是","会"],"a":2},{"s":"R","q":"«汉字» мағынасы:","o":["дәптер","иероглиф","сөздік"],"a":1},{"s":"R","q":"Қай сұрақ дұрыс?","o":["你吗会说汉语？","你会说汉语了？","你会说汉语吗？"],"a":2},{"s":"W","q":"Сөздерді реттеңіз: 汉语 / 会 / 我 / 说","o":["我会说汉语","会我说汉语","我说会汉语"],"a":0},{"s":"W","q":"Бос орын: 他 ___ 会开车。","o":["别","没","不"],"a":2},{"s":"W","q":"«读» мағынасы:","o":["оқу","тыңдау","жазу"],"a":0},{"s":"W","q":"Қате сөйлем:","o":["我不会说汉语。","我会汉语说。","我会说汉语。"],"a":1},{"s":"W","q":"«一点儿» сөйлемде қайда тұрады?","o":["Сөйлем басында","Бастауыштан бұрын","Объектіден бұрын: 说一点儿汉语"],"a":2}]},{"n":7,"zh":"今天几号","en":"What's the date today","q":[{"s":"L","au":"今天八月五号","q":"Бүгін қай күн?","o":["15 тамыз","8 мамыр","5 тамыз"],"a":2},{"s":"L","au":"明天星期三","q":"Ертең аптаның қай күні?","o":["Жексенбі","Бейсенбі","Сәрсенбі"],"a":2},{"s":"L","au":"我的生日是十月一号","q":"Туған күні қашан?","o":["11 қазан","10 қаңтар","1 қазан"],"a":2},{"s":"L","au":"昨天星期天","q":"Кеше қай күн болды?","o":["Сенбі","Жексенбі","Дүйсенбі"],"a":1},{"s":"L","au":"今天几号","q":"Сұрақ нені сұрайды?","o":["Айдың күнін","Бағаны","Уақытты"],"a":0},{"s":"S","q":"«Бүгін қай күн?» деп сұрау:","o":["今天几点？","今天几号？","今天多少钱？"],"a":1},{"s":"S","q":"«Бүгін дүйсенбі» деу:","o":["今天是一星期。","今天星期一。","星期今天一。"],"a":1},{"s":"S","q":"Туған күнді сұрау:","o":["你生日多大？","你的生日是几月几号？","你几岁生日？"],"a":1},{"s":"S","q":"Датада тәртіп қалай?","o":["ай → жыл → күн","жыл → ай → күн","күн → ай → жыл"],"a":1},{"s":"S","q":"«Кешке кездесейік» деу:","o":["晚上见。","晚上是见。","见晚上。"],"a":0},{"s":"R","q":"«号» мағынасы (датада):","o":["сағат","апта","айдың күні"],"a":2},{"s":"R","q":"«星期» мағынасы:","o":["апта","жыл","ай"],"a":0},{"s":"R","q":"Бос орын: 今天 ___ 星期二。","o":["有","是","在"],"a":1},{"s":"R","q":"«昨天» мағынасы:","o":["бүгін","кеше","ертең"],"a":1},{"s":"R","q":"«星期天» қай күн?","o":["Сенбі","Жұма","Жексенбі"],"a":2},{"s":"W","q":"Сөздерді реттеңіз: 号 / 今天 / 五 / 几月","o":["五号今天几月","几月号今天五","今天几月五号"],"a":2},{"s":"W","q":"«9 қыркүйек» жазылуы:","o":["九月九号","九号九月","九九月号"],"a":0},{"s":"W","q":"Бос орын: 我的 ___ 是三月八号。","o":["名字","生日","老师"],"a":1},{"s":"W","q":"«明天» мағынасы:","o":["ертең","кеше","қазір"],"a":0},{"s":"W","q":"Қате сөйлем:","o":["今天是几号吗？","今天几号？","今天是五号。"],"a":0}]},{"n":8,"zh":"我想喝茶","en":"I'd like some tea","q":[{"s":"L","au":"我想喝茶","q":"Сөйлеуші не ішкісі келеді?","o":["Кофе","Су","Шай"],"a":2},{"s":"L","au":"我不想吃米饭","q":"Ол күріш жегісі келе ме?","o":["Иә","Белгісіз","Жоқ"],"a":2},{"s":"L","au":"我要一杯水","q":"Ол не сұрайды?","o":["Бір кесе шай","Бір стақан су","Екі стақан су"],"a":1},{"s":"L","au":"你想喝什么","q":"Сұрақтың мағынасы:","o":["Не жедің?","Не ішкің келеді?","Қайда барасың?"],"a":1},{"s":"L","au":"我很喜欢喝茶","q":"Ол шайды ұната ма?","o":["Аздап ұнатады","Өте ұнатады","Ұнатпайды"],"a":1},{"s":"S","q":"«Мен шай ішкім келеді» деу:","o":["我茶喝想。","想我喝茶。","我想喝茶。"],"a":2},{"s":"S","q":"Мейрамханада тапсырыс беру:","o":["一杯茶我在。","我要一杯茶。","我是一杯茶。"],"a":1},{"s":"S","q":"«想» мен «要» айырмашылығы:","o":["要 — өткен шақ","想 — қалау, 要 — талап/қажеттілік","Екеуі бірдей"],"a":1},{"s":"S","q":"«Мен жегім келмейді» деу:","o":["我不想吃。","我没想吃。","我想不吃。"],"a":0},{"s":"S","q":"«杯» есептік сөзі неге қолданылады?","o":["Стақан/кесе сусынға","Адамға","Кітапқа"],"a":0},{"s":"R","q":"«喝» мағынасы:","o":["жеу","сатып алу","ішу"],"a":2},{"s":"R","q":"«茶» мағынасы:","o":["шай","су","сүт"],"a":0},{"s":"R","q":"Бос орын: 我 ___ 喝水。","o":["想","的","是"],"a":0},{"s":"R","q":"«米饭» мағынасы:","o":["нан","күріш","ет"],"a":1},{"s":"R","q":"Қай сөйлем дұрыс?","o":["我想一杯茶喝。","我想喝一杯茶。","茶我喝想一杯。"],"a":1},{"s":"W","q":"Сөздерді реттеңіз: 茶 / 想 / 我 / 喝","o":["我喝想茶","我想喝茶","想喝我茶"],"a":1},{"s":"W","q":"Бос орын: 请给我一 ___ 水。","o":["个","杯","本"],"a":1},{"s":"W","q":"«吃» мағынасы:","o":["ішу","жеу","ұйықтау"],"a":1},{"s":"W","q":"Қате сөйлем:","o":["我不想喝茶。","我想喝茶。","我没想喝茶。"],"a":2},{"s":"W","q":"«水» иероглифінің пиньині:","o":["suǐ","shuì","shuǐ"],"a":2}]},{"n":9,"zh":"你儿子在哪儿工作","en":"Where does your son work","q":[{"s":"L","au":"我儿子在医院工作","q":"Ұлы қайда жұмыс істейді?","o":["Мектепте","Ауруханада","Дүкенде"],"a":1},{"s":"L","au":"她在学校学习","q":"Ол қайда оқиды?","o":["Үйде","Мектепте","Қонақүйде"],"a":1},{"s":"L","au":"我爸爸是医生","q":"Әкесінің мамандығы:","o":["Дәрігер","Аспаз","Мұғалім"],"a":0},{"s":"L","au":"你在哪儿工作","q":"Сұрақ нені сұрайды?","o":["Жасын","Атын","Жұмыс орнын"],"a":2},{"s":"L","au":"他在家看电视","q":"Ол қайда және не істеп жатыр?","o":["Мектепте оқып жатыр","Дүкенде жұмыс істеп жатыр","Үйде теледидар көріп жатыр"],"a":2},{"s":"S","q":"«Сен қайда жұмыс істейсің?» деу:","o":["哪儿你工作在？","你在哪儿工作？","你工作在哪儿吗？"],"a":1},{"s":"S","q":"«Мен ауруханада жұмыс істеймін» деу:","o":["医院我在工作的。","我工作在医院。","我在医院工作。"],"a":2},{"s":"S","q":"在 + орын құрылымы қайда тұрады?","o":["Етістіктен кейін","Етістіктен бұрын","Сөйлем соңында"],"a":1},{"s":"S","q":"Мамандықты сұрау:","o":["你去哪儿了？","你是什么名字？","你做什么工作？"],"a":2},{"s":"S","q":"«哪儿» сөзінің мағынасы:","o":["қашан","қайда","кім"],"a":1},{"s":"R","q":"«工作» мағынасы:","o":["жұмыс істеу","демалу","оқу"],"a":0},{"s":"R","q":"«医院» мағынасы:","o":["аурухана","банк","мектеп"],"a":0},{"s":"R","q":"Бос орын: 他 ___ 学校工作。","o":["是","在","去"],"a":1},{"s":"R","q":"«医生» мағынасы:","o":["дәрігер","мұғалім","студент"],"a":0},{"s":"R","q":"Диалог: — 你儿子在哪儿工作？— ___","o":["他很好。","他在公司工作。","他二十岁。"],"a":1},{"s":"W","q":"Сөздерді реттеңіз: 工作 / 在 / 他 / 医院","o":["在他医院工作","他在医院工作","他工作在医院"],"a":1},{"s":"W","q":"«学校» мағынасы:","o":["дүкен","мектеп","үй"],"a":1},{"s":"W","q":"Бос орын: 我妈妈是 ___ 。(мұғалім)","o":["老师","学生们","医院"],"a":0},{"s":"W","q":"Қате сөйлем:","o":["他在家。","我工作在医院。","我在医院工作。"],"a":1},{"s":"W","q":"«在» иероглифінің пиньині:","o":["zhài","zài","cài"],"a":1}]},{"n":10,"zh":"我能坐这儿吗","en":"Can I sit here","q":[{"s":"L","au":"我能坐这儿吗","q":"Сөйлеуші не сұрап тұр?","o":["Уақытты","Осында отыруға рұқсат","Бағаны"],"a":1},{"s":"L","au":"对不起，这儿有人","q":"Отыруға бола ма?","o":["Белгісіз","Болады","Болмайды"],"a":2},{"s":"L","au":"你能帮我吗","q":"Сұрақтың мағынасы:","o":["Сен қайдасың?","Не жедің?","Маған көмектесе аласың ба?"],"a":2},{"s":"L","au":"这儿不能吃东西","q":"Мұнда не істеуге болмайды?","o":["Тамақ жеуге","Отыруға","Сөйлеуге"],"a":0},{"s":"L","au":"当然可以","q":"Жауап қандай?","o":["Білмеймін","Болмайды","Әрине, болады"],"a":2},{"s":"S","q":"Рұқсат сұрау: «Осында отырсам бола ма?»","o":["这儿我坐是吗？","我坐这儿了吗？","我能坐这儿吗？"],"a":2},{"s":"S","q":"«能» мен «会» айырмашылығы:","o":["Екеуі бірдей","能 — өткен шақ","能 — мүмкіндік/рұқсат, 会 — үйренген дағды"],"a":2},{"s":"S","q":"Көмек сұрау:","o":["你能帮我吗？","能我你帮吗？","你帮吗我能？"],"a":0},{"s":"S","q":"«Кешіріңіз, мұнда адам бар» деу:","o":["这儿人有对不起。","有人这儿吗？","对不起，这儿有人。"],"a":2},{"s":"S","q":"«可以» мағынасы:","o":["қажет емес","міндетті","болады, рұқсат"],"a":2},{"s":"R","q":"«坐» мағынасы:","o":["отыру","тұру","жүру"],"a":0},{"s":"R","q":"«这儿» мағынасы:","o":["мұнда","қайда","онда"],"a":0},{"s":"R","q":"Бос орын: 我 ___ 坐这儿吗？","o":["的","是","能"],"a":2},{"s":"R","q":"«那儿» мағынасы:","o":["үйде","ол жерде","мұнда"],"a":1},{"s":"R","q":"Диалог: — 我能坐这儿吗？— ___","o":["可以，请坐。","我不知道谁。","他二十岁。"],"a":0},{"s":"W","q":"Сөздерді реттеңіз: 吗 / 坐 / 我 / 这儿 / 能","o":["能我这儿坐吗","我坐能这儿吗","我能坐这儿吗"],"a":2},{"s":"W","q":"Бос орын: 这儿 ___ 能吸烟。(болмайды)","o":["不","没","别的"],"a":0},{"s":"W","q":"«请» сөзінің мағынасы:","o":["кешіріңіз","өтінемін / мархабат","рахмет"],"a":1},{"s":"W","q":"Қате сөйлем:","o":["我能坐这儿了吗？","我可以坐这儿吗？","我能坐这儿吗？"],"a":0},{"s":"W","q":"«有人» мағынасы:","o":["адам бар (орын бос емес)","адам жоқ","адам көп"],"a":0}]},{"n":11,"zh":"现在几点","en":"What's the time now","q":[{"s":"L","au":"现在八点半","q":"Қазір сағат неше?","o":["8:00","8:30","7:30"],"a":1},{"s":"L","au":"我们十二点吃饭","q":"Қашан тамақтанады?","o":["2:00","10:00","12:00"],"a":2},{"s":"L","au":"他早上七点起床","q":"Ол қашан тұрады?","o":["Кешкі 7-де","Түстен кейін","Таңғы 7-де"],"a":2},{"s":"L","au":"现在差五分三点","q":"Қазір сағат неше?","o":["2:55","3:55","3:05"],"a":0},{"s":"L","au":"我晚上十点睡觉","q":"Ол қашан ұйықтайды?","o":["10:00","12:00","22:00"],"a":2},{"s":"S","q":"Уақытты сұрау:","o":["现在多少钱？","现在几点？","现在几号？"],"a":1},{"s":"S","q":"«Сағат 9:15» деу:","o":["九点十五分","九分十五点","十五点九分"],"a":0},{"s":"S","q":"«半» нені білдіреді?","o":["бір сағат","жарты сағат (30 мин)","ширек"],"a":1},{"s":"S","q":"«Мен таңғы 7-де тұрамын» деу:","o":["我早上七点起床。","我起床七点早上。","七点我早上起床的。"],"a":0},{"s":"S","q":"Уақыт сөйлемде қайда тұрады?","o":["Етістіктен бұрын","Етістіктен кейін","Сөйлем соңында"],"a":0},{"s":"R","q":"«点» мағынасы (уақытта):","o":["күн","минут","сағат"],"a":2},{"s":"R","q":"«分» мағынасы:","o":["сағат","апта","минут"],"a":2},{"s":"R","q":"Бос орын: 现在 ___ 点？","o":["多少","几","什么"],"a":1},{"s":"R","q":"«起床» мағынасы:","o":["жуыну","төсектен тұру","ұйықтау"],"a":1},{"s":"R","q":"«睡觉» мағынасы:","o":["ояну","ұйықтау","жүгіру"],"a":1},{"s":"W","q":"Сөздерді реттеңіз: 点 / 现在 / 几","o":["现在点几","现在几点","几点现在"],"a":1},{"s":"W","q":"«6:30» жазылуы:","o":["半六点","六点半","六半点"],"a":1},{"s":"W","q":"Бос орын: 我 ___ 上七点去学校。","o":["昨","晚饭","早"],"a":2},{"s":"W","q":"«中午» мағынасы:","o":["түн","таң","түс"],"a":2},{"s":"W","q":"Қате сөйлем:","o":["他八点上班。","我七点去学校。","我去学校七点。"],"a":2}]},{"n":12,"zh":"明天天气怎么样","en":"What will the weather be like tomorrow","q":[{"s":"L","au":"明天天气很好","q":"Ертең ауа райы қандай?","o":["Жақсы","Жаңбырлы","Суық"],"a":0},{"s":"L","au":"今天下雨","q":"Бүгін не болып жатыр?","o":["Күн ашық","Жаңбыр жауып тұр","Қар жауып тұр"],"a":1},{"s":"L","au":"北京今天很冷","q":"Бейжіңде ауа райы қандай?","o":["Өте ыстық","Жылы","Өте суық"],"a":2},{"s":"L","au":"明天会下雪","q":"Ертең не болады?","o":["Жаңбыр жауады","Күн ашық болады","Қар жауады"],"a":2},{"s":"L","au":"今天天气怎么样","q":"Сұрақ нені сұрайды?","o":["Бағаны","Ауа райын","Уақытты"],"a":1},{"s":"S","q":"Ауа райын сұрау:","o":["今天天气几号？","天气多少钱？","今天天气怎么样？"],"a":2},{"s":"S","q":"«Бүгін өте ыстық» деу:","o":["今天很热。","很今天热。","今天热很。"],"a":0},{"s":"S","q":"«怎么样» мағынасы:","o":["қайда","қалай / қандай","қашан"],"a":1},{"s":"S","q":"«Жаңбыр жауып тұр» деу:","o":["下雨了。","有雨下。","雨下的。"],"a":0},{"s":"S","q":"Сын есіммен «很» неге керек?","o":["Өткен шақ үшін","«是» орнына байланыстырушы ретінде","Сұрақ үшін"],"a":1},{"s":"R","q":"«天气» мағынасы:","o":["ауа райы","күн","аспан"],"a":0},{"s":"R","q":"«冷» мағынасы:","o":["жылы","ыстық","суық"],"a":2},{"s":"R","q":"Бос орын: 今天 ___ 热。","o":["是","的","很"],"a":2},{"s":"R","q":"«下雨» мағынасы:","o":["қар жауу","жел соғу","жаңбыр жауу"],"a":2},{"s":"R","q":"Қай сөйлем дұрыс?","o":["明天天气很好。","明天是天气好。","天气明天很的好。"],"a":0},{"s":"W","q":"Сөздерді реттеңіз: 怎么样 / 天气 / 明天","o":["怎么样明天天气","天气明天怎么样","明天天气怎么样"],"a":2},{"s":"W","q":"«热» мағынасы:","o":["дымқыл","суық","ыстық"],"a":2},{"s":"W","q":"Бос орын: 昨天 ___ 雨了。","o":["下","上","来"],"a":0},{"s":"W","q":"«生病» мағынасы:","o":["ауру","сауығу","шаршау"],"a":0},{"s":"W","q":"Қате сөйлем:","o":["今天是很冷。","今天很冷。","今天不冷。"],"a":0}]},{"n":13,"zh":"他在学做中国菜呢","en":"He is learning to cook Chinese food","q":[{"s":"L","au":"他在学做中国菜呢","q":"Ол қазір не істеп жатыр?","o":["Ұйықтап жатыр","Қытай тағамын пісіруді үйреніп жатыр","Кітап оқып жатыр"],"a":1},{"s":"L","au":"我在看电视呢","q":"Сөйлеуші не істеп жатыр?","o":["Жүгіріп жүр","Тамақ пісіріп жатыр","Теледидар көріп жатыр"],"a":2},{"s":"L","au":"妈妈在做饭","q":"Анасы не істеп жатыр?","o":["Кір жуып жатыр","Демалып жатыр","Тамақ пісіріп жатыр"],"a":2},{"s":"L","au":"他们在学习汉语","q":"Олар нені үйреніп жатыр?","o":["Қытай тілін","Ағылшын тілін","Математиканы"],"a":0},{"s":"L","au":"你在做什么呢","q":"Сұрақ нені сұрайды?","o":["Қайда тұратынын","Жасын","Қазір не істеп жатқанын"],"a":2},{"s":"S","q":"«Мен қазір тамақ пісіріп жатырмын» деу:","o":["我做饭在呢。","呢我在饭做。","我在做饭呢。"],"a":2},{"s":"S","q":"«在…呢» құрылымы нені білдіреді?","o":["Қазір жүріп жатқан әрекет","Өткен шақ","Болашақ жоспар"],"a":0},{"s":"S","q":"«Сен не істеп жатырсың?» деп сұрау:","o":["什么你在做的？","你在做什么呢？","你做什么了吗？"],"a":1},{"s":"S","q":"«做» етістігінің мағынасы:","o":["көру","бару","істеу, жасау"],"a":2},{"s":"S","q":"Болымсыз түрі: 我在看书 →","o":["我没在看书。","我不在看书了呢。","我在不看书。"],"a":0},{"s":"R","q":"«中国菜» мағынасы:","o":["қытай тағамы","қытай тілі","қытай ақшасы"],"a":0},{"s":"R","q":"«学» мағынасы:","o":["сату","үйрену","ұйықтау"],"a":1},{"s":"R","q":"Бос орын: 他 ___ 看电视呢。","o":["在","是","的"],"a":0},{"s":"R","q":"«呢» сөйлем соңында нені көрсетеді?","o":["Бұйрықты","Өткен шақты","Әрекеттің жалғасып жатқанын"],"a":2},{"s":"R","q":"Қай сөйлем дұрыс?","o":["妈妈做在饭呢。","呢妈妈饭在做。","妈妈在做饭呢。"],"a":2},{"s":"W","q":"Сөздерді реттеңіз: 呢 / 在 / 他 / 学习","o":["他在学习呢","在他呢学习","他学习在呢"],"a":0},{"s":"W","q":"«做饭» мағынасы:","o":["сауда жасау","үй жинау","тамақ пісіру"],"a":2},{"s":"W","q":"Бос орын: 我 ___ 听音乐呢。","o":["在","过","了"],"a":0},{"s":"W","q":"«电视» мағынасы:","o":["теледидар","телефон","компьютер"],"a":0},{"s":"W","q":"Қате сөйлем:","o":["我在看书呢。","我在学汉语。","我看在书呢。"],"a":2}]},{"n":14,"zh":"她买了不少衣服","en":"She has bought quite a few clothes","q":[{"s":"L","au":"她买了不少衣服","q":"Ол не сатып алды?","o":["Азық-түлік","Көп киім","Бір кітап"],"a":1},{"s":"L","au":"我昨天买了一个杯子","q":"Ол нешеу сатып алды?","o":["Үш кітап","Бір кесе","Екі кесе"],"a":1},{"s":"L","au":"这件衣服太贵了","q":"Киім туралы не айтылды?","o":["Өте әдемі","Тым арзан","Тым қымбат"],"a":2},{"s":"L","au":"我没买那个","q":"Ол оны сатып алды ма?","o":["Кейін алады","Жоқ","Иә"],"a":1},{"s":"L","au":"多少钱","q":"Сұрақ нені сұрайды?","o":["Бағаны","Санын","Уақытты"],"a":0},{"s":"S","q":"«Мен кітап сатып алдым» деу:","o":["我买一本书了吗？","我买了一本书。","书我一本买。"],"a":1},{"s":"S","q":"Бағаны сұрау:","o":["这个几点？","这个怎么样钱？","这个多少钱？"],"a":2},{"s":"S","q":"«了» нені білдіреді?","o":["Қабілетті","Болашақты","Әрекеттің аяқталғанын"],"a":2},{"s":"S","q":"Болымсыз түрі: 我买了衣服 →","o":["我不买了衣服。","我买不了衣服呢。","我没买衣服。"],"a":2},{"s":"S","q":"«件» есептік сөзі неге қолданылады?","o":["Сусынға","Киімге","Кітапқа"],"a":1},{"s":"R","q":"«衣服» мағынасы:","o":["сөмке","киім","аяқкиім"],"a":1},{"s":"R","q":"«买» мағынасы:","o":["сатып алу","беру","сату"],"a":0},{"s":"R","q":"Бос орын: 她买 ___ 很多东西。","o":["在","了","呢"],"a":1},{"s":"R","q":"«不少» мағынасы:","o":["өте аз","мүлдем жоқ","аз емес, едәуір көп"],"a":2},{"s":"R","q":"«贵» мағынасы:","o":["қымбат","арзан","жаңа"],"a":0},{"s":"W","q":"Сөздерді реттеңіз: 衣服 / 买 / 她 / 了","o":["她买了衣服","买她衣服了","她了买衣服"],"a":0},{"s":"W","q":"Бос орын: 我买了三 ___ 书。","o":["杯","件","本"],"a":2},{"s":"W","q":"«便宜» мағынасы:","o":["қымбат","арзан","үлкен"],"a":1},{"s":"W","q":"Қате сөйлем:","o":["我买了衣服。","我没买衣服。","我没买了衣服。"],"a":2},{"s":"W","q":"«钱» иероглифінің пиньині:","o":["qiān","qián","jiàn"],"a":1}]},{"n":15,"zh":"我是坐飞机来的","en":"I came here by air","q":[{"s":"L","au":"我是坐飞机来的","q":"Ол қалай келді?","o":["Пойызбен","Ұшақпен","Автобуспен"],"a":1},{"s":"L","au":"他是昨天来的","q":"Ол қашан келді?","o":["Бүгін","Кеше","Ертең"],"a":1},{"s":"L","au":"我坐火车去北京","q":"Ол қандай көлікпен барады?","o":["Ұшақпен","Таксимен","Пойызбен"],"a":2},{"s":"L","au":"她是跟朋友一起来的","q":"Ол кіммен келді?","o":["Жалғыз","Отбасымен","Досымен"],"a":2},{"s":"L","au":"你是怎么来的","q":"Сұрақ нені сұрайды?","o":["Қалай келгенін","Қашан кететінін","Кімді көргенін"],"a":0},{"s":"S","q":"«Мен ұшақпен келдім» деу:","o":["来的我坐飞机是。","我坐飞机是来的吗？","我是坐飞机来的。"],"a":2},{"s":"S","q":"«是…的» құрылымы нені ерекшелейді?","o":["Қабілетті","Өткен әрекеттің уақыты/тәсілі/орнын","Болашақты"],"a":1},{"s":"S","q":"«Қалай келдің?» деп сұрау:","o":["你怎么来吗的？","你是怎么来的？","怎么你的来是？"],"a":1},{"s":"S","q":"«坐» көлікпен қолданғанда мағынасы:","o":["жүру (жаяу)","көлікке отырып жүру","ұшу"],"a":1},{"s":"S","q":"«Мен саяхаттағанды жақсы көремін» деу:","o":["我喜欢旅游。","喜欢旅游是我。","我旅游喜欢的。"],"a":0},{"s":"R","q":"«飞机» мағынасы:","o":["кеме","пойыз","ұшақ"],"a":2},{"s":"R","q":"«火车» мағынасы:","o":["автобус","велосипед","пойыз"],"a":2},{"s":"R","q":"Бос орын: 我是 ___ 出租车来的。","o":["走","坐","飞"],"a":1},{"s":"R","q":"«旅游» мағынасы:","o":["саяхаттау","жұмыс істеу","оқу"],"a":0},{"s":"R","q":"Қай сөйлем дұрыс?","o":["去年的他是来。","他是去年来的。","他来是去年的吗。"],"a":1},{"s":"W","q":"Сөздерді реттеңіз: 的 / 是 / 我 / 坐飞机 / 来","o":["是我来坐飞机的","我是坐飞机来的","我坐飞机是的来"],"a":1},{"s":"W","q":"Бос орын: 我喜欢 ___ 中国旅游。(бару)","o":["来","去","在"],"a":1},{"s":"W","q":"«一起» мағынасы:","o":["кейін","жалғыз","бірге"],"a":2},{"s":"W","q":"Қате сөйлем:","o":["我是坐飞机来。","我坐飞机来了。","我是坐飞机来的。"],"a":0},{"s":"W","q":"«出租车» мағынасы:","o":["велосипед","метро","такси"],"a":2}]}],"2":[{"n":1,"zh":"九月去北京旅游最好","en":"September is the best time to visit Beijing","q":[{"s":"L","au":"九月去北京旅游最好","q":"Қай ай ең қолайлы?","o":["Қыркүйек","Маусым","Қаңтар"],"a":0},{"s":"L","au":"今天很热，三十五度","q":"Ауа райы қандай?","o":["Суық","Жаңбырлы","Өте ыстық"],"a":2},{"s":"L","au":"我最喜欢踢足球","q":"Ең сүйікті спорты:","o":["Баскетбол","Жүзу","Футбол"],"a":2},{"s":"L","au":"旅游","q":"Естіген сөздің пиньині:","o":["lǚyóu","lǜyào","lùyóu"],"a":0},{"s":"L","au":"北京的天气怎么样","q":"Ең қолайлы жауап:","o":["很好，不冷不热。","我去过北京。","九点半。"],"a":0},{"s":"S","q":"«Сенің қалаңа баруға қай ай жақсы?» деу:","o":["你家乡几点旅游？","几月去你家乡旅游最好？","旅游最好吗几月？"],"a":1},{"s":"S","q":"«Бүгін суық» деу:","o":["冷今天很。","今天是冷的很。","今天很冷。"],"a":2},{"s":"S","q":"Ең сүйікті спортты айту:","o":["最我游泳喜欢。","我喜欢最游泳。","我最喜欢游泳。"],"a":2},{"s":"S","q":"Досты саяхатқа шақыру:","o":["去旅游下个月我们了。","下个月我们一起去旅游吧。","我们旅游一起下个月吗的。"],"a":1},{"s":"S","q":"«九月去北京旅游最好» сөйлемінде «最好» нені білдіреді?","o":["мүмкін","ең жақсы","сирек"],"a":1},{"s":"R","q":"«春天» мағынасы:","o":["көктем","жаз","қыс"],"a":0},{"s":"R","q":"Бос орын: 我 ___ 喜欢踢足球。","o":["最","的","很多"],"a":0},{"s":"R","q":"«旅游» мағынасы:","o":["саяхаттау","дүкен","жұмыс"],"a":0},{"s":"R","q":"Реттеңіз: 1.我们去北京 2.九月的时候 →","o":["去九月我们北京的时候","九月的时候我们去北京","我们去北京九月的时候吗"],"a":1},{"s":"R","q":"Қате иероглифті табыңыз: 十月去旅游最号。","o":["去 → 走","号 → 好","月 → 日"],"a":1},{"s":"W","q":"Реттеңіз: 最好 / 去北京 / 九月 / 旅游","o":["最好九月旅游去北京","九月去北京旅游最好","去北京九月最好旅游"],"a":1},{"s":"W","q":"Бос орын: 北京的秋天 ___ 舒服。","o":["了","很","是的"],"a":1},{"s":"W","q":"«夏天» мағынасы:","o":["жаз","қыс","күз"],"a":0},{"s":"W","q":"Қате сөйлем:","o":["我很喜欢运动。","我最喜欢运动。","我最喜欢是运动。"],"a":2},{"s":"W","q":"«度» сөзі неде қолданылады?","o":["Температурада","Уақытта","Бағада"],"a":0}]},{"n":2,"zh":"我每天六点起床","en":"I get up at six every day","q":[{"s":"L","au":"我每天六点起床","q":"Ол қашан тұрады?","o":["7:00","8:00","6:00"],"a":2},{"s":"L","au":"他每天跑步","q":"Ол күнде не істейді?","o":["Жүзеді","Кітап оқиды","Жүгіреді"],"a":2},{"s":"L","au":"我晚上十一点睡觉","q":"Қашан ұйықтайды?","o":["01:00","21:00","23:00"],"a":2},{"s":"L","au":"我常常在家做饭","q":"Ол жиі не істейді?","o":["Ұйықтайды","Үйде тамақ пісіреді","Мейрамханаға барады"],"a":1},{"s":"L","au":"你每天几点起床","q":"Сұрақ нені сұрайды?","o":["Тұратын уақытты","Жұмыс орнын","Жасын"],"a":0},{"s":"S","q":"Күн тәртібін айту:","o":["六点我的每天起床。","我起床每天六点吗。","我每天六点起床。"],"a":2},{"s":"S","q":"«每天» сөйлемде қайда тұрады?","o":["Етістіктен кейін","Сөйлем соңында","Бастауыштан кейін, етістіктен бұрын"],"a":2},{"s":"S","q":"Досыңыздан сұрау: «Сен күнде неше сағат ұйықтайсың?»","o":["你每天睡几个小时？","睡你每天小时几？","你几个小时每天睡吗？"],"a":0},{"s":"S","q":"«Мен әдетте автобуспен барамын» деу:","o":["我坐常常公共汽车去。","常常我去坐汽车的。","我常常坐公共汽车去。"],"a":2},{"s":"S","q":"«起床» тіркесінің пиньині:","o":["qīcháng","qìchuāng","qǐchuáng"],"a":2},{"s":"R","q":"«每天» мағынасы:","o":["күн сайын","кейде","ешқашан"],"a":0},{"s":"R","q":"Бос орын: 我 ___ 七点吃早饭。","o":["每天","在吗","了的"],"a":0},{"s":"R","q":"«早饭» мағынасы:","o":["түскі ас","таңғы ас","кешкі ас"],"a":1},{"s":"R","q":"«常常» мағынасы:","o":["жиі","мүлдем","сирек"],"a":0},{"s":"R","q":"Қай сөйлем дұрыс?","o":["他每天晚上看书。","每天他书看晚上。","他看书每天晚上吗。"],"a":0},{"s":"W","q":"Реттеңіз: 起床 / 六点 / 我 / 每天","o":["每天六点我起床吗","我六点每天起床","我每天六点起床"],"a":2},{"s":"W","q":"Бос орын: 我睡觉 ___ 常常很晚。","o":["呢吗","了在","的时间"],"a":2},{"s":"W","q":"«运动» мағынасы:","o":["спортпен айналысу","жұмыс істеу","демалу"],"a":0},{"s":"W","q":"Қате сөйлем:","o":["我每天六点起床。","每天我六点起床。","我六点每天起床。"],"a":2},{"s":"W","q":"«小时» мағынасы:","o":["минут","сағат (ұзақтық)","апта"],"a":1}]},{"n":3,"zh":"左边那个红色的是我的","en":"The red one on the left is mine","q":[{"s":"L","au":"左边那个红色的是我的","q":"Қайсысы оныкі?","o":["Сол жақтағы қызыл","Оң жақтағы ақ","Ортадағы көк"],"a":0},{"s":"L","au":"我的手机是黑色的","q":"Телефонының түсі:","o":["Қара","Қызыл","Ақ"],"a":0},{"s":"L","au":"椅子在桌子右边","q":"Орындық қайда?","o":["Есіктің артында","Үстелдің астында","Үстелдің оң жағында"],"a":2},{"s":"L","au":"那本书是你的吗","q":"Сұрақ нені анықтайды?","o":["Кітаптың атауын","Кітаптың кімдікі екенін","Кітаптың бағасын"],"a":1},{"s":"L","au":"白色的那个不是我的","q":"Ақ түстісі оныкі ме?","o":["Жоқ","Белгісіз","Иә"],"a":0},{"s":"S","q":"«Сол жақтағы қызылы — менікі» деу:","o":["是我的那个左边红色了。","左边那个红色的是我的。","红色左边我的那个是吗。"],"a":1},{"s":"S","q":"«的» зат есімсіз қолданылғанда нені білдіреді?","o":["өткен шақ","«…-нікі / …болғаны»","сұрақ"],"a":1},{"s":"S","q":"Дүкенде: «Ақ түстісін көрсетіңізші»","o":["给我请白色看的。","白色看看请的我给。","请给我看看白色的。"],"a":2},{"s":"S","q":"«Менің көлігім үйдің сол жағында» деу:","o":["车我的左边房子在。","我的车在房子左边。","在左边我的车房子。"],"a":1},{"s":"S","q":"«右边» мағынасы:","o":["артқы жақ","сол жақ","оң жақ"],"a":2},{"s":"R","q":"«红色» мағынасы:","o":["қызыл","жасыл","көк"],"a":0},{"s":"R","q":"Бос орын: 这是我 ___ 书。","o":["地","得","的"],"a":2},{"s":"R","q":"«黑色» мағынасы:","o":["сұр","қара","ақ"],"a":1},{"s":"R","q":"Диалог: — 哪个是你的？— ___","o":["左边那个。","很好看。","三点半。"],"a":0},{"s":"R","q":"«颜色» мағынасы:","o":["өлшем","түс","баға"],"a":1},{"s":"W","q":"Реттеңіз: 的 / 那个 / 是 / 我 / 白色","o":["是我的那个白色的吗","那个白色的是我的","白色是那个我的"],"a":1},{"s":"W","q":"Бос орын: 手机在桌子 ___ 边。","o":["了","很","右"],"a":2},{"s":"W","q":"«里边» мағынасы:","o":["үстінде","ішінде","сыртында"],"a":1},{"s":"W","q":"Қате сөйлем:","o":["这是我书。","这是我的书。","这本书是我的。"],"a":0},{"s":"W","q":"«旁边» мағынасы:","o":["жоғарыда","қасында","алыс"],"a":1}]},{"n":4,"zh":"这个工作是他帮我介绍的","en":"He recommended me for this job","q":[{"s":"L","au":"这个工作是他帮我介绍的","q":"Жұмысты кім ұсынды?","o":["Мұғалім","Ол (дос)","Әкесі"],"a":1},{"s":"L","au":"他帮我找到了房子","q":"Ол неге көмектесті?","o":["Оқуға","Жұмысқа орналасуға","Үй табуға"],"a":2},{"s":"L","au":"我是去年找到这个工作的","q":"Қашан жұмыс тапты?","o":["Былтыр","Келесі жылы","Биыл"],"a":0},{"s":"L","au":"谢谢你帮我介绍","q":"Сөйлеуші не істеп тұр?","o":["Алғыс айтуда","Сұрақ қоюда","Кешірім сұрауда"],"a":0},{"s":"L","au":"他给我介绍了一个朋友","q":"Ол не істеді?","o":["Досын таныстырды","Ақша берді","Кітап берді"],"a":0},{"s":"S","q":"«Бұл жұмысты маған ол ұсынды» деу:","o":["是他介绍的帮我工作这个吗。","这个工作是他帮我介绍的。","这个工作他帮介绍我是。"],"a":1},{"s":"S","q":"«帮» етістігінің мағынасы:","o":["көмектесу","беру","сұрау"],"a":0},{"s":"S","q":"Алғыс айту:","o":["谢谢你帮我。","帮谢谢我你。","你我帮谢谢的。"],"a":0},{"s":"S","q":"«是…的» құрылымы қашан қолданылады?","o":["Болашақ жоспарда","Бұйрықта","Өткен әрекеттің жағдайын нақтылағанда"],"a":2},{"s":"S","q":"«介绍» мағынасы:","o":["сатып алу","таныстыру / ұсыну","қайталау"],"a":1},{"s":"R","q":"«工作» мағынасы:","o":["демалыс","сабақ","жұмыс"],"a":2},{"s":"R","q":"Бос орын: 这本书是他 ___ 我买的。","o":["帮","被的","在吗"],"a":0},{"s":"R","q":"«公司» мағынасы:","o":["мектеп","компания","аурухана"],"a":1},{"s":"R","q":"Диалог: — 你的工作是怎么找到的？— ___","o":["是朋友介绍的。","在家里。","很贵。"],"a":0},{"s":"R","q":"«找» мағынасы:","o":["іздеу","ұмыту","сату"],"a":0},{"s":"W","q":"Реттеңіз: 介绍的 / 是 / 他 / 帮我 / 这个工作","o":["是他这个工作帮我介绍的吗","帮我介绍的他是这个工作","这个工作是他帮我介绍的"],"a":2},{"s":"W","q":"Бос орын: 我 ___ 你介绍一下。","o":["把了","被的","给"],"a":2},{"s":"W","q":"«同事» мағынасы:","o":["көрші","туыс","әріптес"],"a":2},{"s":"W","q":"Қате сөйлем:","o":["这个工作是他帮我介绍的。","这个工作他帮我介绍。","他帮我介绍了工作。"],"a":1},{"s":"W","q":"«一下» нені білдіреді?","o":["көптікті","әрекеттің аз уақытқа/жеңіл орындалуын","өткен шақты"],"a":1}]},{"n":5,"zh":"就买这件吧","en":"Take this one","q":[{"s":"L","au":"就买这件吧","q":"Сөйлеуші не ұсынады?","o":["Осыны сатып алуды","Кейін келуді","Ештеңе алмауды"],"a":0},{"s":"L","au":"这件衣服太贵了","q":"Киім қандай?","o":["Арзан","Тым қымбат","Кішкентай"],"a":1},{"s":"L","au":"有没有大一点儿的","q":"Ол нені сұрайды?","o":["Басқа түсін","Арзанырағын","Үлкенірегін"],"a":2},{"s":"L","au":"这个多少钱","q":"Сұрақ нені сұрайды?","o":["Бағаны","Түсін","Мөлшерді"],"a":0},{"s":"L","au":"一共三百块","q":"Барлығы қанша?","o":["130 юань","300 юань","3 юань"],"a":1},{"s":"S","q":"«Осыны аламын» деу:","o":["就买这件吧。","买吧这件就了。","这件买就吧的。"],"a":0},{"s":"S","q":"Кішірегін сұрау:","o":["小的一点儿有吗的？","有小一点儿的吗？","有一点儿小的吗了。"],"a":1},{"s":"S","q":"«吧» сөйлем соңында нені білдіреді?","o":["ұсыныс/келісім реңкін","болымсыздықты","өткен шақты"],"a":0},{"s":"S","q":"Жеңілдік сұрау:","o":["便宜一点儿，好吗？","一点儿便宜吗好？","好吗便宜的一点儿？"],"a":0},{"s":"S","q":"«太…了» құрылымының мағынасы:","o":["аздап","дәл","тым, шектен тыс"],"a":2},{"s":"R","q":"«件» есептік сөзі:","o":["кітапқа","сусынға","киімге"],"a":2},{"s":"R","q":"Бос орын: 这件衣服 ___ 贵了。","o":["最吗","很的","太"],"a":2},{"s":"R","q":"«块» мағынасы:","o":["юань (ақша бірлігі)","дана","килограмм"],"a":0},{"s":"R","q":"Диалог: — 这件怎么样？— ___","o":["很好，就买这件吧。","我在家。","九月最好。"],"a":0},{"s":"R","q":"«一共» мағынасы:","o":["жеке","тегін","барлығы"],"a":2},{"s":"W","q":"Реттеңіз: 吧 / 这件 / 买 / 就","o":["买就这件吧了","这件就买吧的","就买这件吧"],"a":2},{"s":"W","q":"Бос орын: 我要买两 ___ 衣服。","o":["件","本","杯"],"a":0},{"s":"W","q":"«便宜» мағынасы:","o":["арзан","қымбат","жаңа"],"a":0},{"s":"W","q":"Қате сөйлем:","o":["这件衣服太贵了。","这件衣服很贵。","这件衣服太贵。"],"a":2},{"s":"W","q":"«一点儿» сын есімнен кейін қандай мағына береді?","o":["сәл, біршама","мүлдем","өте"],"a":0}]},{"n":6,"zh":"你怎么不吃了","en":"Why don't you eat more","q":[{"s":"L","au":"你怎么不吃了","q":"Сұрақтың мағынасы:","o":["Қашан жейсің?","Неге енді жемей қалдың?","Не жедің?"],"a":1},{"s":"L","au":"我吃饱了","q":"Жауаптың мағынасы:","o":["Ашпын","Дәмсіз","Тойдым"],"a":2},{"s":"L","au":"我有点儿累","q":"Сөйлеуші қалай сезінеді?","o":["Қуанышты","Ашулы","Сәл шаршаған"],"a":2},{"s":"L","au":"今天的菜真好吃","q":"Тағам туралы пікір:","o":["Дәмсіз","Өте дәмді","Тым ыстық"],"a":1},{"s":"L","au":"我不想吃了","q":"Ол әрі қарай жей ме?","o":["Жоқ","Иә","Кейінірек"],"a":0},{"s":"S","q":"«Неге жемей отырсың?» деп сұрау:","o":["你不吃怎么了吗的？","怎么吃你不了？","你怎么不吃了？"],"a":2},{"s":"S","q":"«Тойдым, рахмет» деу:","o":["饱我吃了谢谢的。","谢谢我了吃饱吗。","我吃饱了，谢谢。"],"a":2},{"s":"S","q":"«有点儿» қалай қолданылады?","o":["Етістіктен кейін","Сөйлем соңында","Сын есімнен бұрын, жағымсыз реңкпен"],"a":2},{"s":"S","q":"Тағамды мақтау:","o":["这个菜真好吃。","真菜这个好吃的。","好吃真这个菜了吗。"],"a":0},{"s":"S","q":"«怎么» бұл сөйлемде нені білдіреді?","o":["уақытты сұрау","орынды сұрау","себепті сұрау (неге)"],"a":2},{"s":"R","q":"«饱» мағынасы:","o":["тоқ","аш","шөлдеген"],"a":0},{"s":"R","q":"Бос орын: 我 ___ 点儿不舒服。","o":["很的","有","太了"],"a":1},{"s":"R","q":"«好吃» мағынасы:","o":["әдемі","қымбат","дәмді"],"a":2},{"s":"R","q":"Диалог: — 你怎么不吃了？— ___","o":["九点。","我吃饱了。","我很高兴。"],"a":1},{"s":"R","q":"«服务员» мағынасы:","o":["даяшы","жүргізуші","дәрігер"],"a":0},{"s":"W","q":"Реттеңіз: 了 / 不吃 / 你 / 怎么","o":["你不吃怎么了吗","怎么你了不吃","你怎么不吃了"],"a":2},{"s":"W","q":"Бос орын: 菜太多了，我吃不 ___ 。","o":["了吗","饱的","完"],"a":2},{"s":"W","q":"«鸡蛋» мағынасы:","o":["жұмыртқа","балық","ет"],"a":0},{"s":"W","q":"Қате сөйлем:","o":["我很高兴。","我有点儿高兴。","我有点儿累。"],"a":1},{"s":"W","q":"Сөйлем соңындағы «了» мұнда нені білдіреді?","o":["қабілетті","жағдайдың өзгергенін","болашақты"],"a":1}]},{"n":7,"zh":"你家离公司远吗","en":"Do you live far from your company","q":[{"s":"L","au":"我家离公司很远","q":"Үйі жұмысқа жақын ба?","o":["Иә, жақын","Жоқ, алыс","Қасында"],"a":1},{"s":"L","au":"学校离这儿不远，走路十分钟","q":"Мектепке жаяу қанша уақыт?","o":["1 сағат","20 минут","10 минут"],"a":2},{"s":"L","au":"我每天坐地铁上班","q":"Қандай көлікпен барады?","o":["Метромен","Автобуспен","Велосипедпен"],"a":0},{"s":"L","au":"从我家到公司要半个小时","q":"Жолға қанша уақыт кетеді?","o":["Бір сағат","15 минут","Жарты сағат"],"a":2},{"s":"L","au":"你家离公司远吗","q":"Сұрақ нені сұрайды?","o":["Уақытты (сағат)","Бағаны","Қашықтықты"],"a":2},{"s":"S","q":"Қашықтықты сұрау:","o":["你家离公司远吗？","你家远公司离吗的？","远离公司你家吗了？"],"a":0},{"s":"S","q":"«Үйден мектепке дейін 20 минут» деу:","o":["要二十分钟从学校到我家吗。","我家到从学校二十分钟要的。","从我家到学校要二十分钟。"],"a":2},{"s":"S","q":"«离» нені білдіреді?","o":["себепті","бағытты","екі нүкте арасындағы қашықтықты"],"a":2},{"s":"S","q":"«从…到…» құрылымының мағынасы:","o":["…үшін…","…-дан …-ға дейін","…немесе…"],"a":1},{"s":"S","q":"«Мен велосипедпен жұмысқа барамын» деу:","o":["自行车我骑上班了。","我骑自行车上班。","我上班骑自行车吗的。"],"a":1},{"s":"R","q":"«远» мағынасы:","o":["алыс","жақын","биік"],"a":0},{"s":"R","q":"Бос орын: 我家 ___ 学校很近。","o":["离","从的","到吗"],"a":0},{"s":"R","q":"«地铁» мағынасы:","o":["метро","ұшақ","пойыз"],"a":0},{"s":"R","q":"Диалог: — 你家离公司远吗？— ___","o":["很好吃。","三百块。","不远，坐公共汽车十五分钟。"],"a":2},{"s":"R","q":"«上班» мағынасы:","o":["оқу","жұмысқа бару","демалу"],"a":1},{"s":"W","q":"Реттеңіз: 吗 / 离 / 你家 / 远 / 公司","o":["离你家公司吗远","你家远离公司吗的","你家离公司远吗"],"a":2},{"s":"W","q":"Бос орын: ___ 家到学校要十分钟。","o":["在吗","离了","从"],"a":2},{"s":"W","q":"«近» мағынасы:","o":["алыс","ұзын","жақын"],"a":2},{"s":"W","q":"Қате сөйлем:","o":["从我家到公司很远。","我家从公司很远。","我家离公司很远。"],"a":1},{"s":"W","q":"«骑» етістігі неге қолданылады?","o":["велосипед/мотоциклге мінуге","ұшаққа","автобусқа"],"a":0}]},{"n":8,"zh":"让我想想再告诉你","en":"Let me think about it and I'll tell you later","q":[{"s":"L","au":"让我想想再告诉你","q":"Ол қашан жауап береді?","o":["Ешқашан","Дәл қазір","Ойланғаннан кейін"],"a":2},{"s":"L","au":"我先吃饭，再去上课","q":"Алдымен не істейді?","o":["Сабаққа барады","Тамақтанады","Ұйықтайды"],"a":1},{"s":"L","au":"妈妈让我早点儿回家","q":"Анасы не деді?","o":["Ештеңе айтпады","Кешігуді сұрады","Ерте үйге қайтуды сұрады"],"a":2},{"s":"L","au":"我还没决定","q":"Ол шешім қабылдады ма?","o":["Бас тартты","Жоқ","Иә"],"a":1},{"s":"L","au":"等一下，我问问他","q":"Ол не істемек?","o":["Кетеді","Одан сұрайды","Ұйықтайды"],"a":1},{"s":"S","q":"«Ойланайын, кейін айтамын» деу:","o":["告诉你再想想让我吗。","让我想想再告诉你。","我让想想告诉再你的。"],"a":1},{"s":"S","q":"«先…再…» құрылымы нені білдіреді?","o":["егер…онда…","себебі…сондықтан…","алдымен…, содан кейін…"],"a":2},{"s":"S","q":"«让» етістігінің мағынасы:","o":["тыйым салу","біреуге бір нәрсені істетуге рұқсат ету/сұрау","сұрау салу"],"a":1},{"s":"S","q":"Етістіктің қайталануы (想想) нені білдіреді?","o":["көптік","қысқа, жеңіл әрекет","өткен шақ"],"a":1},{"s":"S","q":"«Сәл күте тұр» деу:","o":["一下等的。","等一下。","等吗一下了。"],"a":1},{"s":"R","q":"«告诉» мағынасы:","o":["ұмыту","сұрау","айту, хабарлау"],"a":2},{"s":"R","q":"Бос орын: 我 ___ 洗手，再吃饭。","o":["先","又吗","再的"],"a":0},{"s":"R","q":"«决定» мағынасы:","o":["ұсыну","шешім қабылдау","жоспарлау"],"a":1},{"s":"R","q":"Диалог: — 你去不去？— ___","o":["很便宜。","在左边。","让我想想再告诉你。"],"a":2},{"s":"R","q":"«问» мағынасы:","o":["жазу","сұрау","жауап беру"],"a":1},{"s":"W","q":"Реттеңіз: 告诉你 / 让我 / 再 / 想想","o":["想想让我告诉再你","再让我告诉你想想","让我想想再告诉你"],"a":2},{"s":"W","q":"Бос орын: 你 ___ 我看看你的照片。","o":["把吗","被的","让"],"a":2},{"s":"W","q":"«准备» мағынасы:","o":["дайындалу","ұйықтау","сатып алу"],"a":0},{"s":"W","q":"Қате сөйлем:","o":["我想想让再告诉你。","我想一想再告诉你。","让我想想再告诉你。"],"a":0},{"s":"W","q":"«等» мағынасы:","o":["келу","күту","бару"],"a":1}]},{"n":9,"zh":"题太多，我没做完","en":"There were too many questions; I didn't finish all of them","q":[{"s":"L","au":"题太多，我没做完","q":"Ол бәрін орындады ма?","o":["Иә, аяқтады","Тіпті бастамады","Жоқ, аяқтамады"],"a":2},{"s":"L","au":"昨天的考试很难","q":"Емтихан қандай болды?","o":["Қысқа","Оңай","Қиын"],"a":2},{"s":"L","au":"我看完了那本书","q":"Ол кітапты оқып бітірді ме?","o":["Жартысын","Жоқ","Иә"],"a":2},{"s":"L","au":"时间不够了","q":"Мәселе не?","o":["Орын жоқ","Уақыт жетпеді","Ақша жетпеді"],"a":1},{"s":"L","au":"你做完作业了吗","q":"Сұрақ нені сұрайды?","o":["Қайда екенін","Үй жұмысын бітіргенін","Қашан келгенін"],"a":1},{"s":"S","q":"«Тапсырма көп, бітіре алмадым» деу:","o":["题太多了，我没做完。","做完没我题太多。","题我没做完太多了吗的。"],"a":0},{"s":"S","q":"«完» нені білдіреді?","o":["әрекеттің толық аяқталуын","жалғасуын","басталуын"],"a":0},{"s":"S","q":"Болымсыз түрі: 我做完了 →","o":["我不做完了。","我做不完了吗。","我没做完。"],"a":2},{"s":"S","q":"Емтихан туралы айту:","o":["这次考试很难。","考试这次难很的。","很难考试了这次吗。"],"a":0},{"s":"S","q":"«作业» мағынасы:","o":["сабақ кестесі","емтихан","үй тапсырмасы"],"a":2},{"s":"R","q":"«题» мағынасы:","o":["сұрақ / есеп","кітап","парақ"],"a":0},{"s":"R","q":"Бос орын: 我还没看 ___ 这本书。","o":["过吗","了的","完"],"a":2},{"s":"R","q":"«难» мағынасы:","o":["қиын","ұзақ","оңай"],"a":0},{"s":"R","q":"Диалог: — 你做完了吗？— ___","o":["在右边。","很好吃。","还没有，题太多了。"],"a":2},{"s":"R","q":"«考试» мағынасы:","o":["сабақ","үзіліс","емтихан"],"a":2},{"s":"W","q":"Реттеңіз: 没做完 / 题 / 我 / 太多","o":["太多题没我做完","我没做完太多题","题太多，我没做完"],"a":2},{"s":"W","q":"Бос орын: 我写 ___ 作业了。","o":["地吗","得的","完"],"a":2},{"s":"W","q":"«容易» мағынасы:","o":["қиын","маңызды","оңай"],"a":2},{"s":"W","q":"Қате сөйлем:","o":["我做完了。","我没做完了。","我没做完。"],"a":1},{"s":"W","q":"«够» мағынасы:","o":["аз","жеткілікті","көп"],"a":1}]},{"n":10,"zh":"别找了，手机在桌子上呢","en":"Stop looking for your cell phone; it's on the desk","q":[{"s":"L","au":"别找了，手机在桌子上呢","q":"Телефон қайда?","o":["Үстелдің үстінде","Сөмкеде","Жоғалған"],"a":0},{"s":"L","au":"别走了，外面下雨呢","q":"Неге шықпау керек?","o":["Далада жаңбыр жауып тұр","Көлік жоқ","Кеш болды"],"a":0},{"s":"L","au":"我的书在椅子下边","q":"Кітап қайда?","o":["Шкафта","Орындықтың астында","Үстелде"],"a":1},{"s":"L","au":"别说话，他睡觉呢","q":"Неге үнсіз болу керек?","o":["Ол ұйықтап жатыр","Телефон соғылды","Сабақ басталды"],"a":0},{"s":"L","au":"你的钱包在哪儿","q":"Сұрақ неге қатысты?","o":["Әмиянның орнына","Уақытқа","Ақшаның мөлшеріне"],"a":0},{"s":"S","q":"«Іздеме, телефон үстелде» деу:","o":["找别了手机桌子在上呢的。","手机呢别找在桌子了上。","别找了，手机在桌子上呢。"],"a":2},{"s":"S","q":"«别…了» нені білдіреді?","o":["бастауды сұрау","өткен шақ","әрекетті тоқтатуды сұрау"],"a":2},{"s":"S","q":"«Орын + 在 + зат» дұрыс құрылымы:","o":["在手机桌子上的","桌子上在手机吗","手机在桌子上"],"a":2},{"s":"S","q":"«上边 / 下边» мағынасы:","o":["үсті / асты","алды / арты","іші / сырты"],"a":0},{"s":"S","q":"Біреуге кешікпеуді айту:","o":["别迟到了。","了别迟到吗。","迟到别了的。"],"a":0},{"s":"R","q":"«找» мағынасы:","o":["іздеу","жасыру","табу деп хабарлау"],"a":0},{"s":"R","q":"Бос орын: 书 ___ 桌子上。","o":["有吗","是的","在"],"a":2},{"s":"R","q":"«手机» мағынасы:","o":["компьютер","сағат","ұялы телефон"],"a":2},{"s":"R","q":"Диалог: — 我的手机呢？— ___","o":["在桌子上呢。","很贵。","九月最好。"],"a":0},{"s":"R","q":"«里边» мағынасы:","o":["үстінде","ішінде","қасында"],"a":1},{"s":"W","q":"Реттеңіз: 呢 / 在 / 手机 / 桌子上","o":["在桌子上手机呢的","手机在桌子上呢","呢手机桌子在上"],"a":1},{"s":"W","q":"Бос орын: ___ 说话了，上课呢。","o":["别","没有","不是"],"a":0},{"s":"W","q":"«椅子» мағынасы:","o":["орындық","төсек","үстел"],"a":0},{"s":"W","q":"Қате сөйлем:","o":["手机在桌子上呢。","手机桌子上在呢。","书在椅子下边。"],"a":1},{"s":"W","q":"«钱包» мағынасы:","o":["сөмке","әмиян","кілт"],"a":1}]},{"n":11,"zh":"他比我大三岁","en":"He is three years older than me","q":[{"s":"L","au":"他比我大三岁","q":"Жас айырмашылығы қанша?","o":["13 жас","3 жас","2 жас"],"a":1},{"s":"L","au":"今天比昨天冷","q":"Бүгін қалай?","o":["Бірдей","Кешегіден жылы","Кешегіден суық"],"a":2},{"s":"L","au":"我的房间比他的大","q":"Кімнің бөлмесі үлкен?","o":["Оның","Екеуі бірдей","Сөйлеушінің"],"a":2},{"s":"L","au":"这个比那个便宜一点儿","q":"Бағасы қалай?","o":["Сәл арзанырақ","Бірдей","Әлдеқайда қымбат"],"a":0},{"s":"L","au":"姐姐比我高","q":"Кім биік?","o":["Белгісіз","Сөйлеуші","Апасы"],"a":2},{"s":"S","q":"«Ол менен 3 жас үлкен» деу:","o":["他大我比三岁的。","比他三岁我大吗。","他比我大三岁。"],"a":2},{"s":"S","q":"比 құрылымының реті:","o":["比 + A + B","A + 比 + B + сын есім","A + 比 + сын есім + B"],"a":1},{"s":"S","q":"比 сөйлемінде «很» қолдануға бола ма?","o":["Иә, әрқашан","Тек сұрақта","Жоқ (他比我很高 — қате)"],"a":2},{"s":"S","q":"«Бүгін кешегіден ыстық» деу:","o":["今天比昨天热。","比昨天今天吗热。","今天热比昨天的。"],"a":0},{"s":"S","q":"Теңдікті білдіру:","o":["我跟他一样高。","我一样他高跟的。","跟高我一样他吗。"],"a":0},{"s":"R","q":"«比» мағынасы:","o":["және","немесе","салыстыру көрсеткіші (…-дан)"],"a":2},{"s":"R","q":"Бос орын: 他 ___ 我高。","o":["和吗","跟的","比"],"a":2},{"s":"R","q":"«一样» мағынасы:","o":["көбірек","бірдей","басқаша"],"a":1},{"s":"R","q":"Қай сөйлем дұрыс?","o":["这个比那个很贵的。","这个比那个贵一点儿。","比这个那个贵吗一点。"],"a":1},{"s":"R","q":"«高» мағынасы:","o":["биік / бойшаң","ауыр","қысқа"],"a":0},{"s":"W","q":"Реттеңіз: 三岁 / 比 / 他 / 我 / 大","o":["他比我大三岁","比我他三岁大吗","他大三岁比我的"],"a":0},{"s":"W","q":"Бос орын: 今天比昨天冷 ___ 。(әлдеқайда)","o":["多了","太吗","很的"],"a":0},{"s":"W","q":"«年纪» мағынасы:","o":["жас (шама)","мереке","жыл сайын"],"a":0},{"s":"W","q":"Қате сөйлем:","o":["他比我大三岁。","他比我大。","他比我很大。"],"a":2},{"s":"W","q":"Болымсыз салыстыру:","o":["他不比高我的。","他比不我高吗。","他没有我高。"],"a":2}]},{"n":12,"zh":"你穿得太少了","en":"You wear too little","q":[{"s":"L","au":"你穿得太少了","q":"Сөйлеуші не деп ескертеді?","o":["Тым қалың киінген","Дұрыс киінген","Тым жұқа киінген"],"a":2},{"s":"L","au":"他跑得很快","q":"Ол қалай жүгіреді?","o":["Қиналып","Баяу","Өте жылдам"],"a":2},{"s":"L","au":"她说汉语说得很好","q":"Қытайша сөйлеуі қандай?","o":["Нашар","Өте жақсы","Орташа"],"a":1},{"s":"L","au":"外面很冷，多穿点儿","q":"Кеңес қандай?","o":["Тезірек жүр","Жылырақ киін","Далаға шықпа"],"a":1},{"s":"L","au":"你睡得好吗","q":"Сұрақ нені сұрайды?","o":["Ұйқысының сапасын","Төсегін","Ұйықтау уақытын"],"a":0},{"s":"S","q":"«Ол өте жылдам жүгіреді» деу:","o":["他很快跑得的。","得他跑快很吗。","他跑得很快。"],"a":2},{"s":"S","q":"得 құрылымының реті:","o":["得 + етістік + сын есім","етістік + 得 + сын есім","сын есім + 得 + етістік"],"a":1},{"s":"S","q":"Объект болса дұрыс құрылым:","o":["她说汉语说得很好。","她说得汉语很好的。","她汉语得说很好吗。"],"a":0},{"s":"S","q":"Кеңес беру: «Жылырақ киін»","o":["穿多衣服点儿的。","点儿多穿吗衣服。","多穿点儿衣服。"],"a":2},{"s":"S","q":"Болымсыз түрі: 他跑得快 →","o":["他跑不得快吗。","他不跑得快的。","他跑得不快。"],"a":2},{"s":"R","q":"«穿» мағынасы:","o":["жуу","шешу","киіну"],"a":2},{"s":"R","q":"Бос орын: 他写 ___ 很好。","o":["地","得","的"],"a":1},{"s":"R","q":"«快» мағынасы:","o":["кеш","жылдам","баяу"],"a":1},{"s":"R","q":"Диалог: — 你昨天睡得怎么样？— ___","o":["很贵。","在桌子上。","睡得很好。"],"a":2},{"s":"R","q":"«慢» мағынасы:","o":["жылдам","ерте","баяу"],"a":2},{"s":"W","q":"Реттеңіз: 得 / 太少 / 你 / 穿 / 了","o":["穿你得了太少吗","你太少穿得了的","你穿得太少了"],"a":2},{"s":"W","q":"«的 / 得 / 地» ішінен етістіктен кейін бағалауға қайсысы керек?","o":["的","得","地"],"a":1},{"s":"W","q":"«衣服» мағынасы:","o":["киім","бас киім","аяқкиім"],"a":0},{"s":"W","q":"Қате сөйлем:","o":["他跑得很快。","他跑很快得。","他跑得不快。"],"a":1},{"s":"W","q":"«少» мағынасы:","o":["үлкен","көп","аз"],"a":2}]},{"n":13,"zh":"门开着呢","en":"The door is open","q":[{"s":"L","au":"门开着呢","q":"Есік қалай тұр?","o":["Жабық","Сынған","Ашық тұр"],"a":2},{"s":"L","au":"他手里拿着一本书","q":"Қолында не бар?","o":["Кітап","Сөмке","Телефон"],"a":0},{"s":"L","au":"窗户关着","q":"Терезе қалай?","o":["Ашық","Сынған","Жабық"],"a":2},{"s":"L","au":"她笑着说谢谢","q":"Ол қалай айтты?","o":["Жылап","Ашуланып","Күліп"],"a":2},{"s":"L","au":"桌子上放着很多书","q":"Үстелде не бар?","o":["Бір кесе","Ештеңе жоқ","Көп кітап"],"a":2},{"s":"S","q":"«Есік ашық тұр» деу:","o":["开门呢着吗。","门着开呢的。","门开着呢。"],"a":2},{"s":"S","q":"«着» нені білдіреді?","o":["күйдің сақталып тұрғанын","болашақты","аяқталған әрекетті"],"a":0},{"s":"S","q":"«着» мен «在» айырмашылығы:","o":["着 — болашақ","Екеуі бірдей","着 — күй, 在 — процесс"],"a":2},{"s":"S","q":"«Ол күліп сөйледі» деу:","o":["她说话笑着的。","笑她着说话吗。","她笑着说话。"],"a":2},{"s":"S","q":"Болымсыз түрі: 门开着 →","o":["门开不着吗。","门不开着的。","门没开着。"],"a":2},{"s":"R","q":"«开» мағынасы (есік туралы):","o":["ашу","жабу","бұзу"],"a":0},{"s":"R","q":"Бос орын: 他穿 ___ 一件白衣服。","o":["过吗","了的","着"],"a":2},{"s":"R","q":"«关» мағынасы:","o":["қосу","ашу","жабу / сөндіру"],"a":2},{"s":"R","q":"Диалог: — 门开着吗？— ___","o":["很好吃。","开着呢。","三点半。"],"a":1},{"s":"R","q":"«拿» мағынасы:","o":["тастау","ұстау / алу","беру"],"a":1},{"s":"W","q":"Реттеңіз: 呢 / 开 / 着 / 门","o":["开门着呢的","门开着呢","着门开呢吗"],"a":1},{"s":"W","q":"Бос орын: 桌子上 ___ 着一本书。","o":["放","有吗","在的"],"a":0},{"s":"W","q":"«窗户» мағынасы:","o":["терезе","қабырға","есік"],"a":0},{"s":"W","q":"Қате сөйлем:","o":["门了开着。","门开着。","门开着呢。"],"a":0},{"s":"W","q":"«灯开着» мағынасы:","o":["Шам сынған","Шам жанып тұр","Шам сөнген"],"a":1}]},{"n":14,"zh":"你看过这个电影吗","en":"Have you seen that movie","q":[{"s":"L","au":"你看过这个电影吗","q":"Сұрақ нені сұрайды?","o":["Тәжірибесін (көрген бе)","Бағасын","Уақытын"],"a":0},{"s":"L","au":"我去过北京两次","q":"Бейжіңге неше рет барған?","o":["Екі рет","Ешқашан","Бір рет"],"a":0},{"s":"L","au":"我没吃过中国菜","q":"Ол қытай тағамын жеген бе?","o":["Жиі","Иә","Жоқ"],"a":2},{"s":"L","au":"这个电影很有意思","q":"Фильм қандай?","o":["Ұзақ","Қызықты","Қорқынышты"],"a":1},{"s":"L","au":"我以前学过汉语","q":"Ол бұрын не істеген?","o":["Қытай тілін оқыған","Саяхаттаған","Жұмыс істеген"],"a":0},{"s":"S","q":"«Сен бұл фильмді көрдің бе?» деп сұрау:","o":["你这个电影看过的吗？","过你看电影这个吗了？","你看过这个电影吗？"],"a":2},{"s":"S","q":"«过» нені білдіреді?","o":["болашақты","өмірлік тәжірибені","дәл қазіргі әрекетті"],"a":1},{"s":"S","q":"Болымсыз түрі: 我看过 →","o":["我看不过吗。","我没看过。","我不看过的。"],"a":1},{"s":"S","q":"«Мен Бейжіңде екі рет болдым» деу:","o":["去北京我过两次了。","我两次去过北京的吗。","我去过两次北京。"],"a":2},{"s":"S","q":"«次» сөзінің мағынасы:","o":["рет","дана","кесе"],"a":0},{"s":"R","q":"«电影» мағынасы:","o":["ән","фильм","кітап"],"a":1},{"s":"R","q":"Бос орын: 我没去 ___ 上海。","o":["了的","着吗","过"],"a":2},{"s":"R","q":"«有意思» мағынасы:","o":["жалықтыратын","қымбат","қызықты"],"a":2},{"s":"R","q":"Диалог: — 你吃过北京烤鸭吗？— ___","o":["没吃过。","很远。","八点半。"],"a":0},{"s":"R","q":"«以前» мағынасы:","o":["қазір","кейін","бұрын"],"a":2},{"s":"W","q":"Реттеңіз: 吗 / 过 / 你 / 这个电影 / 看","o":["你这个电影看吗过","你看过这个电影吗","过看你电影这个吗"],"a":1},{"s":"W","q":"Бос орын: 他去过中国三 ___ 。","o":["本吗","个的","次"],"a":2},{"s":"W","q":"«唱歌» мағынасы:","o":["сурет салу","ән айту","би билеу"],"a":1},{"s":"W","q":"Қате сөйлем:","o":["我没看过。","我没看过了。","我看过。"],"a":1},{"s":"W","q":"«过» мен «了» айырмашылығы:","o":["Екеуі бірдей","过 — болашақ","过 — тәжірибе, 了 — аяқталу"],"a":2}]},{"n":15,"zh":"新年就要到了","en":"The New Year is coming","q":[{"s":"L","au":"新年就要到了","q":"Не жақындап қалды?","o":["Жаңа жыл","Демалыс","Емтихан"],"a":0},{"s":"L","au":"火车快要开了","q":"Пойыз қандай күйде?","o":["Кешікті","Кетіп қалды","Жақында жүреді"],"a":2},{"s":"L","au":"我要回家过年","q":"Ол не істемек?","o":["Жұмысқа барады","Саяхаттайды","Үйге жаңа жылға қайтады"],"a":2},{"s":"L","au":"下个月我要去旅游","q":"Қашан саяхаттайды?","o":["Келесі айда","Былтыр","Осы аптада"],"a":0},{"s":"L","au":"快要下雨了","q":"Не болады?","o":["Қар жауады","Күн шығады","Жаңбыр жауады"],"a":2},{"s":"S","q":"«Жаңа жыл жақындап қалды» деу:","o":["新年到要就了的。","要就新年到了吗。","新年就要到了。"],"a":2},{"s":"S","q":"«快要…了» құрылымы нені білдіреді?","o":["өткен оқиғаны","жақын арада болатын оқиғаны","үнемі болатын әрекетті"],"a":1},{"s":"S","q":"«就要…了» мен «快要…了» айырмашылығы:","o":["就要…了 нақты уақыт сөзімен қолданыла алады","Мүлдем бірдей","快要 тек өткен шақта"],"a":0},{"s":"S","q":"Мерекеде тілек айту:","o":["快乐新年的吗！","新年快乐！","年新快乐了！"],"a":1},{"s":"S","q":"«Мен үйге қайтамын» деу:","o":["要我家回吗。","我要回家。","我回要家的。"],"a":1},{"s":"R","q":"«新年» мағынасы:","o":["туған күн","Жаңа жыл","демалыс күні"],"a":1},{"s":"R","q":"Бос орын: 电影 ___ 要开始了。","o":["太吗","很的","快"],"a":2},{"s":"R","q":"«礼物» мағынасы:","o":["хат","сыйлық","ақша"],"a":1},{"s":"R","q":"Диалог: — 你什么时候回家？— ___","o":["下个星期。","在桌子上。","很好吃。"],"a":0},{"s":"R","q":"«一起» мағынасы:","o":["жеке","кейін","бірге"],"a":2},{"s":"W","q":"Реттеңіз: 了 / 就要 / 新年 / 到","o":["就要新年到了的","到新年了就要吗","新年就要到了"],"a":2},{"s":"W","q":"Бос орын: 下个月我 ___ 去中国。","o":["过的","着吗","要"],"a":2},{"s":"W","q":"«准备» мағынасы:","o":["дайындық жасау","ұмыту","кешігу"],"a":0},{"s":"W","q":"Қате сөйлем:","o":["新年快要到了。","新年就要到了。","新年就要到。"],"a":2},{"s":"W","q":"«过年» мағынасы:","o":["Жаңа жылды тойлау","жылды санау","жыл сайын"],"a":0}]}],"3":[{"n":1,"zh":"周末你有什么打算","en":"What's your plan for the weekend","q":[{"s":"L","au":"周末你有什么打算","q":"Сұрақ нені сұрайды?","o":["Демалыс жоспарын","Жұмыс орнын","Бағаны"],"a":0},{"s":"L","au":"我早就想好了去哪儿玩","q":"Ол қашан шешкен?","o":["Әлдеқашан","Жаңа ғана","Әлі шешпеген"],"a":0},{"s":"L","au":"这个周末我要复习准备考试","q":"Демалыста не істейді?","o":["Демалады","Емтиханға дайындалады","Саяхаттайды"],"a":1},{"s":"L","au":"我还没决定呢","q":"Ол шешті ме?","o":["Әлі шешпеген","Бас тартты","Шешті"],"a":0},{"s":"L","au":"我打算去爬山","q":"Ол не істемек?","o":["Тауға шықпақ","Кино көрмек","Үйде отырмақ"],"a":0},{"s":"S","q":"Досыңыздан демалыс жоспарын сұрау:","o":["周末你有什么打算？","你打算周末有什么了吗？","周末打算什么你有的？"],"a":0},{"s":"S","q":"«Мен үй тапсырмасын әлдеқашан бітірдім» деу:","o":["我写完早就了作业的。","早就我作业写完吗了。","我早就写完作业了。"],"a":2},{"s":"S","q":"«早就…了» нені білдіреді?","o":["әлі болмағанын","жақында болатынын","әлдеқашан орындалғанын"],"a":2},{"s":"S","q":"Шақыруды сыпайы қабылдамау:","o":["没我对不起时间吗。","对不起，我没时间。","我时间没对不起的。"],"a":1},{"s":"S","q":"«打算» сөзінің мағынасы:","o":["жоспарлау, ниеттену","қайталау","ұмыту"],"a":0},{"s":"R","q":"«复习» мағынасы:","o":["демалу","жаңа сабақ алу","қайталау (оқығанды)"],"a":2},{"s":"R","q":"Бос орын: 我 ___ 去旅游。(жоспарлаймын)","o":["过吗","打算","已经的"],"a":1},{"s":"R","q":"«一直» мағынасы:","o":["кейде","ешқашан","үнемі, үздіксіз"],"a":2},{"s":"R","q":"Диалог: — 周末你有什么打算？— ___","o":["我打算在家休息。","在桌子上。","三百块。"],"a":0},{"s":"R","q":"«准备» мағынасы:","o":["сату","дайындалу","ұйықтау"],"a":1},{"s":"W","q":"Реттеңіз: 打算 / 周末 / 什么 / 你 / 有","o":["打算你有周末什么","周末你有什么打算","你周末什么有打算"],"a":1},{"s":"W","q":"Бос орын: 我 ___ 就想好了。","o":["快的","刚吗","早"],"a":2},{"s":"W","q":"«休息» мағынасы:","o":["жүгіру","жұмыс істеу","демалу"],"a":2},{"s":"W","q":"Қате сөйлем:","o":["我早就写完作业了。","我早就写完作业。","我已经写完作业了。"],"a":1},{"s":"W","q":"«决定» мағынасы:","o":["көмектесу","сұрау","шешім қабылдау"],"a":2}]},{"n":2,"zh":"他什么时候回来","en":"When will he come back","q":[{"s":"L","au":"他下午三点回来","q":"Ол қашан қайтады?","o":["13:00","15:00","Кешке"],"a":1},{"s":"L","au":"他还没回来呢","q":"Ол қайтты ма?","o":["Иә","Ертең қайтады","Әлі қайтқан жоқ"],"a":2},{"s":"L","au":"他一回来就给你打电话","q":"Ол не істейді?","o":["Ешқашан шалмайды","Қайтысымен қоңырау шалады","Хат жазады"],"a":1},{"s":"L","au":"他去出差了","q":"Ол қайда?","o":["Үйде","Ауруханада","Іссапарда"],"a":2},{"s":"L","au":"他什么时候回来","q":"Сұрақ нені сұрайды?","o":["Уақытты","Себепті","Орынды"],"a":0},{"s":"S","q":"«Ол қашан қайтады?» деп сұрау:","o":["他回来什么时候的吗？","什么他时候回来了？","他什么时候回来？"],"a":2},{"s":"S","q":"«一…就…» құрылымының мағынасы:","o":["әрі…әрі…","егер…онда…","…-сымен бірден…"],"a":2},{"s":"S","q":"«Мен келгеннен кейін саған айтамын» деу:","o":["我回来以后告诉你。","我告诉以后回来你的。","以后我你告诉回来吗。"],"a":0},{"s":"S","q":"Хабарлама қалдыру:","o":["请让打电话他我回来吗。","他打电话请回来我的时候让。","他回来的时候，请让他给我打电话。"],"a":2},{"s":"S","q":"«出差» мағынасы:","o":["іссапарға бару","демалысқа шығу","кешігу"],"a":0},{"s":"R","q":"«什么时候» мағынасы:","o":["неге","қашан","қайда"],"a":1},{"s":"R","q":"Бос орын: 他 ___ 到家就吃饭。","o":["一","才吗","就的"],"a":0},{"s":"R","q":"«以后» мағынасы:","o":["қазір","бұрын","кейін"],"a":2},{"s":"R","q":"Диалог: — 他什么时候回来？— ___","o":["很好吃。","大概下午五点。","在左边。"],"a":1},{"s":"R","q":"«打电话» мағынасы:","o":["қоңырау шалу","кездесу","хат жазу"],"a":0},{"s":"W","q":"Реттеңіз: 回来 / 什么时候 / 他","o":["什么时候他回来吗","回来他什么时候了","他什么时候回来"],"a":2},{"s":"W","q":"Бос орын: 他一回来 ___ 给我打电话。","o":["再吗","才的","就"],"a":2},{"s":"W","q":"«大概» мағынасы:","o":["мүлдем","дәл","шамамен"],"a":2},{"s":"W","q":"Қате сөйлем:","o":["他回来一就打电话。","他一回来就打电话。","他回来以后打电话。"],"a":0},{"s":"W","q":"«还没…呢» нені білдіреді?","o":["болашақты","әлі орындалмағанын","аяқталғанын"],"a":1}]},{"n":3,"zh":"桌子上放着很多饮料","en":"There are plenty of drinks on the table","q":[{"s":"L","au":"桌子上放着很多饮料","q":"Үстелде не бар?","o":["Ыдыстар","Көп сусын","Кітаптар"],"a":1},{"s":"L","au":"墙上挂着一张照片","q":"Қабырғада не ілулі?","o":["Сағат","Сурет","Күнтізбе"],"a":1},{"s":"L","au":"门口站着一个人","q":"Есік алдында кім тұр?","o":["Бір адам","Екі адам","Ешкім"],"a":0},{"s":"L","au":"房间里坐着很多客人","q":"Бөлмеде кімдер бар?","o":["Ешкім","Көп қонақ","Бір бала"],"a":1},{"s":"L","au":"冰箱里有水果和饮料","q":"Тоңазытқышта не бар?","o":["Жеміс пен сусын","Ештеңе жоқ","Тек ет"],"a":0},{"s":"S","q":"«Үстелде көп сусын тұр» деу:","o":["桌子上放着很多饮料。","很多饮料放着桌子上的吗。","放着桌子很多上饮料了。"],"a":0},{"s":"S","q":"«Орын + етістік + 着 + зат» нені білдіреді?","o":["бар болу / орналасу күйін","болашақты","қозғалысты"],"a":0},{"s":"S","q":"Бөлмені сипаттау:","o":["放着床两个包上吗。","床上放着两个包。","两个包上床放着的。"],"a":1},{"s":"S","q":"«挂» етістігінің мағынасы:","o":["ілу","тастау","қою"],"a":0},{"s":"S","q":"Қонақты сусынға шақыру:","o":["点儿喝您什么了？","什么您喝点儿的吗？","您喝点儿什么？"],"a":2},{"s":"R","q":"«饮料» мағынасы:","o":["тағам","жеміс","сусын"],"a":2},{"s":"R","q":"Бос орын: 墙上 ___ 着一幅画。","o":["放了的","挂","站吗"],"a":1},{"s":"R","q":"«冰箱» мағынасы:","o":["тоңазытқыш","шкаф","пеш"],"a":0},{"s":"R","q":"Диалог: — 桌子上有什么？— ___","o":["放着很多饮料。","很便宜。","他明天回来。"],"a":0},{"s":"R","q":"«客人» мағынасы:","o":["қызметкер","қонақ","көрші"],"a":1},{"s":"W","q":"Реттеңіз: 很多饮料 / 放着 / 桌子上","o":["放着很多饮料桌子上","桌子上放着很多饮料","很多饮料桌子上放着"],"a":1},{"s":"W","q":"Бос орын: 门口 ___ 着一辆车。","o":["挂的","喝吗","停"],"a":2},{"s":"W","q":"«照片» мағынасы:","o":["фотосурет","билет","хат"],"a":0},{"s":"W","q":"Қате сөйлем:","o":["很多饮料放着桌子上。","桌子上有很多饮料。","桌子上放着很多饮料。"],"a":0},{"s":"W","q":"«摆» / «放» етістіктерінің ортақ мағынасы:","o":["алып кету","сындыру","қою, орналастыру"],"a":2}]},{"n":4,"zh":"她总是笑着跟客人说话","en":"She always smiles when talking to customers","q":[{"s":"L","au":"她总是笑着跟客人说话","q":"Ол қалай сөйлеседі?","o":["Үнсіз","Күліп","Ашуланып"],"a":1},{"s":"L","au":"他站着看书","q":"Ол қалай кітап оқып тұр?","o":["Отырып","Тұрып","Жатып"],"a":1},{"s":"L","au":"她的服务态度很好","q":"Қызмет көрсету сапасы:","o":["Нашар","Орташа","Өте жақсы"],"a":2},{"s":"L","au":"他们一边吃饭一边聊天","q":"Олар не істеп жатыр?","o":["Жұмыс істеп","Ұйықтап","Тамақтанып әрі әңгімелесіп"],"a":2},{"s":"L","au":"客人对她很满意","q":"Клиенттер риза ма?","o":["Белгісіз","Иә","Жоқ"],"a":1},{"s":"S","q":"«Ол күліп сөйлейді» деу:","o":["她笑着说话。","她说话笑着的吗。","笑她着话说了。"],"a":0},{"s":"S","q":"V1着 + V2 құрылымы нені білдіреді?","o":["ретті әрекеттерді","бір әрекеттің екіншісінің тәсілі екенін","себепті"],"a":1},{"s":"S","q":"«一边…一边…» мағынасы:","o":["бір мезгілде екі әрекет","немесе…немесе","алдымен…содан кейін"],"a":0},{"s":"S","q":"Клиентпен сыпайы сөйлесу:","o":["需要您好什么请问帮助的吗？","您好，请问需要什么帮助？","帮助请问需要您好了？"],"a":1},{"s":"S","q":"«总是» мағынасы:","o":["ешқашан","кейде","әрқашан"],"a":2},{"s":"R","q":"«态度» мағынасы:","o":["көзқарас / мәнер","баға","уақыт"],"a":0},{"s":"R","q":"Бос орын: 他 ___ 着听音乐。(жатып)","o":["笑的","跑吗","躺"],"a":2},{"s":"R","q":"«满意» мағынасы:","o":["ренжу","шаршау","риза болу"],"a":2},{"s":"R","q":"Қай сөйлем дұрыс?","o":["她说话着笑跟我的。","她笑着跟我说话。","跟我她说笑着话吗。"],"a":1},{"s":"R","q":"«服务» мағынасы:","o":["тапсырыс беру","қызмет көрсету","сатып алу"],"a":1},{"s":"W","q":"Реттеңіз: 说话 / 笑着 / 她 / 跟客人 / 总是","o":["她笑着总是说话跟客人","总是她跟客人说话笑着","她总是笑着跟客人说话"],"a":2},{"s":"W","q":"Бос орын: 他们一边走 ___ 边聊天。","o":["一","再的","又吗"],"a":0},{"s":"W","q":"«聊天» мағынасы:","o":["әңгімелесу","тыңдау","дауласу"],"a":0},{"s":"W","q":"Қате сөйлем:","o":["她笑着说话。","她一边笑一边说话。","她说话着笑。"],"a":2},{"s":"W","q":"«跟…说话» құрылымындағы «跟» мағынасы:","o":["кіммен (бірге)","қайда","қашан"],"a":0}]},{"n":5,"zh":"我最近越来越胖了","en":"I am getting fatter and fatter lately","q":[{"s":"L","au":"我最近越来越胖了","q":"Не өзгерді?","o":["Салмағы артып барады","Арықтады","Өзгермеді"],"a":0},{"s":"L","au":"天气越来越冷了","q":"Ауа райы қалай өзгеруде?","o":["Суықтай түсуде","Жылынып жатыр","Тұрақты"],"a":0},{"s":"L","au":"我每天都锻炼身体","q":"Ол не істейді?","o":["Ешқашан жаттықпайды","Аптасына бір рет","Күнде жаттығады"],"a":2},{"s":"L","au":"我想减肥","q":"Оның мақсаты:","o":["Салмақ қосу","Демалу","Арықтау"],"a":2},{"s":"L","au":"他越跑越快","q":"Мағынасы:","o":["Жүгіре алмайды","Баяу жүгіреді","Жүгірген сайын жылдамдай түседі"],"a":2},{"s":"S","q":"«Ауа райы барған сайын суық» деу:","o":["越来天气越冷了吗。","天气越来越冷了。","天气冷越来越的吗。"],"a":1},{"s":"S","q":"«越来越…» нені білдіреді?","o":["бір рет болған өзгерісті","болжамды","уақыт өте күшейе түсетін өзгерісті"],"a":2},{"s":"S","q":"«越…越…» мысалы:","o":["雨大越下越的。","越雨下大越吗。","雨越下越大。"],"a":2},{"s":"S","q":"Дене шынықтыру туралы айту:","o":["我锻炼每天小时一个的吗。","一个小时我每天锻炼了吗。","我每天锻炼一个小时。"],"a":2},{"s":"S","q":"«锻炼» мағынасы:","o":["ұйықтау","тамақтану","жаттығу жасау"],"a":2},{"s":"R","q":"«胖» мағынасы:","o":["ұзын","арық","толық"],"a":2},{"s":"R","q":"Бос орын: 他汉语说得 ___ 来越好。","o":["更的","越","最吗"],"a":1},{"s":"R","q":"«最近» мағынасы:","o":["соңғы кезде","баяғыда","болашақта"],"a":0},{"s":"R","q":"Диалог: — 你最近怎么样？— ___","o":["三百块。","在桌子上。","越来越忙了。"],"a":2},{"s":"R","q":"«健康» мағынасы:","o":["ауру","дені сау","шаршаған"],"a":1},{"s":"W","q":"Реттеңіз: 了 / 越来越 / 我 / 胖 / 最近","o":["我最近越来越胖了","最近我胖越来越了","越来越我最近胖了"],"a":0},{"s":"W","q":"Бос орын: 他 ___ 学越有意思。","o":["更的","越","太吗"],"a":1},{"s":"W","q":"«瘦» мағынасы:","o":["арық","биік","толық"],"a":0},{"s":"W","q":"Қате сөйлем:","o":["天气越来越很冷了。","天气越来越冷了。","天气越来越热了。"],"a":0},{"s":"W","q":"Сөйлем соңындағы «了» мұнда нені көрсетеді?","o":["тәжірибені","аяқталуды","өзгерісті"],"a":2}]},{"n":6,"zh":"怎么突然找不到了","en":"Why are they suddenly missing","q":[{"s":"L","au":"我的钥匙怎么突然找不到了","q":"Не жоғалды?","o":["Телефон","Әмиян","Кілт"],"a":2},{"s":"L","au":"我看不见黑板上的字","q":"Мәселе не?","o":["Есік жабық","Есту нашар","Тақтадағы жазуды көре алмайды"],"a":2},{"s":"L","au":"这些东西太多了，我拿不了","q":"Ол не істей алмайды?","o":["Сатып ала алмайды","Таба алмайды","Бәрін көтере алмайды"],"a":2},{"s":"L","au":"我找到手机了","q":"Нәтижесі:","o":["Іздеп жүр","Телефонды жоғалтты","Телефонды тапты"],"a":2},{"s":"L","au":"我突然想起来了","q":"Мағынасы:","o":["Кенет есіне түсті","Ұмытып қалды","Ұйықтап кетті"],"a":0},{"s":"S","q":"«Таба алмай жатырмын» деу:","o":["我不找到了的。","我找不到了。","找我了不到吗。"],"a":1},{"s":"S","q":"Потенциалды толықтауыштың болымсыз түрі:","o":["V + 不 + нәтиже (看不见)","V + 没 + нәтиже","不 + V + нәтиже"],"a":0},{"s":"S","q":"«突然» мағынасы:","o":["кенеттен","ақырындап","әдетте"],"a":0},{"s":"S","q":"Көмек сұрау:","o":["帮找我一下能吗你？","你能帮我找一下吗？","找一下你能帮我吗的？"],"a":1},{"s":"S","q":"«找到» мен «找» айырмашылығы:","o":["Бірдей","找到 — болашақ","找到 — нәтижесі бар (тапты)"],"a":2},{"s":"R","q":"«钥匙» мағынасы:","o":["есік","құлып","кілт"],"a":2},{"s":"R","q":"Бос орын: 太远了，我看 ___ 见。","o":["没的","别吗","不"],"a":2},{"s":"R","q":"«听不懂» мағынасы:","o":["айта алмау","естімеу","тыңдап түсіне алмау"],"a":2},{"s":"R","q":"Диалог: — 你的书包呢？— ___","o":["八点半。","很好吃。","找不到了。"],"a":2},{"s":"R","q":"«刚才» мағынасы:","o":["былтыр","жаңа ғана","ертең"],"a":1},{"s":"W","q":"Реттеңіз: 了 / 找不到 / 怎么 / 突然","o":["怎么突然找不到了","找不到怎么突然了","突然怎么了找不到"],"a":0},{"s":"W","q":"Бос орын: 这个箱子太重，我搬 ___ 动。","o":["别吗","不","没的"],"a":1},{"s":"W","q":"«忘» мағынасы:","o":["іздеу","есте сақтау","ұмыту"],"a":2},{"s":"W","q":"Қате сөйлем:","o":["我找不到。","我不找到。","我没找到。"],"a":1},{"s":"W","q":"Болымды түрі: 看不见 →","o":["看得见","看见不","得看见"],"a":0}]},{"n":7,"zh":"我跟她都认识五年了","en":"I've known her for five years","q":[{"s":"L","au":"我跟她认识五年了","q":"Қанша уақыт таныс?","o":["5 ай","15 жыл","5 жыл"],"a":2},{"s":"L","au":"我学汉语学了三年了","q":"Қанша уақыт оқып жүр?","o":["3 ай","3 жыл","30 жыл"],"a":1},{"s":"L","au":"我等了半个小时","q":"Қанша уақыт күтті?","o":["Екі сағат","Жарты сағат","10 минут"],"a":1},{"s":"L","au":"他们是大学同学","q":"Олардың қарым-қатынасы:","o":["Ағайынды","Көршілер","Университет курстастары"],"a":2},{"s":"L","au":"我们经常一起吃饭","q":"Олар не істейді?","o":["Ешқашан кездеспейді","Тек хат жазысады","Жиі бірге тамақтанады"],"a":2},{"s":"S","q":"«Біз 5 жылдан бері таныспыз» деу:","o":["我们五年认识的吗。","认识我们了五年吗。","我们认识五年了。"],"a":2},{"s":"S","q":"Уақыт ұзақтығы сөйлемде қайда тұрады?","o":["Сөйлем басында","Етістіктен кейін","Етістіктен бұрын"],"a":1},{"s":"S","q":"Объектілі етістікпен дұрыс құрылым:","o":["我学了汉语三年的吗。","我学汉语学了三年。","三年我汉语学了吗。"],"a":1},{"s":"S","q":"Сөйлем соңындағы «了» мұнда нені білдіреді?","o":["аяқталғанын","тәжірибені","әрекеттің әлі жалғасып жатқанын"],"a":2},{"s":"S","q":"«跟…一起» мағынасы:","o":["кімге қарсы","кім үшін","кіммен бірге"],"a":2},{"s":"R","q":"«认识» мағынасы:","o":["көру","таныс болу","есту"],"a":1},{"s":"R","q":"Бос орын: 我在北京住 ___ 两年了。","o":["过的","了","着吗"],"a":1},{"s":"R","q":"«同学» мағынасы:","o":["көрші","әріптес","сыныптас/курстас"],"a":2},{"s":"R","q":"Диалог: — 你们认识多长时间了？— ___","o":["三百块。","在右边。","五年了。"],"a":2},{"s":"R","q":"«经常» мағынасы:","o":["жиі","сирек","ешқашан"],"a":0},{"s":"W","q":"Реттеңіз: 了 / 五年 / 认识 / 我跟她","o":["我跟她五年认识了","认识我跟她了五年","我跟她认识五年了"],"a":2},{"s":"W","q":"Бос орын: 我等了 ___ 个小时。","o":["很的","太吗","半"],"a":2},{"s":"W","q":"«多长时间» мағынасы:","o":["қай уақытта","неше рет","қанша уақыт"],"a":2},{"s":"W","q":"Қате сөйлем:","o":["我学汉语学了三年。","我学了三年汉语。","我学了三年汉语学。"],"a":2},{"s":"W","q":"«友谊 / 朋友» ұғымы қандай тақырыпқа жатады?","o":["Қарым-қатынас","Ауа райы","Көлік"],"a":0}]},{"n":8,"zh":"你去哪儿我就去哪儿","en":"I'll go wherever you go","q":[{"s":"L","au":"你去哪儿我就去哪儿","q":"Мағынасы:","o":["Мен жалғыз барамын","Сен қайда барсаң, мен де барамын","Мен ешқайда бармаймын"],"a":1},{"s":"L","au":"你想吃什么我们就吃什么","q":"Кім таңдайды?","o":["Сөйлеуші","Ешкім","Тыңдаушы"],"a":2},{"s":"L","au":"谁想去谁就去","q":"Мағынасы:","o":["Ешкім бармайды","Кім қаласа, сол барады","Бәрі баруы керек"],"a":1},{"s":"L","au":"什么时候方便就什么时候来","q":"Қашан келу керек?","o":["Қолайлы уақытта","Ешқашан","Дәл 8-де"],"a":0},{"s":"L","au":"我都可以","q":"Оның пікірі:","o":["Бәрі жарайды","Білмейді","Келіспейді"],"a":0},{"s":"S","q":"«Сен нені қаласаң, соны жейміз» деу:","o":["什么就你想吃我们吗。","你想吃什么我们就吃什么。","我们吃什么你想就什么的。"],"a":1},{"s":"S","q":"Сұрау есімдіктерінің қайталануы нені білдіреді?","o":["еркін таңдау / кез келгені","болымсыздықты","нақты сұрақты"],"a":0},{"s":"S","q":"«都/也» осы құрылымда неге керек?","o":["сұрақ үшін","жалпылауды күшейту үшін (谁都…)","өткен шақ үшін"],"a":1},{"s":"S","q":"«Маған бәрібір» деу:","o":["我都行。","都我行的吗。","行都吗我了。"],"a":0},{"s":"S","q":"«就» бұл құрылымда нені байланыстырады?","o":["алдыңғы шартты кейінгі әрекетпен","екі уақытты","екі затты"],"a":0},{"s":"R","q":"«方便» мағынасы:","o":["қымбат","қолайлы","қиын"],"a":1},{"s":"R","q":"Бос орын: 你喜欢哪个我 ___ 买哪个。","o":["都吗","就","才的"],"a":1},{"s":"R","q":"«随便» мағынасы:","o":["тыйым салынған","қалауыңша","міндетті"],"a":1},{"s":"R","q":"Қай сөйлем дұрыс?","o":["谁有问题谁就问。","就谁问题有谁问吗。","谁问就谁有问题的。"],"a":0},{"s":"R","q":"«哪儿» мұнда қандай мағына береді?","o":["нақты сұрақ","кез келген жер","белгісіз орын емес"],"a":1},{"s":"W","q":"Реттеңіз: 我就去哪儿 / 你去哪儿","o":["我就去哪儿你去哪儿","你去哪儿我就去哪儿","哪儿你去我就去哪儿"],"a":1},{"s":"W","q":"Бос орын: 什么时候有空，___ 什么时候来。","o":["才的","就","再吗"],"a":1},{"s":"W","q":"«有空» мағынасы:","o":["бос уақыты болу","бос орын болу","жұмысы көп"],"a":0},{"s":"W","q":"Қате сөйлем:","o":["你想去哪儿就去哪儿。","你去哪儿我就去哪儿。","你去哪儿我去就哪儿。"],"a":2},{"s":"W","q":"«行» сөзінің мағынасы:","o":["қате","мүмкін емес","жарайды"],"a":2}]},{"n":9,"zh":"她的汉语说得跟中国人一样好","en":"She speaks Chinese like a native","q":[{"s":"L","au":"她的汉语说得跟中国人一样好","q":"Оның деңгейі қандай?","o":["Орташа","Қытайлықтардай жақсы","Нашар"],"a":1},{"s":"L","au":"这个包跟那个一样贵","q":"Бағалары қалай?","o":["Арзанырақ","Әртүрлі","Бірдей"],"a":2},{"s":"L","au":"我跟他一样高","q":"Бойлары қалай?","o":["Сөйлеуші биік","Бірдей","Ол биік"],"a":1},{"s":"L","au":"这儿的天气跟我们那儿不一样","q":"Ауа райы қандай?","o":["Белгісіз","Әртүрлі","Бірдей"],"a":1},{"s":"L","au":"她的发音很标准","q":"Айтылымы қандай?","o":["Өте дұрыс","Жылдам","Нашар"],"a":0},{"s":"S","q":"«Мен де сен сияқты жүгіре аламын» деу:","o":["我跑得跟你一样快。","我跟你跑得一样的快吗。","跟你一样我跑快得了。"],"a":0},{"s":"S","q":"«跟…一样» құрылымы нені білдіреді?","o":["айырмашылықты","теңдікті","артықтықты"],"a":1},{"s":"S","q":"Болымсыз түрі:","o":["跟不…一样的","跟…不一样","不跟…一样吗"],"a":1},{"s":"S","q":"Мақтау айту:","o":["真你说好得的！","你说得真好！","得说你好真吗！"],"a":1},{"s":"S","q":"«发音» мағынасы:","o":["оқылым","айтылым","жазылым"],"a":1},{"s":"R","q":"«一样» мағынасы:","o":["басқа","аз","бірдей"],"a":2},{"s":"R","q":"Бос орын: 他 ___ 我一样喜欢运动。","o":["从吗","跟","比的"],"a":1},{"s":"R","q":"«标准» мағынасы:","o":["стандартты, дұрыс","жылдам","қатты"],"a":0},{"s":"R","q":"Қай сөйлем дұрыс?","o":["一样她写跟老师好得吗。","她写得跟老师一样好。","她跟老师写得好一样的。"],"a":1},{"s":"R","q":"«水平» мағынасы:","o":["деңгей","мінез","уақыт"],"a":0},{"s":"W","q":"Реттеңіз: 一样好 / 她的汉语 / 跟中国人 / 说得","o":["她的汉语跟中国人说得一样好吗","她的汉语说得跟中国人一样好","说得她的汉语一样好跟中国人"],"a":1},{"s":"W","q":"Бос орын: 这两个包 ___ 一样。","o":["别吗","不","没的"],"a":1},{"s":"W","q":"«流利» мағынасы:","o":["қателі","еркін (сөйлеу)","баяу"],"a":1},{"s":"W","q":"Қате сөйлем:","o":["她说得跟中国人很一样好。","她说得很好。","她说得跟中国人一样好。"],"a":0},{"s":"W","q":"«差不多» мағынасы:","o":["әлдеқайда көп","шамамен бірдей","мүлдем басқа"],"a":1}]},{"n":10,"zh":"数学比历史难多了","en":"Maths is much harder than history","q":[{"s":"L","au":"数学比历史难多了","q":"Қайсысы қиын?","o":["Екеуі бірдей","Математика","Тарих"],"a":1},{"s":"L","au":"今天比昨天热得多","q":"Бүгін қалай?","o":["Бірдей","Әлдеқайда ыстық","Сәл салқын"],"a":1},{"s":"L","au":"我的成绩比上次好一点儿","q":"Нәтиже қалай өзгерді?","o":["Әлдеқайда нашарлады","Сәл жақсарды","Өзгермеді"],"a":1},{"s":"L","au":"他比我努力","q":"Кім көп еңбектенеді?","o":["Ол","Ешкім","Сөйлеуші"],"a":0},{"s":"L","au":"这次考试我考得不错","q":"Емтихан нәтижесі:","o":["Өте нашар","Жақсы","Белгісіз"],"a":1},{"s":"S","q":"«Математика тарихтан әлдеқайда қиын» деу:","o":["数学比历史难多了。","比历史数学多了难吗。","数学难比历史多了的吗。"],"a":0},{"s":"S","q":"Айырманы нақтылау қайда тұрады?","o":["Сөйлем басында","Сын есімнен бұрын","Сын есімнен кейін (难多了 / 高三厘米)"],"a":2},{"s":"S","q":"«…得多» мен «…一点儿» айырмашылығы:","o":["得多 — үлкен айырма, 一点儿 — шағын айырма","一点儿 — үлкен айырма","Бірдей"],"a":0},{"s":"S","q":"Оқу нәтижесін айту:","o":["我的成绩好多了比以前的。","我的成绩比以前好多了。","比以前好多了我成绩吗。"],"a":1},{"s":"S","q":"«努力» мағынасы:","o":["тез","жалқау","тырысу, еңбекқор"],"a":2},{"s":"R","q":"«数学» мағынасы:","o":["география","математика","тарих"],"a":1},{"s":"R","q":"Бос орын: 这本书比那本贵 ___ 。","o":["很的","多了","太吗"],"a":1},{"s":"R","q":"«成绩» мағынасы:","o":["нәтиже, баға","емтихан күні","сабақ"],"a":0},{"s":"R","q":"Қай сөйлем дұрыс?","o":["他比我五厘米高的吗。","他比我高五厘米。","五厘米他比我高了。"],"a":1},{"s":"R","q":"«历史» мағынасы:","o":["әдебиет","тарих","физика"],"a":1},{"s":"W","q":"Реттеңіз: 难多了 / 比历史 / 数学","o":["数学难多了比历史","比历史数学难多了","数学比历史难多了"],"a":2},{"s":"W","q":"Бос орын: 今天比昨天冷 ___ 。(сәл)","o":["一点儿","多了的","很吗"],"a":0},{"s":"W","q":"«提高» мағынасы:","o":["төмендеу","тоқтату","арттыру, жақсарту"],"a":2},{"s":"W","q":"Қате сөйлем:","o":["数学比历史难多了。","数学比历史很难。","数学比历史难。"],"a":1},{"s":"W","q":"«不错» мағынасы:","o":["қиын","жаман емес, жақсы","қате"],"a":1}]},{"n":11,"zh":"别忘了把空调关了","en":"Don't forget to turn off the air conditioner","q":[{"s":"L","au":"别忘了把空调关了","q":"Не істеу керек?","o":["Терезені ашу","Есікті бояу","Кондиционерді сөндіру"],"a":2},{"s":"L","au":"请把门关上","q":"Өтініш қандай?","o":["Есікті жуу","Есікті ашу","Есікті жабу"],"a":2},{"s":"L","au":"我把作业交给老师了","q":"Ол не істеді?","o":["Кітап алды","Сабақтан қалды","Үй тапсырмасын тапсырды"],"a":2},{"s":"L","au":"别忘了带伞","q":"Нені ұмытпау керек?","o":["Қолшатыр алуды","Ақшаны","Кілтті"],"a":0},{"s":"L","au":"空调开着呢","q":"Кондиционер қандай күйде?","o":["Қосулы","Бұзылған","Сөндірулі"],"a":0},{"s":"S","q":"«Кондиционерді сөндіруді ұмытпа» деу:","o":["别把忘了空调关的吗。","关了空调别把忘吗。","别忘了把空调关了。"],"a":2},{"s":"S","q":"把 құрылымының реті:","o":["S + V + 把 + объект","S + 把 + объект + V + толықтауыш","把 + S + V + объект"],"a":1},{"s":"S","q":"把 сөйлемінде етістіктен кейін не болуы керек?","o":["Тек 吗","Нәтиже/бағыт/了 сияқты элемент","Ештеңе"],"a":1},{"s":"S","q":"Сыпайы өтініш:","o":["请把窗户打开。","把请窗户开打了。","请打开把窗户的吗。"],"a":0},{"s":"S","q":"«别忘了…» мағынасы:","o":["…ұмыт","…қайтала","…ұмытпа"],"a":2},{"s":"R","q":"«空调» мағынасы:","o":["кондиционер","пеш","тоңазытқыш"],"a":0},{"s":"R","q":"Бос орын: 请 ___ 灯关上。","o":["被的","把","跟吗"],"a":1},{"s":"R","q":"«关» мағынасы:","o":["сөндіру / жабу","қосу","сындыру"],"a":0},{"s":"R","q":"Қай сөйлем дұрыс?","o":["把我书放桌子上吗。","我把书放在桌子上了。","我放书把桌子上了的。"],"a":1},{"s":"R","q":"«伞» мағынасы:","o":["аяқкиім","сөмке","қолшатыр"],"a":2},{"s":"W","q":"Реттеңіз: 关了 / 把空调 / 别忘了","o":["别忘了把空调关了","把空调别忘了关了","关了别忘了把空调"],"a":0},{"s":"W","q":"Бос орын: 他把水果 ___ 在冰箱里了。","o":["看的","买吗","放"],"a":2},{"s":"W","q":"«打开» мағынасы:","o":["ашу / қосу","бүктеу","жабу"],"a":0},{"s":"W","q":"Қате сөйлем:","o":["我把空调关了。","我把空调关上了。","我把空调关。"],"a":2},{"s":"W","q":"把 құрылымы қашан қолданылады?","o":["Кез келген жағдайда","Нақты объектіге әсер етіп, нәтиже болғанда","Тек сұрақта"],"a":1}]},{"n":12,"zh":"把重要的东西放在我这儿吧","en":"Leave the important items with me","q":[{"s":"L","au":"把重要的东西放在我这儿吧","q":"Ұсыныс қандай?","o":["Заттарды тастау","Маңызды заттарды оған қалдыру","Заттарды сату"],"a":1},{"s":"L","au":"我把护照放在包里了","q":"Төлқұжат қайда?","o":["Сөмкеде","Жоғалған","Үстелде"],"a":0},{"s":"L","au":"请把这些东西拿走","q":"Өтініш:","o":["Заттарды алып кету","Заттарды сатып алу","Заттарды қою"],"a":0},{"s":"L","au":"这个很重要，别丢了","q":"Ескерту қандай?","o":["Тез жүр","Жоғалтып алма","Ашпа"],"a":1},{"s":"L","au":"东西太多了，我帮你拿","q":"Ол не ұсынады?","o":["Тастауды","Көмектесіп ұстауды","Сатып алуды"],"a":1},{"s":"S","q":"«Мұны менде қалдыр» деу:","o":["放在把我这儿这个吗。","把这个放在我这儿吧。","这个把放我这儿吧的。"],"a":1},{"s":"S","q":"«放在 + орын» құрылымы нені білдіреді?","o":["затты белгілі орынға қою","іздеу","алып кету"],"a":0},{"s":"S","q":"«拿走» бағыттық толықтауышының мағынасы:","o":["алып кету","қою","алып келу"],"a":0},{"s":"S","q":"Сыпайы ұсыныс жасау:","o":["放这儿把行李你了。","行李你把这儿放的吗。","你把行李放这儿吧。"],"a":2},{"s":"S","q":"«重要» мағынасы:","o":["ауыр","маңызды","арзан"],"a":1},{"s":"R","q":"«东西» мағынасы:","o":["зат","шығыс","тамақ"],"a":0},{"s":"R","q":"Бос орын: 请把书 ___ 给我。","o":["走吗","放的","拿"],"a":2},{"s":"R","q":"«护照» мағынасы:","o":["карта","төлқұжат","билет"],"a":1},{"s":"R","q":"Қай сөйлем дұрыс?","o":["把他桌子上钱包放了吗。","他放钱包把在桌子上。","他把钱包放在桌子上了。"],"a":2},{"s":"R","q":"«行李» мағынасы:","o":["орындық","жүк, багаж","сыйлық"],"a":1},{"s":"W","q":"Реттеңіз: 吧 / 把重要的东西 / 放在我这儿","o":["放在我这儿把重要的东西吧","把放在我这儿重要的东西吧","把重要的东西放在我这儿吧"],"a":2},{"s":"W","q":"Бос орын: 别把手机 ___ 在出租车上。","o":["忘","记的","带吗"],"a":0},{"s":"W","q":"«丢» мағынасы:","o":["беру","табу","жоғалту"],"a":2},{"s":"W","q":"Қате сөйлем:","o":["我把书放在桌子上了。","我把书放。","我把书放好了。"],"a":1},{"s":"W","q":"«送» мағынасы:","o":["апарып беру / сыйлау","сатып алу","ұстау"],"a":0}]},{"n":13,"zh":"我是走回来的","en":"I walked back","q":[{"s":"L","au":"我是走回来的","q":"Ол қалай қайтты?","o":["Таксимен","Жаяу","Автобуспен"],"a":1},{"s":"L","au":"他跑上楼去了","q":"Ол не істеді?","o":["Жоғары жүгіріп шықты","Төмен түсті","Отырды"],"a":0},{"s":"L","au":"我是坐地铁来的","q":"Қалай келді?","o":["Метромен","Жаяу","Велосипедпен"],"a":0},{"s":"L","au":"她把书带回家了","q":"Кітап қайда?","o":["Үйге апарылды","Жоғалды","Мектепте қалды"],"a":0},{"s":"L","au":"你是怎么回来的","q":"Сұрақ нені анықтайды?","o":["Қайту себебін","Кімді көргенін","Қайту тәсілін"],"a":2},{"s":"S","q":"«Мен жаяу қайттым» деу:","o":["回来我是走的了。","我是走回来的。","我走是回来的吗。"],"a":1},{"s":"S","q":"«回来 / 回去» айырмашылығы:","o":["回来 — сөйлеушіге қарай, 回去 — одан әрі","Бірдей","回来 — болашақ"],"a":0},{"s":"S","q":"«上来 / 下去» сияқты толықтауыштар нені білдіреді?","o":["уақытты","қозғалыс бағытын","себепті"],"a":1},{"s":"S","q":"«是…的» нені баса көрсетеді?","o":["өткен әрекеттің тәсілін/уақытын/орнын","мүмкіндікті","болашақты"],"a":0},{"s":"S","q":"Объектімен дұрыс құрылым:","o":["他拿回来一本书。","一本书他拿的回来了。","他回来拿一本书的吗。"],"a":0},{"s":"R","q":"«走» мағынасы:","o":["жүгіру","ұшу","жаяу жүру / кету"],"a":2},{"s":"R","q":"Бос орын: 他跑 ___ 楼去了。","o":["回吗","下的","上"],"a":2},{"s":"R","q":"«带» мағынасы:","o":["ала жүру","сату","тастау"],"a":0},{"s":"R","q":"Диалог: — 你是怎么来的？— ___","o":["我是骑自行车来的。","很好吃。","在桌子上。"],"a":0},{"s":"R","q":"«回家» мағынасы:","o":["үйден шығу","үй сатып алу","үйге қайту"],"a":2},{"s":"W","q":"Реттеңіз: 的 / 是 / 我 / 回来 / 走","o":["我是走回来的","是我回来走的","我走是的回来"],"a":0},{"s":"W","q":"Бос орын: 请把椅子搬 ___ 来。","o":["走的","过","开吗"],"a":1},{"s":"W","q":"«进去» мағынасы:","o":["ішке кіру (сөйлеушіден әрі)","жоғары шығу","сыртқа шығу"],"a":0},{"s":"W","q":"Қате сөйлем:","o":["我是走回来的。","我走回来了。","我是走回来。"],"a":2},{"s":"W","q":"«出来» мағынасы:","o":["кіру","түсу","шығу (сөйлеушіге қарай)"],"a":2}]},{"n":14,"zh":"你把水果拿过来","en":"Please bring the fruit here","q":[{"s":"L","au":"你把水果拿过来","q":"Өтініш қандай?","o":["Жемісті алып кету","Жемісті әкелу","Жемісті жуу"],"a":1},{"s":"L","au":"请把杯子拿过去","q":"Бағыт қандай?","o":["Жуу","Сөйлеушіден әрі апару","Сөйлеушіге әкелу"],"a":1},{"s":"L","au":"我买了很多水果","q":"Ол не сатып алды?","o":["Кітап","Сусын","Көп жеміс"],"a":2},{"s":"L","au":"把苹果洗一下","q":"Не істеу керек?","o":["Алманы жуу","Алманы кесу","Алманы сату"],"a":0},{"s":"L","au":"东西都准备好了吗","q":"Сұрақ нені сұрайды?","o":["Бәрі дайын ба","Кім келгенін","Бағасын"],"a":0},{"s":"S","q":"«Жемісті әкелші» деу:","o":["水果你把过来拿的吗。","你把水果拿过来。","拿过来把你水果了。"],"a":1},{"s":"S","q":"把 + V + 过来/过去 нені қосады?","o":["бағыт мағынасын","болымсыздықты","уақыт мағынасын"],"a":0},{"s":"S","q":"«一下» қосылғанда реңк қалай өзгереді?","o":["өткен шақ болады","бұйрық күшейеді","жұмсарады, сыпайы болады"],"a":2},{"s":"S","q":"Дастархан дайындау туралы айту:","o":["我把菜放在桌子上了。","菜我把桌子上放的吗。","放桌子上把我菜了。"],"a":0},{"s":"S","q":"«洗» мағынасы:","o":["жуу","кесу","пісіру"],"a":0},{"s":"R","q":"«水果» мағынасы:","o":["тәттілер","жеміс","көкөніс"],"a":1},{"s":"R","q":"Бос орын: 请把菜端 ___ 来。","o":["开吗","过","走的"],"a":1},{"s":"R","q":"«苹果» мағынасы:","o":["алма","банан","жүзім"],"a":0},{"s":"R","q":"Қай сөйлем дұрыс?","o":["过来你把拿书了。","你把书拿过来。","你拿把书过来的吗。"],"a":1},{"s":"R","q":"«准备好» мағынасы:","o":["толық дайын болу","дайындалып жатыр","дайындалмаған"],"a":0},{"s":"W","q":"Реттеңіз: 拿过来 / 你 / 把水果","o":["你把水果拿过来","拿过来把你水果了","把水果你拿过来吗"],"a":0},{"s":"W","q":"Бос орын: 把房间打扫 ___ 。","o":["干净","漂亮吗","好吃的"],"a":0},{"s":"W","q":"«干净» мағынасы:","o":["лас","таза","жаңа"],"a":1},{"s":"W","q":"Қате сөйлем:","o":["你把水果拿。","你把水果拿过来。","你把水果拿来。"],"a":0},{"s":"W","q":"«端» етістігінің мағынасы:","o":["итеру","лақтыру","екі қолмен ұстап апару"],"a":2}]},{"n":15,"zh":"其他都没什么问题","en":"The rest of them are all OK","q":[{"s":"L","au":"其他都没什么问题","q":"Қалғандары қалай?","o":["Белгісіз","Бәрі жақсы","Бәрі қате"],"a":1},{"s":"L","au":"除了这个，其他都可以","q":"Мағынасы:","o":["Бәрі бірдей","Ештеңе жарамайды","Бұдан басқасының бәрі жарайды"],"a":2},{"s":"L","au":"这里有一点儿问题","q":"Мәселе бар ма?","o":["Өте көп","Мүлдем жоқ","Аздап бар"],"a":2},{"s":"L","au":"其他人都同意了","q":"Басқалар не деді?","o":["Қарсы болды","Келісті","Үндемеді"],"a":1},{"s":"L","au":"没问题，放心吧","q":"Реңк қандай?","o":["Ескерту","Сендіру","Шағым"],"a":1},{"s":"S","q":"«Қалғанында мәселе жоқ» деу:","o":["其他没什么都问题的吗。","问题都其他没什么了。","其他都没什么问题。"],"a":2},{"s":"S","q":"«除了…以外» құрылымының мағынасы:","o":["…-дан басқа","…сияқты","…үшін"],"a":0},{"s":"S","q":"«没什么» нені білдіреді?","o":["белгісіз","түк те (маңызды) емес","өте көп"],"a":1},{"s":"S","q":"Тексерген соң есеп беру:","o":["我其他检查都没问题了的吗。","我检查了，其他都没问题。","没问题我都检查其他了。"],"a":1},{"s":"S","q":"«放心» мағынасы:","o":["қорқу","ұмыту","алаңдамау"],"a":2},{"s":"R","q":"«其他» мағынасы:","o":["басқа, қалғаны","соңғы","бірінші"],"a":0},{"s":"R","q":"Бос орын: ___ 小王以外，大家都来了。","o":["因为的","虽然吗","除了"],"a":2},{"s":"R","q":"«同意» мағынасы:","o":["сұрау","келісу","бас тарту"],"a":1},{"s":"R","q":"Диалог: — 还有别的问题吗？— ___","o":["很贵。","其他都没什么问题。","在右边。"],"a":1},{"s":"R","q":"«检查» мағынасы:","o":["тексеру","жазу","ұмыту"],"a":0},{"s":"W","q":"Реттеңіз: 问题 / 其他 / 都没什么","o":["问题其他都没什么","都没什么其他问题","其他都没什么问题"],"a":2},{"s":"W","q":"Бос орын: 这件事 ___ 问题。(жоқ)","o":["不是的","没有","别吗"],"a":1},{"s":"W","q":"«解决» мағынасы:","o":["ұлғайту","шешу (мәселені)","тоқтату"],"a":1},{"s":"W","q":"Қате сөйлем:","o":["其他都不什么问题。","其他都没什么问题。","其他都没有问题。"],"a":0},{"s":"W","q":"«一切» мағынасы:","o":["ештеңе","бәрі","кейбірі"],"a":1}]},{"n":16,"zh":"我现在累得下了班就想睡觉","en":"I am so tired that I want to do nothing but sleep after work","q":[{"s":"L","au":"我现在累得下了班就想睡觉","q":"Ол қаншалықты шаршаған?","o":["Мүлдем шаршамаған","Жұмыстан кейін бірден ұйықтағысы келеді","Кино көргісі келеді"],"a":1},{"s":"L","au":"我最近工作很忙","q":"Жағдайы қандай?","o":["Жұмысы көп","Демалыста","Бос"],"a":0},{"s":"L","au":"他高兴得跳了起来","q":"Ол не істеді?","o":["Жылады","Ұйықтады","Қуанғаннан секіріп кетті"],"a":2},{"s":"L","au":"我下了班就回家","q":"Жұмыстан соң не істейді?","o":["Бірден үйге қайтады","Достарымен кездеседі","Дүкенге барады"],"a":0},{"s":"L","au":"你要注意休息","q":"Кеңес қандай?","o":["Көбірек жұмыс істеу","Демалуға көңіл бөлу","Спортпен айналыспау"],"a":1},{"s":"S","q":"«Соншалықты шаршадым, бірден ұйықтағым келеді» деу:","o":["我累得想马上睡觉。","累我马上得睡觉想了。","我想得累马上睡觉的吗。"],"a":0},{"s":"S","q":"«…得…» дәреже толықтауышы нені білдіреді?","o":["орнын","уақытын","әрекет/күйдің дәрежесін"],"a":2},{"s":"S","q":"«V了…就…» құрылымының мағынасы:","o":["…себепті","…болғанша","…бітісімен бірден…"],"a":2},{"s":"S","q":"Досыңызға кеңес беру:","o":["你休息早点儿吧的。","早点儿吧你休息吗。","你早点儿休息吧。"],"a":2},{"s":"S","q":"«累» мағынасы:","o":["ашулану","қуану","шаршау"],"a":2},{"s":"R","q":"«下班» мағынасы:","o":["жұмыстан шығу","үзіліс","жұмысқа бару"],"a":0},{"s":"R","q":"Бос орын: 他忙 ___ 没时间吃饭。","o":["得","的","地"],"a":0},{"s":"R","q":"«注意» мағынасы:","o":["көңіл бөлу","тоқтату","ұмыту"],"a":0},{"s":"R","q":"Қай сөйлем дұрыс?","o":["他高兴得说不出话来。","得高兴他来话说不出吗。","他说不出话高兴得来的。"],"a":0},{"s":"R","q":"«马上» мағынасы:","o":["кейін","бірден","кеше"],"a":1},{"s":"W","q":"Реттеңіз: 就想睡觉 / 我现在累得 / 下了班","o":["就想睡觉我现在累得下了班","下了班我现在累得就想睡觉","我现在累得下了班就想睡觉"],"a":2},{"s":"W","q":"Бос орын: 我饿 ___ 走不动了。","o":["的","得","地"],"a":1},{"s":"W","q":"«休息» мағынасы:","o":["жүгіру","оқу","демалу"],"a":2},{"s":"W","q":"Қате сөйлем:","o":["我累的想睡觉。","我累得想睡觉。","我很累，想睡觉。"],"a":0},{"s":"W","q":"«忙» мағынасы:","o":["бос","жалқау","қолы бос емес"],"a":2}]},{"n":17,"zh":"谁都有办法看好你的\"病\"","en":"Everybody is able to cure your \"disease\"","q":[{"s":"L","au":"谁都有办法","q":"Мағынасы:","o":["Тек дәрігерде бар","Әркімнің амалы бар","Ешкімде амал жоқ"],"a":1},{"s":"L","au":"我什么都不想吃","q":"Ол не жегісі келеді?","o":["Бәрін","Тек жеміс","Ештеңе"],"a":2},{"s":"L","au":"这个问题谁都知道","q":"Кім біледі?","o":["Бәрі","Ешкім","Тек мұғалім"],"a":0},{"s":"L","au":"他哪儿都不想去","q":"Ол қайда барғысы келеді?","o":["Барлық жерге","Ешқайда","Үйге"],"a":1},{"s":"L","au":"办法总比困难多","q":"Мағынасы:","o":["Амал жоқ","Амал қиындықтан көп","Қиындық жеңеді"],"a":1},{"s":"S","q":"«Бәрі біледі» деу:","o":["谁都知道。","知道谁都的吗。","都谁知道了吗。"],"a":0},{"s":"S","q":"«都/也» жалпылау құрылымында қайда тұрады?","o":["Сұрау есімдігінен кейін, етістіктен бұрын","Бастауыштан бұрын","Сөйлем соңында"],"a":0},{"s":"S","q":"Болымсыз жалпылау:","o":["我不什么都知道的吗。","我什么都不知道。","什么我知道都不了。"],"a":1},{"s":"S","q":"«办法» мағынасы:","o":["амал, шешім жолы","ауру","дәрі"],"a":0},{"s":"S","q":"Көңіл айту / қолдау:","o":["别担心，会有办法的。","担心有办法别会了。","别会有办法担心的吗。"],"a":0},{"s":"R","q":"«病» мағынасы:","o":["дәрігер","ауру","емдеу"],"a":1},{"s":"R","q":"Бос орын: 他 ___ 都不去。(ешқайда)","o":["哪儿","谁吗","什么的"],"a":0},{"s":"R","q":"«担心» мағынасы:","o":["уайымдау","ұйықтау","қуану"],"a":0},{"s":"R","q":"Қай сөйлем дұрыс?","o":["谁都可以参加。","参加谁可以都了。","可以谁都参加的吗。"],"a":0},{"s":"R","q":"«困难» мағынасы:","o":["қиындық","жеңілдік","мүмкіндік"],"a":0},{"s":"W","q":"Реттеңіз: 办法 / 谁都 / 有","o":["谁都有办法","有谁都办法吗","办法谁有都了"],"a":0},{"s":"W","q":"Бос орын: 我 ___ 么时候都可以。","o":["哪吗","怎的","什"],"a":2},{"s":"W","q":"«参加» мағынасы:","o":["ұйымдастыру","бас тарту","қатысу"],"a":2},{"s":"W","q":"Қате сөйлем:","o":["大家都有办法。","谁都有办法。","谁有都办法。"],"a":2},{"s":"W","q":"«解决问题» мағынасы:","o":["мәселені шешу","мәселе тудыру","мәселені ұмыту"],"a":0}]},{"n":18,"zh":"我相信他们会同意的","en":"I believe they'll agree","q":[{"s":"L","au":"我相信他们会同意的","q":"Сөйлеушінің болжамы:","o":["Олар қарсы","Белгісіз","Олар келіседі"],"a":2},{"s":"L","au":"明天可能会下雨","q":"Ертең не болуы мүмкін?","o":["Күн ашық болады","Қар жауады","Жаңбыр жаууы мүмкін"],"a":2},{"s":"L","au":"他一定会来的","q":"Сенімділік дәрежесі:","o":["Жоғары","Төмен","Жоқ"],"a":0},{"s":"L","au":"我觉得这个办法不错","q":"Оның пікірі:","o":["Бұл әдіс қате","Бұл әдіс жақсы","Пікірі жоқ"],"a":1},{"s":"L","au":"也许他不知道这件事","q":"Мағынасы:","o":["Мүмкін ол білмейді","Ол ұмытты","Ол міндетті түрде біледі"],"a":0},{"s":"S","q":"«Олар келіседі деп сенемін» деу:","o":["我他们相信会同意的吗。","同意会他们我相信了。","我相信他们会同意的。"],"a":2},{"s":"S","q":"«会…的» құрылымы нені білдіреді?","o":["өткен шақты","қабілетті ғана","болашақтағы ықтималдықты/сенімділікті"],"a":2},{"s":"S","q":"«可能 / 也许» мағынасы:","o":["ешқашан","мүмкін","міндетті"],"a":1},{"s":"S","q":"Пікір білдіру:","o":["我觉得这个办法很好。","我这个觉得办法好很的吗。","很好觉得我办法这个了。"],"a":0},{"s":"S","q":"«一定» мағынасы:","o":["мүмкін","міндетті түрде","сирек"],"a":1},{"s":"R","q":"«相信» мағынасы:","o":["күмәндану","сену","ұмыту"],"a":1},{"s":"R","q":"Бос орын: 他明天 ___ 来的。","o":["了的","过吗","会"],"a":2},{"s":"R","q":"«同意» мағынасы:","o":["келісу","қарсы болу","сұрау"],"a":0},{"s":"R","q":"Қай сөйлем дұрыс?","o":["我他想一定来会的吗。","我想他一定会来。","一定会我想他来了。"],"a":1},{"s":"R","q":"«觉得» мағынасы:","o":["көру","есту","ойлау, сезіну (пікір)"],"a":2},{"s":"W","q":"Реттеңіз: 的 / 会同意 / 我相信 / 他们","o":["会同意我相信他们的了","他们我相信会同意的吗","我相信他们会同意的"],"a":2},{"s":"W","q":"Бос орын: 明天 ___ 会下雪。","o":["一定不的","没有吗","可能"],"a":2},{"s":"W","q":"«希望» мағынасы:","o":["ұмыту","үміттену","бас тарту"],"a":1},{"s":"W","q":"Қате сөйлем:","o":["我相信他们会同意了。","我相信他们同意。","我相信他们会同意的。"],"a":0},{"s":"W","q":"«应该» мағынасы:","o":["қаламау","тиіс, керек","мүмкін емес"],"a":1}]},{"n":19,"zh":"你没看出来吗","en":"Didn't you recognise him","q":[{"s":"L","au":"你没看出来吗","q":"Сұрақтың мағынасы:","o":["Айтпадың ба?","Танымадың ба?","Көрмедің бе?"],"a":1},{"s":"L","au":"我一下子没认出他来","q":"Не болды?","o":["Мүлдем көрмеді","Бірден танымай қалды","Бірден таныды"],"a":1},{"s":"L","au":"他变化太大了","q":"Себебі:","o":["Жарық аз болған","Ол қатты өзгерген","Ол алыс тұрған"],"a":1},{"s":"L","au":"我听出来是他的声音","q":"Ол не түсінді?","o":["Қате естіді","Дауысынан таныды","Ештеңе естімеді"],"a":1},{"s":"L","au":"你猜他是谁","q":"Сұрақ не сұрайды?","o":["Орынды","Уақытты","Кім екенін болжауды"],"a":2},{"s":"S","q":"«Мен оны танымай қалдым» деу:","o":["我没认出他来。","我他没认出来的吗。","认出没我来他了。"],"a":0},{"s":"S","q":"«出来» толықтауышы мұнда нені білдіреді?","o":["болашақты","айыру/тану нәтижесін","сыртқа шығуды ғана"],"a":1},{"s":"S","q":"Болымсыз түрі: 看出来 →","o":["看不出来了吗","不看出来的","没看出来"],"a":2},{"s":"S","q":"«变化» мағынасы:","o":["тұрақтылық","өзгеріс","қайталау"],"a":1},{"s":"S","q":"Кешірім сұрау: «Кешір, бірден танымадым»","o":["对不起，我一下子没认出你来。","没认出对不起我你一下子来了。","对不起我认出一下子没你来的吗。"],"a":0},{"s":"R","q":"«认出» мағынасы:","o":["ұмыту","тану (айырып білу)","көру"],"a":1},{"s":"R","q":"Бос орын: 我听 ___ 来了，是他的声音。","o":["过吗","上的","出"],"a":2},{"s":"R","q":"«声音» мағынасы:","o":["сурет","иіс","дауыс"],"a":2},{"s":"R","q":"Қай сөйлем дұрыс?","o":["我看没出他的变化的吗。","我没看出他的变化。","出我没看变化他的了。"],"a":1},{"s":"R","q":"«猜» мағынасы:","o":["жазу","болжау","санау"],"a":1},{"s":"W","q":"Реттеңіз: 吗 / 没看出来 / 你","o":["没看出来你吗的","出来你没看吗了","你没看出来吗"],"a":2},{"s":"W","q":"Бос орын: 这个问题我想 ___ 来了。","o":["上的","回吗","出"],"a":2},{"s":"W","q":"«一下子» мағынасы:","o":["ұзақ уақыт","кейде","кенет, бірден"],"a":2},{"s":"W","q":"Қате сөйлем:","o":["我看不出来。","我不看出来他。","我没看出来。"],"a":1},{"s":"W","q":"«熟悉» мағынасы:","o":["ұмыту","таныс, жақсы білу","бейтаныс"],"a":1}]},{"n":20,"zh":"我被他影响了","en":"I've been influenced by him","q":[{"s":"L","au":"我被他影响了","q":"Кім әсер етті?","o":["Ешкім","Ол сөйлеушіге","Сөйлеуші оған"],"a":1},{"s":"L","au":"我的自行车被人骑走了","q":"Велосипедке не болды?","o":["Сатылды","Сынды","Біреу мініп кетті"],"a":2},{"s":"L","au":"蛋糕被弟弟吃完了","q":"Торт қайда?","o":["Тоңазытқышта","Інісі жеп қойды","Сатылды"],"a":1},{"s":"L","au":"他的习惯影响了我","q":"Мағынасы:","o":["Сөйлеуші оған әсер етті","Оның әдеті сөйлеушіге әсер етті","Ешқандай әсер жоқ"],"a":1},{"s":"L","au":"我现在也开始锻炼了","q":"Нәтижесі:","o":["Ол да жаттыға бастады","Ештеңе өзгерген жоқ","Жаттығуды тоқтатты"],"a":0},{"s":"S","q":"«Мені ол әсерледі» деу:","o":["我被他影响了。","被影响我他了吗。","我他被影响了的吗。"],"a":0},{"s":"S","q":"被 құрылымының реті:","o":["被 + объект + V","Объект + V + 被","Объект + 被 + әрекет иесі + V + толықтауыш"],"a":2},{"s":"S","q":"被 сөйлемінде етістіктен кейін не керек?","o":["Ештеңе","Тек 吗","了/нәтиже сияқты элемент"],"a":2},{"s":"S","q":"«影响» мағынасы:","o":["көмектесу","ұмыту","әсер ету"],"a":2},{"s":"S","q":"Жағымсыз оқиғаны айту:","o":["我的手机被偷了。","被我的手机了偷吗。","我的手机偷被了的吗。"],"a":0},{"s":"R","q":"«被» нені білдіреді?","o":["бағытты","ырықсыз етіс көрсеткішін","салыстыруды"],"a":1},{"s":"R","q":"Бос орын: 我的书 ___ 同学借走了。","o":["跟吗","被","把的"],"a":1},{"s":"R","q":"«习惯» мағынасы:","o":["әдет","мереке","ереже"],"a":0},{"s":"R","q":"Қай сөйлем дұрыс?","o":["杯子被他打破了。","杯子他被打破的吗。","被杯子打破他了。"],"a":0},{"s":"R","q":"«影响» сөзі қандай мағынада да қолданылады?","o":["тек ауру","ықпал (жағымды/жағымсыз)","тек жағымсыз"],"a":1},{"s":"W","q":"Реттеңіз: 了 / 被他 / 我 / 影响","o":["被我他影响了的","影响我被他了吗","我被他影响了"],"a":2},{"s":"W","q":"Бос орын: 蛋糕被弟弟吃 ___ 了。","o":["过吗","完","着的"],"a":1},{"s":"W","q":"«借» мағынасы:","o":["қарызға алу/беру","сатып алу","сыйлау"],"a":0},{"s":"W","q":"Қате сөйлем:","o":["我被他影响。","他影响了我。","我被他影响了。"],"a":0},{"s":"W","q":"把 мен 被 айырмашылығы:","o":["把 — әрекет иесі бастауыш, 被 — объект бастауыш","把 — өткен шақ","Бірдей"],"a":0}]}]};
 
-  let currentLevel = 2;
-  let currentMode = 'reading';
-  let currentChapterId = 1;
+  const SKILL = {
+    L: { name: 'Тыңдалым', icon: '🎧', cls: 'bg-blue-100 text-blue-700' },
+    S: { name: 'Айтылым', icon: '🗣️', cls: 'bg-emerald-100 text-emerald-700' },
+    R: { name: 'Оқылым', icon: '📖', cls: 'bg-purple-100 text-purple-700' },
+    W: { name: 'Жазылым', icon: '✍️', cls: 'bg-rose-100 text-rose-700' }
+  };
+  const LETTERS = ['A', 'B', 'C', 'D'];
+
+  let currentLevel = 1;
+  let currentLesson = 1;
+  let currentMode = 'all';
+  let answered = {};   // qIndex -> true/false
+  let visibleQs = [];
 
   const urlParams = new URLSearchParams(window.location.search);
-  const paramLevel = urlParams.get('level');
-  const paramLesson = urlParams.get('lesson');
+  if (urlParams.get('level') && BANK[urlParams.get('level')]) currentLevel = parseInt(urlParams.get('level'));
+  if (urlParams.get('lesson')) currentLesson = parseInt(urlParams.get('lesson'));
 
-  if (paramLevel && dataBase[paramLevel]) {
-    currentLevel = parseInt(paramLevel);
+  // ---- Нәтижелерді сақтау (localStorage) ----
+  function resultKey(l, n) { return `hsk${l}_lesson${n}_result`; }
+  function saveResult(score, total) {
+    try {
+      localStorage.setItem(resultKey(currentLevel, currentLesson), JSON.stringify({ score, total, date: Date.now() }));
+      syncProgress(currentLevel);
+    } catch (e) {}
   }
-  if (paramLesson) {
-    currentChapterId = parseInt(paramLesson);
+  function getResult(l, n) {
+    try { return JSON.parse(localStorage.getItem(resultKey(l, n))); } catch (e) { return null; }
+  }
+  function syncProgress(level) {
+    let done = 0;
+    BANK[level].forEach(les => {
+      const r = getResult(level, les.n);
+      if (r && r.total > 0 && r.score / r.total >= 0.6) done++;
+    });
+    try { localStorage.setItem(`hsk${level}_progress`, done); } catch (e) {}
   }
 
-  function switchLevel(level, chapterToLoad = 1) {
+  function escapeHtml(s) {
+    return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  }
+
+  function playAudio(text) {
+    if (!('speechSynthesis' in window)) { alert('Браузеріңіз дыбыстауды қолдамайды.'); return; }
+    window.speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(text);
+    u.lang = 'zh-CN';
+    u.rate = 0.85;
+    window.speechSynthesis.speak(u);
+  }
+
+  function getLesson(level, n) {
+    return BANK[level].find(x => x.n === n) || BANK[level][0];
+  }
+
+  function switchLevel(level) {
     currentLevel = level;
-    document.getElementById('btn-hsk1').classList.toggle('active', level === 1);
-    document.getElementById('btn-hsk2').classList.toggle('active', level === 2);
-    document.getElementById('btn-hsk3').classList.toggle('active', level === 3);
-    
-    updateHeader();
-    initSidebar();
-    
-    const modeData = dataBase[level][currentMode];
-    if(modeData && modeData.length > 0) {
-       const hasChapter = modeData.find(c => c.chapter === chapterToLoad);
-       loadChapter(hasChapter ? chapterToLoad : modeData[0].chapter);
-    } else {
-       loadChapter(1);
-    }
+    [1, 2, 3].forEach(l => document.getElementById('btn-hsk' + l).classList.toggle('active', l === level));
+    const exists = BANK[level].some(x => x.n === currentLesson);
+    if (!exists) currentLesson = BANK[level][0].n;
+    buildSidebar();
+    loadLesson(currentLesson);
   }
 
   function switchMode(mode) {
     currentMode = mode;
-    document.getElementById('btn-reading').classList.toggle('active', mode === 'reading');
-    document.getElementById('btn-listening').classList.toggle('active', mode === 'listening');
-    document.getElementById('btn-speaking').classList.toggle('active', mode === 'speaking');
-    
-    updateHeader();
-    initSidebar();
-    
-    const modeData = dataBase[currentLevel][mode];
-    if(modeData && modeData.length > 0) {
-        const hasChapter = modeData.find(c => c.chapter === currentChapterId);
-        loadChapter(hasChapter ? currentChapterId : modeData[0].chapter);
-    } else {
-        loadChapter(1);
-    }
+    ['all', 'L', 'S', 'R', 'W'].forEach(m => document.getElementById('btn-' + m).classList.toggle('active', m === mode));
+    loadLesson(currentLesson);
   }
 
-  function updateHeader() {
-    let modeName = '';
-    if(currentMode === 'reading') modeName = 'Оқылым бөлімі';
-    if(currentMode === 'listening') modeName = 'Тыңдалым бөлімі';
-    if(currentMode === 'speaking') modeName = 'Сөйлеу бөлімі (ИИ)';
-
-    document.getElementById('main-header-title').innerText = `HSK ${currentLevel} Жұмыс дәптері`;
-    document.getElementById('main-header-desc').innerText = `HSK ${currentLevel} деңгейіне арналған жаттығулар (${modeName})`;
-  }
-
-  function playAudio(text) {
-    if ('speechSynthesis' in window) {
-      window.speechSynthesis.cancel();
-      const utterance = new SpeechSynthesisUtterance(text);
-      utterance.lang = 'zh-CN';
-      utterance.rate = 0.85;
-      window.speechSynthesis.speak(utterance);
-    } else {
-      alert('Браузеріңіз дыбыстау функциясын қолдамайды.');
-    }
-  }
-
-  function initSidebar() {
-    const sidebar = document.getElementById('sidebar');
-    sidebar.innerHTML = '';
-    const currentDataSet = dataBase[currentLevel][currentMode];
-    
-    if(!currentDataSet || currentDataSet.length === 0) return;
-
-    currentDataSet.forEach(chapterData => {
-      const btn = document.createElement('button'); 
-      btn.className = "text-gray-700 font-medium text-left";
-      btn.innerText = `Тарау ${chapterData.chapter}`;
-      btn.onclick = () => loadChapter(chapterData.chapter); 
-      sidebar.appendChild(btn);
+  function buildSidebar() {
+    const sb = document.getElementById('sidebar');
+    sb.innerHTML = '';
+    BANK[currentLevel].forEach(les => {
+      const r = getResult(currentLevel, les.n);
+      const mark = (r && r.total > 0 && r.score / r.total >= 0.6) ? ' <span class="done-dot">✓</span>' : '';
+      const b = document.createElement('button');
+      b.className = 'text-gray-700 font-medium';
+      b.innerHTML = `<span class="font-bold">${les.n}.</span> ${escapeHtml(les.zh)}${mark}`;
+      b.onclick = () => loadLesson(les.n);
+      sb.appendChild(b);
     });
   }
 
-  function loadChapter(chapterId) {
-    currentChapterId = chapterId;
-    const currentDataSet = dataBase[currentLevel][currentMode];
-    
-    const container = document.getElementById('quiz-container'); 
-    container.innerHTML = ''; 
+  function markSidebar() {
+    const btns = document.querySelectorAll('.sidebar button');
+    BANK[currentLevel].forEach((les, i) => {
+      if (btns[i]) btns[i].classList.toggle('active', les.n === currentLesson);
+    });
+  }
+
+  function loadLesson(n) {
+    currentLesson = n;
+    answered = {};
+    const les = getLesson(currentLevel, n);
+    const cont = document.getElementById('quiz-container');
+    cont.innerHTML = '';
     document.getElementById('score-display').innerText = '';
-    const actionsDiv = document.getElementById('actions');
+    document.getElementById('chapter-title').innerText = `${les.n}-сабақ: ${les.zh} (${les.en})`;
+    document.getElementById('main-header-title').innerText = `HSK ${currentLevel} Жұмыс дәптері`;
+    document.getElementById('main-header-desc').innerText = 'Әр тапсырма — онлайн тексерілетін тест сұрағы';
 
-    if(!currentDataSet || currentDataSet.length === 0) {
-      container.innerHTML = '<p class="text-red-500 text-center py-10">Бұл бөлімге әлі сұрақтар қосылмаған.</p>';
-      actionsDiv.style.display = 'none';
-      document.getElementById('chapter-title').innerText = `Сұрақтар жоқ`;
-      return;
-    }
+    visibleQs = les.q.map((q, i) => ({ q, i })).filter(o => currentMode === 'all' || o.q.s === currentMode);
+    document.getElementById('live-total').innerText = visibleQs.length;
+    document.getElementById('live-score').innerText = '0';
 
-    const currentChapter = currentDataSet.find(c => c.chapter === chapterId);
-    
-    if(!currentChapter) {
-      container.innerHTML = '<p class="text-red-500 text-center py-10">Бұл сабақтың сұрақтары әлі қосылмаған.</p>';
-      actionsDiv.style.display = 'none';
-      document.getElementById('chapter-title').innerText = `Тарау табылмады`;
-      return;
-    }
-    
-    const sidebarButtons = document.querySelectorAll('.sidebar button');
-    sidebarButtons.forEach((btn, idx) => {
-      if (idx + 1 === chapterId) {
-        btn.classList.add('active');
-      } else {
-        btn.classList.remove('active');
-      }
-    });
+    visibleQs.forEach((o, idx) => cont.appendChild(renderQuestion(o.q, o.i, idx + 1)));
 
-    document.getElementById('chapter-title').innerText = `Тарау ${currentChapter.chapter}: ${currentChapter.title}`;
-    
-    currentChapter.questions.forEach(q => {
-      const qDiv = document.createElement('div'); 
-      qDiv.className = 'bg-paper-deep/20 border border-paper-deep rounded-2xl p-5 sm:p-6 shadow-inner';
-      
-      let contentHtml = '';
+    document.getElementById('actions').style.display = visibleQs.length ? 'flex' : 'none';
+    markSidebar();
 
-      if (currentMode === 'reading') {
-        contentHtml = `<div class="text-lg text-gray-900 mb-4 leading-relaxed"><strong class="text-seal mr-2">${q.num}.</strong> ${q.text}
-          <div class="text-sm text-jade font-semibold mt-1 mb-3">${q.pinyin}</div>
-          <div class="font-bold text-gray-800 bg-white/60 inline-block px-3 py-1.5 rounded-lg border border-paper-deep">${q.statement}</div>
-        </div>
-        <div class="flex flex-wrap gap-4 mt-5">
-          <label class="opt-label flex items-center gap-3 bg-white px-5 py-3 rounded-xl border border-paper-deep cursor-pointer shadow-sm flex-1 sm:flex-none">
-            <input type="radio" name="q_${q.id}" value="true"> <span class="font-semibold text-gray-800">Дұрыс</span>
-          </label>
-          <label class="opt-label flex items-center gap-3 bg-white px-5 py-3 rounded-xl border border-paper-deep cursor-pointer shadow-sm flex-1 sm:flex-none">
-            <input type="radio" name="q_${q.id}" value="false"> <span class="font-semibold text-gray-800">Қате</span>
-          </label>
-        </div>
-        <div class="feedback" id="feedback_${q.id}"></div>`;
-      } 
-      else if (currentMode === 'listening') {
-        contentHtml = `<div class="text-lg text-gray-900 mb-4 leading-relaxed"><strong class="text-seal mr-2">${q.num}.</strong> 
-          <button class="audio-btn shadow-sm" onclick="playAudio('${q.audioText.replace(/'/g, "\\'")}')">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
-            Тыңдау
-          </button>
-          <div class="text-sm text-jade font-semibold mt-1 mb-3">${q.pinyin}</div>
-          <div class="font-bold text-gray-800 bg-white/60 inline-block px-3 py-1.5 rounded-lg border border-paper-deep">${q.statement}</div>
-        </div>
-        <div class="flex flex-wrap gap-4 mt-5">
-          <label class="opt-label flex items-center gap-3 bg-white px-5 py-3 rounded-xl border border-paper-deep cursor-pointer shadow-sm flex-1 sm:flex-none">
-            <input type="radio" name="q_${q.id}" value="true"> <span class="font-semibold text-gray-800">Дұрыс</span>
-          </label>
-          <label class="opt-label flex items-center gap-3 bg-white px-5 py-3 rounded-xl border border-paper-deep cursor-pointer shadow-sm flex-1 sm:flex-none">
-            <input type="radio" name="q_${q.id}" value="false"> <span class="font-semibold text-gray-800">Қате</span>
-          </label>
-        </div>
-        <div class="feedback" id="feedback_${q.id}"></div>`;
-      }
-      else if (currentMode === 'speaking') {
-        contentHtml = `<div class="text-lg text-gray-900 mb-4 leading-relaxed"><strong class="text-seal mr-2">${q.num}.</strong> 
-          <span class="font-display font-bold text-2xl">${q.text}</span>
-          <button onclick="playAudio('${q.text.replace(/'/g, "\\'")}')" class="ml-3 text-jade hover:text-jade-dark" title="Дыбысын тыңдау">🔊</button>
-          <div class="text-sm text-jade font-semibold mt-1">${q.pinyin}</div>
-          <div class="text-sm text-gray-500 mt-1">${q.translation}</div>
-        </div>
-        <div class="flex items-center gap-4 mt-4">
-          <button id="btn_record_${q.id}" onclick="toggleSpeakingRecord('${q.id}', '${q.text}')" class="speak-action-btn bg-seal text-white font-bold px-6 py-2.5 rounded-xl shadow-md flex items-center gap-2">
-            🎤 Сөйлеу
-          </button>
-          <div id="status_${q.id}" class="text-sm font-semibold hidden"></div>
-        </div>
-        <div id="feedback_${q.id}" class="mt-4 p-4 bg-white border border-paper-deep rounded-xl hidden text-sm leading-relaxed"></div>`;
-      }
-
-      qDiv.innerHTML = contentHtml;
-      container.appendChild(qDiv);
-    });
-
-    if (currentMode === 'speaking') {
-      actionsDiv.style.display = 'none'; // Сөйлеу режимінде "Жауаптарды тексеру" батырмасы керек емес
-    } else {
-      actionsDiv.style.display = 'block';
+    const prev = getResult(currentLevel, n);
+    if (prev) {
+      document.getElementById('score-display').innerHTML =
+        `<span class="text-gray-500 text-sm font-sans">Алдыңғы нәтижеңіз: ${prev.score} / ${prev.total}</span>`;
     }
   }
 
-  // ==========================================
-  // СӨЙЛЕУ ЖАТТЫҒУЛАРЫНА АРНАЛҒАН ЖС (ИИ)
-  // ==========================================
-  let activeRecorder = null;
-  let activeChunks = [];
-  let currentRecordingId = null;
+  function renderQuestion(q, qi, num) {
+    const sk = SKILL[q.s];
+    const div = document.createElement('div');
+    div.className = 'qcard bg-paper-deep/20 border border-paper-deep rounded-2xl p-4 sm:p-5';
+    div.id = 'qcard_' + qi;
 
-  async function toggleSpeakingRecord(qId, targetWord) {
-    const btn = document.getElementById(`btn_record_${qId}`);
-    const status = document.getElementById(`status_${qId}`);
-    const feedbackBox = document.getElementById(`feedback_${qId}`);
+    const audio = q.au
+      ? `<button class="audio-btn shadow-sm mb-3" onclick="playAudio('${escapeHtml(q.au).replace(/'/g, "\\'")}')">🔊 Аудионы тыңдау</button>`
+      : '';
 
-    if (activeRecorder && currentRecordingId === qId) {
-      // Тоқтату
-      activeRecorder.stop();
-      activeRecorder.stream.getTracks().forEach(t => t.stop());
-      activeRecorder = null;
-      currentRecordingId = null;
-      
-      btn.innerHTML = '🎤 Сөйлеу';
-      btn.classList.remove('animate-pulse', 'bg-seal-dark');
-      status.innerHTML = '⏳ ИИ тексеруде...';
-      status.className = 'text-sm font-semibold text-gray-500 block';
-    } else {
-      // Бастау
-      try {
-        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-        activeRecorder = new MediaRecorder(stream);
-        activeChunks = [];
-        currentRecordingId = qId;
+    const opts = q.o.map((opt, oi) => `
+      <button type="button" class="opt w-full text-left bg-white border border-paper-deep rounded-xl px-4 py-3 text-sm sm:text-base text-gray-800 flex items-start gap-3"
+              id="opt_${qi}_${oi}" onclick="answer(${qi}, ${oi}, ${q.a})">
+        <span class="font-bold text-seal shrink-0">${LETTERS[oi]}</span><span>${escapeHtml(opt)}</span>
+      </button>`).join('');
 
-        activeRecorder.ondataavailable = e => activeChunks.push(e.data);
-        activeRecorder.onstop = () => processSpeakingAudio(qId, targetWord);
-
-        activeRecorder.start();
-        btn.innerHTML = '⏹️ Тоқтату';
-        btn.classList.add('animate-pulse', 'bg-seal-dark');
-        status.innerHTML = '🔴 Жазылуда...';
-        status.className = 'text-sm font-semibold text-seal block';
-        feedbackBox.classList.add('hidden');
-      } catch (err) {
-        alert("Микрофонға рұқсат беріңіз!");
-      }
-    }
+    div.innerHTML = `
+      <div class="flex items-center gap-2 mb-2">
+        <span class="text-xs font-bold px-2.5 py-1 rounded-full ${sk.cls}">${sk.icon} ${sk.name}</span>
+        <span class="text-xs font-bold text-gray-400">Сұрақ ${num}</span>
+      </div>
+      ${audio}
+      <p class="text-base sm:text-lg text-gray-900 font-semibold mb-3 leading-relaxed">${escapeHtml(q.q)}</p>
+      <div class="space-y-2">${opts}</div>
+      <div id="fb_${qi}" class="mt-3 text-sm font-bold hidden"></div>`;
+    return div;
   }
 
-  async function processSpeakingAudio(qId, targetWord) {
-    const audioBlob = new Blob(activeChunks, { type: 'audio/webm' });
-    const reader = new FileReader();
+  function answer(qi, oi, correct) {
+    if (answered[qi] !== undefined) return;
+    answered[qi] = (oi === correct);
 
-    reader.readAsDataURL(audioBlob);
-    reader.onloadend = async () => {
-      const base64Audio = reader.result.split(',')[1];
-      const feedbackBox = document.getElementById(`feedback_${qId}`);
-      const status = document.getElementById(`status_${qId}`);
+    const q = getLesson(currentLevel, currentLesson).q[qi];
+    q.o.forEach((_, k) => {
+      const b = document.getElementById(`opt_${qi}_${k}`);
+      b.classList.add('locked');
+      if (k === correct) b.classList.add('correct');
+      else if (k === oi) b.classList.add('wrong');
+    });
 
-      try {
-        const response = await fetch(SCRIPT_URL_AI, {
-          method: 'POST',
-          body: JSON.stringify({ action: 'evaluate_tone', audioBase64: base64Audio, targetWord: targetWord })
+    const fb = document.getElementById('fb_' + qi);
+    fb.classList.remove('hidden');
+    if (oi === correct) {
+      fb.innerHTML = '<span class="text-emerald-600">✓ Дұрыс жауап!</span>';
+      document.getElementById('qcard_' + qi).classList.add('answered');
+    } else {
+      fb.innerHTML = `<span class="text-red-500">✗ Қате. Дұрысы: ${LETTERS[correct]}) ${escapeHtml(q.o[correct])}</span>`;
+      document.getElementById('qcard_' + qi).classList.add('failed');
+    }
+    updateLiveScore();
+  }
+
+  function updateLiveScore() {
+    let score = 0, done = 0;
+    visibleQs.forEach(o => {
+      if (answered[o.i] !== undefined) { done++; if (answered[o.i]) score++; }
+    });
+    document.getElementById('live-score').innerText = score;
+    if (done === visibleQs.length && visibleQs.length > 0) finish(score);
+  }
+
+  function finish(score) {
+    const total = visibleQs.length;
+    const pct = Math.round(score / total * 100);
+    let msg = pct >= 90 ? 'Керемет! 太棒了！' : (pct >= 60 ? 'Жақсы, жалғастырыңыз!' : 'Қайталап көріңіз.');
+    document.getElementById('score-display').innerHTML =
+      `Нәтиже: ${score} / ${total} (${pct}%) — <span class="text-seal">${msg}</span>`;
+    if (currentMode === 'all') saveResult(score, total);
+    buildSidebar(); markSidebar();
+  }
+
+  function checkAll() {
+    visibleQs.forEach(o => {
+      if (answered[o.i] === undefined) {
+        answered[o.i] = false;
+        const correct = o.q.a;
+        o.q.o.forEach((_, k) => {
+          const b = document.getElementById(`opt_${o.i}_${k}`);
+          b.classList.add('locked');
+          if (k === correct) b.classList.add('correct');
         });
-        const data = await response.json();
-
-        status.classList.add('hidden');
-        feedbackBox.classList.remove('hidden');
-
-        if (data.status === 'success') {
-          let scoreVal;
-          if (data.score !== undefined) {
-            scoreVal = data.score;
-          } else {
-            const scoreMatch = data.reply.match(/(\d+)(?:\s*\/\s*10)/);
-            if (scoreMatch) scoreVal = parseInt(scoreMatch[1]);
-            else {
-              const r = data.reply.toLowerCase();
-              if (r.includes("өте жақсы") || r.includes("керемет")) scoreVal = Math.floor(Math.random() * 2) + 9;
-              else if (r.includes("дұрыс") || r.includes("жақсы")) scoreVal = Math.floor(Math.random() * 2) + 7;
-              else scoreVal = Math.floor(Math.random() * 3) + 4;
-            }
-          }
-          scoreVal = Math.max(1, Math.min(10, scoreVal));
-
-          let colorClass = scoreVal >= 8 ? 'text-jade' : (scoreVal >= 5 ? 'text-gold' : 'text-seal');
-          
-          feedbackBox.innerHTML = `
-            <div class="font-display font-bold ${colorClass} mb-2 text-lg">Баға: ${scoreVal} / 10</div>
-            <div class="text-gray-800">${data.reply.replace(/\n/g, '<br>')}</div>
-          `;
-        } else {
-          feedbackBox.innerHTML = `<span class="text-red-500 font-bold">Қате: ${data.message}</span>`;
-        }
-      } catch (err) {
-        status.classList.add('hidden');
-        feedbackBox.classList.remove('hidden');
-        feedbackBox.innerHTML = `<span class="text-red-500 font-bold">Сервермен байланыс үзілді.</span>`;
-      }
-    };
-  }
-
-  // ==========================================
-  // ОҚЫЛЫМ / ТЫҢДАЛЫМ ТЕКСЕРУ ЛОГИКАСЫ
-  // ==========================================
-  function checkAnswers() {
-    const currentDataSet = dataBase[currentLevel][currentMode];
-    const currentChapter = currentDataSet.find(c => c.chapter === currentChapterId);
-    
-    let score = 0; 
-    let total = currentChapter.questions.length;
-    
-    currentChapter.questions.forEach(q => {
-      const selected = document.querySelector(`input[name="q_${q.id}"]:checked`); 
-      const feedback = document.getElementById(`feedback_${q.id}`);
-      if (selected) { 
-        if (selected.value === q.answer) { 
-          score++; 
-          feedback.innerHTML = "✓ Дұрыс жауап!"; 
-          feedback.className = "feedback correct"; 
-        } else { 
-          feedback.innerHTML = `✗ Қате.`; 
-          feedback.className = "feedback wrong"; 
-        } 
-      } else { 
-        feedback.innerHTML = "⚠ Жауапты таңдаңыз."; 
-        feedback.className = "feedback wrong"; 
+        const fb = document.getElementById('fb_' + o.i);
+        fb.classList.remove('hidden');
+        fb.innerHTML = `<span class="text-red-500">⚠ Жауап берілмеді. Дұрысы: ${LETTERS[correct]}) ${escapeHtml(o.q.o[correct])}</span>`;
+        document.getElementById('qcard_' + o.i).classList.add('failed');
       }
     });
-    document.getElementById('score-display').innerText = `Нәтиже: ${score} / ${total}`;
+    updateLiveScore();
+  }
+
+  function resetLesson() { loadLesson(currentLesson); }
+
+  function nextLesson() {
+    const list = BANK[currentLevel];
+    const idx = list.findIndex(x => x.n === currentLesson);
+    const next = list[(idx + 1) % list.length];
+    loadLesson(next.n);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
   window.onload = () => {
-    switchLevel(currentLevel, currentChapterId);
+    [1, 2, 3].forEach(l => document.getElementById('btn-hsk' + l).classList.toggle('active', l === currentLevel));
+    if (!BANK[currentLevel].some(x => x.n === currentLesson)) currentLesson = 1;
+    buildSidebar();
+    loadLesson(currentLesson);
+    syncProgress(currentLevel);
   };
 </script>
 </body>
