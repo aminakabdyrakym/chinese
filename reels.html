@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+<link rel="icon" type="image/png" href="/icon.png" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+<!-- ======================= SEO & META TAGS START ======================= -->
+<title>Рилс сабақтары және Квиздер | Қазақша қытай тілі</title>
+<meta name="description" content="Қытай тілін қысқа видеолар (рилс) арқылы үйреніп, арнайы квиздермен біліміңізді тексеріңіз. Күнделікті сөздер мен фразаларды тез жаттап алыңыз.">
+<meta name="keywords" content="қытай тілі сабақтары, қытайша рилс, қытайша квиз, қытай тілі тест, сөздік жаттау, Бұланай Еркін, видео сабақтар, қазақша қытай тілі">
+<meta name="author" content="Бұланай Еркін">
+<meta name="robots" content="noindex, nofollow">
+<!-- ======================= SEO & META TAGS END ======================= -->
+
+<!-- ЖАБЫҚ БӨЛІМДІ ҚОРҒАУ СКРИПТІ -->
+<script>
+  if (!sessionStorage.getItem('currentUser')) {
+    window.location.href = 'index.html';
+  }
+</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:wght@500;600;700&family=Inter:wght@400;500;600&family=Ma+Shan+Zheng&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          ink: '#1B1B1F', seal: '#A61B29', 'seal-dark': '#7D1420',
+          paper: '#F4EFE6', 'paper-deep': '#E8DFD1', gold: '#B8933F',
+          jade: '#0D9488', 'jade-dark': '#1B5F58', mist: '#E0F2FE', sand: '#F0E5CE'
+        },
+        fontFamily: {
+          display: ['"Noto Serif"', 'serif'],
+          brush: ['"Ma Shan Zheng"', 'cursive'],
+          sans: ['Inter', 'sans-serif'],
+        }
+      }
+    }
+  }
+</script>
+<style>
+  html { scroll-behavior: smooth; }
+  body { font-family: 'Inter', sans-serif; background: #F4EFE6; display: flex; flex-direction: column; min-height: 100vh; -webkit-tap-highlight-color: transparent; }
+  .seal-stamp { background: radial-gradient(circle at 30% 25%, #C4313D 0%, #A61B29 55%, #7D1420 100%); box-shadow: 0 1px 2px rgba(0,0,0,0.15), inset 0 0 0 1px rgba(255,255,255,0.08); transform: rotate(-4deg); border-radius: 4px; }
+  .nav-link { position: relative; padding-bottom: 2px; }
+  .nav-link::after { content: ''; position: absolute; left: 50%; bottom: -6px; width: 0; height: 3px; background: #A61B29; border-radius: 2px 6px 2px 6px; transform: translateX(-50%); transition: width 0.25s ease; }
+  .nav-link:hover::after { width: 60%; }
+  .stamp-btn { background: #A61B29; clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 0 100%); transition: background 0.2s ease, transform 0.15s ease; }
+  .stamp-btn:hover { background: #7D1420; transform: translateY(-1px); }
+  .brush-rule { height: 2px; background: linear-gradient(90deg, transparent 0%, #A61B29 12%, #A61B29 88%, transparent 100%); }
+  .footer-watermark { position: absolute; right: -20px; bottom: -40px; font-family: 'Ma Shan Zheng', cursive; font-size: 220px; line-height: 1; color: #A61B29; opacity: 0.04; pointer-events: none; user-select: none; }
+  .icon-badge { background: #A61B29; }
+  
+  .opt-label { transition: background 0.15s ease, border-color 0.15s ease; }
+  .opt-label:hover { background: #E8DFD1; border-color: #A61B29; }
+  input[type="radio"] { accent-color: #A61B29; }
+  .quiz-btn { background: #A61B29; clip-path: polygon(0 0, calc(100% - 14px) 0, 100% 14px, 100% 100%, 0 100%); transition: background 0.2s ease, transform 0.15s ease; }
+  .quiz-btn:hover { background: #7D1420; transform: translateY(-1px); }
+  
+  .reel-tab.active { background-color: #0D9488; color: white; border-color: #0D9488; }
+  .audio-btn { background-color: #0D9488; color: white; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 0.85rem; font-weight: 600; display: inline-flex; align-items: center; gap: 5px; transition: background 0.2s; }
+  .audio-btn:hover { background-color: #1B5F58; }
+
+  @media (max-width: 640px) {
+    input, select, button { font-size: 16px !important; }
+  }
+</style>
+</head>
+<body class="text-ink flex flex-col min-h-screen">
+
+<header class="sticky top-0 z-40 bg-paper/95 backdrop-blur border-b-2 border-paper-deep">
+  <div class="max-w-6xl mx-auto px-4 sm:px-8 flex items-center justify-between h-16">
+    <a href="index.html" class="flex items-center gap-2.5 sm:gap-3 shrink-0 group">
+      <span class="seal-stamp w-8 h-8 sm:w-9 sm:h-9 flex items-center justify-center font-brush text-white text-base sm:text-lg leading-none group-hover:rotate-0 transition-transform duration-300">汉</span>
+      <span class="font-display text-base sm:text-lg font-semibold tracking-tight text-ink">Қытай тілі</span>
+    </a>
+    
+    <nav id="desktopNav" class="hidden md:flex items-center gap-9 text-[15px] font-medium text-gray-600">
+      <a href="index.html" class="nav-link hover:text-ink transition-colors">Басты бет</a>
+      <a href="dictionary.html" class="nav-link hover:text-ink transition-colors">Сөздік</a>
+      <a href="reels.html" class="nav-link font-semibold text-seal transition-colors">Рилс/Квиз</a>
+      <a href="mock-exam.html" class="nav-link hover:text-ink transition-colors protected-link">HSK Тесттері 🔒</a>
+      <a href="trainer.html" class="nav-link hover:text-ink transition-colors protected-link">Тренажер 🔒</a>
+    </nav>
+    
+    <!-- Динамикалық Хедер (Жүйеге кіріп тұрғанын көрсетеді) -->
+    <div class="flex items-center gap-2 sm:gap-3">
+      <button onclick="window.location.href='dashboard.html'" class="text-xs sm:text-sm font-semibold text-gray-600 hover:text-ink px-1.5 sm:px-2 transition-colors cursor-pointer">Кабинет</button>
+      
+      <!-- Осы жерде пайдаланушының Аватары мен Поштасы көрінеді -->
+      <div class="hidden sm:flex items-center gap-2.5 rounded-full bg-paper-deep/50 border border-paper-deep pl-1.5 pr-4 py-1.5">
+        <span id="userAvatar" class="w-7 h-7 rounded-full bg-jade text-paper flex items-center justify-center font-display text-xs font-bold shadow-sm">K</span>
+        <span id="userNameLabel" class="text-sm font-bold text-gray-800 max-w-[160px] truncate">User</span>
+      </div>
+      
+      <a href="index.html" onclick="sessionStorage.clear()" class="text-xs sm:text-sm font-semibold text-gray-500 hover:text-seal transition-colors px-1.5 sm:px-2">Шығу</a>
+      
+      <!-- Mobile Hamburger Button -->
+      <button id="mobileMenuBtn" class="md:hidden p-1.5 text-gray-700 focus:outline-none" aria-label="Мәзір">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"></path>
+        </svg>
+      </button>
+    </div>
+  </div>
+  
+  <div id="mobileMenu" class="hidden md:hidden bg-paper border-b border-paper-deep px-4 pt-2 pb-4 space-y-3">
+    <a href="index.html" class="block text-sm font-medium text-gray-700 hover:text-seal py-1">Басты бет</a>
+    <a href="dictionary.html" class="block text-sm font-medium text-gray-700 hover:text-seal py-1">Сөздік</a>
+    <a href="reels.html" class="block text-sm font-medium text-seal py-1 font-semibold">Рилс/Квиз</a>
+    <a href="mock-exam.html" class="block text-sm font-medium text-gray-700 hover:text-seal py-1 protected-link">🔒 HSK Тесттері</a>
+    <a href="trainer.html" class="block text-sm font-medium text-gray-700 hover:text-seal py-1 protected-link">🔒 Тренажер</a>
+  </div>
+</header>
+
+<!-- НЕГІЗГІ БӨЛІМ (Көк фон + Тор сызықтары) -->
+<main class="flex-grow relative bg-gradient-to-br from-[#0c1f4c] to-[#06102a] py-8 sm:py-12 w-full overflow-hidden">
+  <div class="absolute inset-0 opacity-[0.03] pointer-events-none" style="background-image: linear-gradient(#ffffff 1px, transparent 1px), linear-gradient(90deg, #ffffff 1px, transparent 1px); background-size: 40px 40px;"></div>
+  
+  <div class="max-w-6xl mx-auto w-full px-4 sm:px-8 relative z-10">
+    <div class="text-center mb-8">
+      <h1 class="font-display text-3xl sm:text-4xl font-bold text-white mb-2">Рилс сабақтары және Квиздер</h1>
+      <p class="text-white/80 text-sm sm:text-base">Қалаған сабағыңызды таңдап, сөздерді жаттап, біліміңізді тексеріңіз!</p>
+    </div>
+
+    <div class="flex flex-col md:flex-row gap-6 items-start">
+      
+      <!-- Сабақтар тізімі (Sidebar - Беж) -->
+      <div class="w-full md:w-80 bg-paper border border-paper-deep rounded-2xl p-4 shadow-xl shrink-0 md:sticky md:top-24 md:max-h-[calc(100vh-120px)] md:overflow-y-auto">
+        <div class="text-xs font-bold text-gray-500 px-2 py-1 mb-2 hidden md:block uppercase tracking-wider">Сабақтар тізімі</div>
+        
+        <!-- Mobile Dropdown -->
+        <div class="md:hidden mb-2">
+          <label for="mobileLessonSelect" class="block text-xs font-semibold text-gray-600 mb-1">Сабақты таңдаңыз:</label>
+          <select id="mobileLessonSelect" onchange="switchReel(this.value)" class="w-full rounded-xl border border-paper-deep bg-paper-deep/50 px-4 py-3 text-sm font-semibold outline-none focus:border-jade">
+            <!-- ЖС арқылы толтырылады -->
+          </select>
+        </div>
+
+        <!-- Desktop Buttons -->
+        <div id="desktopSidebar" class="hidden md:flex flex-col gap-2">
+          <!-- ЖС арқылы толтырылады -->
+        </div>
+      </div>
+
+      <!-- Контент бөлімі (Беж карточка) -->
+      <div class="flex-1 w-full flex flex-col gap-6">
+        <div id="reelsContainer" class="bg-paper rounded-2xl shadow-xl border border-paper-deep p-5 sm:p-8 w-full min-h-[600px]">
+          <!-- ЖС арқылы барлық рилстер осында генерацияланады -->
+        </div>
+
+        <!-- Курсқа жазылу жарнамасы -->
+        <div class="bg-gradient-to-br from-[#F5F0E6] to-[#E3DBCB] rounded-2xl p-6 sm:p-8 text-center shadow-xl border border-white/40">
+          <h3 class="font-display font-bold text-[#111111] text-xl mb-3">Қытай тілін терең меңгергің келе ме? 🚀</h3>
+          <p class="text-sm sm:text-base text-gray-700 mb-6">Бұдан да көп қызықты сабақтар, жеке куратор және жүйелі курстарға қатысу үшін бізге жазыл!</p>
+          <div class="flex flex-col sm:flex-row gap-4 justify-center">
+            <button onclick="window.location.href='dashboard.html'" class="rounded-full bg-gradient-to-r from-[#59c3ff] to-[#3a9ee0] text-[#0c1f4c] font-bold px-8 py-3.5 text-center hover:shadow-[0_0_15px_rgba(89,195,255,0.4)] transition-all cursor-pointer">Кабинетке өту →</button>
+            <a href="https://wa.me/77711305701" target="_blank" class="rounded-full bg-transparent border border-[#0c1f4c]/30 text-[#0c1f4c] font-bold px-8 py-3.5 text-center hover:bg-[#0c1f4c]/5 transition-colors flex items-center justify-center gap-2">
+              <svg class="w-5 h-5 text-[#25D366]" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.878-.788-1.471-1.761-1.644-2.06-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 00-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+              Менеджерге хабарласу
+            </a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</main>
+
+<footer class="relative overflow-hidden border-t border-gray-200 bg-paper pt-3 mt-auto">
+  <div class="brush-rule"></div>
+  <span class="footer-watermark" aria-hidden="true">汉</span>
+  <div class="relative max-w-6xl mx-auto px-4 sm:px-8 grid grid-cols-1 md:grid-cols-3 gap-8 sm:gap-10 mb-8 mt-10 text-sm text-gray-600">
+    <div>
+      <div class="flex items-center gap-2 mb-4">
+        <span class="seal-stamp w-7 h-7 flex items-center justify-center font-brush text-white text-sm">汉</span>
+        <span class="font-display font-semibold text-ink text-lg">Қытай тілі</span>
+      </div>
+      <p class="mb-2 font-semibold text-ink">Impressum / Заңды ақпарат</p>
+      <p class="leading-relaxed">ЖШС (ТОО) «Қытай тілі KZ»<br>БСН (БИН): 123456789012<br>Жетекші: Бұланай Еркін</p>
+    </div>
+    <div>
+      <p class="font-display font-semibold text-ink text-lg mb-4">Байланыс ақпараты</p>
+      <ul class="space-y-3">
+        <li class="flex items-start gap-3">
+          <span class="icon-badge w-6 h-6 rounded-full flex items-center justify-center shrink-0 mt-0.5"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg></span>
+          <span>+7 771 130 5701</span>
+        </li>
+        <li class="flex items-start gap-3">
+          <span class="icon-badge w-6 h-6 rounded-full flex items-center justify-center shrink-0 mt-0.5"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg></span>
+          <a href="https://instagram.com/bulanay_yerkin" target="_blank" class="hover:text-seal transition-colors">@bulanay_yerkin</a>
+        </li>
+      </ul>
+    </div>
+    <div>
+      <p class="font-display font-semibold text-ink text-lg mb-4">Құқықтық құжаттар</p>
+      <ul class="space-y-2.5">
+        <li><a href="privacy.html" class="hover:text-seal transition-colors">Құпиялылық саясаты</a></li>
+        <li><a href="offer.html" class="hover:text-seal transition-colors">Оферта</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="relative max-w-6xl mx-auto px-4 sm:px-8 pt-6 pb-6 border-t border-paper-deep flex flex-col md:flex-row items-center justify-between text-xs text-gray-500">
+    <p>© 2026 Қытай тілі. Барлық құқықтар қорғалған.</p>
+  </div>
+</footer>
+
+<script>
+  // Хедердегі Пайдаланушы атын өзгерту логикасы
+  document.addEventListener('DOMContentLoaded', () => {
+    const currentUser = sessionStorage.getItem('currentUser');
+    if (currentUser) {
+      const nameLabel = document.getElementById('userNameLabel');
+      const avatarLabel = document.getElementById('userAvatar');
+      if (nameLabel) nameLabel.textContent = currentUser;
+      if (avatarLabel) avatarLabel.textContent = currentUser.charAt(0).toUpperCase();
+
+      // Remove lock icons
+      document.querySelectorAll('.protected-link').forEach(link => {
+        const lockText = link.textContent;
+        if (lockText.includes('🔒')) {
+          link.textContent = lockText.replace('🔒', '').trim();
+        }
+      });
+
+      // =========================================================
+      // ADMIN PANEL INJECTION
+      // =========================================================
+      if (currentUser === 'Bulanay Yerkin') {
+        const desktopNav = document.getElementById('desktopNav');
+        if (desktopNav) {
+          const adminLink = document.createElement('a');
+          adminLink.href = `admin.html?name=${encodeURIComponent(currentUser)}`;
+          adminLink.className = 'nav-link font-bold text-seal transition-colors';
+          adminLink.textContent = 'Админ Панель';
+          desktopNav.appendChild(adminLink);
+        }
+
+        const mobileMenu = document.getElementById('mobileMenu');
+        if (mobileMenu) {
+          const adminLinkMob = document.createElement('a');
+          adminLinkMob.href = `admin.html?name=${encodeURIComponent(currentUser)}`;
+          adminLinkMob.className = 'block text-sm font-bold text-seal py-1';
+          adminLinkMob.textContent = 'Админ Панель';
+          mobileMenu.appendChild(adminLinkMob);
+        }
+      }
+    }
+  });
+
+  // Mobile Menu Toggle
+  const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+  const mobileMenu = document.getElementById('mobileMenu');
+  if (mobileMenuBtn && mobileMenu) {
+    mobileMenuBtn.addEventListener('click', () => {
+      mobileMenu.classList.toggle('hidden');
+    });
+  }
+
+  function playAudio(text) {
+    if ('speechSynthesis' in window) {
+      window.speechSynthesis.cancel();
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = 'zh-CN';
+      utterance.rate = 0.85;
+      window.speechSynthesis.speak(utterance);
+    } else {
+      alert('Браузеріңіз дыбыстау функциясын қолдамайды.');
+    }
+  }
+
+  // --- Рилстер мен Квиздер Деректер Қоры ---
+  const reelsData = [
+    {
+      id: 1, title: "Туыстар мен Достар", ig: "DdMQkSOIfix",
+      words: [
+        {h: "兄弟", r: "Шиоң ди", k: "Бауырым"},
+        {h: "服务员", r: "Фу у юуан", k: "Официант"},
+        {h: "朋友", r: "Пын юоу", k: "Дос"},
+        {h: "认识", r: "Рын ш", k: "Таныс"}
+      ],
+      q: "Қытай тілінде «Дос» деп қалай айтады?", a1: "朋友", a2: "兄弟", correct: "a"
+    },
+    {
+      id: 2, title: "Қарым-қатынас", ig: "DdEiMwltnLi",
+      words: [
+        {h: "男朋友", r: "Нән пың иоу", k: "Жігітім"},
+        {h: "老公", r: "Лау гоң", k: "Күйеуім"},
+        {h: "老婆", r: "Лау по", k: "Әйелім"},
+        {h: "前男友", r: "Чен нән иоу", k: "Бывший"},
+        {h: "前女友", r: "Чен ниу юу", k: "Бывшая"},
+        {h: "女朋友", r: "Ниу пың иоу", k: "Қызым"}
+      ],
+      q: "Қытай тілінде «Әйелім» қалай болады?", a1: "老公", a2: "老婆", correct: "b"
+    },
+    {
+      id: 3, title: "Сөздер мен Омонимдер", ig: "DdB9XXAIgQo",
+      words: [
+        {h: "鸡肉", r: "Жи роу", k: "Тауық еті"},
+        {h: "肌肉", r: "Жи роу", k: "Бұлшық ет"},
+        {h: "公园", r: "Гоң юан", k: "Парк"},
+        {h: "公元", r: "Гоң юан", k: "Ғасыр / жаңа дәуір"},
+        {h: "绘画", r: "Хуй хуа", k: "Сурет салу"},
+        {h: "会话", r: "Хуй хуа", k: "Сөйлесу"}
+      ],
+      q: "«Парк» қытайша қалай жазылады?", a1: "公园", a2: "鸡肉", correct: "a"
+    },
+    {
+      id: 4, title: "Дөрекілеу фразалар", ig: "Dc8zzvYowIx",
+      words: [
+        {h: "别嚷嚷", r: "Бе раң раң", k: "Ырбыңдай бермеш"},
+        {h: "别吵吵", r: "Бе чау чау", k: "Айғайлай бермеш"},
+        {h: "别逼逼", r: "Бе би би", k: "Оттай бермеш"}
+      ],
+      q: "«Айғайлай бермеш» қайсысы?", a1: "别逼逼", a2: "别吵吵", correct: "b"
+    },
+    {
+      id: 5, title: "Жұбату сөздері", ig: "Dc1FVAwo1vL",
+      words: [
+        {h: "没问题", r: "Мэй вын ти", k: "Ештеңе етпейді (проблема жоқ)"},
+        {h: "没事没事", r: "Мэй шыр мэй шыр", k: "Ештеңе етпейді (түк емес)"}
+      ],
+      q: "Қытайша «Мәселе жоқ/Ештеңе етпейді» қалай айтылады?", a1: "没问题", a2: "别嚷嚷", correct: "a"
+    },
+    {
+      id: 6, title: "Етістікті қайталау", ig: "Dcv7y2fIXvR",
+      words: [
+        {h: "天天", r: "Тен тен", k: "Күнде"},
+        {h: "试试", r: "Ш ш", k: "Сынап көр"},
+        {h: "想想", r: "Шяң шяң", k: "Ойланып көр"},
+        {h: "听听", r: "Тин тин", k: "Естіп көр"}
+      ],
+      q: "«Сынап көр» қытайша қалай болады?", a1: "听听", a2: "试试", correct: "b"
+    },
+    {
+      id: 7, title: "Ұрыс және Кешірім", ig: "DclpFcyNcjM",
+      words: [
+        {h: "吵架", r: "Чау жя", k: "Ұрысу"},
+        {h: "打架", r: "Да жя", k: "Төбелесу"},
+        {h: "对不起", r: "Дә бу чи", k: "Кешірім сұрау"},
+        {h: "求求你", r: "Чеу чеу ни", k: "Жалыну"}
+      ],
+      q: "Кешірім сұрау үшін не айтамыз?", a1: "对不起", a2: "吵架", correct: "a"
+    },
+    {
+      id: 8, title: "Ашулану фразалары", ig: "DcWL1UboGFB",
+      words: [
+        {h: "你是不是疯了", r: "Ни ш бу ш фың лы?", k: "Сен жындысың ба?"},
+        {h: "你是不是有病", r: "Ни ш бу ш юу биң?", k: "Сен аурусың ба?"}
+      ],
+      q: "«Сен жындысың ба?» сөйлемі қайсысы?", a1: "你是不是有病", a2: "你是不是疯了", correct: "b"
+    },
+    {
+      id: 9, title: "Жақсы сөздер", ig: "DcTnDXFI0ac",
+      words: [
+        {h: "你最漂亮", r: "Ни зуй пиау лиаң", k: "Сен ең әдемісің"},
+        {h: "你是我最好的朋友", r: "Ни ш во зуй хау ды пың юу", k: "Сен менің ең жақсы досымсың"},
+        {h: "你应该学中文", r: "Ни инь гәй шиуы жоң вын", k: "Сен қытайша үйрену керексің"}
+      ],
+      q: "«Сен ең әдемісің» деп қалай мақтаймыз?", a1: "你最漂亮", a2: "你应该学中文", correct: "a"
+    },
+    {
+      id: 10, title: "Қорқыту сөздері", ig: "DcL4sz8oPh1",
+      words: [
+        {h: "想死吗", r: "Шяң си ма", k: "Өлгің келіп тұр ма?"}
+      ],
+      q: "«想死吗» қазақша қандай мағына береді?", a1: "Сен ең әдемісің", a2: "Өлгің келіп тұр ма?", correct: "b"
+    },
+    {
+      id: 11, title: "Күнделікті сұрақтар", ig: "DcJT6ySIZFW",
+      words: [
+        {h: "你是谁", r: "Ни ши шэй", k: "Сен кімсің"},
+        {h: "多少钱", r: "До шау чен", k: "Қанша тұрады"},
+        {h: "对不起", r: "Дей бу чи", k: "Кешір"},
+        {h: "帮帮我", r: "Баң баң о", k: "Көмектесіңдерш"}
+      ],
+      q: "«Сен кімсің?» сұрағы қалай қойылады?", a1: "你是谁", a2: "多少钱", correct: "a"
+    },
+    {
+      id: 12, title: "Іс-әрекеттер", ig: "DcEKUrwog-t",
+      words: [
+        {h: "摸", r: "Мо", k: "Сипалау"},
+        {h: "踢", r: "Ти", k: "Тебу"},
+        {h: "爬", r: "Па", k: "Өрмелеу"}
+      ],
+      q: "«Тебу» етістігі қытайша қандай?", a1: "摸", a2: "踢", correct: "b"
+    },
+    {
+      id: 13, title: "Жануарлар", ig: "DcBlb9ioRpk",
+      words: [
+        {h: "狗", r: "Гоу", k: "Ит"},
+        {h: "猪", r: "Жу", k: "Доңыз / шошқа"},
+        {h: "鸡", r: "Жи", k: "Тауық"},
+        {h: "猴", r: "Хоу", k: "Маймыл"},
+        {h: "马", r: "Ма", k: "Жылқы"},
+        {h: "羊", r: "Яң", k: "Қой"},
+        {h: "畜生", r: "Чу шың", k: "Мал (боғауыз ретінде)"}
+      ],
+      q: "«Жылқы» деген сөз қайсысы?", a1: "马", a2: "猪", correct: "a"
+    },
+    {
+      id: 14, title: "Жақындық әрекеттер", ig: "Db_Ar-hIwFl",
+      words: [
+        {h: "抱", r: "Бау бау", k: "Құшақтау"},
+        {h: "打", r: "Да да", k: "Ұру"},
+        {h: "亲", r: "Чин чин", k: "Сүю"}
+      ],
+      q: "«Құшақтау» сөзі қалай айтылады?", a1: "亲", a2: "抱", correct: "b"
+    },
+    {
+      id: 15, title: "Адамға қатысты сөздер", ig: "Db3SSrlBx2S",
+      words: [
+        {h: "人", r: "Рын", k: "Адам"},
+        {h: "人们", r: "Рын мын", k: "Адамдар"},
+        {h: "人生", r: "Рын шын", k: "Өмір"},
+        {h: "忍忍", r: "Рын рын", k: "Шыда"}
+      ],
+      q: "«Адамдар» сөзінің дұрыс нұсқасы?", a1: "人们", a2: "人生", correct: "a"
+    },
+    {
+      id: 16, title: "Сын есімдер", ig: "Db0tiLtBDom",
+      words: [
+        {h: "美", r: "Мэй мэй мэй", k: "Әдемі"},
+        {h: "白", r: "Бәй бәй бәй", k: "Әппақ"},
+        {h: "大", r: "Да да да", k: "Үлкен"},
+        {h: "黑", r: "Хэй хэй хэй", k: "Қара түс"}
+      ],
+      q: "«Қара түс» қалай аталады?", a1: "白", a2: "黑", correct: "b"
+    },
+    {
+      id: 17, title: "Үйде отыру", ig: "DbyIqIZBbrG",
+      words: [
+        {h: "屁股夹待在家", r: "Пигу жя, дәй зәй жя", k: "Көтті қысып үйде отыру керек"}
+      ],
+      q: "Бұл фраза қандай мағына береді?", a1: "Үйде тыныш отыру", a2: "Далаға қыдыру", correct: "a"
+    },
+    {
+      id: 18, title: "Бұйрық / Өтініш", ig: "Dbvj7c6BKAM",
+      words: [
+        {h: "坐", r: "Зуо", k: "Отыр"},
+        {h: "请坐", r: "Чин зуо", k: "Отырыңыз"},
+        {h: "看", r: "Кән", k: "Қара"},
+        {h: "请看", r: "Чин кән", k: "Қараңыз"},
+        {h: "走", r: "Зоу", k: "Жүр"},
+        {h: "请走", r: "Чин зоу", k: "Жүріңіз"}
+      ],
+      q: "Сыпайы түрде «Отырыңыз» деп қалай айтады?", a1: "坐", a2: "请坐", correct: "b"
+    },
+    {
+      id: 19, title: "«Хау» сөзі", ig: "Dbs_LXBhlkq",
+      words: [
+        {h: "好", r: "Хау", k: "Жақсы"},
+        {h: "好听", r: "Хау тин", k: "Әсем әуен"},
+        {h: "好吃", r: "Хау ч", k: "Дәмді"},
+        {h: "好看", r: "Хау кән", k: "Әдемі"},
+        {h: "好玩", r: "Хау вән", k: "Қызық"}
+      ],
+      q: "Тамаққа байланысты «Дәмді» сөзі қайсы?", a1: "好吃", a2: "好看", correct: "a"
+    },
+    {
+      id: 20, title: "Өткен шақ", ig: "DbqaTbEhx4I",
+      words: [
+        {h: "我坐了", r: "Во зуо лы", k: "Мен отырдым"},
+        {h: "我躺了", r: "Во таң лы", k: "Мен жаттым"},
+        {h: "我跑了", r: "Во пау лы", k: "Мен қашып кеттім"},
+        {h: "我走了", r: "Во зоу лы", k: "Мен кеттім"}
+      ],
+      q: "«Мен кеттім» деп қалай айтамыз?", a1: "我躺了", a2: "我走了", correct: "b"
+    }
+  ];
+
+  const desktopSidebar = document.getElementById('desktopSidebar');
+  const mobileLessonSelect = document.getElementById('mobileLessonSelect');
+  const reelsContainer = document.getElementById('reelsContainer');
+
+  // HTML Генерациялау
+  reelsData.forEach((reel, index) => {
+    // 1. Mobile Dropdown
+    const opt = document.createElement('option');
+    opt.value = reel.id;
+    opt.textContent = `Сабақ ${reel.id}: ${reel.title}`;
+    mobileLessonSelect.appendChild(opt);
+
+    // 2. Desktop Button
+    const btn = document.createElement('button');
+    btn.id = `btnReel${reel.id}`;
+    btn.className = `reel-tab px-4 py-3 rounded-xl border border-paper-deep text-sm font-semibold transition text-left w-full shrink-0 hover:bg-paper-deep ${index === 0 ? 'active' : ''}`;
+    btn.textContent = `Сабақ ${reel.id}: ${reel.title}`;
+    btn.onclick = () => switchReel(reel.id);
+    desktopSidebar.appendChild(btn);
+
+    // 3. Сөздер тізімін жасау
+    let wordsHTML = '';
+    reel.words.forEach(w => {
+      wordsHTML += `
+        <li class="flex items-center gap-3 py-1.5 border-b border-paper-deep/50 last:border-0">
+          <button onclick="playAudio('${w.h}')" class="text-jade hover:text-jade-dark" title="Тыңдау">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+          </button>
+          <span class="font-display text-lg font-bold text-gray-900 w-16">${w.h}</span> 
+          <span class="text-jade font-semibold w-28">${w.r}</span>
+          <span class="text-gray-700">${w.k}</span>
+        </li>
+      `;
+    });
+
+    // 4. Content Block
+    const block = document.createElement('div');
+    block.id = `reelBlock${reel.id}`;
+    block.className = `reel-content ${index === 0 ? '' : 'hidden'} animate-fade-in`;
+    block.innerHTML = `
+      <div class="text-center mb-8">
+        <h2 class="font-display text-2xl font-bold text-gray-900 mb-2">Сабақ ${reel.id}: ${reel.title}</h2>
+        <p class="text-gray-600 text-sm mb-6">Видеоны көріп, төмендегі сөздерді жаттап, квизді орындаңыз.</p>
+        <div class="flex justify-center rounded-2xl overflow-hidden shadow-lg bg-paper-deep/40 max-w-sm mx-auto border border-paper-deep relative" style="height:480px;">
+          <iframe src="https://www.instagram.com/p/${reel.ig}/embed" width="100%" height="100%" frameborder="0" scrolling="no" allowtransparency="true" allow="encrypted-media" class="absolute inset-0"></iframe>
+        </div>
+      </div>
+      
+      <!-- Сөздік тізімі -->
+      <div class="mb-8 bg-paper-deep/20 rounded-2xl p-5 border border-paper-deep shadow-sm">
+        <h4 class="font-display font-bold text-gray-900 mb-4 flex items-center gap-2">
+          <svg class="w-5 h-5 text-seal" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
+          Видеодағы жаңа сөздер:
+        </h4>
+        <ul class="text-sm text-gray-800 flex flex-col gap-1">
+          ${wordsHTML}
+        </ul>
+      </div>
+
+      <!-- Квиз -->
+      <div class="pt-6 border-t border-paper-deep">
+        <h3 class="font-display font-bold text-gray-900 mb-5">Бұл сабақ бойынша квиз 📝</h3>
+        <form>
+          <div class="font-semibold text-gray-800 text-base mb-4 bg-white/50 inline-block px-4 py-2 rounded-lg border border-paper-deep">Сұрақ: ${reel.q}</div>
+          <div class="mb-6 space-y-3">
+            <label class="opt-label flex items-center gap-3 bg-paper-deep/30 px-4 py-3.5 rounded-xl border border-paper-deep cursor-pointer shadow-sm">
+              <input type="radio" name="r${reel.id}q" value="a" class="w-4 h-4"> <span class="text-sm sm:text-base font-semibold text-gray-800">${reel.a1}</span>
+            </label>
+            <label class="opt-label flex items-center gap-3 bg-paper-deep/30 px-4 py-3.5 rounded-xl border border-paper-deep cursor-pointer shadow-sm">
+              <input type="radio" name="r${reel.id}q" value="b" class="w-4 h-4"> <span class="text-sm sm:text-base font-semibold text-gray-800">${reel.a2}</span>
+            </label>
+          </div>
+          <button type="button" onclick="checkQuiz(${reel.id}, '${reel.correct}')" class="quiz-btn w-full text-white font-bold text-base py-3.5 rounded-xl shadow-md">Нәтижені тексеру</button>
+        </form>
+        <div id="result${reel.id}" class="mt-5 text-center font-bold text-base min-h-[25px]"></div>
+      </div>
+    `;
+    reelsContainer.appendChild(block);
+  });
+
+  function switchReel(num) {
+      num = parseInt(num);
+      reelsData.forEach(r => {
+          const block = document.getElementById(`reelBlock${r.id}`);
+          const btn = document.getElementById(`btnReel${r.id}`);
+          if(block) block.classList.add('hidden');
+          if(btn) btn.classList.remove('active');
+      });
+      const activeBlock = document.getElementById(`reelBlock${num}`);
+      const activeBtn = document.getElementById(`btnReel${num}`);
+      if(activeBlock) activeBlock.classList.remove('hidden');
+      if(activeBtn) activeBtn.classList.add('active');
+
+      const mobileSelect = document.getElementById('mobileLessonSelect');
+      if(mobileSelect) mobileSelect.value = num;
+      
+      // Жоғарыға айналдыру
+      window.scrollTo({ top: document.getElementById('reelsContainer').offsetTop - 100, behavior: 'smooth' });
+  }
+
+  function checkQuiz(quizNum, correctVal) {
+      const selected = document.querySelector(`input[name="r${quizNum}q"]:checked`);
+      const resultText = document.getElementById(`result${quizNum}`);
+      
+      if (!selected) {
+          resultText.innerHTML = "Жауапты таңдаңызшы! 😅";
+          resultText.style.color = "#B8933F"; // Gold
+          return;
+      }
+      
+      if (selected.value === correctVal) {
+          resultText.innerHTML = "Керемет! Дұрыс жауап! 🐉✨";
+          resultText.style.color = "#10B981"; // Green
+      } else {
+          resultText.innerHTML = "Қате. Сөздікті қайта қарап, басқа нұсқаны көріңіз! 😉";
+          resultText.style.color = "#EF4444"; // Red
+      }
+  }
+</script>
+</body>
+</html>

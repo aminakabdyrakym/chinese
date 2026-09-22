@@ -1,0 +1,1066 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+<link rel="icon" type="image/png" href="/icon.png" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+<title>Қазақша қытай тілі курсы | HSK Тесттері</title>
+<meta name="google-site-verification" content="rcEzC7VFxAnoCjDg97utxJ2Pt-13WDXDXM4ZwyJFG6Q" />
+<meta name="description" content="Қытай тілін қазақ тілінде үйреніңіз. HSK сынақ емтихандары және интерактивті тесттер.">
+<meta name="keywords" content="қытай тілі, қазақша қытай тілі, қытай тілі курсы, HSK тесттері, сынақ емтиханы, онлайн тест">
+<meta name="author" content="Бұланай Еркін">
+<meta name="robots" content="noindex, nofollow">
+
+<script>
+  if (!sessionStorage.getItem('currentUser')) {
+    window.location.href = 'index.html';
+  }
+</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:wght@500;600;700&family=Inter:wght@400;500;600&family=Ma+Shan+Zheng&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  /* ТЕК 3 ТҮС: бежевый (paper), қызыл (seal), қою көк (navy) */
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          paper: '#F4EFE6',
+          seal: '#A61B29',
+          navy: '#0C1F4C',
+          'navy-deep': '#06102A'
+        },
+        fontFamily: {
+          display: ['"Noto Serif"', 'serif'],
+          brush: ['"Ma Shan Zheng"', 'cursive'],
+          sans: ['Inter', 'sans-serif'],
+        }
+      }
+    }
+  }
+</script>
+<style>
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Inter', sans-serif;
+    color: #0C1F4C;
+    background: linear-gradient(135deg, #0C1F4C 0%, #06102A 100%) fixed;
+    display: flex; flex-direction: column;
+    min-height: 100vh; min-height: 100dvh;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .seal-stamp { background: radial-gradient(circle at 30% 25%, #C4313D 0%, #A61B29 55%, #7D1420 100%); box-shadow: 0 1px 2px rgba(0,0,0,0.15), inset 0 0 0 1px rgba(255,255,255,0.08); transform: rotate(-4deg); border-radius: 4px; }
+  .nav-link { position: relative; padding-bottom: 2px; }
+  .nav-link::after { content: ''; position: absolute; left: 50%; bottom: -6px; width: 0; height: 3px; background: #A61B29; border-radius: 2px 6px 2px 6px; transform: translateX(-50%); transition: width 0.25s ease; }
+  .nav-link:hover::after { width: 60%; }
+  .brush-rule { height: 2px; background: linear-gradient(90deg, transparent 0%, #A61B29 12%, #A61B29 88%, transparent 100%); }
+  .footer-watermark { position: absolute; right: -20px; bottom: -40px; font-family: 'Ma Shan Zheng', cursive; font-size: 220px; line-height: 1; color: #A61B29; opacity: 0.04; pointer-events: none; user-select: none; }
+  .icon-badge { background: #A61B29; }
+
+  .modal-enter { animation: modalFadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+  @keyframes modalFadeIn {
+    from { opacity: 0; transform: scale(0.95) translateY(10px); }
+    to { opacity: 1; transform: scale(1) translateY(0); }
+  }
+  @media (prefers-reduced-motion: reduce) { .modal-enter { animation: none; } html { scroll-behavior: auto; } }
+
+  /* Мобильде input/textarea 16px (iOS zoom болмауы үшін) */
+  @media (max-width: 640px) { input, select, textarea { font-size: 16px !important; } }
+
+  button:focus-visible, input:focus-visible, textarea:focus-visible, a:focus-visible { outline: 2px solid #A61B29; outline-offset: 2px; }
+
+  /* ============ ЕМТИХАН КАРТАСЫ ============ */
+  .q-block {
+    border: 1px solid rgba(12,31,76,0.15);
+    background: rgba(12,31,76,0.04);
+    border-radius: 1rem;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    transition: box-shadow .2s, border-color .2s;
+  }
+  @media (min-width: 640px) { .q-block { padding: 1.25rem; } }
+  .q-block.is-correct   { border-color: #0C1F4C; box-shadow: 0 0 0 2px rgba(12,31,76,0.22); }
+  .q-block.is-incorrect { border-color: #A61B29; box-shadow: 0 0 0 2px rgba(166,27,41,0.25); }
+
+  .q-num {
+    flex-shrink: 0; min-width: 2rem; height: 2rem; padding: 0 .35rem;
+    display: inline-flex; align-items: center; justify-content: center;
+    background: #A61B29; color: #F4EFE6; border-radius: 6px;
+    font-weight: 700; font-size: .875rem;
+  }
+
+  .opt {
+    display: flex; align-items: center; gap: .7rem;
+    min-height: 48px; padding: .55rem .9rem;
+    background: #F4EFE6;
+    border: 1.5px solid rgba(12,31,76,0.2);
+    border-radius: .75rem;
+    cursor: pointer; font-weight: 600; color: #0C1F4C;
+    transition: border-color .15s, background .15s;
+  }
+  .opt:hover { border-color: #A61B29; }
+  .opt:has(input:checked) { border-color: #0C1F4C; background: rgba(12,31,76,0.10); }
+  .opt input { accent-color: #A61B29; width: 1.1rem; height: 1.1rem; flex-shrink: 0; }
+  .opt.center { justify-content: center; }
+
+  /* тексеру нәтижесі (түсті ғана емес, белгі де бар) */
+  .opt.opt-correct { background: #0C1F4C !important; border-color: #0C1F4C !important; color: #F4EFE6 !important; }
+  .opt.opt-correct::after { content: '✓'; margin-left: auto; font-weight: 800; }
+  .opt.opt-wrong { background: rgba(166,27,41,0.10) !important; border-color: #A61B29 !important; color: #A61B29 !important; }
+  .opt.opt-wrong::after { content: '✕'; margin-left: auto; font-weight: 800; }
+  .opt.center.opt-correct::after, .opt.center.opt-wrong::after { margin-left: .35rem; }
+  .graded .opt { cursor: default; }
+
+  .writing-area {
+    width: 100%; min-height: 64px; padding: .7rem .9rem; resize: vertical;
+    background: #F4EFE6; color: #0C1F4C;
+    border: 1.5px solid rgba(12,31,76,0.25); border-radius: .75rem; outline: none;
+  }
+  .writing-area:focus { border-color: #A61B29; }
+  .writing-area::placeholder { color: rgba(12,31,76,0.4); }
+</style>
+</head>
+<body>
+
+<header class="sticky top-0 z-40 bg-paper/95 backdrop-blur border-b-2 border-navy/10">
+  <div class="max-w-6xl mx-auto px-3 sm:px-8 flex items-center justify-between h-14 sm:h-16">
+
+    <a href="index.html" class="flex items-center gap-2.5 sm:gap-3 shrink-0 group">
+      <span class="seal-stamp w-8 h-8 sm:w-9 sm:h-9 flex items-center justify-center font-brush text-paper text-base sm:text-lg leading-none group-hover:rotate-0 transition-transform duration-300">汉</span>
+      <span class="font-display text-base sm:text-lg font-semibold tracking-tight text-navy">Қытай тілі</span>
+    </a>
+
+    <nav id="desktopNav" class="hidden md:flex items-center gap-9 text-[15px] font-medium text-navy/70">
+      <a href="index.html" class="nav-link hover:text-navy transition-colors">Басты бет</a>
+      <a href="dictionary.html" class="nav-link hover:text-navy transition-colors">Сөздік</a>
+      <a href="reels.html" class="nav-link hover:text-navy transition-colors">Рилс/Квиз</a>
+      <a href="mock-exam.html" class="nav-link font-semibold text-seal transition-colors">HSK Тесттері</a>
+      <a href="trainer.html" class="nav-link hover:text-navy transition-colors protected-link">Тренажер <span class="lock-icon">🔒</span></a>
+    </nav>
+
+    <div class="flex items-center gap-1 sm:gap-3">
+      <button onclick="window.location.href='dashboard.html'" class="text-xs sm:text-sm font-semibold text-navy/70 hover:text-navy px-1.5 sm:px-2 transition-colors cursor-pointer">Кабинет</button>
+
+      <div class="hidden sm:flex items-center gap-2.5 rounded-full bg-navy/5 border border-navy/10 pl-1.5 pr-4 py-1.5">
+        <span id="userAvatar" class="w-7 h-7 rounded-full bg-navy text-paper flex items-center justify-center font-display text-xs font-bold">K</span>
+        <span id="userNameLabel" class="text-sm font-bold text-navy max-w-[160px] truncate">User</span>
+      </div>
+
+      <a href="index.html" onclick="sessionStorage.clear()" class="text-xs sm:text-sm font-semibold text-navy/60 hover:text-seal transition-colors px-1.5 sm:px-2">Шығу</a>
+
+      <button id="mobileMenuBtn" class="md:hidden p-1.5 text-navy focus:outline-none" aria-label="Мәзір">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"></path>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <div id="mobileMenu" class="hidden md:hidden bg-paper border-b border-navy/10 px-4 pt-2 pb-4 space-y-3">
+    <a href="index.html" class="block text-sm font-medium text-navy/80 hover:text-seal py-1">Басты бет</a>
+    <a href="dictionary.html" class="block text-sm font-medium text-navy/80 hover:text-seal py-1">Сөздік</a>
+    <a href="reels.html" class="block text-sm font-medium text-navy/80 hover:text-seal py-1">Рилс/Квиз</a>
+    <a href="mock-exam.html" class="block text-sm font-semibold text-seal py-1">HSK Тесттері</a>
+    <a href="trainer.html" class="block text-sm font-medium text-navy/80 hover:text-seal py-1 protected-link">🔒 Тренажер</a>
+  </div>
+</header>
+
+<!-- КІРУ / ҚҰПИЯ СӨЗ ТЕРЕЗЕСІ -->
+<div id="authModal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-navy-deep/70 backdrop-blur-sm p-4 transition-opacity">
+  <div class="modal-enter relative w-full max-w-sm rounded-2xl bg-paper p-6 sm:p-8 shadow-2xl border border-navy/10">
+    <button data-close-auth aria-label="Жабу" class="absolute right-5 top-5 text-navy/50 hover:text-navy transition-colors bg-navy/5 rounded-full p-1 cursor-pointer">
+      <svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
+      </svg>
+    </button>
+
+    <div id="loginSection">
+      <h2 class="font-display mb-6 text-2xl font-bold text-navy">Кіру</h2>
+      <form id="loginForm" class="space-y-4">
+        <div>
+          <label class="mb-1.5 block text-sm font-medium text-navy/80">Email немесе Пайдаланушы аты</label>
+          <input type="text" id="loginIdentifier" required class="w-full rounded-lg border border-navy/25 bg-paper text-navy px-4 py-2.5 text-sm outline-none focus:border-seal focus:ring-2 focus:ring-seal/20 transition-all">
+        </div>
+        <div>
+          <label class="mb-1.5 block text-sm font-medium text-navy/80">Құпия сөз</label>
+          <input type="password" id="loginPassword" required class="w-full rounded-lg border border-navy/25 bg-paper text-navy px-4 py-2.5 text-sm outline-none focus:border-seal focus:ring-2 focus:ring-seal/20 transition-all">
+        </div>
+        <div class="flex items-center justify-end text-xs sm:text-sm">
+          <button type="button" id="toForgotBtn" class="text-navy/60 hover:text-seal hover:underline transition-colors cursor-pointer">Құпия сөзді ұмытыңыз ба?</button>
+        </div>
+        <div id="loginError" class="hidden p-3 rounded-lg bg-seal/10 border border-seal/20 text-sm text-seal font-medium text-center"></div>
+        <button type="submit" id="loginSubmitBtn" class="w-full rounded-lg bg-seal px-4 py-3 text-base font-semibold text-paper transition-all hover:brightness-90 flex items-center justify-center cursor-pointer">
+          <span>Кіру</span>
+        </button>
+      </form>
+    </div>
+
+    <div id="registerSection" class="hidden"></div>
+
+    <div id="forgotSection" class="hidden">
+      <h2 class="font-display mb-4 text-xl font-bold text-navy">Құпия сөзді қалпына келтіру</h2>
+      <p class="text-xs text-navy/70 mb-4">Email адресіңізді жазыңыз, біз сізге нұсқаулық жібереміз.</p>
+      <form id="forgotForm" class="space-y-4">
+        <div>
+          <label class="mb-1.5 block text-sm font-medium text-navy/80">Email</label>
+          <input type="email" id="forgotEmail" required class="w-full rounded-lg border border-navy/25 bg-paper text-navy px-4 py-2.5 text-sm outline-none focus:border-seal focus:ring-2 focus:ring-seal/20 transition-all">
+        </div>
+        <div id="forgotMessage" class="hidden p-3 rounded-lg border text-sm font-medium text-center"></div>
+        <button type="submit" id="forgotSubmitBtn" class="w-full rounded-lg bg-seal px-4 py-3 text-base font-semibold text-paper transition-all hover:brightness-90 flex items-center justify-center cursor-pointer">
+          <span>Жіберу</span>
+        </button>
+      </form>
+      <div class="mt-6 text-center text-sm text-navy/60">
+        <button type="button" id="backToLoginBtn" class="font-semibold hover:text-seal transition-colors hover:underline cursor-pointer">← Кіруге қайту</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<main class="flex-1 relative">
+  <!-- Фондағы торлы өрнек және су таңбасы (тренажердегідей) -->
+  <div class="absolute inset-0 opacity-[0.04] pointer-events-none" style="background-image: linear-gradient(#F4EFE6 1px, transparent 1px), linear-gradient(90deg, #F4EFE6 1px, transparent 1px); background-size: 40px 40px;"></div>
+  <div class="absolute right-[-40px] bottom-[-60px] font-brush text-[300px] leading-none text-paper opacity-[0.03] pointer-events-none select-none overflow-hidden" aria-hidden="true">汉</div>
+
+  <!-- Деңгей таңдау -->
+  <div class="relative max-w-3xl mx-auto px-3 sm:px-8 pt-4 sm:pt-8">
+    <div class="flex gap-1.5 bg-paper/10 border border-paper/15 p-1.5 rounded-xl">
+      <button id="tab-hsk1" onclick="setExam('hsk1')" class="flex-1 py-2.5 rounded-lg font-bold text-sm transition-colors cursor-pointer">HSK 1<span class="hidden sm:inline"> (一级)</span></button>
+      <button id="tab-hsk2" onclick="setExam('hsk2')" class="flex-1 py-2.5 rounded-lg font-bold text-sm transition-colors cursor-pointer">HSK 2<span class="hidden sm:inline"> (二级)</span></button>
+      <button id="tab-hsk3" onclick="setExam('hsk3')" class="flex-1 py-2.5 rounded-lg font-bold text-sm transition-colors cursor-pointer">HSK 3<span class="hidden sm:inline"> (三级)</span></button>
+    </div>
+  </div>
+
+  <!-- Жабысқақ панель: нұсқа таңдау + прогресс (тест ұзақ болғандықтан әрдайым қол жетімді) -->
+  <div class="sticky top-[58px] sm:top-[66px] z-30 mt-3 bg-navy/95 backdrop-blur border-b border-paper/10">
+    <div class="max-w-3xl mx-auto px-3 sm:px-8 pt-2 pb-2">
+      <div class="flex items-center justify-between gap-3">
+        <div class="flex gap-1.5">
+          <button id="tab-v1" onclick="setVersion(1)" class="px-3 sm:px-4 py-1.5 rounded-lg font-semibold text-[13px] transition-colors cursor-pointer">1-нұсқа</button>
+          <button id="tab-v2" onclick="setVersion(2)" class="px-3 sm:px-4 py-1.5 rounded-lg font-semibold text-[13px] transition-colors cursor-pointer">2-нұсқа</button>
+          <button id="tab-v3" onclick="setVersion(3)" class="px-3 sm:px-4 py-1.5 rounded-lg font-semibold text-[13px] transition-colors cursor-pointer">3-нұсқа</button>
+        </div>
+        <div class="text-paper/80 text-xs font-semibold tabular-nums whitespace-nowrap">Жауап: <span id="progressText">0 / 0</span></div>
+      </div>
+      <div class="mt-2 h-1 rounded-full bg-paper/15 overflow-hidden">
+        <div id="progressBar" class="h-full bg-seal rounded-full transition-all duration-300" style="width:0%"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Емтихан -->
+  <div class="relative max-w-3xl mx-auto px-3 sm:px-8 py-4 sm:py-6 pb-10">
+    <div id="exam-container" class="bg-paper p-4 sm:p-8 rounded-2xl shadow-xl"></div>
+  </div>
+</main>
+
+<footer class="relative overflow-hidden border-t border-navy/10 bg-paper pt-3">
+  <div class="brush-rule"></div>
+  <span class="footer-watermark" aria-hidden="true">汉</span>
+  <div class="relative max-w-6xl mx-auto px-4 sm:px-8 grid grid-cols-1 md:grid-cols-3 gap-8 sm:gap-10 mb-8 mt-10 text-sm text-navy/70">
+    <div>
+      <div class="flex items-center gap-2 mb-4">
+        <span class="seal-stamp w-7 h-7 flex items-center justify-center font-brush text-paper text-sm">汉</span>
+        <span class="font-display font-semibold text-navy text-lg">Қытай тілі</span>
+      </div>
+      <p class="mb-2 font-semibold text-navy">Impressum / Заңды ақпарат</p>
+      <p class="leading-relaxed">ЖШС (ТОО) «Қытай тілі KZ»<br>БСН (БИН): 123456789012<br>Жетекші: Бұланай Еркін</p>
+    </div>
+    <div>
+      <p class="font-display font-semibold text-navy text-lg mb-4">Байланыс ақпараты</p>
+      <ul class="space-y-3">
+        <li class="flex items-start gap-3">
+          <span class="icon-badge w-6 h-6 rounded-full flex items-center justify-center shrink-0 mt-0.5"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#F4EFE6" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg></span>
+          <span>+7 771 130 5701</span>
+        </li>
+        <li class="flex items-start gap-3">
+          <span class="icon-badge w-6 h-6 rounded-full flex items-center justify-center shrink-0 mt-0.5"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#F4EFE6" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg></span>
+          <a href="https://instagram.com/bulanay_yerkin" target="_blank" class="hover:text-seal transition-colors">@bulanay_yerkin</a>
+        </li>
+      </ul>
+    </div>
+    <div>
+      <p class="font-display font-semibold text-navy text-lg mb-4">Құқықтық құжаттар</p>
+      <ul class="space-y-2.5">
+        <li><a href="privacy.html" class="hover:text-seal transition-colors">Құпиялылық саясаты</a></li>
+        <li><a href="offer.html" class="hover:text-seal transition-colors">Оферта</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="relative max-w-6xl mx-auto px-4 sm:px-8 pt-6 pb-6 border-t border-navy/10 flex flex-col md:flex-row items-center justify-between text-xs text-navy/60">
+    <p>© 2026 Қытай тілі. Барлық құқықтар қорғалған.</p>
+  </div>
+</footer>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const currentUser = sessionStorage.getItem('currentUser');
+    if (currentUser) {
+      const nameLabel = document.getElementById('userNameLabel');
+      const avatarLabel = document.getElementById('userAvatar');
+      if (nameLabel) nameLabel.textContent = currentUser;
+      if (avatarLabel) avatarLabel.textContent = currentUser.charAt(0).toUpperCase();
+
+      document.querySelectorAll('.protected-link').forEach(link => {
+        const lockSpan = link.querySelector('.lock-icon');
+        if (lockSpan) {
+          lockSpan.remove();
+        } else {
+          link.textContent = link.textContent.replace('🔒', '').trim();
+        }
+      });
+      
+      // =========================================================
+      // ADMIN PANEL INJECTION
+      // =========================================================
+      if (currentUser === 'Bulanay Yerkin') {
+        const desktopNav = document.getElementById('desktopNav');
+        if (desktopNav) {
+          const adminLink = document.createElement('a');
+          adminLink.href = `admin.html?name=${encodeURIComponent(currentUser)}`;
+          adminLink.className = 'nav-link font-bold text-seal transition-colors';
+          adminLink.textContent = 'Админ Панель';
+          desktopNav.appendChild(adminLink);
+        }
+
+        const mobileMenu = document.getElementById('mobileMenu');
+        if (mobileMenu) {
+          const adminLinkMob = document.createElement('a');
+          adminLinkMob.href = `admin.html?name=${encodeURIComponent(currentUser)}`;
+          adminLinkMob.className = 'block text-sm font-bold text-seal py-1';
+          adminLinkMob.textContent = 'Админ Панель';
+          mobileMenu.appendChild(adminLinkMob);
+        }
+      }
+    }
+  });
+
+  const SCRIPT_URL = 'https://chinese-backend-yurc.onrender.com/api';
+
+  const authModal = document.getElementById('authModal');
+  const loginSection = document.getElementById('loginSection');
+  const forgotSection = document.getElementById('forgotSection');
+
+  const loginForm = document.getElementById('loginForm');
+  const forgotForm = document.getElementById('forgotForm');
+
+  const loginError = document.getElementById('loginError');
+  const forgotMessage = document.getElementById('forgotMessage');
+
+  // Хабарлама стильдері (тек 3 түс)
+  const MSG_ERR  = 'p-3 rounded-lg bg-seal/10 border border-seal/20 text-sm text-seal font-medium text-center block';
+  const MSG_INFO = 'p-3 rounded-lg bg-navy/10 border border-navy/20 text-sm text-navy font-medium text-center block';
+
+  const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+  const mobileMenu = document.getElementById('mobileMenu');
+  if (mobileMenuBtn && mobileMenu) {
+    mobileMenuBtn.addEventListener('click', () => {
+      mobileMenu.classList.toggle('hidden');
+    });
+  }
+
+  document.querySelectorAll('.protected-link').forEach(link => {
+    link.addEventListener('click', (e) => {
+      if (!sessionStorage.getItem('currentUser')) {
+        e.preventDefault();
+        authModal.classList.remove('hidden');
+        showSection('login');
+        loginError.textContent = 'Бұл бөлімді көру үшін алдымен жүйеге кіріңіз.';
+        loginError.className = MSG_INFO;
+        loginError.classList.remove('hidden');
+      }
+    });
+  });
+
+  document.querySelectorAll('[data-open-auth]').forEach(b => {
+    b.addEventListener('click', (e) => {
+      if (e) e.preventDefault();
+      authModal.classList.remove('hidden');
+      showSection('login');
+    });
+  });
+
+  document.querySelectorAll('[data-close-auth]').forEach(b => {
+    b.addEventListener('click', () => authModal.classList.add('hidden'));
+  });
+
+  function showSection(type) {
+    loginSection.classList.add('hidden');
+    forgotSection.classList.add('hidden');
+    loginError.classList.add('hidden');
+    forgotMessage.classList.add('hidden');
+
+    if (type === 'login') loginSection.classList.remove('hidden');
+    if (type === 'forgot') forgotSection.classList.remove('hidden');
+  }
+
+  document.getElementById('toForgotBtn').addEventListener('click', () => showSection('forgot'));
+  document.getElementById('backToLoginBtn').addEventListener('click', () => showSection('login'));
+
+  function setLoadingState(buttonId, isLoading, originalText) {
+    const btn = document.getElementById(buttonId);
+    if (!btn) return;
+    if (isLoading) {
+      btn.disabled = true;
+      btn.classList.add('opacity-80', 'cursor-not-allowed');
+      btn.innerHTML = `<svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-paper inline" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg> Күте тұрыңыз...`;
+    } else {
+      btn.disabled = false;
+      btn.classList.remove('opacity-80', 'cursor-not-allowed');
+      btn.innerHTML = `<span>${originalText}</span>`;
+    }
+  }
+
+  loginForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const identifier = document.getElementById('loginIdentifier').value.trim();
+    const password = document.getElementById('loginPassword').value.trim();
+
+    loginError.classList.add('hidden');
+    setLoadingState('loginSubmitBtn', true, 'Кіру');
+
+    try {
+      const response = await fetch(SCRIPT_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'login', identifier, password })
+      });
+      const result = await response.json();
+
+      if (result.status === 'success') {
+        sessionStorage.setItem('currentUser', result.name);
+        window.location.href = result.role === 'teacher' || result.name === 'Bulanay Yerkin'
+          ? `admin.html?name=${encodeURIComponent(result.name)}`
+          : `dashboard.html?name=${encodeURIComponent(result.name)}`;
+      } else {
+        loginError.textContent = result.message || 'Қате деректер енгізілді.';
+        loginError.className = MSG_ERR;
+      }
+    } catch (err) {
+      loginError.textContent = 'Сервермен байланыс үзілді. Қайта көріңіз.';
+      loginError.className = MSG_ERR;
+    } finally {
+      setLoadingState('loginSubmitBtn', false, 'Кіру');
+    }
+  });
+
+  forgotForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const email = document.getElementById('forgotEmail').value.trim();
+
+    forgotMessage.classList.add('hidden');
+    setLoadingState('forgotSubmitBtn', true, 'Жіберу');
+
+    try {
+      const response = await fetch(SCRIPT_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'forgotPassword', email })
+      });
+      const result = await response.json();
+
+      forgotMessage.textContent = result.message || 'Қалпына келтіру сілтемесі поштаңызға жіберілді.';
+      forgotMessage.className = result.status === 'success' ? MSG_INFO : MSG_ERR;
+    } catch (err) {
+      forgotMessage.textContent = 'Қате орын алды.';
+      forgotMessage.className = MSG_ERR;
+    } finally {
+      setLoadingState('forgotSubmitBtn', false, 'Жіберу');
+    }
+  });
+
+  let currentExam = 'hsk1';
+  let currentVersion = 1;
+  let answerKey = {};   // { "radioName": correctOptionIndex }
+  let writingKey = {};  // { "textareaId": "күтілетін жауап" }
+
+  function playAudio(text) {
+      if ('speechSynthesis' in window) {
+          window.speechSynthesis.cancel();
+          let msg = new SpeechSynthesisUtterance();
+          msg.text = text;
+          msg.lang = 'zh-CN';
+          msg.rate = 0.85;
+          window.speechSynthesis.speak(msg);
+      } else {
+          alert("Браузеріңіз дыбыстау функциясын қолдамайды.");
+      }
+  }
+
+  const photoBank = {
+      apple: "https://picsum.photos/id/1080/300/200",
+      dog: "https://picsum.photos/id/237/300/200",
+      rain: "https://picsum.photos/id/538/300/200",
+      computer: "https://picsum.photos/id/0/300/200",
+      coffee: "https://picsum.photos/id/425/300/200",
+      reading: "https://picsum.photos/id/367/300/200",
+      hospital: "https://picsum.photos/id/1060/300/200",
+      school: "https://picsum.photos/id/1/300/200",
+      train: "https://picsum.photos/id/1070/300/200",
+      food: "https://picsum.photos/id/292/300/200",
+      people: "https://picsum.photos/id/64/300/200",
+      phone: "https://picsum.photos/id/160/300/200",
+      sports: "https://picsum.photos/id/399/300/200",
+      nature: "https://picsum.photos/id/10/300/200"
+  };
+
+  function singleImg(key) {
+      return `<div class="my-3"><img src="${photoBank[key]}" loading="lazy" class="w-full max-w-[280px] h-[160px] sm:h-[180px] object-cover rounded-xl border border-navy/15" alt="Сурет"></div>`;
+  }
+  // Мобильде де 3 баған: сурет тізімі қысқа болып, экранға сыяды
+  function imgChoiceGrid(keys) {
+      const letters = ['A','B','C','D','E'];
+      let html = `<div class="grid grid-cols-3 gap-2 sm:gap-3 my-3 text-center">`;
+      keys.forEach((k, idx) => {
+          html += `<div class="rounded-xl border border-navy/15 bg-paper p-1.5"><img src="${photoBank[k]}" loading="lazy" class="w-full h-[72px] sm:h-[110px] object-cover rounded-lg" alt="${letters[idx]}"><div class="mt-1 text-sm font-bold text-seal">${letters[idx]}</div></div>`;
+      });
+      html += `</div>`;
+      return html;
+  }
+  function letterOpts(n) {
+      return ['A','B','C','D','E'].slice(0, n);
+  }
+
+  // Банктен нұсқаға қарай айналдырып таңдау
+  function pick(bank, i, v) {
+      const step = Math.max(1, Math.floor(bank.length / 3) || 1);
+      const idx = (i + (v - 1) * step) % bank.length;
+      return bank[idx];
+  }
+
+  // ================== СҰРАҚ БАНКТЕРІ ==================
+
+  const hsk1L1Bank = [
+      { audioText: "苹果", imgKey: "apple", correct: 0 },
+      { audioText: "狗", imgKey: "rain", correct: 1 },
+      { audioText: "下雨", imgKey: "rain", correct: 0 },
+      { audioText: "电脑", imgKey: "coffee", correct: 1 },
+      { audioText: "咖啡", imgKey: "coffee", correct: 0 }
+  ];
+  const hsk1L2Bank = [
+      { audioText: "我在看书。", imgs: ["reading","hospital","train"], correct: 0 },
+      { audioText: "他生病了，在医院。", imgs: ["school","hospital","train"], correct: 1 },
+      { audioText: "我们坐火车去北京。", imgs: ["train","coffee","dog"], correct: 0 },
+      { audioText: "我每天去学校。", imgs: ["school","rain","phone"], correct: 0 },
+      { audioText: "妈妈在喝咖啡。", imgs: ["coffee","apple","sports"], correct: 0 }
+  ];
+  const hsk1L3Bank = [
+      { audioText: "你好，很高兴认识你。", imgs: ["people","school","hospital","train","coffee"], correct: 0 },
+      { audioText: "我在学校学习中文。", imgs: ["people","school","hospital","train","coffee"], correct: 1 },
+      { audioText: "他感冒了，要去医院。", imgs: ["people","school","hospital","train","coffee"], correct: 2 },
+      { audioText: "我们明天坐火车旅行。", imgs: ["people","school","hospital","train","coffee"], correct: 3 },
+      { audioText: "她喜欢喝咖啡。", imgs: ["people","school","hospital","train","coffee"], correct: 4 }
+  ];
+  const hsk1L4Bank = [
+      { audioText: "下午我去商店买水果。问：她去哪儿？", opts: ["A. 商店","B. 医院","C. 学校"], correct: 0 },
+      { audioText: "我很饿，想去饭馆吃饭。问：他想做什么？", opts: ["A. 睡觉","B. 吃饭","C. 看书"], correct: 1 },
+      { audioText: "今天天气很冷，下雪了。问：今天天气怎么样？", opts: ["A. 很热","B. 很冷","C. 很好"], correct: 1 },
+      { audioText: "我弟弟八岁了，在上小学。问：弟弟几岁？", opts: ["A. 六岁","B. 八岁","C. 十岁"], correct: 1 },
+      { audioText: "妹妹每天七点起床。问：妹妹几点起床？", opts: ["A. 六点","B. 七点","C. 八点"], correct: 1 }
+  ];
+  const hsk1R1Bank = [
+      { qText: "学校", imgKey: "school", correct: 0 },
+      { qText: "电脑", imgKey: "computer", correct: 0 },
+      { qText: "医院", imgKey: "hospital", correct: 0 },
+      { qText: "苹果", imgKey: "train", correct: 1 },
+      { qText: "火车", imgKey: "train", correct: 0 }
+  ];
+  const hsk1R2Bank = [
+      { qText: "他明天坐火车去北京。", imgs: ["train","coffee","dog"], correct: 0 },
+      { qText: "我喜欢喝咖啡。", imgs: ["coffee","school","rain"], correct: 0 },
+      { qText: "小狗在睡觉。", imgs: ["dog","phone","sports"], correct: 0 },
+      { qText: "我每天走路去学校。", imgs: ["school","hospital","train"], correct: 0 },
+      { qText: "外面在下雨。", imgs: ["rain","apple","computer"], correct: 0 }
+  ];
+  const hsk1R3Bank = [
+      { qText: "你是哪国人？", opts: ["A. 中国人。","B. 苹果。","C. 好的。","D. 20块。","E. 七点了。"], correct: 0 },
+      { qText: "你爱吃什么水果？", opts: ["A. 中国人。","B. 苹果。","C. 好的。","D. 20块。","E. 七点了。"], correct: 1 },
+      { qText: "可以在这儿坐吗？", opts: ["A. 中国人。","B. 苹果。","C. 好的。","D. 20块。","E. 七点了。"], correct: 2 },
+      { qText: "这个多少钱？", opts: ["A. 中国人。","B. 苹果。","C. 好的。","D. 20块。","E. 七点了。"], correct: 3 },
+      { qText: "现在几点了？", opts: ["A. 中国人。","B. 苹果。","C. 好的。","D. 20块。","E. 七点了。"], correct: 4 }
+  ];
+  const hsk1R4Bank = [
+      { qText: "我的（  ）叫王芳。", opts: ["A. 名字","B. 医生","C. 学习","D. 长期","E. 在"], correct: 0 },
+      { qText: "他是（  ），在医院工作。", opts: ["A. 名字","B. 医生","C. 学习","D. 长期","E. 在"], correct: 1 },
+      { qText: "我每天晚上（  ）中文。", opts: ["A. 名字","B. 医生","C. 学习","D. 长期","E. 在"], correct: 2 },
+      { qText: "这不是（  ）计划，只是这个月的。", opts: ["A. 名字","B. 医生","C. 学习","D. 长期","E. 在"], correct: 3 },
+      { qText: "书（  ）桌子上。", opts: ["A. 名字","B. 医生","C. 学习","D. 长期","E. 在"], correct: 4 }
+  ];
+
+  const hsk2L1Bank = [
+      { audioText: "他正在打电话呢。", imgKey: "phone", correct: 0 },
+      { audioText: "他们在踢足球。", imgKey: "sports", correct: 0 },
+      { audioText: "我在图书馆看书。", imgKey: "reading", correct: 0 },
+      { audioText: "她在电脑前工作。", imgKey: "food", correct: 1 },
+      { audioText: "医生在医院工作。", imgKey: "hospital", correct: 0 },
+      { audioText: "火车快要开了。", imgKey: "train", correct: 0 },
+      { audioText: "我喜欢喝咖啡。", imgKey: "coffee", correct: 0 },
+      { audioText: "小狗在草地上跑。", imgKey: "nature", correct: 0 },
+      { audioText: "外面正在下雨。", imgKey: "sports", correct: 1 },
+      { audioText: "我们坐飞机去旅行。", imgKey: "train", correct: 1 }
+  ];
+  const hsk2L2Bank = [
+      { audioText: "男：你喜欢什么运动？女：我最喜欢踢足球。", imgs: ["sports","coffee","phone"], correct: 0 },
+      { audioText: "男：你在做什么？女：我在打电话。", imgs: ["phone","reading","train"], correct: 0 },
+      { audioText: "女：你想喝点什么？男：我要一杯咖啡。", imgs: ["coffee","food","dog"], correct: 0 },
+      { audioText: "男：你周末做什么？女：我去图书馆看书。", imgs: ["reading","hospital","nature"], correct: 0 },
+      { audioText: "女：你哪里不舒服？男：我头疼，要去医院。", imgs: ["hospital","school","sports"], correct: 0 },
+      { audioText: "男：火车几点开？女：八点半。", imgs: ["train","coffee","phone"], correct: 0 },
+      { audioText: "女：这是你的小狗吗？男：是的，它很可爱。", imgs: ["dog","reading","food"], correct: 0 },
+      { audioText: "男：今天天气怎么样？女：外面在下雨。", imgs: ["rain","sports","school"], correct: 0 },
+      { audioText: "女：你在哪儿学习？男：我在学校学习。", imgs: ["school","hospital","train"], correct: 0 },
+      { audioText: "男：你早饭吃了什么？女：我吃了苹果。", imgs: ["apple","dog","coffee"], correct: 0 }
+  ];
+  const hsk2L3Bank = [
+      { audioText: "问：这杯咖啡多少钱？", opts: ["A. 10元","B. 20元","C. 30元"], correct: 1 },
+      { audioText: "问：现在几点了？", opts: ["A. 七点","B. 八点","C. 九点"], correct: 1 },
+      { audioText: "问：他们去哪儿旅行？", opts: ["A. 北京","B. 上海","C. 广州"], correct: 0 },
+      { audioText: "问：小明在做什么？", opts: ["A. 睡觉","B. 看电视","C. 做作业"], correct: 2 },
+      { audioText: "问：她今天穿了什么颜色的衣服？", opts: ["A. 红色","B. 蓝色","C. 黑色"], correct: 1 },
+      { audioText: "问：他的生日是几月几号？", opts: ["A. 五月一号","B. 六月二号","C. 七月三号"], correct: 2 },
+      { audioText: "问：图书馆几点关门？", opts: ["A. 六点","B. 七点","C. 八点"], correct: 2 },
+      { audioText: "问：他为什么迟到了？", opts: ["A. 堵车","B. 生病","C. 睡过头"], correct: 0 },
+      { audioText: "问：这个包多少钱？", opts: ["A. 50元","B. 80元","C. 100元"], correct: 1 },
+      { audioText: "问：明天天气怎么样？", opts: ["A. 晴天","B. 下雨","C. 下雪"], correct: 1 }
+  ];
+  const hsk2L4Bank = [
+      { audioText: "问：他们在说什么？", opts: ["A. 天气","B. 考试","C. 衣服"], correct: 1 },
+      { audioText: "问：女的建议男的做什么？", opts: ["A. 多锻炼","B. 早点睡觉","C. 多喝水"], correct: 0 },
+      { audioText: "问：他们打算什么时候出发？", opts: ["A. 今天下午","B. 明天早上","C. 后天"], correct: 1 },
+      { audioText: "问：谁要参加会议？", opts: ["A. 经理","B. 老师","C. 司机"], correct: 0 },
+      { audioText: "问：男的最后决定怎么做？", opts: ["A. 坐火车","B. 坐飞机","C. 开车"], correct: 1 }
+  ];
+  const hsk2R1Bank = [
+      { qText: "小狗最近生病了，一直在睡觉。", imgs: ["dog","hospital","school","coffee","train"], correct: 0 },
+      { qText: "他昨天发烧，去医院看病了。", imgs: ["dog","hospital","school","coffee","train"], correct: 1 },
+      { qText: "我妹妹每天走路去学校。", imgs: ["dog","hospital","school","coffee","train"], correct: 2 },
+      { qText: "妈妈每天早上喝一杯咖啡。", imgs: ["dog","hospital","school","coffee","train"], correct: 3 },
+      { qText: "我们坐火车去旅行，很方便。", imgs: ["dog","hospital","school","coffee","train"], correct: 4 }
+  ];
+  const hsk2R2Bank = [
+      { qText: "请进，你找我有（  ）事情？", opts: ["A. 去年","B. 什么","C. 希望","D. 贵","E. 向"], correct: 1 },
+      { qText: "这件衣服太（  ）了，我买不起。", opts: ["A. 去年","B. 什么","C. 希望","D. 贵","E. 向"], correct: 3 },
+      { qText: "我（  ）你能来参加我的生日聚会。", opts: ["A. 去年","B. 什么","C. 希望","D. 贵","E. 向"], correct: 2 },
+      { qText: "（  ）我们去了云南旅游。", opts: ["A. 去年","B. 什么","C. 希望","D. 贵","E. 向"], correct: 0 },
+      { qText: "请（  ）左转，那儿就是图书馆。", opts: ["A. 去年","B. 什么","C. 希望","D. 贵","E. 向"], correct: 4 }
+  ];
+  const hsk2R3Bank = [
+      { qText: "他家离我家很近，走路只要五分钟。<br>★ 他家很远。", opts: ["Дұрыс (对)","Бұрыс (错)"], correct: 1 },
+      { qText: "小李每天工作八个小时。<br>★ 小李每天工作八个小时。", opts: ["Дұрыс (对)","Бұрыс (错)"], correct: 0 },
+      { qText: "今天天气很好，很多人去公园散步。<br>★ 今天下雨了。", opts: ["Дұрыс (对)","Бұрыс (错)"], correct: 1 },
+      { qText: "我姐姐是老师，她很喜欢她的学生。<br>★ 姐姐的职业是老师。", opts: ["Дұрыс (对)","Бұрыс (错)"], correct: 0 },
+      { qText: "这家饭馆的菜很好吃，但是很贵。<br>★ 这家饭馆很便宜。", opts: ["Дұрыс (对)","Бұрыс (错)"], correct: 1 }
+  ];
+  const hsk2R4Bank = [
+      { qText: "昨天睡得很晚。", opts: ["A. 所以今天很累。","B. 因为有很多工作。","C. 他去旅游了。"], correct: 0 },
+      { qText: "他每天早上跑步。", opts: ["A. 所以身体很好。","B. 因为没时间。","C. 他不喜欢运动。"], correct: 0 },
+      { qText: "这道题太难了。", opts: ["A. 我做不出来。","B. 我很快做完了。","C. 老师没有留作业。"], correct: 0 },
+      { qText: "外面下大雨。", opts: ["A. 我们不能出去玩了。","B. 天气很晴朗。","C. 我们去游泳吧。"], correct: 0 },
+      { qText: "他学习很努力。", opts: ["A. 所以成绩很好。","B. 但是从不复习。","C. 他不喜欢上学。"], correct: 0 },
+      { qText: "今天是我的生日。", opts: ["A. 朋友们要来祝贺我。","B. 我要去上班。","C. 今天是星期一。"], correct: 0 },
+      { qText: "这个箱子太重了。", opts: ["A. 我一个人搬不动。","B. 我可以轻松拿起来。","C. 箱子是空的。"], correct: 0 },
+      { qText: "他感冒了。", opts: ["A. 今天没去上班。","B. 今天很开心。","C. 他要去旅游。"], correct: 0 },
+      { qText: "飞机马上要起飞了。", opts: ["A. 请大家系好安全带。","B. 请大家下飞机。","C. 飞机还没到。"], correct: 0 },
+      { qText: "她第一次来北京。", opts: ["A. 对这里不太熟悉。","B. 对这里非常熟悉。","C. 她住在北京十年了。"], correct: 0 }
+  ];
+
+  const hsk3L1Bank = [
+      { audioText: "我们去前面那家书店看看吧。", imgs: ["school","reading","hospital","train"], correct: 1 },
+      { audioText: "医生说我需要多休息。", imgs: ["hospital","sports","coffee","dog"], correct: 0 },
+      { audioText: "他每天坐火车上班。", imgs: ["train","food","phone","nature"], correct: 0 },
+      { audioText: "周末我们去公园跑步吧。", imgs: ["nature","sports","coffee","school"], correct: 0 },
+      { audioText: "我想喝一杯热咖啡。", imgs: ["coffee","dog","hospital","train"], correct: 0 },
+      { audioText: "小狗一直在门口等着主人。", imgs: ["dog","school","food","phone"], correct: 0 },
+      { audioText: "他正在用手机跟朋友聊天。", imgs: ["phone","reading","sports","nature"], correct: 0 },
+      { audioText: "这家饭馆的菜很有名。", imgs: ["food","hospital","train","coffee"], correct: 0 },
+      { audioText: "孩子们在学校上体育课。", imgs: ["school","sports","dog","coffee"], correct: 1 },
+      { audioText: "现在是上班高峰时间，火车上人很多。", imgs: ["train","nature","food","phone"], correct: 0 }
+  ];
+  const hsk3L2Bank = [
+      { audioText: "为了让自己更健康，他每天跑步。<br>★ 他希望自己很健康。", opts: ["Дұрыс (对)","Бұрыс (错)"], correct: 0 },
+      { audioText: "虽然下雨了，但是我们还是决定去爬山。<br>★ 因为下雨，我们取消了爬山计划。", opts: ["Дұрыс (对)","Бұрыс (错)"], correct: 1 },
+      { audioText: "她从小就对音乐很感兴趣，长大后成了一名歌手。<br>★ 她现在是老师。", opts: ["Дұрыс (对)","Бұрыс (错)"], correct: 1 },
+      { audioText: "这个周末我要在家好好休息，哪儿都不去。<br>★ 他这个周末要出门旅游。", opts: ["Дұрыс (对)","Бұрыс (错)"], correct: 1 },
+      { audioText: "他工作很努力，所以很快就得到了老板的认可。<br>★ 他的老板很满意他的工作。", opts: ["Дұрыс (对)","Бұрыс (错)"], correct: 0 },
+      { audioText: "这本书很有意思，我一天就看完了。<br>★ 这本书他看了很长时间。", opts: ["Дұрыс (对)","Бұрыс (错)"], correct: 1 },
+      { audioText: "地铁站离我家很近，走路五分钟就到了。<br>★ 地铁站离他家很远。", opts: ["Дұрыс (对)","Бұрыс (错)"], correct: 1 },
+      { audioText: "小张最近在学做饭，做得越来越好了。<br>★ 小张的厨艺进步了。", opts: ["Дұрыс (对)","Бұрыс (错)"], correct: 0 },
+      { audioText: "因为堵车，他上班迟到了半个小时。<br>★ 他今天准时上班了。", opts: ["Дұрыс (对)","Бұрыс (错)"], correct: 1 },
+      { audioText: "她每天都写日记，已经坚持了三年。<br>★ 她写日记的习惯很久了。", opts: ["Дұрыс (对)","Бұрыс (错)"], correct: 0 }
+  ];
+  const hsk3L3Bank = [
+      { audioText: "问：这杯咖啡多少钱？", opts: ["A. 30元","B. 40元","C. 50元"], correct: 1 },
+      { audioText: "问：他打算什么时候出发？", opts: ["A. 今天","B. 明天","C. 后天"], correct: 1 },
+      { audioText: "问：她为什么心情不好？", opts: ["A. 工作太累","B. 和朋友吵架了","C. 没考好"], correct: 1 },
+      { audioText: "问：他们决定去哪儿吃饭？", opts: ["A. 学校食堂","B. 那家新开的饭馆","C. 家里"], correct: 1 },
+      { audioText: "问：会议是几点开始？", opts: ["A. 九点","B. 十点","C. 十一点"], correct: 1 },
+      { audioText: "问：他为什么没参加比赛？", opts: ["A. 生病了","B. 忘记了","C. 不感兴趣"], correct: 0 },
+      { audioText: "问：她的新工作怎么样？", opts: ["A. 很轻松","B. 很有挑战性","C. 很无聊"], correct: 1 },
+      { audioText: "问：他们打算怎么去机场？", opts: ["A. 打车","B. 坐地铁","C. 坐公交车"], correct: 1 },
+      { audioText: "问：这次旅行他最喜欢哪个地方？", opts: ["A. 海边","B. 山上","C. 古城"], correct: 2 },
+      { audioText: "问：她建议他怎么做？", opts: ["A. 多休息","B. 多锻炼","C. 多喝水"], correct: 0 }
+  ];
+  const hsk3L4Bank = [
+      { audioText: "问：刚才说话的人是谁？", opts: ["A. 经理","B. 老师","C. 司机"], correct: 0 },
+      { audioText: "问：他们最后决定买哪一个？", opts: ["A. 便宜的那个","B. 质量好的那个","C. 谁都没买"], correct: 1 },
+      { audioText: "问：女的对男的的建议是什么态度？", opts: ["A. 同意","B. 不同意","C. 没有表态"], correct: 0 },
+      { audioText: "问：他们打算什么时候见面？", opts: ["A. 周五晚上","B. 周六上午","C. 周日下午"], correct: 1 },
+      { audioText: "问：男的为什么很着急？", opts: ["A. 快要迟到了","B. 丢了东西","C. 忘了带钱包"], correct: 0 },
+      { audioText: "问：女的现在在做什么工作？", opts: ["A. 记者","B. 医生","C. 律师"], correct: 2 },
+      { audioText: "问：他们谈话的主要内容是什么？", opts: ["A. 旅游计划","B. 工作安排","C. 学习方法"], correct: 1 },
+      { audioText: "问：男的对这次考试结果满意吗？", opts: ["A. 满意","B. 不满意","C. 没有参加考试"], correct: 1 },
+      { audioText: "问：孩子现在几岁了？", opts: ["A. 五岁","B. 七岁","C. 十岁"], correct: 1 },
+      { audioText: "问：他们准备什么时候搬家？", opts: ["A. 这个月底","B. 下个月初","C. 明年"], correct: 0 }
+  ];
+  const hsk3R1Bank = [
+      { qText: "你知道怎么去那儿吗？", opts: ["A. 我们坐地铁去。","B. 没关系。","C. 我吃饱了。"], correct: 0 },
+      { qText: "你觉得这部电影怎么样？", opts: ["A. 很精彩，我很喜欢。","B. 他今天没来。","C. 火车站在那边。"], correct: 0 },
+      { qText: "麻烦你把窗户关一下。", opts: ["A. 好的，马上。","B. 谢谢你的礼物。","C. 我不认识他。"], correct: 0 },
+      { qText: "你什么时候能把报告写完？", opts: ["A. 明天下午应该能完成。","B. 这家店的东西很贵。","C. 他喜欢打篮球。"], correct: 0 },
+      { qText: "这道菜是你做的吗？", opts: ["A. 是的，你尝尝吧。","B. 我们明天出发。","C. 他在北京工作。"], correct: 0 },
+      { qText: "你周末有什么计划？", opts: ["A. 打算去爬山。","B. 电脑坏了。","C. 那本书很厚。"], correct: 0 },
+      { qText: "为什么你看起来这么累？", opts: ["A. 昨晚没睡好。","B. 外面在下雨。","C. 他是我同事。"], correct: 0 },
+      { qText: "你能帮我一个忙吗？", opts: ["A. 当然可以，什么事？","B. 现在八点了。","C. 菜已经凉了。"], correct: 0 },
+      { qText: "这个箱子里装的是什么？", opts: ["A. 都是一些旧书。","B. 他去机场了。","C. 房间很干净。"], correct: 0 },
+      { qText: "你什么时候开始学中文的？", opts: ["A. 三年前。","B. 那边有个超市。","C. 他很高。"], correct: 0 }
+  ];
+  const hsk3R2Bank = [
+      { qText: "除了数学，弟弟的（  ）成绩都不错。", opts: ["A. 声音","B. 其他","C. 干净"], correct: 1 },
+      { qText: "这件事情跟他一点关系都（  ）。", opts: ["A. 没有","B. 声音","C. 其他"], correct: 0 },
+      { qText: "他说话的（  ）很好听。", opts: ["A. 其他","B. 干净","C. 声音"], correct: 2 },
+      { qText: "房间打扫得很（  ）。", opts: ["A. 干净","B. 声音","C. 没有"], correct: 0 },
+      { qText: "请你（  ）把这份文件交给经理。", opts: ["A. 一定","B. 干净","C. 声音"], correct: 0 },
+      { qText: "这条路（  ）窄，车开得很慢。", opts: ["A. 非常","B. 声音","C. 其他"], correct: 0 },
+      { qText: "她的中文水平（  ）提高了很多。", opts: ["A. 已经","B. 声音","C. 干净"], correct: 0 },
+      { qText: "我们（  ）应该按时完成任务。", opts: ["A. 必须","B. 声音","C. 其他"], correct: 0 },
+      { qText: "这本书的内容（  ）有意思。", opts: ["A. 非常","B. 其他","C. 声音"], correct: 0 },
+      { qText: "他（  ）努力，成绩却不太好。", opts: ["A. 虽然","B. 其他","C. 声音"], correct: 0 }
+  ];
+  const hsk3R3Bank = [
+      { qText: "中国人经常说：早饭要吃好，午饭要吃饱，晚饭要吃少。<br>★ 根据这句话：", opts: ["A. 晚饭要少吃","B. 不要吃晚饭","C. 午饭吃少"], correct: 0 },
+      { qText: "很多人喜欢在网上购物，因为方便又便宜。<br>★ 根据这段话，网上购物的好处是：", opts: ["A. 方便和便宜","B. 质量更好","C. 速度更快"], correct: 0 },
+      { qText: "小王每天早上六点起床，先去跑步，然后再吃早饭。<br>★ 小王起床后先做什么？", opts: ["A. 吃早饭","B. 跑步","C. 上班"], correct: 1 },
+      { qText: "这个城市的冬天很冷，夏天很热，春天和秋天比较短。<br>★ 这个城市的气候特点是：", opts: ["A. 四季都很热","B. 冬冷夏热，春秋短","C. 一年四季都很凉快"], correct: 1 },
+      { qText: "他虽然工作很忙，但是每天都会抽时间陪孩子。<br>★ 他是一个什么样的人？", opts: ["A. 很忙但重视家庭","B. 不喜欢孩子","C. 经常出差"], correct: 0 },
+      { qText: "图书馆规定，借的书要在两周内还回来，否则要交罚款。<br>★ 如果超过两周不还书会怎么样？", opts: ["A. 没有影响","B. 要交罚款","C. 不能再借书"], correct: 1 },
+      { qText: "这次考试的题目比上次难很多，很多同学都没考好。<br>★ 这次考试的情况是：", opts: ["A. 题目比较简单","B. 大家都考得很好","C. 题目较难，成绩不理想"], correct: 2 },
+      { qText: "他决定辞去现在的工作，去国外读书。<br>★ 他做了什么决定？", opts: ["A. 换工作城市","B. 出国留学","C. 继续现在的工作"], correct: 1 },
+      { qText: "这家商店打折的时候，顾客特别多。<br>★ 顾客多的原因是：", opts: ["A. 东西打折","B. 商店很大","C. 服务很好"], correct: 0 },
+      { qText: "他每次旅行都会拍很多照片，留作纪念。<br>★ 他喜欢做什么？", opts: ["A. 拍照留念","B. 写日记","C. 买纪念品"], correct: 0 }
+  ];
+  const hsk3W1Bank = [
+      { qText: "最 / 吃 / 我 / 西瓜 / 爱", answer: "我最爱吃西瓜。" },
+      { qText: "他 / 认真 / 学习 / 很", answer: "他学习很认真。" },
+      { qText: "昨天 / 去 / 我们 / 公园 / 了", answer: "我们昨天去公园了。" },
+      { qText: "非常 / 这里 / 风景 / 美丽", answer: "这里风景非常美丽。" },
+      { qText: "已经 / 完成 / 作业 / 他", answer: "他已经完成作业。" }
+  ];
+  const hsk3W2Bank = [
+      { qText: "今天的云很多，看不见( tài )阳。", answer: "太" },
+      { qText: "他( mǎi )了一本新书。", answer: "买" },
+      { qText: "请( bāng )我把门关上。", answer: "帮" },
+      { qText: "这道题很( nán )，我不会做。", answer: "难" },
+      { qText: "她( chàng )歌唱得很好听。", answer: "唱" }
+  ];
+
+  // ================== examData ==================
+  const examData = {
+      hsk1: {
+          title: "HSK 1 деңгейі (一级)",
+          desc: "Барлығы: 40 сұрақ. Тыңдалым (20), Оқылым (20).",
+          sections: [
+              {
+                  type: "listening", title: "一、听力 (Тыңдалым)",
+                  parts: [
+                      { title: "第一部分 (1-бөлім: 1-5 сұрақтар) - Сурет пен сөзді сәйкестендіру (Дұрыс/Бұрыс)", qCount: 5, startIndex: 1,
+                        generate: (i, v) => { const q = pick(hsk1L1Bank, i, v); return { audioText: q.audioText, imgHtml: singleImg(q.imgKey), opts: ["Дұрыс (对)","Бұрыс (错)"], correct: q.correct }; } },
+                      { title: "第二部分 (2-бөлім: 6-10 сұрақтар) - Суретті таңдау (A, B, C)", qCount: 5, startIndex: 6,
+                        generate: (i, v) => { const q = pick(hsk1L2Bank, i, v); return { audioText: q.audioText, imgHtml: imgChoiceGrid(q.imgs), opts: letterOpts(q.imgs.length), correct: q.correct }; } },
+                      { title: "第三部分 (3-бөлім: 11-15 сұрақтар) - Диалог пен суретті сәйкестендіру", qCount: 5, startIndex: 11,
+                        generate: (i, v) => { const q = pick(hsk1L3Bank, i, v); return { audioText: q.audioText, imgHtml: imgChoiceGrid(q.imgs), opts: letterOpts(q.imgs.length), correct: q.correct }; } },
+                      { title: "第四部分 (4-бөлім: 16-20 сұрақтар) - Тыңдау және сұраққа жауап беру", qCount: 5, startIndex: 16,
+                        generate: (i, v) => { const q = pick(hsk1L4Bank, i, v); return { audioText: q.audioText, opts: q.opts, correct: q.correct }; } }
+                  ]
+              },
+              {
+                  type: "reading", title: "二、阅读 (Оқылым)",
+                  parts: [
+                      { title: "第一部分 (1-бөлім: 21-25 сұрақтар) - Сурет пен сөзді тексеру (Дұрыс/Бұрыс)", qCount: 5, startIndex: 21,
+                        generate: (i, v) => { const q = pick(hsk1R1Bank, i, v); return { qText: `Сөз: ${q.qText}`, imgHtml: singleImg(q.imgKey), opts: ["Дұрыс (对)","Бұрыс (错)"], correct: q.correct }; } },
+                      { title: "第二部分 (2-бөлім: 26-30 сұрақтар) - Сөйлемді суретке сәйкестендіру", qCount: 5, startIndex: 26,
+                        generate: (i, v) => { const q = pick(hsk1R2Bank, i, v); return { qText: q.qText, imgHtml: imgChoiceGrid(q.imgs), opts: letterOpts(q.imgs.length), correct: q.correct }; } },
+                      { title: "第三部分 (3-бөлім: 31-35 сұрақтар) - Сұрақ пен жауапты сәйкестендіру", qCount: 5, startIndex: 31,
+                        generate: (i, v) => { const q = pick(hsk1R3Bank, i, v); return { qText: q.qText, opts: q.opts, correct: q.correct }; } },
+                      { title: "第四部分 (4-бөлім: 36-40 сұрақтар) - Көп нүктенің орнын толтыру", qCount: 5, startIndex: 36,
+                        generate: (i, v) => { const q = pick(hsk1R4Bank, i, v); return { qText: q.qText, opts: q.opts, correct: q.correct }; } }
+                  ]
+              }
+          ]
+      },
+      hsk2: {
+          title: "HSK 2 деңгейі (二级)",
+          desc: "Барлығы: 60 сұрақ. Тыңдалым (35), Оқылым (25).",
+          sections: [
+              {
+                  type: "listening", title: "一、听力 (Тыңдалым)",
+                  parts: [
+                      { title: "第一部分 (1-бөлім: 1-10 сұрақтар) - Дұрыс/Бұрыс", qCount: 10, startIndex: 1,
+                        generate: (i, v) => { const q = pick(hsk2L1Bank, i, v); return { audioText: q.audioText, imgHtml: singleImg(q.imgKey), opts: ["Дұрыс (对)","Бұрыс (错)"], correct: q.correct }; } },
+                      { title: "第二部分 (2-бөлім: 11-20 сұрақтар) - Суретті таңдау", qCount: 10, startIndex: 11,
+                        generate: (i, v) => { const q = pick(hsk2L2Bank, i, v); return { audioText: q.audioText, imgHtml: imgChoiceGrid(q.imgs), opts: letterOpts(q.imgs.length), correct: q.correct }; } },
+                      { title: "第三部分 (3-бөлім: 21-30 сұрақтар) - Қысқа диалог сұрақтары", qCount: 10, startIndex: 21,
+                        generate: (i, v) => { const q = pick(hsk2L3Bank, i, v); return { audioText: q.audioText, opts: q.opts, correct: q.correct }; } },
+                      { title: "第四部分 (4-бөлім: 31-35 сұрақтар) - Ұзын диалог сұрақтары", qCount: 5, startIndex: 31,
+                        generate: (i, v) => { const q = pick(hsk2L4Bank, i, v); return { audioText: q.audioText, opts: q.opts, correct: q.correct }; } }
+                  ]
+              },
+              {
+                  type: "reading", title: "二、阅读 (Оқылым)",
+                  parts: [
+                      { title: "第一部分 (1-бөлім: 36-40 сұрақтар) - Сөйлем мен суретті сәйкестендіру", qCount: 5, startIndex: 36,
+                        generate: (i, v) => { const q = pick(hsk2R1Bank, i, v); return { qText: q.qText, imgHtml: imgChoiceGrid(q.imgs), opts: letterOpts(q.imgs.length), correct: q.correct }; } },
+                      { title: "第二部分 (2-бөлім: 41-45 сұрақтар) - Көп нүктенің орнын толтыру", qCount: 5, startIndex: 41,
+                        generate: (i, v) => { const q = pick(hsk2R2Bank, i, v); return { qText: q.qText, opts: q.opts, correct: q.correct }; } },
+                      { title: "第三部分 (3-бөлім: 46-50 сұрақтар) - Дұрыс/Бұрыс", qCount: 5, startIndex: 46,
+                        generate: (i, v) => { const q = pick(hsk2R3Bank, i, v); return { qText: `Мәтін: ${q.qText}`, opts: q.opts, correct: q.correct }; } },
+                      { title: "第四部分 (4-бөлім: 51-60 сұрақтар) - Сөйлемдерді сәйкестендіру", qCount: 10, startIndex: 51,
+                        generate: (i, v) => { const q = pick(hsk2R4Bank, i, v); return { qText: q.qText, opts: q.opts, correct: q.correct }; } }
+                  ]
+              }
+          ]
+      },
+      hsk3: {
+          title: "HSK 3 деңгейі (三级)",
+          desc: "Барлығы: 80 сұрақ. Тыңдалым (40), Оқылым (30), Жазылым (10).",
+          sections: [
+              {
+                  type: "listening", title: "一、听力 (Тыңдалым)",
+                  parts: [
+                      { title: "第一部分 (1-бөлім: 1-10 сұрақтар) - Суретті сәйкестендіру", qCount: 10, startIndex: 1,
+                        generate: (i, v) => { const q = pick(hsk3L1Bank, i, v); return { audioText: q.audioText, imgHtml: imgChoiceGrid(q.imgs), opts: letterOpts(q.imgs.length), correct: q.correct }; } },
+                      { title: "第二部分 (2-бөлім: 11-20 сұрақтар) - Дұрыс/Бұрыс", qCount: 10, startIndex: 11,
+                        generate: (i, v) => { const q = pick(hsk3L2Bank, i, v); return { audioText: q.audioText, opts: q.opts, correct: q.correct }; } },
+                      { title: "第三部分 (3-бөлім: 21-30 сұрақтар) - Қысқа сұрақ-жауап", qCount: 10, startIndex: 21,
+                        generate: (i, v) => { const q = pick(hsk3L3Bank, i, v); return { audioText: q.audioText, opts: q.opts, correct: q.correct }; } },
+                      { title: "第四部分 (4-бөлім: 31-40 сұрақтар) - Ұзын сұрақ-жауап", qCount: 10, startIndex: 31,
+                        generate: (i, v) => { const q = pick(hsk3L4Bank, i, v); return { audioText: q.audioText, opts: q.opts, correct: q.correct }; } }
+                  ]
+              },
+              {
+                  type: "reading", title: "二、阅读 (Оқылым)",
+                  parts: [
+                      { title: "第一部分 (1-бөлім: 41-50 сұрақтар) - Сөйлемдерді сәйкестендіру", qCount: 10, startIndex: 41,
+                        generate: (i, v) => { const q = pick(hsk3R1Bank, i, v); return { qText: q.qText, opts: q.opts, correct: q.correct }; } },
+                      { title: "第二部分 (2-бөлім: 51-60 сұрақтар) - Көп нүктенің орнын толтыру", qCount: 10, startIndex: 51,
+                        generate: (i, v) => { const q = pick(hsk3R2Bank, i, v); return { qText: q.qText, opts: q.opts, correct: q.correct }; } },
+                      { title: "第三部分 (3-бөлім: 61-70 сұрақтар) - Мәтінге сұрақтар", qCount: 10, startIndex: 61,
+                        generate: (i, v) => { const q = pick(hsk3R3Bank, i, v); return { qText: q.qText, opts: q.opts, correct: q.correct }; } }
+                  ]
+              },
+              {
+                  type: "writing", title: "三、书写 (Жазылым)",
+                  parts: [
+                      { title: "第一部分 (1-бөлім: 71-75 сұрақтар) - Сөйлем құрастыру", qCount: 5, startIndex: 71,
+                        generate: (i, v) => { const q = pick(hsk3W1Bank, i, v); return { qText: q.qText, isText: true, answer: q.answer }; } },
+                      { title: "第二部分 (2-бөлім: 76-80 сұрақтар) - Иероглифті жазу", qCount: 5, startIndex: 76,
+                        generate: (i, v) => { const q = pick(hsk3W2Bank, i, v); return { qText: q.qText, isText: true, answer: q.answer }; } }
+                  ]
+              }
+          ]
+      }
+  };
+
+  // ================== ТАБТАР ==================
+  const TAB_ON  = 'bg-seal text-paper shadow-sm';
+  const TAB_OFF = 'text-paper/70 hover:bg-paper/10';
+
+  function updateTabs() {
+      ['hsk1','hsk2','hsk3'].forEach(id => {
+          const b = document.getElementById('tab-' + id);
+          b.className = 'flex-1 py-2.5 rounded-lg font-bold text-sm transition-colors cursor-pointer ' + (id === currentExam ? TAB_ON : TAB_OFF);
+      });
+      [1,2,3].forEach(v => {
+          const b = document.getElementById('tab-v' + v);
+          b.className = 'px-3 sm:px-4 py-1.5 rounded-lg font-semibold text-[13px] transition-colors cursor-pointer ' + (v === currentVersion ? TAB_ON : TAB_OFF);
+      });
+  }
+
+  function setExam(examId) {
+      currentExam = examId;
+      updateTabs();
+      renderExam();
+  }
+
+  function setVersion(version) {
+      currentVersion = version;
+      updateTabs();
+      renderExam();
+  }
+
+  // Сұрақ торабының пішіні: A/B/C әріптер — жолақ, Дұрыс/Бұрыс — 2 баған, қалғаны — 1/2 баған
+  function optsLayout(opts) {
+      const lettersOnly = opts.every(o => o.length <= 1);
+      if (lettersOnly) return { cls: 'grid gap-2', style: 'grid-template-columns:repeat(auto-fit,minmax(72px,1fr))', center: true };
+      if (opts.length === 2) return { cls: 'grid grid-cols-2 gap-2', style: '', center: false };
+      return { cls: 'grid grid-cols-1 sm:grid-cols-2 gap-2', style: '', center: false };
+  }
+
+  function renderExam() {
+      const container = document.getElementById('exam-container');
+      const exam = examData[currentExam];
+      answerKey = {};
+      writingKey = {};
+      container.classList.remove('graded');
+
+      let html = `<div class="text-center mb-6 pb-5 border-b border-navy/15">
+                    <h2 class="font-display text-xl sm:text-2xl font-bold text-navy">${exam.title}</h2>
+                    <p class="text-sm text-navy/70 mt-1">${currentVersion}-нұсқа · ${exam.desc}</p>
+                  </div>
+                  <div id="examResultBanner" class="scroll-mt-40"></div>`;
+
+      exam.sections.forEach(sec => {
+          html += `<div class="mt-8 mb-4">
+                     <div class="font-display text-xl font-bold text-seal pb-2">${sec.title}</div>
+                     <div class="brush-rule"></div>
+                   </div>`;
+          sec.parts.forEach(part => {
+              html += `<div class="bg-navy/[0.06] border-l-4 border-seal rounded-r-lg px-3 py-2.5 mb-4 text-sm sm:text-base font-semibold text-navy leading-snug">${part.title}</div>`;
+
+              for (let i = 0; i < part.qCount; i++) {
+                  const qData = part.generate(i, currentVersion);
+                  const qNum = part.startIndex + i;
+                  const qName = `v${currentVersion}_${currentExam}_${qNum}`;
+
+                  html += `<div class="q-block" id="qblock_${qName}">
+                             <div class="flex items-start gap-3">
+                               <span class="q-num">${qNum}</span>
+                               <div class="flex-1 min-w-0">`;
+
+                  if (qData.audioText) {
+                      const safeText = qData.audioText.replace(/<[^>]+>/g, '').replace(/问：.*$/, '').replace(/'/g, "\\'");
+                      html += `<button type="button" class="inline-flex items-center gap-1.5 bg-navy hover:bg-seal text-paper px-3.5 py-2 rounded-lg text-sm font-semibold transition-colors cursor-pointer" onclick="playAudio('${safeText}')">
+                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                                 Тыңдау
+                               </button>`;
+                  }
+
+                  if (qData.imgHtml) html += qData.imgHtml;
+
+                  if (qData.qText) {
+                      html += `<div class="font-display text-base sm:text-lg font-semibold text-navy leading-relaxed ${qData.audioText || qData.imgHtml ? 'mt-2' : 'pt-1'}">${qData.qText}</div>`;
+                  }
+
+                  html += `</div></div>`; // flex-1, flex row
+
+                  if (qData.isText) {
+                      html += `<textarea id="ta_${qName}" class="writing-area mt-3 text-sm" placeholder="Жауабыңызды осында жазыңыз..."></textarea>
+                               <div id="ans_${qName}" class="hidden mt-2 text-sm font-semibold text-navy bg-navy/10 rounded-lg px-3 py-2"></div>`;
+                      writingKey[qName] = qData.answer;
+                  } else if (qData.opts) {
+                      const lay = optsLayout(qData.opts);
+                      html += `<div class="${lay.cls} mt-3" ${lay.style ? `style="${lay.style}"` : ''}>`;
+                      qData.opts.forEach((opt, idx) => {
+                          html += `<label id="lbl_${qName}_${idx}" class="opt ${lay.center ? 'center' : ''}">
+                                     <input type="radio" name="${qName}" value="${idx}">
+                                     <span>${opt}</span>
+                                   </label>`;
+                      });
+                      html += `</div>`;
+                      answerKey[qName] = qData.correct;
+                  }
+                  html += `</div>`; // q-block
+              }
+          });
+      });
+
+      html += `<div class="text-center mt-8 pt-6 border-t border-navy/15">
+                <button id="finishBtn" type="button" class="bg-seal hover:brightness-90 text-paper px-8 py-3.5 rounded-xl font-bold text-base shadow-md transition-all w-full sm:w-auto cursor-pointer" onclick="gradeExam()">Тестті аяқтау</button>
+               </div>`;
+      container.innerHTML = html;
+      updateProgress();
+  }
+
+  // ================== ПРОГРЕСС ==================
+  function updateProgress() {
+      const container = document.getElementById('exam-container');
+      const total = Object.keys(answerKey).length + Object.keys(writingKey).length;
+      let done = container.querySelectorAll('input[type="radio"]:checked').length;
+      Object.keys(writingKey).forEach(k => {
+          const ta = document.getElementById('ta_' + k);
+          if (ta && ta.value.trim()) done++;
+      });
+      document.getElementById('progressText').textContent = `${done} / ${total}`;
+      document.getElementById('progressBar').style.width = (total ? Math.round(done / total * 100) : 0) + '%';
+  }
+  const examContainerEl = document.getElementById('exam-container');
+  examContainerEl.addEventListener('change', updateProgress);
+  examContainerEl.addEventListener('input', updateProgress);
+
+  // ================== ТЕКСЕРУ ==================
+  function gradeExam() {
+      const container = document.getElementById('exam-container');
+      let correctCount = 0;
+      const total = Object.keys(answerKey).length;
+
+      container.classList.add('graded');
+
+      Object.keys(answerKey).forEach(qName => {
+          const correctIdx = answerKey[qName];
+          const selected = document.querySelector(`input[name="${qName}"]:checked`);
+          const block = document.getElementById('qblock_' + qName);
+          const correctLbl = document.getElementById(`lbl_${qName}_${correctIdx}`);
+          if (correctLbl) correctLbl.classList.add('opt-correct');
+
+          if (selected && parseInt(selected.value, 10) === correctIdx) {
+              correctCount++;
+              if (block) block.classList.add('is-correct');
+          } else {
+              if (block) block.classList.add('is-incorrect');
+              if (selected) {
+                  const wrongLbl = document.getElementById(`lbl_${qName}_${selected.value}`);
+                  if (wrongLbl) wrongLbl.classList.add('opt-wrong');
+              }
+          }
+      });
+
+      // Жауаптарды өзгертуді өшіру
+      container.querySelectorAll('input[type="radio"]').forEach(r => r.disabled = true);
+      container.querySelectorAll('textarea').forEach(t => t.readOnly = true);
+
+      // Жазылым: үлгі жауап
+      Object.keys(writingKey).forEach(qName => {
+          const ansDiv = document.getElementById('ans_' + qName);
+          if (ansDiv) {
+              ansDiv.textContent = `Үлгі жауап: ${writingKey[qName]}`;
+              ansDiv.classList.remove('hidden');
+          }
+      });
+
+      const finishBtn = document.getElementById('finishBtn');
+      if (finishBtn) finishBtn.classList.add('hidden');
+
+      const banner = document.getElementById('examResultBanner');
+      if (banner) {
+          const pct = total > 0 ? Math.round((correctCount / total) * 100) : 0;
+          const pass = pct >= 60;
+          banner.innerHTML = `<div class="mb-6 p-5 rounded-xl text-center ${pass ? 'bg-navy text-paper' : 'bg-seal text-paper'}">
+              <p class="text-xl font-bold">Нәтиже: ${correctCount} / ${total} дұрыс (${pct}%)</p>
+              <p class="text-sm opacity-85 mt-1">Дұрыс жауаптар қою көк түспен (✓), қате таңдалғандар қызыл түспен (✕) белгіленді.</p>
+              <button type="button" onclick="renderExam(); window.scrollTo({top:0, behavior:'smooth'});" class="mt-4 px-5 py-2 rounded-lg bg-paper text-navy font-bold text-sm hover:bg-paper/90 transition-colors cursor-pointer">Қайта тапсыру</button>
+          </div>`;
+          banner.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+  }
+
+  // Changed to standard DOMContentLoaded approach for initializing the page functionality alongside user check
+  window.addEventListener('DOMContentLoaded', () => {
+      updateTabs();
+      renderExam();
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+<link rel="icon" type="image/png" href="/icon.png" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Оқытушы панелі — Қытай тілі</title>
+<!-- ======================= PRIVACY TAG START ======================= -->
+<!-- This tells Google NOT to index this private admin page -->
+<meta name="robots" content="noindex, nofollow">
+<!-- ======================= PRIVACY TAG END ======================= -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:wght@500;600;700&family=Inter:wght@400;500;600&family=Ma+Shan+Zheng&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          ink: '#1B1B1F', seal: '#A61B29', 'seal-dark': '#7D1420',
+          paper: '#F4EFE6', 'paper-deep': '#E8DFD1',
+          gold: '#B8933F', jade: '#0D9488', 'jade-dark': '#1B5F58', mist: '#E0F2FE', sand: '#F0E5CE'
+        },
+        fontFamily: {
+          display: ['"Noto Serif"', 'serif'],
+          brush: ['"Ma Shan Zheng"', 'cursive'],
+          sans: ['Inter', 'sans-serif'],
+        }
+      }
+    }
+  }
+</script>
+<style>
+  html { scroll-behavior: smooth; }
+  body { font-family: 'Inter', sans-serif; background-color: #F4EFE6; color: #1B1B1F; display: flex; flex-direction: column; min-height: 100vh; -webkit-tap-highlight-color: transparent; }
+  .seal-stamp {
+    background: radial-gradient(circle at 30% 25%, #C4313D 0%, #A61B29 55%, #7D1420 100%);
+    box-shadow: 0 1px 2px rgba(0,0,0,0.15); transform: rotate(-4deg); border-radius: 4px;
+  }
+  .nav-link { position: relative; padding-bottom: 2px; }
+  .nav-link::after {
+    content: ''; position: absolute; left: 50%; bottom: -6px; width: 0; height: 3px;
+    background: #A61B29; border-radius: 2px 6px 2px 6px; transform: translateX(-50%); transition: width 0.25s ease;
+  }
+  .nav-link:hover::after { width: 60%; }
+  .stamp-btn { background: #A61B29; clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 0 100%); transition: background 0.2s ease, transform 0.15s ease; }
+  .stamp-btn:hover { background: #7D1420; transform: translateY(-1px); }
+  .brush-rule { height: 2px; background: linear-gradient(90deg, transparent 0%, #A61B29 12%, #A61B29 88%, transparent 100%); }
+  .footer-watermark { position: absolute; right: -20px; bottom: -40px; font-family: 'Ma Shan Zheng', cursive; font-size: 220px; line-height: 1; color: #A61B29; opacity: 0.04; pointer-events: none; user-select: none; }
+  .icon-badge { background: #A61B29; }
+  tbody tr { border-bottom: 1px solid #E8DFD1; transition: background 0.2s ease; }
+  tbody tr:hover { background: rgba(232, 223, 209, 0.4); }
+
+  .modal-enter { animation: modalFadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+  @keyframes modalFadeIn {
+    from { opacity: 0; transform: scale(0.95) translateY(10px); }
+    to { opacity: 1; transform: scale(1) translateY(0); }
+  }
+
+  .capacity-bar-track { background: #E8DFD1; border-radius: 999px; height: 6px; overflow: hidden; }
+  .capacity-bar-fill { height: 100%; border-radius: 999px; transition: width 0.3s ease; }
+
+  @media (max-width: 640px) {
+    input, select, button { font-size: 16px !important; }
+  }
+</style>
+
+<script>
+  // Сервердің сілтемесі
+  const SCRIPT_URL = 'https://chinese-backend-yurc.onrender.com/api';
+
+  // Бұланай Еркін мен оның нақты поштасын қатаң түрде бекіту
+  const allowedAdminEmail = 'bulanay04@icloud.com'; 
+
+  // Тек қана sessionStorage пайдалану (URL bypass қатесін болдырмау)
+  const adminName = sessionStorage.getItem('currentUser');
+  const adminEmail = sessionStorage.getItem('userEmail');
+
+  // Егер логин жасалмаған болса немесе админ болмаса, басты бетке лақтырады
+  if (adminName !== 'Bulanay Yerkin' && adminEmail !== allowedAdminEmail) {
+    alert('Бұл бетке тек оқытушы (Бұланай Еркін) ғана кіре алады!');
+    window.location.href = 'index.html';
+  }
+</script>
+</head>
+
+<body class="text-ink flex flex-col min-h-screen">
+
+<!-- ХЕДЕР -->
+<header class="sticky top-0 z-40 bg-paper/95 backdrop-blur border-b-2 border-paper-deep">
+  <div class="max-w-7xl mx-auto px-4 sm:px-8 flex items-center justify-between h-16">
+    <a href="index.html" class="flex items-center gap-2.5 sm:gap-3 shrink-0 group">
+      <span class="seal-stamp w-8 h-8 sm:w-9 sm:h-9 flex items-center justify-center font-brush text-white text-base sm:text-lg">汉</span>
+      <span class="font-display text-base sm:text-lg font-semibold text-ink">Қытай тілі · Панель</span>
+    </a>
+    
+    <nav class="hidden md:flex items-center gap-7 text-[15px] font-medium text-gray-600">
+      <a href="index.html" class="nav-link hover:text-ink transition-colors">Басты бет</a>
+      <a href="dictionary.html" class="nav-link hover:text-ink transition-colors">Сөздік</a>
+      <a href="reels.html" class="nav-link hover:text-ink transition-colors">Рилс/Квиз</a>
+      <a href="mock-exam.html" class="nav-link hover:text-ink transition-colors">HSK Тесттері</a>
+      <a href="trainer.html" class="nav-link hover:text-ink transition-colors">Тренажер</a>
+    </nav>
+
+    <div class="flex items-center gap-3">
+      <div class="hidden sm:flex items-center gap-2 text-xs font-bold text-jade-dark bg-white border border-paper-deep px-3 py-1.5 rounded-full shadow-sm">
+        <span class="w-2 h-2 rounded-full bg-jade animate-pulse"></span>
+        SQLite Дерекқор қосылды
+      </div>
+      <a href="index.html" onclick="sessionStorage.clear()" class="text-xs sm:text-sm font-semibold text-seal hover:text-seal-dark transition-colors">Шығу</a>
+      
+      <!-- Mobile Hamburger Button -->
+      <button id="mobileMenuBtn" class="md:hidden p-1.5 text-gray-700 focus:outline-none" aria-label="Мәзір">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"></path>
+        </svg>
+      </button>
+    </div>
+  </div>
+  
+  <div id="mobileMenu" class="hidden md:hidden bg-paper border-b border-paper-deep px-4 pt-2 pb-4 space-y-3">
+    <a href="index.html" class="block text-sm font-medium text-gray-700 hover:text-seal py-1">Басты бет</a>
+    <a href="dictionary.html" class="block text-sm font-medium text-gray-700 hover:text-seal py-1">Сөздік</a>
+    <a href="reels.html" class="block text-sm font-medium text-gray-700 hover:text-seal py-1">Рилс/Квиз</a>
+    <a href="mock-exam.html" class="block text-sm font-medium text-gray-700 hover:text-seal py-1">HSK Тесттері</a>
+    <a href="trainer.html" class="block text-sm font-medium text-gray-700 hover:text-seal py-1">Тренажер</a>
+  </div>
+</header>
+
+<!-- КІРУ ТЕРЕЗЕСІ (MODAL) -->
+<div id="authModal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm p-4 transition-opacity">
+  <div class="modal-enter relative w-full max-w-sm rounded-2xl bg-white p-6 sm:p-8 shadow-2xl border border-gray-100">
+    <button data-close-auth class="absolute right-5 top-5 text-gray-400 hover:text-gray-700 transition-colors bg-gray-50 rounded-full p-1 cursor-pointer">
+      <svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
+      </svg>
+    </button>
+    
+    <div id="loginSection">
+      <h2 class="font-display mb-6 text-2xl font-bold text-gray-900">Кіру</h2>
+      <form id="loginForm" class="space-y-4">
+        <div>
+          <label class="mb-1.5 block text-sm font-medium text-gray-700">Email немесе Пайдаланушы аты</label>
+          <input type="text" id="loginIdentifier" required class="w-full rounded-lg border border-gray-300 px-4 py-2.5 text-sm outline-none focus:border-seal focus:ring-2 focus:ring-seal/20 transition-all">
+        </div>
+        <div>
+          <label class="mb-1.5 block text-sm font-medium text-gray-700">Құпия сөз</label>
+          <input type="password" id="loginPassword" required class="w-full rounded-lg border border-gray-300 px-4 py-2.5 text-sm outline-none focus:border-seal focus:ring-2 focus:ring-seal/20 transition-all">
+        </div>
+        <div id="loginError" class="hidden p-3 rounded-lg bg-red-50 border border-red-100 text-sm text-seal font-medium text-center"></div>
+        <button type="submit" id="loginSubmitBtn" class="w-full rounded-lg bg-seal px-4 py-3 text-base font-semibold text-white transition-all hover:bg-seal-dark hover:shadow-lg flex items-center justify-center cursor-pointer">
+          <span>Кіру</span>
+        </button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- ТОПТЫ ҚОСУ / ӨҢДЕУ ТЕРЕЗЕСІ -->
+<div id="groupModal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm p-4 transition-opacity">
+  <div class="modal-enter relative w-full max-w-sm rounded-2xl bg-white p-6 sm:p-8 shadow-2xl border border-gray-100">
+    <button onclick="closeGroupModal()" class="absolute right-5 top-5 text-gray-400 hover:text-gray-700 transition-colors bg-gray-50 rounded-full p-1 cursor-pointer">
+      <svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
+      </svg>
+    </button>
+    <h2 id="groupModalTitle" class="font-display mb-6 text-2xl font-bold text-gray-900">Жаңа топ қосу</h2>
+    <form id="groupForm" class="space-y-4">
+      <input type="hidden" id="groupId" value="">
+      <div>
+        <label class="mb-1.5 block text-sm font-medium text-gray-700">Топ атауы</label>
+        <input type="text" id="groupName" required placeholder="Мысалы: 4-топ" class="w-full rounded-lg border border-gray-300 px-4 py-2.5 text-sm outline-none focus:border-seal focus:ring-2 focus:ring-seal/20 transition-all">
+      </div>
+      <div>
+        <label class="mb-1.5 block text-sm font-medium text-gray-700">Деңгей</label>
+        <select id="groupLevel" class="w-full rounded-lg border border-gray-300 px-4 py-2.5 text-sm outline-none focus:border-seal focus:ring-2 focus:ring-seal/20 transition-all bg-white">
+          <option value="HSK1">HSK 1 (Бастауыш)</option>
+          <option value="HSK2">HSK 2 (Жалғастырушы)</option>
+        </select>
+      </div>
+      <div>
+        <label class="mb-1.5 block text-sm font-medium text-gray-700">Апта күндері мен уақыты</label>
+        <input type="text" id="groupSchedule" required placeholder="Мысалы: Дс/Ср/Жм 09:00" class="w-full rounded-lg border border-gray-300 px-4 py-2.5 text-sm outline-none focus:border-seal focus:ring-2 focus:ring-seal/20 transition-all">
+      </div>
+      <div>
+        <label class="mb-1.5 block text-sm font-medium text-gray-700">Максималды оқушы саны</label>
+        <input type="number" id="groupCapacity" required min="1" placeholder="20" class="w-full rounded-lg border border-gray-300 px-4 py-2.5 text-sm outline-none focus:border-seal focus:ring-2 focus:ring-seal/20 transition-all">
+      </div>
+      <div id="groupError" class="hidden p-3 rounded-lg bg-red-50 border border-red-100 text-sm text-seal font-medium text-center"></div>
+      <button type="submit" id="groupSubmitBtn" class="w-full rounded-lg bg-seal px-4 py-3 text-base font-semibold text-white transition-all hover:bg-seal-dark hover:shadow-lg flex items-center justify-center cursor-pointer">
+        <span>Сақтау</span>
+      </button>
+    </form>
+  </div>
+</div>
+
+<!-- MAIN CONTENT -->
+<main class="flex-grow relative bg-gradient-to-br from-[#0c1f4c] to-[#06102a] py-8 sm:py-12 w-full overflow-hidden">
+  <div class="absolute inset-0 opacity-[0.03] pointer-events-none" style="background-image: linear-gradient(#ffffff 1px, transparent 1px), linear-gradient(90deg, #ffffff 1px, transparent 1px); background-size: 40px 40px;"></div>
+
+  <div class="max-w-7xl mx-auto px-4 sm:px-8 relative z-10 w-full space-y-8">
+
+    <div class="text-center sm:text-left">
+      <p class="inline-flex items-center gap-2 font-semibold text-xs mb-3 text-[#34d399] bg-[#34d399]/10 border border-[#34d399]/20 rounded-full px-4 py-1.5">Қауіпсіз басқару панелі</p>
+      <h1 class="font-display text-3xl sm:text-4xl font-bold text-white">Қош келдіңіз, Бұланай Еркін!</h1>
+      <p class="text-sm sm:text-base text-white/80 mt-3">Барлық нақты тіркелген оқушылар төмендегі дерекқордан алынып көрсетілуде.</p>
+    </div>
+
+    <!-- СТАТИСТИКА КАРТОЧКАЛАРЫ -->
+    <div class="grid grid-cols-2 sm:grid-cols-3 gap-5">
+      <div class="rounded-2xl border border-paper-deep bg-paper p-6 shadow-xl">
+        <p class="text-xs text-gray-500 font-bold uppercase tracking-wider mb-2">Барлық оқушы</p>
+        <p id="totalUsersCount" class="font-display text-4xl font-bold text-gray-900">0</p>
+      </div>
+      <div class="rounded-2xl border border-paper-deep bg-paper p-6 shadow-xl">
+        <p class="text-xs text-gray-500 font-bold uppercase tracking-wider mb-2">Расталғандар</p>
+        <p id="verifiedUsersCount" class="font-display text-4xl font-bold text-jade">0</p>
+      </div>
+      <div class="rounded-2xl border border-paper-deep bg-paper p-6 shadow-xl">
+        <p class="text-xs text-gray-500 font-bold uppercase tracking-wider mb-2">Расталмағандар (Pending)</p>
+        <p id="pendingUsersCount" class="font-display text-4xl font-bold text-gold">0</p>
+      </div>
+    </div>
+
+    <!-- ТОПТАРДЫ БАСҚАРУ -->
+    <div class="rounded-2xl border border-paper-deep bg-paper overflow-hidden shadow-2xl">
+      <div class="flex items-center justify-between px-5 py-4 border-b border-paper-deep bg-paper-deep/40">
+        <div>
+          <h2 class="font-display text-lg font-bold text-gray-900">Топтарды басқару</h2>
+          <p class="text-xs text-gray-500 mt-0.5">Апта күндерін, уақытты және орын санын осы жерден өзгертіңіз — өзгеріс тіркелу бетінде бірден көрінеді.</p>
+        </div>
+        <button onclick="openGroupModal()" class="stamp-btn shrink-0 inline-flex items-center text-white text-xs sm:text-sm font-semibold px-4 py-2.5 cursor-pointer">+ Жаңа топ</button>
+      </div>
+      <div class="overflow-x-auto">
+        <table class="w-full text-sm">
+          <thead>
+            <tr class="text-left text-xs text-gray-500 font-bold uppercase tracking-wider border-b border-paper-deep bg-paper-deep/20">
+              <th class="px-5 py-3">Топ</th>
+              <th class="px-5 py-3">Деңгей</th>
+              <th class="px-5 py-3">Кесте</th>
+              <th class="px-5 py-3">Орындар</th>
+              <th class="px-5 py-3 text-right">Әрекет</th>
+            </tr>
+          </thead>
+          <tbody id="groupsTableBody" class="text-gray-800">
+            <tr>
+              <td colspan="5" class="px-5 py-6 text-center text-gray-500">Топтар жүктелуде...</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- КЕСТЕ -->
+    <div class="rounded-2xl border border-paper-deep bg-paper overflow-hidden shadow-2xl">
+      <div class="overflow-x-auto">
+        <table class="w-full text-sm">
+          <thead>
+            <tr class="text-left text-xs text-gray-500 font-bold uppercase tracking-wider border-b border-paper-deep bg-paper-deep/40">
+              <th class="px-5 py-4">Аты-жөні / Email</th>
+              <th class="px-5 py-4">Телефон</th>
+              <th class="px-5 py-4">Тариф</th>
+              <th class="px-5 py-4">Топ</th>
+              <th class="px-5 py-4">Статус</th>
+              <th class="px-5 py-4 text-right">Әрекет</th>
+            </tr>
+          </thead>
+          <tbody id="usersTableBody" class="text-gray-800">
+            <tr>
+              <td colspan="6" class="px-5 py-6 text-center text-gray-500">Деректер жүктелуде...</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+<!-- СТАНДАРТТЫ FOOTER -->
+<footer class="relative overflow-hidden border-t border-gray-200 bg-paper pt-3 mt-auto">
+  <div class="brush-rule"></div>
+  <span class="footer-watermark" aria-hidden="true">汉</span>
+  <div class="relative max-w-6xl mx-auto px-4 sm:px-8 grid grid-cols-1 md:grid-cols-3 gap-8 sm:gap-10 mb-8 mt-10 text-sm text-gray-600">
+    <div>
+      <div class="flex items-center gap-2 mb-4">
+        <span class="seal-stamp w-7 h-7 flex items-center justify-center font-brush text-white text-sm">汉</span>
+        <span class="font-display font-semibold text-ink text-lg">Қытай тілі</span>
+      </div>
+      <p class="mb-2 font-semibold text-ink">Impressum / Заңды ақпарат</p>
+      <p class="leading-relaxed">ЖШС (ТОО) «Қытай тілі KZ»<br>БСН (БИН): 123456789012<br>Жетекші: Бұланай Еркін</p>
+    </div>
+    <div>
+      <p class="font-display font-semibold text-ink text-lg mb-4">Байланыс ақпараты</p>
+      <ul class="space-y-3">
+        <li class="flex items-start gap-3">
+          <span class="icon-badge w-6 h-6 rounded-full flex items-center justify-center shrink-0 mt-0.5"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg></span>
+          <span>+7 (777) 123-45-67</span>
+        </li>
+        <li class="flex items-start gap-3">
+          <span class="icon-badge w-6 h-6 rounded-full flex items-center justify-center shrink-0 mt-0.5"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg></span>
+          <a href="https://instagram.com/bulanay_yerkin" target="_blank" class="hover:text-seal transition-colors">@bulanay_yerkin</a>
+        </li>
+      </ul>
+    </div>
+    <div>
+      <p class="font-display font-semibold text-ink text-lg mb-4">Құқықтық құжаттар</p>
+      <ul class="space-y-2.5">
+        <li><a href="privacy.html" class="hover:text-seal transition-colors">Құпиялылық саясаты</a></li>
+        <li><a href="offer.html" class="hover:text-seal transition-colors">Оферта</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="relative max-w-6xl mx-auto px-4 sm:px-8 pt-6 pb-6 border-t border-gray-200 flex flex-col md:flex-row items-center justify-between text-xs text-gray-500">
+    <p>© 2026 Қытай тілі. Барлық құқықтар қорғалған.</p>
+  </div>
+</footer>
+
+<script>
+  // Mobile Menu Toggle
+  const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+  const mobileMenu = document.getElementById('mobileMenu');
+  if (mobileMenuBtn && mobileMenu) {
+    mobileMenuBtn.addEventListener('click', () => {
+      mobileMenu.classList.toggle('hidden');
+    });
+  }
+
+  // Auth Modals logic
+  const authModal = document.getElementById('authModal');
+  document.querySelectorAll('[data-open-auth]').forEach(b => {
+    b.addEventListener('click', (e) => {
+      if(e) e.preventDefault();
+      authModal.classList.remove('hidden');
+    });
+  });
+  document.querySelectorAll('[data-close-auth]').forEach(b => {
+    b.addEventListener('click', () => authModal.classList.add('hidden'));
+  });
+
+  // Логин формасын өңдеу (админ панелінде логин болған жағдайда)
+  const loginForm = document.getElementById('loginForm');
+  if (loginForm) {
+    loginForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const errDiv = document.getElementById('loginError');
+      errDiv.classList.add('hidden');
+      document.getElementById('loginSubmitBtn').disabled = true;
+
+      try {
+        const response = await fetch(SCRIPT_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            action: 'login',
+            identifier: document.getElementById('loginIdentifier').value.trim(),
+            password: document.getElementById('loginPassword').value
+          })
+        });
+        const result = await response.json();
+
+        if (result.status === 'success') {
+          sessionStorage.setItem('currentUser', result.name);
+          sessionStorage.setItem('userRole', result.role);
+          if(result.email) {
+            sessionStorage.setItem('userEmail', result.email);
+          }
+          window.location.reload();
+        } else {
+          errDiv.textContent = result.message;
+          errDiv.classList.remove('hidden');
+        }
+      } catch (err) {
+        errDiv.textContent = 'Сервер қатесі';
+        errDiv.classList.remove('hidden');
+      } finally {
+        document.getElementById('loginSubmitBtn').disabled = false;
+      }
+    });
+  }
+
+  // Дерекқордан оқушыларды тартып келіп, кестеге толтыру
+  async function loadAdminData() {
+    try {
+      const response = await fetch(SCRIPT_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'get_users' })
+      });
+      const result = await response.json();
+
+      if (result.status === 'success') {
+        const users = result.users;
+        const tbody = document.getElementById('usersTableBody');
+        tbody.innerHTML = '';
+
+        let total = users.length;
+        let verified = 0;
+        let pending = 0;
+
+        users.forEach(u => {
+          if (u.status === 'Verified') verified++;
+          else pending++;
+
+          const tr = document.createElement('tr');
+          
+          // Админді өзің-өзі өшіріп тастаудан қорғау үшін шарт
+          const deleteBtnHtml = (u.email === allowedAdminEmail || u.role === 'teacher') 
+            ? `<span class="text-gray-400 text-xs italic">Өшіруге болмайды</span>` 
+            : `<button onclick="deleteUser('${u.email}')" class="text-seal hover:text-seal-dark font-bold text-xs bg-red-50 hover:bg-red-100 px-3 py-1.5 rounded-lg transition-colors">Өшіру 🗑️</button>`;
+
+          let planName = u.plan;
+          if(u.plan === 'hsk1') planName = 'HSK 1';
+          if(u.plan === 'hsk2') planName = 'HSK 2';
+
+          tr.innerHTML = `
+            <td class="px-5 py-4">
+              <p class="font-bold text-gray-900">${u.name}</p>
+              <p class="text-xs text-gray-500">${u.email}</p>
+            </td>
+            <td class="px-5 py-4 font-medium text-gray-900">${u.phone}</td>
+            <td class="px-5 py-4 text-gray-600">${planName}</td>
+            <td class="px-5 py-4 text-gray-600 text-xs">${u.group}</td>
+            <td class="px-5 py-4">
+              <span class="rounded-full px-3 py-1 text-xs font-bold border ${u.status === 'Verified' ? 'bg-white border-paper-deep text-jade' : 'bg-gold/10 border-gold/30 text-gold'}">
+                ${u.status}
+              </span>
+            </td>
+            <td class="px-5 py-4 text-right">
+              ${deleteBtnHtml}
+            </td>
+          `;
+          tbody.appendChild(tr);
+        });
+
+        document.getElementById('totalUsersCount').textContent = total;
+        document.getElementById('verifiedUsersCount').textContent = verified;
+        document.getElementById('pendingUsersCount').textContent = pending;
+
+      } else {
+        document.getElementById('usersTableBody').innerHTML = `<tr><td colspan="6" class="px-5 py-6 text-center text-red-500">Мәліметтерді алу мүмкін болмады.</td></tr>`;
+      }
+    } catch (err) {
+      console.error(err);
+      document.getElementById('usersTableBody').innerHTML = `<tr><td colspan="6" class="px-5 py-6 text-center text-red-500">Сервер қатесі орын алды.</td></tr>`;
+    }
+  }
+
+  // ОҚУШЫНЫ ӨШІРУ (ЖАҢА ФУНКЦИЯ)
+  async function deleteUser(email) {
+    if(!confirm(`Сіз "${email}" оқушысын дерекқордан біржолата өшіруге сенімдісіз бе? Бұл әрекетті қайтару мүмкін емес.`)) {
+      return;
+    }
+
+    try {
+      const response = await fetch(SCRIPT_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'delete_user', email: email })
+      });
+      const result = await response.json();
+
+      if(result.status === 'success') {
+        alert('Оқушы сәтті өшірілді!');
+        loadAdminData(); // Кестені жаңарту
+      } else {
+        alert('Қате: ' + result.message);
+      }
+    } catch (err) {
+      alert('Сервермен байланыс үзілді.');
+    }
+  }
+
+  // ===================== ТОПТАРДЫ БАСҚАРУ =====================
+  const groupModal = document.getElementById('groupModal');
+  const groupForm = document.getElementById('groupForm');
+  const groupError = document.getElementById('groupError');
+
+  async function loadGroups() {
+    const tbody = document.getElementById('groupsTableBody');
+    try {
+      const response = await fetch(SCRIPT_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'get_groups' })
+      });
+      const result = await response.json();
+
+      if (result.status === 'success') {
+        const groups = result.groups;
+        tbody.innerHTML = '';
+
+        if (groups.length === 0) {
+          tbody.innerHTML = `<tr><td colspan="5" class="px-5 py-6 text-center text-gray-500">Топтар әлі қосылмаған.</td></tr>`;
+          return;
+        }
+
+        groups.forEach(g => {
+          const pct = g.capacity > 0 ? Math.min(100, Math.round((g.registered / g.capacity) * 100)) : 0;
+          const isFull = g.registered >= g.capacity;
+          const barColor = isFull ? '#A61B29' : (pct > 70 ? '#B8933F' : '#0D9488');
+
+          const tr = document.createElement('tr');
+          tr.innerHTML = `
+            <td class="px-5 py-3.5 font-bold text-gray-900">${g.name}</td>
+            <td class="px-5 py-3.5 text-gray-600">${g.level || '-'}</td>
+            <td class="px-5 py-3.5 text-gray-600">${g.schedule || '-'}</td>
+            <td class="px-5 py-3.5">
+              <div class="flex items-center gap-2 min-w-[140px]">
+                <span class="text-xs font-semibold ${isFull ? 'text-seal' : 'text-gray-700'}">${g.registered}/${g.capacity}</span>
+                <div class="capacity-bar-track flex-1">
+                  <div class="capacity-bar-fill" style="width:${pct}%; background:${barColor};"></div>
+                </div>
+                ${isFull ? '<span class="text-[10px] font-bold text-seal">ТОЛДЫ</span>' : ''}
+              </div>
+            </td>
+            <td class="px-5 py-3.5 text-right space-x-2 whitespace-nowrap">
+              <button onclick='openGroupModal(${JSON.stringify(g)})' class="text-jade-dark hover:text-jade font-bold text-xs bg-jade/10 hover:bg-jade/20 px-3 py-1.5 rounded-lg transition-colors">Өңдеу ✎</button>
+              <button onclick="deleteGroup(${g.id}, '${g.name.replace(/'/g, "\\'")}')" class="text-seal hover:text-seal-dark font-bold text-xs bg-red-50 hover:bg-red-100 px-3 py-1.5 rounded-lg transition-colors">Өшіру 🗑️</button>
+            </td>
+          `;
+          tbody.appendChild(tr);
+        });
+      } else {
+        tbody.innerHTML = `<tr><td colspan="5" class="px-5 py-6 text-center text-red-500">Топтарды алу мүмкін болмады.</td></tr>`;
+      }
+    } catch (err) {
+      console.error(err);
+      tbody.innerHTML = `<tr><td colspan="5" class="px-5 py-6 text-center text-red-500">Сервер қатесі орын алды.</td></tr>`;
+    }
+  }
+
+  function openGroupModal(group) {
+    groupError.classList.add('hidden');
+    groupForm.reset();
+    if (group && group.id) {
+      document.getElementById('groupModalTitle').textContent = 'Топты өңдеу';
+      document.getElementById('groupId').value = group.id;
+      document.getElementById('groupName').value = group.name;
+      document.getElementById('groupLevel').value = group.level || 'HSK1';
+      document.getElementById('groupSchedule').value = group.schedule || '';
+      document.getElementById('groupCapacity').value = group.capacity;
+    } else {
+      document.getElementById('groupModalTitle').textContent = 'Жаңа топ қосу';
+      document.getElementById('groupId').value = '';
+      document.getElementById('groupCapacity').value = 20;
+    }
+    groupModal.classList.remove('hidden');
+  }
+
+  function closeGroupModal() {
+    groupModal.classList.add('hidden');
+  }
+
+  groupForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    groupError.classList.add('hidden');
+
+    const id = document.getElementById('groupId').value;
+    const payload = {
+      action: id ? 'update_group' : 'add_group',
+      adminEmail: allowedAdminEmail,
+      name: document.getElementById('groupName').value.trim(),
+      level: document.getElementById('groupLevel').value,
+      schedule: document.getElementById('groupSchedule').value.trim(),
+      capacity: parseInt(document.getElementById('groupCapacity').value, 10) || 20
+    };
+    if (id) payload.id = parseInt(id, 10);
+
+    const btn = document.getElementById('groupSubmitBtn');
+    btn.disabled = true;
+
+    try {
+      const response = await fetch(SCRIPT_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+      const result = await response.json();
+
+      if (result.status === 'success') {
+        closeGroupModal();
+        loadGroups();
+      } else {
+        groupError.textContent = result.message || 'Қате орын алды.';
+        groupError.classList.remove('hidden');
+      }
+    } catch (err) {
+      groupError.textContent = 'Сервермен байланыс үзілді.';
+      groupError.classList.remove('hidden');
+    } finally {
+      btn.disabled = false;
+    }
+  });
+
+  async function deleteGroup(id, name) {
+    if (!confirm(`"${name}" тобын біржолата өшіруге сенімдісіз бе?`)) return;
+
+    try {
+      const response = await fetch(SCRIPT_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'delete_group', id, adminEmail: allowedAdminEmail })
+      });
+      const result = await response.json();
+
+      if (result.status === 'success') {
+        loadGroups();
+      } else {
+        alert('Қате: ' + result.message);
+      }
+    } catch (err) {
+      alert('Сервермен байланыс үзілді.');
+    }
+  }
+
+  loadAdminData();
+  loadGroups();
+</script>
+
+</body>
+</html>
