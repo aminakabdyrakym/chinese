@@ -4,18 +4,11 @@
 <link rel="icon" type="image/png" href="/icon.png" />
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>HSK Тренажер | Қазақша қытай тілі курсы</title>
-<meta name="description" content="HSK сөздерін интерактивті карта арқылы жаттап, аудиосын тыңдаңыз.">
-<meta name="robots" content="noindex, nofollow">
 
-<!-- ЖАБЫҚ БӨЛІМДІ ҚОРҒАУ СКРИПТІ -->
-<script>
-  if (!sessionStorage.getItem('currentUser')) {
-    window.location.href = 'index.html';
-  }
-</script>
+<title>Сөздер Рулеткасы | Қазақша қытай тілі</title>
+<meta name="description" content="HSK 1-3 сөздерінен өзіңе ұнағандарын таңдап, рулетканы айналдыр — кездейсоқ сөзді тап та жаттап ал.">
+<meta name="robots" content="index, follow">
 
-<!-- Қаріптер -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif:wght@500;600;700&family=Inter:wght@400;500;600&family=Ma+Shan+Zheng&display=swap" rel="stylesheet">
@@ -39,772 +32,908 @@
   }
 </script>
 <style>
-  html, body { height: 100%; }
-  body {
-    font-family: 'Inter', sans-serif;
-    background: #F4EFE6;
-    display: flex;
-    flex-direction: column;
-    height: 100vh;
-    height: 100dvh;           /* мобильді браузердегі адрес жолағын ескереді */
-    overflow: hidden;
-  }
-
-  .seal-stamp {
-    background: radial-gradient(circle at 30% 25%, #C4313D 0%, #A61B29 55%, #7D1420 100%);
-    box-shadow: 0 1px 2px rgba(0,0,0,0.15), inset 0 0 0 1px rgba(255,255,255,0.08);
-    transform: rotate(-4deg);
-    border-radius: 4px;
-  }
-
+  html { scroll-behavior: smooth; }
+  body { font-family: 'Inter', sans-serif; background: #F4EFE6; display: flex; flex-direction: column; min-height: 100vh; -webkit-tap-highlight-color: transparent; }
+  .seal-stamp { background: radial-gradient(circle at 30% 25%, #C4313D 0%, #A61B29 55%, #7D1420 100%); box-shadow: 0 1px 2px rgba(0,0,0,0.15), inset 0 0 0 1px rgba(255,255,255,0.08); transform: rotate(-4deg); border-radius: 4px; }
   .nav-link { position: relative; padding-bottom: 2px; }
   .nav-link::after { content: ''; position: absolute; left: 50%; bottom: -6px; width: 0; height: 3px; background: #A61B29; border-radius: 2px 6px 2px 6px; transform: translateX(-50%); transition: width 0.25s ease; }
   .nav-link:hover::after { width: 60%; }
-
-  ::-webkit-scrollbar { width: 6px; height: 6px; }
-  ::-webkit-scrollbar-track { background: transparent; }
-  ::-webkit-scrollbar-thumb { background: #E8DFD1; border-radius: 10px; }
-  ::-webkit-scrollbar-thumb:hover { background: #d1c5b4; }
-
-  .connections line { stroke: rgba(255, 255, 255, 0.15); stroke-width: 2; stroke-dasharray: 4; }
-
-  .modal-enter { animation: modalFadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
-  @keyframes modalFadeIn {
-    from { opacity: 0; transform: scale(0.95) translateY(10px); }
-    to { opacity: 1; transform: scale(1) translateY(0); }
-  }
-
-  /* Мобильде input/select 16px болуы керек (iOS zoom болмауы үшін) */
+  .stamp-btn { background: #A61B29; clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 0 100%); transition: background 0.2s ease, transform 0.15s ease; }
+  .stamp-btn:hover { background: #7D1420; transform: translateY(-1px); }
+  .brush-rule { height: 2px; background: linear-gradient(90deg, transparent 0%, #A61B29 12%, #A61B29 88%, transparent 100%); }
+  .footer-watermark { position: absolute; right: -20px; bottom: -40px; font-family: 'Ma Shan Zheng', cursive; font-size: 220px; line-height: 1; color: #A61B29; opacity: 0.04; pointer-events: none; user-select: none; }
+  .icon-badge { background: #A61B29; }
+  .hsk-level-btn.active { background-color: #0D9488; color: white; border-color: #0D9488; }
+  .word-chip { transition: all 0.15s ease; }
+  .word-chip.selected { background-color: #0D9488; color: white; border-color: #1B5F58; box-shadow: 0 2px 8px rgba(13,148,136,0.35); }
+  .word-chip.selected .chip-pinyin { color: rgba(255,255,255,0.85); }
+  #wheelGroup { transform-origin: 50% 50%; transition: transform 4.2s cubic-bezier(0.12,0.67,0.1,1); }
+  .pointer-tri { filter: drop-shadow(0 2px 3px rgba(0,0,0,0.4)); }
+  .spin-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+  .rq-opt { transition: all 0.15s ease; }
+  .rq-opt.correct { background-color: #10B981 !important; color: white; border-color: #10B981 !important; }
+  .rq-opt.wrong { background-color: #EF4444 !important; color: white; border-color: #EF4444 !important; }
   @media (max-width: 640px) {
-    input, select { font-size: 16px !important; }
+    .table-container { -webkit-overflow-scrolling: touch; }
+    input, select, button { font-size: 16px !important; }
   }
-
-  /* Сүзгі панелі: мобильде жасырылады, десктопта әрқашан көрінеді */
-  #filterPanel { display: none; }
-  #filterPanel.open { display: block; }
-  @media (min-width: 1024px) { #filterPanel { display: block; } }
-
-  /* Карта ауысқанда жұмсақ пайда болу */
-  .map-fade { animation: mapFade 0.25s ease-out; }
-  @keyframes mapFade { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
-  @media (prefers-reduced-motion: reduce) { .map-fade, .modal-enter { animation: none; } }
-
-  #charList { -webkit-overflow-scrolling: touch; overscroll-behavior: contain; }
-  button:focus-visible, select:focus-visible, input:focus-visible { outline: 2px solid #A61B29; outline-offset: 2px; }
 </style>
 </head>
-<body class="text-ink">
+<body class="text-ink flex flex-col min-h-screen">
 
-<!-- ХЕДЕР -->
-<header class="sticky top-0 z-40 bg-paper/95 backdrop-blur border-b-2 border-paper-deep shrink-0">
-  <div class="max-w-[1400px] w-full mx-auto px-3 sm:px-8 flex items-center justify-between h-14 sm:h-16">
-
+<header class="sticky top-0 z-40 bg-paper/95 backdrop-blur border-b-2 border-seal/90">
+  <div class="max-w-6xl mx-auto px-4 sm:px-8 flex items-center justify-between h-16">
     <a href="index.html" class="flex items-center gap-2.5 sm:gap-3 shrink-0 group">
       <span class="seal-stamp w-8 h-8 sm:w-9 sm:h-9 flex items-center justify-center font-brush text-white text-base sm:text-lg leading-none group-hover:rotate-0 transition-transform duration-300">汉</span>
       <span class="font-display text-base sm:text-lg font-semibold tracking-tight text-ink">Қытай тілі</span>
     </a>
-
-    <nav id="desktopNav" class="hidden md:flex items-center gap-9 text-[15px] font-medium text-gray-600">
+    <nav class="hidden md:flex items-center gap-9 text-[15px] font-medium text-gray-600">
       <a href="index.html" class="nav-link hover:text-ink transition-colors">Басты бет</a>
       <a href="dictionary.html" class="nav-link hover:text-ink transition-colors">Сөздік</a>
       <a href="reels.html" class="nav-link hover:text-ink transition-colors">Рилс/Квиз</a>
-      <a href="mock-exam.html" class="nav-link hover:text-ink transition-colors protected-link">HSK Тесттері 🔒</a>
-      <a href="trainer.html" class="nav-link font-semibold text-seal transition-colors protected-link">Тренажер 🔒</a>
+      <a href="roulette.html" class="nav-link font-semibold text-seal transition-colors">Рулетка</a>
+      <a href="mock-exam.html" class="nav-link hover:text-ink transition-colors">HSK Тесттері 🔒</a>
+      <a href="trainer.html" class="nav-link hover:text-ink transition-colors">Тренажер 🔒</a>
     </nav>
-
-    <div class="flex items-center gap-1 sm:gap-3">
-      <button onclick="window.location.href='dashboard.html'" class="text-xs sm:text-sm font-semibold text-gray-600 hover:text-ink px-1.5 sm:px-2 transition-colors cursor-pointer">Кабинет</button>
-
-      <div class="hidden sm:flex items-center gap-2.5 rounded-full bg-paper-deep/50 border border-paper-deep pl-1.5 pr-4 py-1.5">
-        <span id="userAvatar" class="w-7 h-7 rounded-full bg-jade text-paper flex items-center justify-center font-display text-xs font-bold shadow-sm">K</span>
-        <span id="userNameLabel" class="text-sm font-bold text-gray-800 max-w-[160px] truncate">User</span>
-      </div>
-
-      <a href="index.html" onclick="sessionStorage.clear()" class="text-xs sm:text-sm font-semibold text-gray-500 hover:text-seal transition-colors px-1.5 sm:px-2">Шығу</a>
-
-      <button id="mobileMenuBtn" class="md:hidden p-1.5 text-gray-700 focus:outline-none" aria-label="Мәзір">
+    <div class="flex items-center gap-2 sm:gap-3">
+      <a href="dictionary.html" class="text-xs sm:text-sm font-semibold text-gray-600 hover:text-ink px-1.5 sm:px-2 transition-colors">Кабинет</a>
+      <a href="Registration.html" class="stamp-btn inline-flex items-center text-white text-xs sm:text-sm font-semibold px-3.5 sm:px-5 py-2 sm:py-2.5 shrink-0">Жазылу</a>
+      <button id="mobileMenuBtn" class="md:hidden p-1.5 text-gray-700 focus:outline-none" aria-label="Menu">
         <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"></path>
         </svg>
       </button>
     </div>
   </div>
-
   <div id="mobileMenu" class="hidden md:hidden bg-paper border-b border-paper-deep px-4 pt-2 pb-4 space-y-3">
     <a href="index.html" class="block text-sm font-medium text-gray-700 hover:text-seal py-1">Басты бет</a>
     <a href="dictionary.html" class="block text-sm font-medium text-gray-700 hover:text-seal py-1">Сөздік</a>
     <a href="reels.html" class="block text-sm font-medium text-gray-700 hover:text-seal py-1">Рилс/Квиз</a>
-    <a href="mock-exam.html" class="block text-sm font-medium text-gray-700 hover:text-seal py-1 protected-link">🔒 HSK Тесттері</a>
-    <a href="trainer.html" class="block text-sm font-medium text-seal py-1 font-semibold protected-link">🔒 Тренажер</a>
+    <a href="roulette.html" class="block text-sm font-medium text-seal py-1 font-semibold">Рулетка</a>
+    <a href="mock-exam.html" class="block text-sm font-medium text-gray-700 hover:text-seal py-1">🔒 HSK Тесттері</a>
+    <a href="trainer.html" class="block text-sm font-medium text-gray-700 hover:text-seal py-1">🔒 Тренажер</a>
   </div>
 </header>
 
-<!-- КІРУ, ТІРКЕЛУ ЖӘНЕ ҚҰПИЯ СӨЗДІ ҚАЛПЫНА КЕЛТІРУ ТЕРЕЗЕСІ (MODAL) -->
-<div id="authModal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm p-4 transition-opacity">
-  <div class="modal-enter relative w-full max-w-sm rounded-2xl bg-white p-6 sm:p-8 shadow-2xl border border-gray-100">
-    <button data-close-auth class="absolute right-5 top-5 text-gray-400 hover:text-gray-700 transition-colors bg-gray-50 rounded-full p-1 cursor-pointer">
-      <svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
-      </svg>
-    </button>
+<main class="flex-grow relative bg-gradient-to-br from-[#0c1f4c] to-[#06102a] py-8 sm:py-12 w-full overflow-hidden">
+  <div class="absolute inset-0 opacity-[0.03] pointer-events-none" style="background-image: linear-gradient(#ffffff 1px, transparent 1px), linear-gradient(90deg, #ffffff 1px, transparent 1px); background-size: 40px 40px;"></div>
 
-    <div id="loginSection">
-      <h2 class="font-display mb-6 text-2xl font-bold text-gray-900">Кіру</h2>
-      <form id="loginForm" class="space-y-4">
-        <div>
-          <label class="mb-1.5 block text-sm font-medium text-gray-700">Email немесе Пайдаланушы аты</label>
-          <input type="text" id="loginIdentifier" required class="w-full rounded-lg border border-gray-300 px-4 py-2.5 text-sm outline-none focus:border-seal focus:ring-2 focus:ring-seal/20 transition-all">
-        </div>
-        <div>
-          <label class="mb-1.5 block text-sm font-medium text-gray-700">Құпия сөз</label>
-          <input type="password" id="loginPassword" required class="w-full rounded-lg border border-gray-300 px-4 py-2.5 text-sm outline-none focus:border-seal focus:ring-2 focus:ring-seal/20 transition-all">
-        </div>
-        <div class="flex items-center justify-end text-xs sm:text-sm">
-          <button type="button" id="toForgotBtn" class="text-gray-500 hover:text-seal hover:underline transition-colors cursor-pointer">Құпия сөзді ұмытыңыз ба?</button>
-        </div>
-        <div id="loginError" class="hidden p-3 rounded-lg bg-red-50 border border-red-100 text-sm text-seal font-medium text-center"></div>
-        <button type="submit" id="loginSubmitBtn" class="w-full rounded-lg bg-seal px-4 py-3 text-base font-semibold text-white transition-all hover:bg-seal-dark hover:shadow-lg flex items-center justify-center cursor-pointer">
-          <span>Кіру</span>
-        </button>
-      </form>
+  <div class="max-w-6xl mx-auto px-4 sm:px-8 relative z-10 w-full flex flex-col">
+    <div class="text-center mb-8">
+      <h1 class="font-display text-3xl sm:text-4xl font-bold text-white">Сөздер Рулеткасы</h1>
+      <p class="text-sm sm:text-base text-white/80 mt-2">Торкөзден сөздерді таңда, рулетканы айналдыр — тиген сөзді жатта.</p>
     </div>
 
-    <div id="registerSection" class="hidden"></div>
+    <div class="flex flex-col lg:flex-row gap-6 items-start">
 
-    <div id="forgotSection" class="hidden">
-      <h2 class="font-display mb-4 text-xl font-bold text-gray-900">Құпия сөзді қалпына келтіру</h2>
-      <p class="text-xs text-gray-600 mb-4">Email адресіңізді жазыңыз, біз сізге нұсқаулық жібереміз.</p>
-      <form id="forgotForm" class="space-y-4">
-        <div>
-          <label class="mb-1.5 block text-sm font-medium text-gray-700">Email</label>
-          <input type="email" id="forgotEmail" required class="w-full rounded-lg border border-gray-300 px-4 py-2.5 text-sm outline-none focus:border-seal focus:ring-2 focus:ring-seal/20 transition-all">
+      <!-- Сол жақ: деңгей + торкөз таңдау -->
+      <div class="flex-1 w-full bg-paper rounded-2xl p-4 sm:p-6 shadow-xl border border-paper-deep">
+        <div class="flex flex-wrap items-center justify-between gap-3 mb-5">
+          <div class="flex gap-2">
+            <button id="btnHsk1" class="hsk-level-btn active px-4 py-2 rounded-lg border border-paper-deep text-sm font-semibold transition hover:bg-paper-deep" onclick="setLevel(1)">HSK 1</button>
+            <button id="btnHsk2" class="hsk-level-btn px-4 py-2 rounded-lg border border-paper-deep text-sm font-semibold transition hover:bg-paper-deep" onclick="setLevel(2)">HSK 2</button>
+            <button id="btnHsk3" class="hsk-level-btn px-4 py-2 rounded-lg border border-paper-deep text-sm font-semibold transition hover:bg-paper-deep" onclick="setLevel(3)">HSK 3</button>
+          </div>
+          <div class="flex gap-2 text-xs sm:text-sm">
+            <button onclick="pickRandom(8)" class="rounded-lg border border-jade text-jade-dark font-semibold px-3 py-2 hover:bg-jade hover:text-white transition">Кездейсоқ 8</button>
+            <button onclick="clearSelection()" class="rounded-lg border border-paper-deep text-gray-600 font-semibold px-3 py-2 hover:bg-paper-deep transition">Таза</button>
+          </div>
         </div>
-        <div id="forgotMessage" class="hidden p-3 rounded-lg border text-sm font-medium text-center"></div>
-        <button type="submit" id="forgotSubmitBtn" class="w-full rounded-lg bg-seal px-4 py-3 text-base font-semibold text-white transition-all hover:bg-seal-dark hover:shadow-lg flex items-center justify-center cursor-pointer">
-          <span>Жіберу</span>
-        </button>
-      </form>
-      <div class="mt-6 text-center text-sm text-gray-500">
-        <button type="button" id="backToLoginBtn" class="text-gray-500 font-semibold hover:text-seal transition-colors hover:underline cursor-pointer">← Кіруге қайту</button>
+
+        <input type="text" id="searchInput" placeholder="Сөзді, пиньинді немесе аударманы іздеу..." class="w-full mb-4 rounded-xl border border-paper-deep bg-paper-deep/50 px-4 py-3 text-sm focus:bg-paper focus:border-jade outline-none transition-colors placeholder:text-gray-400">
+
+        <div id="wordGrid" class="grid grid-cols-2 sm:grid-cols-3 gap-2.5 max-h-[420px] overflow-y-auto pr-1"></div>
+
+        <p class="text-xs text-gray-500 mt-4">Таңдалды: <span id="selCount" class="font-semibold text-jade-dark">0</span> сөз. Рулетка үшін кемінде 2 сөз таңдаңыз (ыңғайлысы — 4–12).</p>
+      </div>
+
+      <!-- Оң жақ: рулетка -->
+      <div class="w-full lg:w-[380px] shrink-0 bg-paper rounded-2xl p-4 sm:p-6 shadow-xl border border-paper-deep text-center">
+        <div class="relative w-full max-w-[320px] mx-auto">
+          <svg class="pointer-tri absolute left-1/2 -translate-x-1/2 -top-1 z-10" width="28" height="22" viewBox="0 0 28 22">
+            <polygon points="14,22 0,0 28,0" fill="#A61B29"/>
+          </svg>
+          <svg id="wheelSvg" viewBox="0 0 300 300" class="w-full h-auto drop-shadow-lg">
+            <g id="wheelGroup"></g>
+            <circle cx="150" cy="150" r="26" fill="#F4EFE6" stroke="#B8933F" stroke-width="3"/>
+          </svg>
+          <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
+            <span class="font-brush text-seal text-2xl">汉</span>
+          </div>
+        </div>
+
+        <button id="spinBtn" onclick="spinWheel()" disabled class="spin-btn mt-6 w-full rounded-xl bg-seal text-white font-semibold py-3 hover:bg-seal-dark transition shadow-md">Айналдыру</button>
+
+        <div id="resultPanel" class="hidden mt-6 bg-paper-deep/40 rounded-2xl p-5 border border-paper-deep text-left">
+
+          <!-- Сұрақ фазасы: тиген сөз бойынша шағын куиз -->
+          <div id="quizQuestion">
+            <div id="quizPrompt" class="text-xs font-semibold text-gray-500 mb-2 text-center"></div>
+            <div class="flex items-center justify-center gap-2 mb-4">
+              <span id="quizHanzi" class="font-display text-4xl font-bold text-gray-900"></span>
+              <button onclick="playAudio(rouletteResult ? rouletteResult.h : '')" class="text-jade hover:text-jade-dark p-1.5 rounded-full bg-paper shadow-sm border border-paper-deep" title="Тыңдау">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+              </button>
+            </div>
+            <div id="quizOptions" class="grid grid-cols-1 gap-2"></div>
+          </div>
+
+          <!-- Жауап фазасы: дұрыс/бұрыс белгіленген соң толық ашылады -->
+          <div id="quizAnswerReveal" class="hidden text-center">
+            <button onclick="playAudio(rouletteResult ? rouletteResult.h : '')" class="text-jade hover:text-jade-dark mb-2 inline-flex items-center gap-1.5 text-xs font-semibold">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+              Тыңдау
+            </button>
+            <div id="resHanzi" class="font-display text-4xl font-bold text-gray-900"></div>
+            <div id="resPinyin" class="text-jade font-semibold mt-1"></div>
+            <div id="resMeaning" class="text-gray-700 text-sm mt-1"></div>
+            <button onclick="removeFromWheel()" class="mt-4 text-xs font-semibold text-seal hover:underline">Дөңгелектен алып тастау</button>
+          </div>
+        </div>
       </div>
     </div>
   </div>
-</div>
-
-<!--
-  НЕГІЗГІ ЖҰМЫС АЙМАҒЫ
-  • Мобильді/планшет (<1024px): ҮСТІНДЕ карта, ТӨМЕНДЕ сөздер тізімі (вертикаль)
-  • Десктоп (≥1024px): СОЛДА тізім, ОҢДА карта (горизонталь)
--->
-<main class="flex-1 min-h-0 flex flex-col lg:flex-row overflow-hidden">
-
-  <!-- КАРТА АЙМАҒЫ -->
-  <section id="mapSection" class="order-1 lg:order-2 shrink-0 lg:shrink lg:flex-1 relative overflow-hidden bg-gradient-to-br from-[#0c1f4c] to-[#06102a] lg:flex lg:items-center lg:justify-center max-h-[46dvh] lg:max-h-none overflow-y-auto lg:overflow-hidden">
-    <div class="absolute inset-0 opacity-[0.03] pointer-events-none" style="background-image: linear-gradient(#ffffff 1px, transparent 1px), linear-gradient(90deg, #ffffff 1px, transparent 1px); background-size: 40px 40px;"></div>
-    <div class="hidden lg:block absolute right-[-40px] bottom-[-60px] font-brush text-[350px] leading-none text-white opacity-[0.02] pointer-events-none select-none">汉</div>
-
-    <!-- Алдыңғы / келесі сөз -->
-    <div class="relative flex items-center justify-between gap-3 px-3 pt-3 sm:px-6 lg:absolute lg:top-4 lg:right-4 lg:z-30 lg:p-0">
-      <button onclick="step(-1)" aria-label="Алдыңғы сөз" class="w-9 h-9 rounded-full bg-white/10 hover:bg-white/20 active:bg-white/25 text-white flex items-center justify-center transition-colors cursor-pointer">
-        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
-      </button>
-      <span id="wordCounter" class="text-white/70 text-xs font-semibold tabular-nums min-w-[52px] text-center">0 / 0</span>
-      <button onclick="step(1)" aria-label="Келесі сөз" class="w-9 h-9 rounded-full bg-white/10 hover:bg-white/20 active:bg-white/25 text-white flex items-center justify-center transition-colors cursor-pointer">
-        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
-      </button>
-    </div>
-
-    <!-- Мобильде — өз биіктігі, десктопта — 900x650 және масштабталады -->
-    <div id="mindmapContainer" class="relative w-full lg:w-[900px] lg:h-[650px] lg:shrink-0"></div>
-  </section>
-
-  <!-- ТІЗІМ / СҮЗГІ ПАНЕЛІ -->
-  <aside class="order-2 lg:order-1 flex-1 min-h-0 lg:flex-none lg:w-[360px] border-t lg:border-t-0 lg:border-r border-paper-deep bg-paper flex flex-col shadow-sm z-20">
-    <div class="p-3 lg:p-4 border-b border-paper-deep bg-paper z-10">
-
-      <div class="flex gap-1.5 lg:gap-2 mb-3 bg-paper-deep/40 p-1 lg:p-1.5 rounded-xl border border-paper-deep">
-        <button class="flex-1 py-2 lg:py-2.5 rounded-lg font-bold text-sm transition-colors text-gray-600 hsk-btn" onclick="switchLevel(1, this)" id="btnHsk1">HSK 1</button>
-        <button class="flex-1 py-2 lg:py-2.5 rounded-lg font-bold text-sm transition-colors text-gray-600 hsk-btn" onclick="switchLevel(2, this)" id="btnHsk2">HSK 2</button>
-        <button class="flex-1 py-2 lg:py-2.5 rounded-lg font-bold text-sm transition-colors text-gray-600 hsk-btn" onclick="switchLevel(3, this)" id="btnHsk3">HSK 3</button>
-      </div>
-
-      <!-- Іздеу + сүзгі батырмасы -->
-      <div class="flex gap-2">
-        <input type="text" id="searchBox" placeholder="Іздеу / 搜索 (Сөз, пиньинь)..." oninput="applyFilters()" class="flex-1 min-w-0 p-2.5 lg:p-3 rounded-xl border border-paper-deep text-sm focus:border-seal focus:ring-1 focus:ring-seal outline-none bg-white text-ink shadow-sm placeholder:text-gray-400">
-        <button id="filterToggle" type="button" onclick="toggleFilters()" aria-label="Сүзгілер" aria-expanded="false" class="lg:hidden relative shrink-0 w-11 rounded-xl border border-paper-deep bg-white text-gray-700 shadow-sm flex items-center justify-center cursor-pointer">
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 4h18l-7 8v6l-4 2v-8L3 4z"/></svg>
-          <span id="filterDot" class="hidden absolute top-1.5 right-1.5 w-2.5 h-2.5 rounded-full bg-seal border-2 border-white"></span>
-        </button>
-      </div>
-
-      <!-- Сүзгілер -->
-      <div id="filterPanel" class="space-y-2 lg:space-y-3 mt-2 lg:mt-3">
-        <div class="relative">
-          <select id="topicSelect" onchange="applyFilters()" class="w-full p-2.5 lg:p-3 rounded-xl border border-paper-deep text-sm font-medium focus:border-seal focus:ring-1 focus:ring-seal outline-none bg-white text-gray-700 appearance-none shadow-sm cursor-pointer">
-            <option value="all">📁 Барлық тақырыптар (所有主题)</option>
-          </select>
-          <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-gray-500">
-            <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
-          </div>
-        </div>
-
-        <div class="relative">
-          <select id="radicalSelect" onchange="applyFilters()" class="w-full p-2.5 lg:p-3 rounded-xl border border-paper-deep text-sm font-medium focus:border-seal focus:ring-1 focus:ring-seal outline-none bg-white text-gray-700 appearance-none shadow-sm cursor-pointer">
-            <option value="all">🧩 Барлық басты ключтер (所有部首)</option>
-          </select>
-          <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-gray-500">
-            <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Тізім: планшетте 2 баған, мобильде/десктопта 1 баған -->
-    <div id="charList" class="flex-1 min-h-0 overflow-y-auto p-3 lg:p-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-2 lg:gap-3 content-start bg-paper"></div>
-  </aside>
 </main>
 
+<footer class="relative overflow-hidden border-t border-gray-200 bg-paper pt-3 mt-auto">
+  <div class="brush-rule"></div>
+  <span class="footer-watermark" aria-hidden="true">汉</span>
+  <div class="relative max-w-6xl mx-auto px-4 sm:px-8 grid grid-cols-1 md:grid-cols-3 gap-8 sm:gap-10 mb-8 mt-10 text-sm text-gray-600">
+    <div>
+      <div class="flex items-center gap-2 mb-4">
+        <span class="seal-stamp w-7 h-7 flex items-center justify-center font-brush text-white text-sm">汉</span>
+        <span class="font-display font-semibold text-ink text-lg">Қытай тілі</span>
+      </div>
+      <p class="mb-2 font-semibold text-ink">Impressum / Заңды ақпарат</p>
+      <p class="leading-relaxed">ЖШС (ТОО) «Қытай тілі KZ»<br>БСН (БИН): 123456789012<br>Жетекші: Бұланай Еркін</p>
+    </div>
+    <div>
+      <p class="font-display font-semibold text-ink text-lg mb-4">Байланыс ақпараты</p>
+      <ul class="space-y-3">
+        <li class="flex items-start gap-3">
+          <span class="icon-badge w-6 h-6 rounded-full flex items-center justify-center shrink-0 mt-0.5"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg></span>
+          <span>+7 771 130 5701</span>
+        </li>
+        <li class="flex items-start gap-3">
+          <span class="icon-badge w-6 h-6 rounded-full flex items-center justify-center shrink-0 mt-0.5"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg></span>
+          <a href="https://instagram.com/bulanay_yerkin" target="_blank" class="hover:text-seal transition-colors">@bulanay_yerkin</a>
+        </li>
+      </ul>
+    </div>
+    <div>
+      <p class="font-display font-semibold text-ink text-lg mb-4">Құқықтық құжаттар</p>
+      <ul class="space-y-2.5">
+        <li><a href="privacy.html" class="hover:text-seal transition-colors">Құпиялылық саясаты</a></li>
+        <li><a href="offer.html" class="hover:text-seal transition-colors">Оферта</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="relative max-w-6xl mx-auto px-4 sm:px-8 pt-6 pb-6 border-t border-gray-200 flex flex-col md:flex-row items-center justify-between text-xs text-gray-500">
+    <p>© 2026 Қытай тілі. Барлық құқықтар қорғалған.</p>
+  </div>
+</footer>
+
 <script>
-  const SCRIPT_URL = 'https://chinese-backend-yurc.onrender.com/api';
-
-  document.addEventListener('DOMContentLoaded', () => {
-    const currentUser = sessionStorage.getItem('currentUser');
-    if (currentUser) {
-      const nameLabel = document.getElementById('userNameLabel');
-      const avatarLabel = document.getElementById('userAvatar');
-      if (nameLabel) nameLabel.textContent = currentUser;
-      if (avatarLabel) avatarLabel.textContent = currentUser.charAt(0).toUpperCase();
-
-      document.querySelectorAll('.protected-link').forEach(link => {
-        link.innerHTML = link.innerHTML.replace(' 🔒', '').replace('🔒 ', '');
-      });
-
-      // =========================================================
-      // ADMIN PANEL INJECTION
-      // =========================================================
-      if (currentUser === 'Bulanay Yerkin') {
-        const desktopNav = document.getElementById('desktopNav');
-        if (desktopNav) {
-          const adminLink = document.createElement('a');
-          adminLink.href = `admin.html?name=${encodeURIComponent(currentUser)}`;
-          adminLink.className = 'nav-link font-bold text-seal transition-colors';
-          adminLink.textContent = 'Админ Панель';
-          desktopNav.appendChild(adminLink);
-        }
-
-        const mobileMenu = document.getElementById('mobileMenu');
-        if (mobileMenu) {
-          const adminLinkMob = document.createElement('a');
-          adminLinkMob.href = `admin.html?name=${encodeURIComponent(currentUser)}`;
-          adminLinkMob.className = 'block text-sm font-bold text-seal py-1';
-          adminLinkMob.textContent = 'Админ Панель';
-          mobileMenu.appendChild(adminLinkMob);
-        }
-      }
-    }
-  });
-
-  const authModal = document.getElementById('authModal');
-  const loginSection = document.getElementById('loginSection');
-  const forgotSection = document.getElementById('forgotSection');
-
-  const loginForm = document.getElementById('loginForm');
-  const forgotForm = document.getElementById('forgotForm');
-
-  const loginError = document.getElementById('loginError');
-  const forgotMessage = document.getElementById('forgotMessage');
-
+  // ==================== ЖАЛПЫ ЭЛЕМЕНТТЕР ====================
   const mobileMenuBtn = document.getElementById('mobileMenuBtn');
-  const mobileMenu = document.getElementById('mobileMenu');
-  if (mobileMenuBtn && mobileMenu) {
-    mobileMenuBtn.addEventListener('click', () => {
-      mobileMenu.classList.toggle('hidden');
-    });
+  const mobileMenuElement = document.getElementById('mobileMenu');
+  if (mobileMenuBtn && mobileMenuElement) {
+    mobileMenuBtn.addEventListener('click', () => mobileMenuElement.classList.toggle('hidden'));
   }
 
-  document.querySelectorAll('.protected-link').forEach(link => {
-    link.addEventListener('click', (e) => {
-      if (!sessionStorage.getItem('currentUser')) {
-        e.preventDefault();
-        authModal.classList.remove('hidden');
-        showSection('login');
-        loginError.textContent = 'Бұл бөлімді көру үшін алдымен жүйеге кіріңіз.';
-        loginError.className = 'p-3 rounded-lg bg-blue-50 border border-blue-100 text-sm text-blue-800 font-medium text-center block';
-        loginError.classList.remove('hidden');
-      }
-    });
-  });
-
-  document.querySelectorAll('[data-open-auth]').forEach(b => {
-    b.addEventListener('click', (e) => {
-      if (e) e.preventDefault();
-      authModal.classList.remove('hidden');
-      showSection('login');
-    });
-  });
-
-  document.querySelectorAll('[data-close-auth]').forEach(b => {
-    b.addEventListener('click', () => authModal.classList.add('hidden'));
-  });
-
-  function showSection(type) {
-    loginSection.classList.add('hidden');
-    forgotSection.classList.add('hidden');
-    loginError.classList.add('hidden');
-    forgotMessage.classList.add('hidden');
-
-    if (type === 'login') loginSection.classList.remove('hidden');
-    if (type === 'forgot') forgotSection.classList.remove('hidden');
-  }
-
-  document.getElementById('toForgotBtn').addEventListener('click', () => showSection('forgot'));
-  document.getElementById('backToLoginBtn').addEventListener('click', () => showSection('login'));
-
-  function setLoadingState(buttonId, isLoading, originalText) {
-    const btn = document.getElementById(buttonId);
-    if (!btn) return;
-    if (isLoading) {
-      btn.disabled = true;
-      btn.classList.add('opacity-80', 'cursor-not-allowed');
-      btn.innerHTML = `<svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white inline" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg> Күте тұрыңыз...`;
-    } else {
-      btn.disabled = false;
-      btn.classList.remove('opacity-80', 'cursor-not-allowed');
-      btn.innerHTML = `<span>${originalText}</span>`;
-    }
-  }
-
-  loginForm.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const identifier = document.getElementById('loginIdentifier').value.trim();
-    const password = document.getElementById('loginPassword').value.trim();
-
-    loginError.classList.add('hidden');
-    setLoadingState('loginSubmitBtn', true, 'Кіру');
-
-    try {
-      const response = await fetch(SCRIPT_URL, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ action: 'login', identifier, password })
-      });
-      const result = await response.json();
-
-      if (result.status === 'success') {
-        authModal.classList.add('hidden');
-        sessionStorage.setItem('currentUser', result.name);
-        window.location.href = result.role === 'teacher' || result.name === 'Bulanay Yerkin'
-          ? `admin.html?name=${encodeURIComponent(result.name)}`
-          : `dashboard.html?name=${encodeURIComponent(result.name)}`;
-      } else {
-        loginError.textContent = result.message || 'Қате деректер енгізілді.';
-        loginError.className = 'p-3 rounded-lg bg-red-50 border border-red-100 text-sm text-seal font-medium text-center block';
-      }
-    } catch (err) {
-      loginError.textContent = 'Сервермен байланыс үзілді. Қайта көріңіз.';
-      loginError.className = 'p-3 rounded-lg bg-red-50 border border-red-100 text-sm text-seal font-medium text-center block';
-    } finally {
-      setLoadingState('loginSubmitBtn', false, 'Кіру');
-    }
-  });
-
-  forgotForm.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const email = document.getElementById('forgotEmail').value.trim();
-
-    forgotMessage.classList.add('hidden');
-    setLoadingState('forgotSubmitBtn', true, 'Жіберу');
-
-    try {
-      const response = await fetch(SCRIPT_URL, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ action: 'forgotPassword', email })
-      });
-      const result = await response.json();
-
-      forgotMessage.textContent = result.message || 'Қалпына келтіру сілтемесі поштаңызға жіберілді.';
-      forgotMessage.className = result.status === 'success'
-        ? 'p-3 rounded-lg bg-green-50 border border-green-100 text-sm text-jade font-medium text-center block'
-        : 'p-3 rounded-lg bg-red-50 border border-red-100 text-sm text-seal font-medium text-center block';
-    } catch (err) {
-      forgotMessage.textContent = 'Қате орын алды.';
-      forgotMessage.className = 'p-3 rounded-lg bg-red-50 border border-red-100 text-sm text-seal font-medium text-center block';
-    } finally {
-      setLoadingState('forgotSubmitBtn', false, 'Жіберу');
-    }
-  });
-
-  // ===================== HSK 1-3 БАЗАСЫ =====================
-  const hskData = {
-    1: [
-      { hanzi: "爱", pinyin: "ài", meaning: "жақсы көру, сүю", radical: "心 (Жүрек)", topic: "Адам және сезім", parts: [{char: "爪", pinyin: "zhǎo", name: "Тырнақ"}, {char: "心", pinyin: "xīn", name: "Жүрек"}] },
-      { hanzi: "八", pinyin: "bā", meaning: "сегіз", radical: "八 (Сегіз)", topic: "Сандар", parts: [{char: "八", pinyin: "bā", name: "Сегіз"}] },
-      { hanzi: "爸爸", pinyin: "bàba", meaning: "әке", radical: "父 (Әке)", topic: "Отбасы", parts: [{char: "父", pinyin: "fù", name: "Әке"}, {char: "巴", pinyin: "bā", name: "Фонетик"}] },
-      { hanzi: "杯子", pinyin: "bēizi", meaning: "кесе, стақан", radical: "木 (Ағаш)", topic: "Тұрмыс", parts: [{char: "杯", pinyin: "bēi", name: "Кесе"}, {char: "子", pinyin: "zi", name: "Зат есім жұрнағы"}] },
-      { hanzi: "北京", pinyin: "Běijīng", meaning: "Бейжің", radical: "北京 (Қала)", topic: "Орын", parts: [{char: "北", pinyin: "běi", name: "Солтүстік"}, {char: "京", pinyin: "jīng", name: "Астана"}] },
-      { hanzi: "不客气", pinyin: "bú kèqi", meaning: "оқасы жоқ", radical: "不 (Жоқ)", topic: "Этикет", parts: [{char: "不", pinyin: "bù", name: "Жоқ"}, {char: "客", pinyin: "kè", name: "Қонақ"}, {char: "气", pinyin: "qì", name: "Ауа/Көңіл"}] },
-      { hanzi: "吃", pinyin: "chī", meaning: "жеу", radical: "口 (Ауыз)", topic: "Әрекет", parts: [{char: "口", pinyin: "kǒu", name: "Ауыз"}, {char: "乞", pinyin: "qǐ", name: "Сұрау"}] },
-      { hanzi: "出租车", pinyin: "chūzūchē", meaning: "такси", radical: "车 (Көлік)", topic: "Көлік", parts: [{char: "出", pinyin: "chū", name: "Шығу"}, {char: "租", pinyin: "zū", name: "Жалға алу"}, {char: "车", pinyin: "chē", name: "Көлік"}] },
-      { hanzi: "大", pinyin: "dà", meaning: "үлкен", radical: "大 (Үлкен)", topic: "Сипаттама", parts: [{char: "大", pinyin: "dà", name: "Адам бейнесі"}] },
-      { hanzi: "电脑", pinyin: "diànnǎo", meaning: "компьютер", radical: "雨 (Электр)", topic: "Технология", parts: [{char: "电", pinyin: "diàn", name: "Тоқ"}, {char: "脑", pinyin: "nǎo", name: "Ми"}] },
-      { hanzi: "东西", pinyin: "dōngxi", meaning: "зат, нәрсе", radical: "木 (Ағаш)", topic: "Заттар", parts: [{char: "东", pinyin: "dōng", name: "Шығыс"}, {char: "西", pinyin: "xi", name: "Батыс"}] },
-      { hanzi: "饭店", pinyin: "fàndiàn", meaning: "мейрамхана", radical: "饣 (Ас)", topic: "Тамақ", parts: [{char: "饭", pinyin: "fàn", name: "Күріш/Ас"}, {char: "店", pinyin: "diàn", name: "Дүкен"}] },
-      { hanzi: "买", pinyin: "mǎi", meaning: "сатып алу", radical: "罒 (Тор)", topic: "Әрекет", parts: [{char: "买", pinyin: "mǎi", name: "Сатып алу"}] }
-    ],
-    2: [
-      { hanzi: "帮助", pinyin: "bāngzhù", meaning: "көмектесу", radical: "巾 (Орамал)", topic: "Әрекет", parts: [{char: "帮", pinyin: "bāng", name: "Көмек"}, {char: "助", pinyin: "zhù", name: "Жәрдем"}] },
-      { hanzi: "报纸", pinyin: "bàozhǐ", meaning: "газет", radical: "扌 (Қол)", topic: "Оқу", parts: [{char: "报", pinyin: "bào", name: "Хабарлау"}, {char: "纸", pinyin: "zhǐ", name: "Қағаз"}] },
-      { hanzi: "打篮球", pinyin: "dǎ lánqiú", meaning: "баскетбол ойнау", radical: "扌 (Қол)", topic: "Спорт", parts: [{char: "打", pinyin: "dǎ", name: "Ұру/Ойнау"}, {char: "篮", pinyin: "lán", name: "Себет"}, {char: "球", pinyin: "qiú", name: "Доп"}] },
-      { hanzi: "机场", pinyin: "jīchǎng", meaning: "әуежай", radical: "木 (Ағаш)", topic: "Орын", parts: [{char: "机", pinyin: "jī", name: "Аппарат"}, {char: "场", pinyin: "chǎng", name: "Алаң"}] },
-      { hanzi: "旅游", pinyin: "lǚyóu", meaning: "саяхат", radical: "方 (Жақ)", topic: "Саяхат", parts: [{char: "旅", pinyin: "lǚ", name: "Саяхат"}, {char: "游", pinyin: "yóu", name: "Жүзу/Қыдыру"}] },
-      { hanzi: "上班", pinyin: "shàngbān", meaning: "жұмысқа бару", radical: "王 (Нефрит)", topic: "Қызмет", parts: [{char: "上", pinyin: "shàng", name: "Үсті/Бастау"}, {char: "班", pinyin: "bān", name: "Ауысым/Топ"}] }
-    ],
-    3: [
-      { hanzi: "电梯", pinyin: "diàntī", meaning: "жеделсаты (лифт)", radical: "雨 (Электр)", topic: "Тұрмыс", parts: [{char: "电", pinyin: "diàn", name: "Электр"}, {char: "梯", pinyin: "tī", name: "Саты"}] },
-      { hanzi: "电子邮件", pinyin: "diànzǐ yóujiàn", meaning: "электрондық пошта", radical: "雨 (Электр)", topic: "Технология", parts: [{char: "电子", pinyin: "diànzǐ", name: "Электрон"}, {char: "邮", pinyin: "yóu", name: "Пошта"}, {char: "件", pinyin: "jiàn", name: "Хат/Дана"}] },
-      { hanzi: "动物", pinyin: "dòngwù", meaning: "жануар", radical: "力 (Күш)", topic: "Табиғат", parts: [{char: "动", pinyin: "dòng", name: "Қозғалу"}, {char: "物", pinyin: "wù", name: "Зат"}] },
-      { hanzi: "发烧", pinyin: "fāshāo", meaning: "дене қызуы көтерілу", radical: "火 (От)", topic: "Денсаулық", parts: [{char: "发", pinyin: "fā", name: "Шығару"}, {char: "烧", pinyin: "shāo", name: "Жану"}] },
-      { hanzi: "环境", pinyin: "huánjìng", meaning: "қоршаған орта", radical: "王 (Патша)", topic: "Табиғат", parts: [{char: "环", pinyin: "huán", name: "Шеңбер"}, {char: "境", pinyin: "jìng", name: "Орта"}] },
-      { hanzi: "护照", pinyin: "hùzhào", meaning: "төлқұжат", radical: "扌 (Қол)", topic: "Құжат", parts: [{char: "护", pinyin: "hù", name: "Қорғау"}, {char: "照", pinyin: "zhào", name: "Куәлік/Сурет"}] }
-    ]
-  };
-
-  // ===================== КҮЙ (STATE) =====================
-  let currentLevel = 1;
-  let filteredItems = [];
-  let currentIndex = -1;
-
-  const desktopMQ = window.matchMedia('(min-width: 1024px)');
-  const isDesktop = () => desktopMQ.matches;
-
-  // Иероглиф ұзындығына қарай қаріп өлшемі (px): ұзын сөздер сыймай қалмауы үшін
-  function hanziPx(len, base) {
-    if (len <= 2) return base;
-    if (len === 3) return Math.round(base * 0.75);
-    if (len === 4) return Math.round(base * 0.58);
-    return Math.round(base * 0.46);
-  }
-
-  // ===================== ДЕҢГЕЙ / СҮЗГІ =====================
-  function switchLevel(level, btnElement) {
-    currentLevel = level;
-    document.querySelectorAll('.hsk-btn').forEach(btn => {
-      btn.className = "flex-1 py-2 lg:py-2.5 rounded-lg font-bold text-sm transition-colors text-gray-600 hsk-btn hover:bg-white";
-    });
-    btnElement.className = "flex-1 py-2 lg:py-2.5 rounded-lg font-bold text-sm transition-colors bg-seal text-white shadow-sm hsk-btn";
-
-    updateDropdowns();
-    applyFilters();
-  }
-
-  function updateDropdowns() {
-    const topicSelect = document.getElementById('topicSelect');
-    const radicalSelect = document.getElementById('radicalSelect');
-
-    topicSelect.innerHTML = '<option value="all">📁 Барлық тақырыптар (所有主题)</option>';
-    radicalSelect.innerHTML = '<option value="all">🧩 Барлық басты ключтер (所有部首)</option>';
-
-    const items = hskData[currentLevel] || [];
-    const topics = [...new Set(items.map(i => i.topic))].sort();
-    const radicals = [...new Set(items.map(i => i.radical))].sort();
-
-    topics.forEach(top => { topicSelect.innerHTML += `<option value="${top}">${top}</option>`; });
-    radicals.forEach(rad => { radicalSelect.innerHTML += `<option value="${rad}">Ключ: ${rad}</option>`; });
-  }
-
-  function toggleFilters() {
-    const panel = document.getElementById('filterPanel');
-    const open = panel.classList.toggle('open');
-    document.getElementById('filterToggle').setAttribute('aria-expanded', open);
-  }
-
-  function applyFilters() {
-    const topic = document.getElementById('topicSelect').value;
-    const radical = document.getElementById('radicalSelect').value;
-    const query = document.getElementById('searchBox').value.toLowerCase();
-
-    // Белсенді сүзгі болса, сүзгі батырмасында қызыл нүкте көрсету
-    document.getElementById('filterDot').classList.toggle('hidden', topic === 'all' && radical === 'all');
-
-    let items = hskData[currentLevel] || [];
-    if (topic !== 'all') items = items.filter(i => i.topic === topic);
-    if (radical !== 'all') items = items.filter(i => i.radical === radical);
-    if (query.trim() !== '') {
-      items = items.filter(i => i.hanzi.toLowerCase().includes(query) || i.pinyin.toLowerCase().includes(query) || i.meaning.toLowerCase().includes(query));
-    }
-
-    filteredItems = items;
-    renderList();
-  }
-
-  // ===================== ТІЗІМ =====================
-  const ACTIVE_CLS = 'p-2.5 lg:p-3 rounded-xl border border-seal bg-red-50/40 cursor-pointer transition-all shadow-sm';
-  const INACTIVE_CLS = 'p-2.5 lg:p-3 rounded-xl border border-paper-deep bg-transparent hover:bg-white/60 hover:border-seal/30 active:bg-white cursor-pointer transition-all';
-
-  function renderList() {
-    const list = document.getElementById('charList');
-    list.innerHTML = '';
-    list.scrollTop = 0;
-
-    filteredItems.forEach((item, index) => {
-      const div = document.createElement('div');
-      div.className = INACTIVE_CLS;
-      div.dataset.index = index;
-
-      const len = [...item.hanzi].length;
-      const px = hanziPx(len, 36);
-
-      div.innerHTML = `
-        <div class="flex items-center gap-3">
-          <span class="shrink-0 min-w-[3.25rem] max-w-[6.5rem] text-center font-bold font-display text-seal whitespace-nowrap leading-none" style="font-size:${px}px">${item.hanzi}</span>
-          <div class="flex-1 min-w-0">
-            <div class="text-[13px] text-gray-500 font-medium leading-tight">${item.pinyin}</div>
-            <div class="text-[15px] font-semibold text-gray-900 leading-snug">${item.meaning}</div>
-          </div>
-          <div class="shrink-0 flex flex-col items-end gap-1.5 self-stretch justify-between">
-            <span class="text-[10px] bg-paper-deep/60 text-gray-600 px-2 py-0.5 rounded-md whitespace-nowrap max-w-[110px] truncate">${item.topic}</span>
-            <span class="text-[13px] text-seal font-bold px-1">${item.radical.split(' ')[0]}</span>
-          </div>
-        </div>
-      `;
-
-      div.onclick = () => selectIndex(index, false);
-      list.appendChild(div);
-    });
-
-    if (filteredItems.length > 0) {
-      selectIndex(0, false);
-    } else {
-      currentIndex = -1;
-      updateCounter();
-      document.getElementById('mindmapContainer').innerHTML =
-        '<div class="text-white/60 font-medium text-center py-10 lg:absolute lg:inset-0 lg:flex lg:items-center lg:justify-center">Деректер табылмады</div>';
-    }
-  }
-
-  function selectIndex(index, scrollIntoList) {
-    if (index < 0 || index >= filteredItems.length) return;
-    currentIndex = index;
-
-    const list = document.getElementById('charList');
-    Array.from(list.children).forEach((child, i) => {
-      child.className = i === index ? ACTIVE_CLS : INACTIVE_CLS;
-    });
-    if (scrollIntoList && list.children[index]) {
-      list.children[index].scrollIntoView({ block: 'nearest', behavior: 'smooth' });
-    }
-
-    updateCounter();
-    updateMindmap(filteredItems[index]);
-  }
-
-  function step(dir) {
-    const n = filteredItems.length;
-    if (!n) return;
-    selectIndex((currentIndex + dir + n) % n, true);
-  }
-
-  function updateCounter() {
-    const n = filteredItems.length;
-    document.getElementById('wordCounter').textContent = n ? `${currentIndex + 1} / ${n}` : '0 / 0';
-  }
-
-  // ===================== КАРТА =====================
-  function updateMindmap(data) {
-    if (isDesktop()) renderDesktopMap(data);
-    else renderMobileMap(data);
-    fitMap();
-  }
-
-  // Десктоп: 900x650 кенепті бос орынға сыйғызу (масштабтау)
-  function fitMap() {
-    const c = document.getElementById('mindmapContainer');
-    if (!isDesktop()) { c.style.transform = ''; return; }
-    const sec = document.getElementById('mapSection');
-    const s = Math.min(1, (sec.clientWidth - 24) / 900, (sec.clientHeight - 24) / 650);
-    c.style.transform = `scale(${s})`;
-  }
-
-  // ---- МОБИЛЬДІ / ПЛАНШЕТ: вертикаль, ықшам карта ----
-  function renderMobileMap(data) {
-    const container = document.getElementById('mindmapContainer');
-    const parts = data.parts && data.parts.length ? data.parts : [{ char: data.radical, pinyin: '', name: 'Негізгі ключ' }];
-    const cols = Math.min(parts.length, 3);
-    const len = [...data.hanzi].length;
-
-    const partsHtml = parts.slice(0, 3).map((p, i) => `
-      <button type="button" onclick="playAudio('${p.char}')" class="min-w-0 bg-paper/95 border border-paper-deep rounded-xl px-2 py-2.5 text-center active:scale-95 transition-transform cursor-pointer">
-        <div class="text-[9px] text-gray-500 font-semibold mb-0.5">${i + 1}-ші бөлік · 部首 ${i + 1}</div>
-        <div class="text-2xl font-display font-bold text-seal leading-tight">${p.char}</div>
-        <div class="text-[11px] font-bold text-ink leading-tight mt-0.5">${p.pinyin}</div>
-        <div class="text-[11px] text-gray-600 leading-tight">${p.name}</div>
-      </button>
-    `).join('');
-
-    container.innerHTML = `
-      <div class="map-fade px-3 pb-3 pt-2 sm:px-6 sm:pb-5 max-w-2xl mx-auto w-full">
-        <div class="flex gap-3 items-stretch">
-          <button type="button" onclick="playAudio('${data.hanzi}')" aria-label="Дыбыстау"
-                  class="shrink-0 w-[112px] sm:w-[150px] rounded-2xl bg-seal text-white flex flex-col items-center justify-center py-3 px-2 shadow-[0_0_24px_rgba(166,27,41,0.45)] active:scale-95 transition-transform cursor-pointer">
-            <span class="font-display font-bold leading-none whitespace-nowrap" style="font-size:${hanziPx(len, 44)}px">${data.hanzi}</span>
-            <span class="mt-2.5 text-[10px] font-medium bg-black/20 px-2.5 py-0.5 rounded-full">🔊 Дыбыстау</span>
-          </button>
-          <div class="flex-1 min-w-0 flex flex-col gap-2">
-            <div class="flex-1 bg-paper/95 border border-paper-deep rounded-xl px-3.5 py-2 flex flex-col justify-center">
-              <div class="text-[10px] text-gray-500 font-semibold mb-0.5">Пиньинь / 拼音</div>
-              <div class="text-base font-bold text-ink leading-tight break-words">${data.pinyin}</div>
-            </div>
-            <div class="flex-1 bg-paper/95 border border-paper-deep rounded-xl px-3.5 py-2 flex flex-col justify-center">
-              <div class="text-[10px] text-gray-500 font-semibold mb-0.5">Мағынасы / 释义</div>
-              <div class="text-sm font-bold text-ink leading-snug break-words">${data.meaning}</div>
-            </div>
-          </div>
-        </div>
-
-        <div class="mt-2 flex flex-wrap gap-2">
-          <span class="text-[11px] font-semibold bg-white/10 text-white/90 border border-white/15 rounded-full px-3 py-1">📁 ${data.topic}</span>
-          <span class="text-[11px] font-semibold bg-white/10 text-white/90 border border-white/15 rounded-full px-3 py-1">🧩 ${data.radical}</span>
-        </div>
-
-        <div class="mt-2.5 grid gap-2" style="grid-template-columns: repeat(${cols}, minmax(0, 1fr))">
-          ${partsHtml}
-        </div>
-      </div>
-    `;
-  }
-
-  // ---- ДЕСКТОП: ортада иероглиф, айналасында тармақтар ----
-  function renderDesktopMap(data) {
-    const container = document.getElementById('mindmapContainer');
-    const parts = data.parts || [];
-    const count = parts.length;
-    const cx = 450, cy = 325;
-    const len = [...data.hanzi].length;
-
-    let svgLines = '';
-    let nodesHtml = '';
-
-    nodesHtml += `
-      <div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[140px] h-[140px] rounded-full bg-seal text-white flex flex-col items-center justify-center shadow-[0_0_30px_rgba(166,27,41,0.5)] cursor-pointer hover:scale-105 transition-transform z-20" onclick="playAudio('${data.hanzi}')">
-        <span class="font-display font-bold leading-none mb-1 whitespace-nowrap" style="font-size:${hanziPx(len, 42)}px">${data.hanzi}</span>
-        <span class="text-[10px] opacity-90 flex items-center gap-1 font-medium bg-black/20 px-2.5 py-0.5 rounded-full">🔊 Дыбыстау</span>
-      </div>
-    `;
-
-    svgLines += `<line x1="${cx}" y1="${cy}" x2="${cx}" y2="80" />`;
-    nodesHtml += `
-      <div class="absolute left-1/2 top-[40px] -translate-x-1/2 bg-paper/95 backdrop-blur border border-paper-deep rounded-xl px-5 py-3 shadow-lg text-center z-10 min-w-[180px] hover:border-seal transition-colors">
-        <div class="text-[10px] text-gray-500 uppercase tracking-wide mb-1 font-semibold">Пиньинь / 拼音</div>
-        <div class="text-sm font-bold text-ink">${data.pinyin}</div>
-      </div>
-    `;
-
-    svgLines += `<line x1="${cx}" y1="${cy}" x2="720" y2="${cy}" />`;
-    nodesHtml += `
-      <div class="absolute top-1/2 right-[20px] -translate-y-1/2 bg-paper/95 backdrop-blur border border-paper-deep rounded-xl px-5 py-3 shadow-lg text-center z-10 w-[200px] hover:border-seal transition-colors">
-        <div class="text-[10px] text-gray-500 uppercase tracking-wide mb-1 font-semibold">Мағынасы / 释义</div>
-        <div class="text-[13px] font-bold text-ink break-words">${data.meaning}</div>
-      </div>
-    `;
-
-    svgLines += `<line x1="${cx}" y1="${cy}" x2="${cx}" y2="570" />`;
-    nodesHtml += `
-      <div class="absolute left-1/2 bottom-[40px] -translate-x-1/2 bg-paper/95 backdrop-blur border border-paper-deep rounded-xl px-5 py-3 shadow-lg text-center z-10 min-w-[180px] hover:border-seal transition-colors">
-        <div class="text-[10px] text-gray-500 uppercase tracking-wide mb-1 font-semibold">Тақырып / 主题</div>
-        <div class="text-sm font-bold text-ink">${data.topic}</div>
-      </div>
-    `;
-
-    const leftX = 160;
-
-    if (count >= 3) {
-      const yPositions = [150, 325, 500];
-      parts.forEach((p, i) => {
-        if (i < 3) {
-          svgLines += `<line x1="${cx}" y1="${cy}" x2="${leftX + 75}" y2="${yPositions[i]}" />`;
-          nodesHtml += generatePartNode(p, i + 1, leftX, yPositions[i]);
-        }
-      });
-    } else if (count === 2) {
-      const yPositions = [210, 440];
-      parts.forEach((p, i) => {
-        svgLines += `<line x1="${cx}" y1="${cy}" x2="${leftX + 75}" y2="${yPositions[i]}" />`;
-        nodesHtml += generatePartNode(p, i + 1, leftX, yPositions[i]);
-      });
-    } else {
-      svgLines += `<line x1="${cx}" y1="${cy}" x2="${leftX + 75}" y2="${cy}" />`;
-      nodesHtml += generatePartNode(parts[0] || { char: data.radical, pinyin: '', name: 'Негізгі ключ' }, 1, leftX, cy);
-    }
-
-    container.innerHTML = `<svg class="connections absolute inset-0 w-full h-full z-0">${svgLines}</svg>` + nodesHtml;
-  }
-
-  function generatePartNode(part, index, x, y) {
-    return `
-      <div class="absolute bg-paper/95 backdrop-blur border border-paper-deep rounded-xl px-4 py-3 shadow-lg text-center z-10 w-[170px] cursor-pointer hover:border-seal hover:scale-105 transform group transition-all"
-           style="left: ${x - 85}px; top: ${y - 40}px;" onclick="playAudio('${part.char}')">
-          <div class="text-[9px] text-gray-500 uppercase tracking-wide mb-1 font-semibold">${index}-ші бөлік / 部首 ${index}</div>
-          <div class="text-xl font-display font-bold text-seal mb-1 drop-shadow-sm">${part.char}</div>
-          <div class="text-[11px] font-bold text-ink mb-1.5">${part.pinyin} - ${part.name}</div>
-          <div class="text-[10px] text-seal font-semibold opacity-0 group-hover:opacity-100 transition-opacity flex justify-center items-center gap-1 bg-red-50/80 rounded py-0.5 mx-2">
-             <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M9.383 3.076A1 1 0 0110 4v12a1 1 0 01-1.707.707L4.586 13H2a1 1 0 01-1-1V8a1 1 0 011-1h2.586l3.707-3.707a1 1 0 011.09-.217zM14.657 2.929a1 1 0 011.414 0A9.972 9.972 0 0119 10a9.972 9.972 0 01-2.929 7.071 1 1 0 01-1.414-1.414A7.971 7.971 0 0017 10c0-2.21-.894-4.208-2.343-5.657a1 1 0 010-1.414zm-2.829 2.828a1 1 0 011.415 0A5.983 5.983 0 0115 10a5.984 5.984 0 01-1.757 4.243 1 1 0 01-1.415-1.415A3.984 3.984 0 0013 10a3.983 3.983 0 00-1.172-2.828 1 1 0 010-1.415z" clip-rule="evenodd"></path></svg>
-             Тыңдау
-          </div>
-      </div>
-    `;
-  }
-
-  // ===================== АУДИО =====================
   function playAudio(text) {
     if (!text) return;
     if ('speechSynthesis' in window) {
       window.speechSynthesis.cancel();
       const utterance = new SpeechSynthesisUtterance(text);
       utterance.lang = 'zh-CN';
-      utterance.rate = 0.8;
+      utterance.rate = 0.9;
       window.speechSynthesis.speak(utterance);
-    } else {
-      alert("Кешіріңіз, сіздің браузеріңіз аудио функциясын қолдамайды.");
     }
   }
 
-  // ===================== ЖАҢА ЖАҚСАРТУЛАР =====================
-  // Экран өлшемі өзгергенде (телефонды бұрғанда, терезені созғанда) картаны қайта салу
-  let lastMode = isDesktop();
-  window.addEventListener('resize', () => {
-    if (isDesktop() !== lastMode) {
-      lastMode = isDesktop();
-      if (currentIndex >= 0) updateMindmap(filteredItems[currentIndex]);
-    }
-    fitMap();
-  });
-
-  // Пернетақтамен ауысу (десктоп): ← ↑ / → ↓
-  document.addEventListener('keydown', (e) => {
-    const tag = (e.target.tagName || '').toLowerCase();
-    if (tag === 'input' || tag === 'select' || tag === 'textarea') return;
-    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') { e.preventDefault(); step(1); }
-    if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') { e.preventDefault(); step(-1); }
-  });
-
-  // Телефонда картаны солға/оңға сипап келесі/алдыңғы сөзге ауысу (свайп)
-  (function enableSwipe() {
-    const sec = document.getElementById('mapSection');
-    let sx = 0, sy = 0;
-    sec.addEventListener('touchstart', (e) => { sx = e.touches[0].clientX; sy = e.touches[0].clientY; }, { passive: true });
-    sec.addEventListener('touchend', (e) => {
-      const dx = e.changedTouches[0].clientX - sx;
-      const dy = e.changedTouches[0].clientY - sy;
-      if (Math.abs(dx) > 60 && Math.abs(dx) > Math.abs(dy) * 1.5) step(dx < 0 ? 1 : -1);
-    }, { passive: true });
-  })();
-
-  // ===================== БАСТАПҚЫ ІСКЕ ҚОСУ =====================
-  window.onload = () => {
-    const btn = document.getElementById('btnHsk1');
-    if (btn) switchLevel(1, btn);
+  // ==================== СӨЗДІК ДЕРЕКТЕРІ (dictionary.html-мен бірдей) ====================
+  const hskData = {
+    1: [
+      {id: 1, h: "爱", p: "ài", k: "жақсы көру, сүю"},
+      {id: 2, h: "八", p: "bā", k: "сегіз"},
+      {id: 3, h: "爸爸", p: "bàba", k: "әке"},
+      {id: 4, h: "杯子", p: "bēizi", k: "кесе, стақан"},
+      {id: 5, h: "北京", p: "Běijīng", k: "Бейжің"},
+      {id: 6, h: "本", p: "běn", k: "дана (кітаптарға арналған өлшем сөз)"},
+      {id: 7, h: "不客气", p: "bú kèqi", k: "оқасы жоқ"},
+      {id: 8, h: "不", p: "bù", k: "жоқ, емес"},
+      {id: 9, h: "菜", p: "cài", k: "тамақ, көкөніс"},
+      {id: 10, h: "茶", p: "chá", k: "шай"},
+      {id: 11, h: "吃", p: "chī", k: "жеу"},
+      {id: 12, h: "出租车", p: "chūzūchē", k: "такси"},
+      {id: 13, h: "打电话", p: "dǎ diànhuà", k: "телефон соғу"},
+      {id: 14, h: "大", p: "dà", k: "үлкен"},
+      {id: 15, h: "的", p: "de", k: "ілік жалғауы"},
+      {id: 16, h: "点", p: "diǎn", k: "сағат, нүкте"},
+      {id: 17, h: "电脑", p: "diànnǎo", k: "компьютер"},
+      {id: 18, h: "电视", p: "diànshì", k: "теледидар"},
+      {id: 19, h: "电影", p: "diànyǐng", k: "фильм, кино"},
+      {id: 20, h: "东西", p: "dōngxi", k: "зат, нәрсе"},
+      {id: 21, h: "都", p: "dōu", k: "бәрі, барлығы"},
+      {id: 22, h: "读", p: "dú", k: "оқу"},
+      {id: 23, h: "对不起", p: "duìbuqi", k: "кешіріңіз"},
+      {id: 24, h: "多", p: "duō", k: "көп"},
+      {id: 25, h: "多少", p: "duōshao", k: "қанша"},
+      {id: 26, h: "儿子", p: "érzi", k: "ұл, бала"},
+      {id: 27, h: "二", p: "èr", k: "екі"},
+      {id: 28, h: "饭店", p: "fàndiàn", k: "мейрамхана"},
+      {id: 29, h: "飞机", p: "fēijī", k: "ұшақ"},
+      {id: 30, h: "分钟", p: "fēnzhōng", k: "минут"},
+      {id: 31, h: "高兴", p: "gāoxìng", k: "қуанышты"},
+      {id: 32, h: "个", p: "gè", k: "дана (өлшем сөз)"},
+      {id: 33, h: "工作", p: "gōngzuò", k: "жұмыс"},
+      {id: 34, h: "狗", p: "gǒu", k: "ит"},
+      {id: 35, h: "汉语", p: "Hànyǔ", k: "қытай тілі"},
+      {id: 36, h: "好", p: "hǎo", k: "жақсы"},
+      {id: 37, h: "喝", p: "hē", k: "ішу"},
+      {id: 38, h: "和", p: "hé", k: "және"},
+      {id: 39, h: "很", p: "hěn", k: "өте"},
+      {id: 40, h: "后面", p: "hòumiàn", k: "артында"},
+      {id: 41, h: "回", p: "huí", k: "қайту"},
+      {id: 42, h: "会", p: "huì", k: "істей алу, білу"},
+      {id: 43, h: "几", p: "jǐ", k: "неше"},
+      {id: 44, h: "家", p: "jiā", k: "үй, отбасы"},
+      {id: 45, h: "叫", p: "jiào", k: "атау, шақыру"},
+      {id: 46, h: "今天", p: "jīntiān", k: "бүгін"},
+      {id: 47, h: "九", p: "jiǔ", k: "тоғыз"},
+      {id: 48, h: "开", p: "kāi", k: "ашу, жүргізу"},
+      {id: 49, h: "看", p: "kàn", k: "көру, қарау"},
+      {id: 50, h: "看见", p: "kànjiàn", k: "көріп қалу"},
+      {id: 51, h: "块", p: "kuài", k: "юань (ақша өлшемі), бөлік"},
+      {id: 52, h: "来", p: "lái", k: "келу"},
+      {id: 53, h: "老师", p: "lǎoshī", k: "мұғалім"},
+      {id: 54, h: "了", p: "le", k: "аяқталған іс белгісі"},
+      {id: 55, h: "冷", p: "lěng", k: "суық"},
+      {id: 56, h: "里", p: "lǐ", k: "ішінде"},
+      {id: 57, h: "六", p: "liù", k: "алты"},
+      {id: 58, h: "妈妈", p: "māma", k: "ана"},
+      {id: 59, h: "吗", p: "ma", k: "сұраулық шылау"},
+      {id: 60, h: "买", p: "mǎi", k: "сатып алу"},
+      {id: 61, h: "猫", p: "māo", k: "мысық"},
+      {id: 62, h: "没", p: "méi", k: "жоқ, болмау"},
+      {id: 63, h: "没有", p: "méiyǒu", k: "жоқ, ие болмау"},
+      {id: 64, h: "米饭", p: "mǐfàn", k: "күріш, пісірілген күріш"},
+      {id: 65, h: "名字", p: "míngzi", k: "есім, ат"},
+      {id: 66, h: "明天", p: "míngtiān", k: "ертең"},
+      {id: 67, h: "哪", p: "nǎ", k: "қайсы"},
+      {id: 68, h: "哪儿", p: "nǎr", k: "қайда"},
+      {id: 69, h: "那", p: "nà", k: "анау"},
+      {id: 70, h: "呢", p: "ne", k: "сұраулық/жалғастыру шылауы"},
+      {id: 71, h: "能", p: "néng", k: "істей алу, мүмкін болу"},
+      {id: 72, h: "你", p: "nǐ", k: "сен, сіз"},
+      {id: 73, h: "年", p: "nián", k: "жыл"},
+      {id: 74, h: "女儿", p: "nǚ'ér", k: "қыз бала, қызы"},
+      {id: 75, h: "朋友", p: "péngyou", k: "дос"},
+      {id: 76, h: "漂亮", p: "piàoliang", k: "әдемі"},
+      {id: 77, h: "苹果", p: "píngguo", k: "алма"},
+      {id: 78, h: "七", p: "qī", k: "жеті"},
+      {id: 79, h: "钱", p: "qián", k: "ақша"},
+      {id: 80, h: "前面", p: "qiánmiàn", k: "алдында"},
+      {id: 81, h: "请", p: "qǐng", k: "өтіну, сұрау"},
+      {id: 82, h: "去", p: "qù", k: "бару"},
+      {id: 83, h: "热", p: "rè", k: "ыстық"},
+      {id: 84, h: "人", p: "rén", k: "адам"},
+      {id: 85, h: "认识", p: "rènshi", k: "тану, танысу"},
+      {id: 86, h: "三", p: "sān", k: "үш"},
+      {id: 87, h: "商店", p: "shāngdiàn", k: "дүкен"},
+      {id: 88, h: "上", p: "shàng", k: "үстінде, жоғары"},
+      {id: 89, h: "上午", p: "shàngwǔ", k: "таңертең"},
+      {id: 90, h: "少", p: "shǎo", k: "аз"},
+      {id: 91, h: "谁", p: "shéi", k: "кім"},
+      {id: 92, h: "什么", p: "shénme", k: "не, қандай"},
+      {id: 93, h: "十", p: "shí", k: "он"},
+      {id: 94, h: "时候", p: "shíhou", k: "кез, уақыт"},
+      {id: 95, h: "是", p: "shì", k: "болу"},
+      {id: 96, h: "书", p: "shū", k: "кітап"},
+      {id: 97, h: "水", p: "shuǐ", k: "су"},
+      {id: 98, h: "水果", p: "shuǐguǒ", k: "жеміс"},
+      {id: 99, h: "睡觉", p: "shuìjiào", k: "ұйықтау"},
+      {id: 100, h: "说", p: "shuō", k: "айту, сөйлеу"},
+      {id: 101, h: "四", p: "sì", k: "төрт"},
+      {id: 102, h: "岁", p: "suì", k: "жас (жасы)"},
+      {id: 103, h: "他", p: "tā", k: "ол (ер адам)"},
+      {id: 104, h: "她", p: "tā", k: "ол (әйел адам)"},
+      {id: 105, h: "太", p: "tài", k: "тым, өте"},
+      {id: 106, h: "天气", p: "tiānqì", k: "ауа райы"},
+      {id: 107, h: "听", p: "tīng", k: "тыңдау"},
+      {id: 108, h: "同学", p: "tóngxué", k: "сыныптас"},
+      {id: 109, h: "喂", p: "wèi", k: "алло"},
+      {id: 110, h: "我", p: "wǒ", k: "мен"},
+      {id: 111, h: "我们", p: "wǒmen", k: "біз"},
+      {id: 112, h: "五", p: "wǔ", k: "бес"},
+      {id: 113, h: "喜欢", p: "xǐhuan", k: "ұнату"},
+      {id: 114, h: "下", p: "xià", k: "астында, төмен"},
+      {id: 115, h: "下午", p: "xiàwǔ", k: "түстен кейін"},
+      {id: 116, h: "下雨", p: "xiàyǔ", k: "жаңбыр жауу"},
+      {id: 117, h: "先生", p: "xiānsheng", k: "мырза"},
+      {id: 118, h: "现在", p: "xiànzài", k: "қазір"},
+      {id: 119, h: "想", p: "xiǎng", k: "ойлау, қалау"},
+      {id: 120, h: "小", p: "xiǎo", k: "кішкентай"},
+      {id: 121, h: "小姐", p: "xiǎojiě", k: "ханым, ару"},
+      {id: 122, h: "些", p: "xiē", k: "кейбір, бірнеше"},
+      {id: 123, h: "写", p: "xiě", k: "жазу"},
+      {id: 124, h: "谢谢", p: "xièxie", k: "рақмет"},
+      {id: 125, h: "星期", p: "xīngqī", k: "апта"},
+      {id: 126, h: "学生", p: "xuésheng", k: "оқушы, студент"},
+      {id: 127, h: "学习", p: "xuéxí", k: "оқу, үйрену"},
+      {id: 128, h: "学校", p: "xuéxiào", k: "мектеп"},
+      {id: 129, h: "一", p: "yī", k: "бір"},
+      {id: 130, h: "衣服", p: "yīfu", k: "киім"},
+      {id: 131, h: "医生", p: "yīshēng", k: "дәрігер"},
+      {id: 132, h: "医院", p: "yīyuàn", k: "аурухана"},
+      {id: 133, h: "椅子", p: "yǐzi", k: "орындық"},
+      {id: 134, h: "有", p: "yǒu", k: "бар, ие болу"},
+      {id: 135, h: "月", p: "yuè", k: "ай"},
+      {id: 136, h: "再见", p: "zàijiàn", k: "сау болыңыз"},
+      {id: 137, h: "在", p: "zài", k: "болу, орналасу"},
+      {id: 138, h: "怎么", p: "zěnme", k: "қалай"},
+      {id: 139, h: "怎么样", p: "zěnmeyàng", k: "қалай, қалайша"},
+      {id: 140, h: "这", p: "zhè", k: "бұл"},
+      {id: 141, h: "中国", p: "Zhōngguó", k: "Қытай"},
+      {id: 142, h: "中午", p: "zhōngwǔ", k: "түскі уақыт"},
+      {id: 143, h: "住", p: "zhù", k: "тұру, өмір сүру"},
+      {id: 144, h: "桌子", p: "zhuōzi", k: "үстел"},
+      {id: 145, h: "字", p: "zì", k: "иероглиф, әріп"},
+      {id: 146, h: "昨天", p: "zuótiān", k: "кеше"},
+      {id: 147, h: "坐", p: "zuò", k: "отыру"},
+      {id: 148, h: "做", p: "zuò", k: "істеу, жасау"},
+      {id: 149, h: "零", p: "líng", k: "нөл"},
+      {id: 150, h: "的士", p: "dīshì", k: "такси"}
+    ],
+    2: [
+      {id: 1, h: "吧", p: "ba", k: "ғой, ма (ұсыныс шылауы)"},
+      {id: 2, h: "白", p: "bái", k: "ақ"},
+      {id: 3, h: "百", p: "bǎi", k: "жүз"},
+      {id: 4, h: "帮助", p: "bāngzhù", k: "көмектесу"},
+      {id: 5, h: "报纸", p: "bàozhǐ", k: "газет"},
+      {id: 6, h: "比", p: "bǐ", k: "салыстыру"},
+      {id: 7, h: "别", p: "bié", k: "істеме, басқа"},
+      {id: 8, h: "长", p: "cháng", k: "ұзын"},
+      {id: 9, h: "唱歌", p: "chànggē", k: "ән айту"},
+      {id: 10, h: "出", p: "chū", k: "шығу"},
+      {id: 11, h: "穿", p: "chuān", k: "кию"},
+      {id: 12, h: "次", p: "cì", k: "рет"},
+      {id: 13, h: "从", p: "cóng", k: "...дан, ...ден"},
+      {id: 14, h: "错", p: "cuò", k: "қате"},
+      {id: 15, h: "打篮球", p: "dǎ lánqiú", k: "баскетбол ойнау"},
+      {id: 16, h: "大家", p: "dàjiā", k: "бәрі, барлығы"},
+      {id: 17, h: "但是", p: "dànshì", k: "бірақ"},
+      {id: 18, h: "到", p: "dào", k: "жету, дейін"},
+      {id: 19, h: "得", p: "de", k: "толықтауыш шылауы"},
+      {id: 20, h: "等", p: "děng", k: "күту"},
+      {id: 21, h: "弟弟", p: "dìdi", k: "іні"},
+      {id: 22, h: "第一", p: "dìyī", k: "бірінші"},
+      {id: 23, h: "懂", p: "dǒng", k: "түсіну"},
+      {id: 24, h: "对", p: "duì", k: "дұрыс, қатысты"},
+      {id: 25, h: "房间", p: "fángjiān", k: "бөлме"},
+      {id: 26, h: "非常", p: "fēicháng", k: "өте"},
+      {id: 27, h: "服务员", p: "fúwùyuán", k: "қызметкер, даяшы"},
+      {id: 28, h: "高", p: "gāo", k: "биік, жоғары"},
+      {id: 29, h: "告诉", p: "gàosu", k: "айту, хабарлау"},
+      {id: 30, h: "哥哥", p: "gēge", k: "аға"},
+      {id: 31, h: "给", p: "gěi", k: "беру, үшін"},
+      {id: 32, h: "公共汽车", p: "gōnggòng qìchē", k: "автобус"},
+      {id: 33, h: "公司", p: "gōngsī", k: "компания"},
+      {id: 34, h: "贵", p: "guì", k: "қымбат"},
+      {id: 35, h: "过", p: "guo", k: "тәжірибе белгісі"},
+      {id: 36, h: "还", p: "hái", k: "тағы, әлі"},
+      {id: 37, h: "孩子", p: "háizi", k: "бала"},
+      {id: 38, h: "好吃", p: "hǎochī", k: "дәмді"},
+      {id: 39, h: "黑", p: "hēi", k: "қара"},
+      {id: 40, h: "红", p: "hóng", k: "қызыл"},
+      {id: 41, h: "欢迎", p: "huānyíng", k: "қарсы алу, қош келу"},
+      {id: 42, h: "回答", p: "huídá", k: "жауап беру"},
+      {id: 43, h: "机场", p: "jīchǎng", k: "әуежай"},
+      {id: 44, h: "鸡蛋", p: "jīdàn", k: "жұмыртқа"},
+      {id: 45, h: "件", p: "jiàn", k: "дана (киімге арналған өлшем сөз)"},
+      {id: 46, h: "教", p: "jiāo", k: "үйрету"},
+      {id: 47, h: "姐姐", p: "jiějie", k: "әпке"},
+      {id: 48, h: "介绍", p: "jièshào", k: "таныстыру"},
+      {id: 49, h: "进", p: "jìn", k: "кіру"},
+      {id: 50, h: "近", p: "jìn", k: "жақын"},
+      {id: 51, h: "觉得", p: "juéde", k: "деп ойлау, сезіну"},
+      {id: 52, h: "咖啡", p: "kāfēi", k: "кофе"},
+      {id: 53, h: "开始", p: "kāishǐ", k: "бастау"},
+      {id: 54, h: "考试", p: "kǎoshì", k: "емтихан"},
+      {id: 55, h: "可能", p: "kěnéng", k: "мүмкін"},
+      {id: 56, h: "可以", p: "kěyǐ", k: "болады, мүмкін"},
+      {id: 57, h: "课", p: "kè", k: "сабақ"},
+      {id: 58, h: "快", p: "kuài", k: "тез"},
+      {id: 59, h: "快乐", p: "kuàilè", k: "бақытты, қуанышты"},
+      {id: 60, h: "累", p: "lèi", k: "шаршау"},
+      {id: 61, h: "离", p: "lí", k: "алыс болу, ...дан"},
+      {id: 62, h: "两", p: "liǎng", k: "екі (зат санағанда)"},
+      {id: 63, h: "路", p: "lù", k: "жол"},
+      {id: 64, h: "旅游", p: "lǚyóu", k: "саяхат"},
+      {id: 65, h: "卖", p: "mài", k: "сату"},
+      {id: 66, h: "慢", p: "màn", k: "баяу"},
+      {id: 67, h: "忙", p: "máng", k: "бос емес, жұмысбасты"},
+      {id: 68, h: "每", p: "měi", k: "әрбір"},
+      {id: 69, h: "妹妹", p: "mèimei", k: "сіңлі"},
+      {id: 70, h: "门", p: "mén", k: "есік"},
+      {id: 71, h: "男人", p: "nánrén", k: "ер адам"},
+      {id: 72, h: "您", p: "nín", k: "сіз (сыпайы түрде)"},
+      {id: 73, h: "牛奶", p: "niúnǎi", k: "сүт"},
+      {id: 74, h: "女", p: "nǚ", k: "әйел, қыз"},
+      {id: 75, h: "旁边", p: "pángbiān", k: "жанында"},
+      {id: 76, h: "跑步", p: "pǎobù", k: "жүгіру"},
+      {id: 77, h: "便宜", p: "piányi", k: "арзан"},
+      {id: 78, h: "票", p: "piào", k: "билет"},
+      {id: 79, h: "妻子", p: "qīzi", k: "әйел, жұбай"},
+      {id: 80, h: "起床", p: "qǐchuáng", k: "ұйқыдан тұру"},
+      {id: 81, h: "千", p: "qiān", k: "мың"},
+      {id: 82, h: "晴", p: "qíng", k: "ашық (ауа райы)"},
+      {id: 83, h: "去年", p: "qùnián", k: "өткен жыл"},
+      {id: 84, h: "让", p: "ràng", k: "рұқсат ету, мүмкіндік беру"},
+      {id: 85, h: "日", p: "rì", k: "күн (күнтізбе)"},
+      {id: 86, h: "上班", p: "shàngbān", k: "жұмысқа бару"},
+      {id: 87, h: "身体", p: "shēntǐ", k: "дене, денсаулық"},
+      {id: 88, h: "生病", p: "shēngbìng", k: "ауыру"},
+      {id: 89, h: "生日", p: "shēngrì", k: "туған күн"},
+      {id: 90, h: "时间", p: "shíjiān", k: "уақыт"},
+      {id: 91, h: "事情", p: "shìqing", k: "іс, нәрсе"},
+      {id: 92, h: "手表", p: "shǒubiǎo", k: "сағат (қол сағат)"},
+      {id: 93, h: "手机", p: "shǒujī", k: "ұялы телефон"},
+      {id: 94, h: "送", p: "sòng", k: "сыйлау, жеткізу"},
+      {id: 95, h: "虽然", p: "suīrán", k: "дегенмен, қарамастан"},
+      {id: 96, h: "它", p: "tā", k: "ол (зат, жануар)"},
+      {id: 97, h: "踢足球", p: "tī zúqiú", k: "футбол ойнау"},
+      {id: 98, h: "题", p: "tí", k: "сұрақ, тапсырма"},
+      {id: 99, h: "跳舞", p: "tiàowǔ", k: "билеу"},
+      {id: 100, h: "外", p: "wài", k: "сырт, сыртқы"},
+      {id: 101, h: "完", p: "wán", k: "аяқтау, бітіру"},
+      {id: 102, h: "玩", p: "wán", k: "ойнау, қыдыру"},
+      {id: 103, h: "晚上", p: "wǎnshang", k: "кеш, түн"},
+      {id: 104, h: "往", p: "wǎng", k: "қарай, бағытында"},
+      {id: 105, h: "为什么", p: "wèishénme", k: "неге, не үшін"},
+      {id: 106, h: "问", p: "wèn", k: "сұрау"},
+      {id: 107, h: "问题", p: "wèntí", k: "сұрақ, мәселе"},
+      {id: 108, h: "西瓜", p: "xīguā", k: "қарбыз"},
+      {id: 109, h: "希望", p: "xīwàng", k: "үміттену, қалау"},
+      {id: 110, h: "洗", p: "xǐ", k: "жуу"},
+      {id: 111, h: "小时", p: "xiǎoshí", k: "сағат (уақыт)"},
+      {id: 112, h: "笑", p: "xiào", k: "күлу"},
+      {id: 113, h: "新", p: "xīn", k: "жаңа"},
+      {id: 114, h: "姓", p: "xìng", k: "тегі, фамилия"},
+      {id: 115, h: "休息", p: "xiūxi", k: "демалу"},
+      {id: 116, h: "雪", p: "xuě", k: "қар"},
+      {id: 117, h: "颜色", p: "yánsè", k: "түс"},
+      {id: 118, h: "眼睛", p: "yǎnjing", k: "көз"},
+      {id: 119, h: "羊肉", p: "yángròu", k: "қой еті"},
+      {id: 120, h: "药", p: "yào", k: "дәрі"},
+      {id: 121, h: "要", p: "yào", k: "қалау, керек болу"},
+      {id: 122, h: "也", p: "yě", k: "де, да"},
+      {id: 123, h: "一起", p: "yìqǐ", k: "бірге"},
+      {id: 124, h: "已经", p: "yǐjīng", k: "қазірдің өзінде"},
+      {id: 125, h: "意思", p: "yìsi", k: "мағына, ой"},
+      {id: 126, h: "因为", p: "yīnwèi", k: "себебі, өйткені"},
+      {id: 127, h: "阴", p: "yīn", k: "бұлтты (ауа райы)"},
+      {id: 128, h: "游泳", p: "yóuyǒng", k: "жүзу"},
+      {id: 129, h: "右边", p: "yòubiān", k: "оң жағы"},
+      {id: 130, h: "鱼", p: "yú", k: "балық"},
+      {id: 131, h: "远", p: "yuǎn", k: "алыс"},
+      {id: 132, h: "运动", p: "yùndòng", k: "спорт, жаттығу"},
+      {id: 133, h: "再", p: "zài", k: "тағы, қайта"},
+      {id: 134, h: "早上", p: "zǎoshang", k: "таңертең"},
+      {id: 135, h: "丈夫", p: "zhàngfu", k: "күйеу"},
+      {id: 136, h: "找", p: "zhǎo", k: "іздеу"},
+      {id: 137, h: "着", p: "zhe", k: "іс-әрекеттің жалғасу белгісі"},
+      {id: 138, h: "真", p: "zhēn", k: "шынымен, өте"},
+      {id: 139, h: "正在", p: "zhèngzài", k: "қазір істеп жатыр"},
+      {id: 140, h: "知道", p: "zhīdào", k: "білу"},
+      {id: 141, h: "准备", p: "zhǔnbèi", k: "дайындау"},
+      {id: 142, h: "走", p: "zǒu", k: "жүру, кету"},
+      {id: 143, h: "最", p: "zuì", k: "ең"},
+      {id: 144, h: "左边", p: "zuǒbiān", k: "сол жағы"},
+      {id: 145, h: "做饭", p: "zuòfàn", k: "тамақ пісіру"},
+      {id: 146, h: "作业", p: "zuòyè", k: "үй жұмысы"},
+      {id: 147, h: "班", p: "bān", k: "сынып, топ"},
+      {id: 148, h: "半", p: "bàn", k: "жарты"},
+      {id: 149, h: "开始", p: "kāishǐ", k: "бастау"},
+      {id: 150, h: "同意", p: "tóngyì", k: "келісу"}
+    ],
+    3: [
+      {id: 51, h: "电梯", p: "diàntī", k: "жеделсаты (лифт)"},
+      {id: 52, h: "电子邮件", p: "diànzǐ yóujiàn", k: "электрондық пошта"},
+      {id: 53, h: "东", p: "dōng", k: "шығыс"},
+      {id: 54, h: "冬", p: "dōng", k: "қыс"},
+      {id: 55, h: "动物", p: "dòngwù", k: "жануар"},
+      {id: 56, h: "短", p: "duǎn", k: "қысқа"},
+      {id: 57, h: "段", p: "duàn", k: "бөлік"},
+      {id: 58, h: "锻炼", p: "duànliàn", k: "жаттығу жасау"},
+      {id: 59, h: "多么", p: "duōme", k: "қандай, қаншалықты"},
+      {id: 60, h: "饿", p: "è", k: "аш болу"},
+      {id: 61, h: "耳朵", p: "ěrduo", k: "құлақ"},
+      {id: 62, h: "发烧", p: "fāshāo", k: "дене қызуы көтерілу"},
+      {id: 63, h: "发现", p: "fāxiàn", k: "табу, анықтау"},
+      {id: 64, h: "方便", p: "fāngbiàn", k: "ыңғайлы"},
+      {id: 65, h: "放", p: "fàng", k: "қою, орналастыру"},
+      {id: 66, h: "放心", p: "fàngxīn", k: "көңілі жайлану"},
+      {id: 67, h: "分", p: "fēn", k: "ұпай; минут"},
+      {id: 68, h: "附近", p: "fùjìn", k: "жақын жерде"},
+      {id: 69, h: "复习", p: "fùxí", k: "қайталау"},
+      {id: 70, h: "干净", p: "gānjìng", k: "таза"},
+      {id: 71, h: "感冒", p: "gǎnmào", k: "суық тию"},
+      {id: 72, h: "感兴趣", p: "gǎn xìngqù", k: "қызығушылық таныту"},
+      {id: 73, h: "刚才", p: "gāngcái", k: "жаңа ғана"},
+      {id: 74, h: "个子", p: "gèzi", k: "бой"},
+      {id: 75, h: "根据", p: "gēnjù", k: "негізінде"},
+      {id: 76, h: "跟", p: "gēn", k: "бірге; соңынан"},
+      {id: 77, h: "更", p: "gèng", k: "одан да"},
+      {id: 78, h: "公斤", p: "gōngjīn", k: "килограмм"},
+      {id: 79, h: "公园", p: "gōngyuán", k: "саябақ"},
+      {id: 80, h: "故事", p: "gùshi", k: "әңгіме"},
+      {id: 81, h: "刮风", p: "guāfēng", k: "жел соғу"},
+      {id: 82, h: "关", p: "guān", k: "жабу"},
+      {id: 83, h: "关系", p: "guānxì", k: "қарым-қатынас"},
+      {id: 84, h: "关心", p: "guānxīn", k: "қамқор болу"},
+      {id: 85, h: "关于", p: "guānyú", k: "туралы"},
+      {id: 86, h: "国家", p: "guójiā", k: "мемлекет"},
+      {id: 87, h: "过去", p: "guòqù", k: "өткен; өтіп кету"},
+      {id: 88, h: "还是", p: "háishi", k: "әлде; бәрібір"},
+      {id: 89, h: "害怕", p: "hàipà", k: "қорқу"},
+      {id: 90, h: "黑板", p: "hēibǎn", k: "тақта"},
+      {id: 91, h: "后来", p: "hòulái", k: "кейін"},
+      {id: 92, h: "护照", p: "hùzhào", k: "төлқұжат"},
+      {id: 93, h: "花", p: "huā", k: "гүл"},
+      {id: 94, h: "花园", p: "huāyuán", k: "бақ"},
+      {id: 95, h: "画", p: "huà", k: "сурет салу"},
+      {id: 96, h: "坏", p: "huài", k: "жаман; бұзылған"},
+      {id: 97, h: "欢迎", p: "huānyíng", k: "қош келдіңіз"},
+      {id: 98, h: "环境", p: "huánjìng", k: "қоршаған орта"},
+      {id: 99, h: "还", p: "huán", k: "қайтару"},
+      {id: 100, h: "换", p: "huàn", k: "ауыстыру"},
+      {id: 101, h: "黄河", p: "Huáng Hé", k: "Хуанхэ өзені"},
+      {id: 102, h: "回答", p: "huídá", k: "жауап беру"},
+      {id: 103, h: "会议", p: "huìyì", k: "жиналыс"},
+      {id: 104, h: "或者", p: "huòzhě", k: "немесе"},
+      {id: 105, h: "几乎", p: "jīhū", k: "дерлік"},
+      {id: 106, h: "机会", p: "jīhuì", k: "мүмкіндік"},
+      {id: 107, h: "极", p: "jí", k: "өте, аса"},
+      {id: 108, h: "计划", p: "jìhuà", k: "жоспар"},
+      {id: 109, h: "记得", p: "jìde", k: "есте сақтау"},
+      {id: 110, h: "季节", p: "jìjié", k: "жыл мезгілі"},
+      {id: 111, h: "检查", p: "jiǎnchá", k: "тексеру"},
+      {id: 112, h: "简单", p: "jiǎndān", k: "қарапайым"},
+      {id: 113, h: "见面", p: "jiànmiàn", k: "кездесу"},
+      {id: 114, h: "健康", p: "jiànkāng", k: "денсаулық; сау"},
+      {id: 115, h: "讲", p: "jiǎng", k: "айту; сөйлеу"},
+      {id: 116, h: "教", p: "jiāo", k: "оқыту"},
+      {id: 117, h: "脚", p: "jiǎo", k: "аяқ"},
+      {id: 118, h: "角", p: "jiǎo", k: "бұрыш"},
+      {id: 119, h: "接", p: "jiē", k: "қарсы алу; қабылдап алу"},
+      {id: 120, h: "街道", p: "jiēdào", k: "көше"},
+      {id: 121, h: "节目", p: "jiémù", k: "бағдарлама"},
+      {id: 122, h: "解决", p: "jiějué", k: "шешу"},
+      {id: 123, h: "借", p: "jiè", k: "қарызға алу"},
+      {id: 124, h: "经常", p: "jīngcháng", k: "жиі"},
+      {id: 125, h: "经过", p: "jīngguò", k: "арқылы өту; өту"},
+      {id: 126, h: "经理", p: "jīnglǐ", k: "менеджер"},
+      {id: 127, h: "久", p: "jiǔ", k: "ұзақ уақыт"},
+      {id: 128, h: "旧", p: "jiù", k: "ескі"},
+      {id: 129, h: "句子", p: "jùzi", k: "сөйлем"},
+      {id: 130, h: "决定", p: "juédìng", k: "шешім қабылдау"},
+      {id: 131, h: "开始", p: "kāishǐ", k: "бастау"},
+      {id: 132, h: "考试", p: "kǎoshì", k: "емтихан"},
+      {id: 133, h: "渴", p: "kě", k: "шөлдеу"},
+      {id: 134, h: "可爱", p: "kě'ài", k: "сүйкімді"},
+      {id: 135, h: "刻", p: "kè", k: "ширек сағат"},
+      {id: 136, h: "客人", p: "kèrén", k: "қонақ"},
+      {id: 137, h: "空调", p: "kōngtiáo", k: "кондиционер"},
+      {id: 138, h: "口", p: "kǒu", k: "ауыз"},
+      {id: 139, h: "哭", p: "kū", k: "жылау"},
+      {id: 140, h: "裤子", p: "kùzi", k: "шалбар"},
+      {id: 141, h: "筷子", p: "kuàizi", k: "ас таяқшалары"},
+      {id: 142, h: "蓝", p: "lán", k: "көк"},
+      {id: 143, h: "老", p: "lǎo", k: "қарт; ескі"},
+      {id: 144, h: "离", p: "lí", k: "...дан алыс"},
+      {id: 145, h: "礼物", p: "lǐwù", k: "сыйлық"},
+      {id: 146, h: "历史", p: "lìshǐ", k: "тарих"},
+      {id: 147, h: "脸", p: "liǎn", k: "бет"},
+      {id: 148, h: "练习", p: "liànxí", k: "жаттығу"},
+      {id: 149, h: "两", p: "liǎng", k: "екі"},
+      {id: 150, h: "聊天", p: "liáotiān", k: "әңгімелесу"}
+    ]
   };
+
+  // ==================== ТОРКӨЗ ТАҢДАУ АЛГОРИТМІ (Selection) ====================
+  // Бірнеше элементті торкөзден таңдау/алып тастау логикасы. Таңдалғандар
+  // insertion-order сақталатын Set ішінде жүреді — рулетка секторларының
+  // ретін тұрақты етеді.
+  let currentLevel = 1;
+  const selectedIds = new Set(); // "level:id" пішіміндегі кілттер
+
+  const wordGrid = document.getElementById('wordGrid');
+  const searchInput = document.getElementById('searchInput');
+  const selCountEl = document.getElementById('selCount');
+
+  function keyFor(level, word) { return level + ':' + word.id + ':' + word.h; }
+
+  function setLevel(level) {
+    currentLevel = parseInt(level);
+    ['btnHsk1', 'btnHsk2', 'btnHsk3'].forEach(id => document.getElementById(id).classList.remove('active'));
+    document.getElementById('btnHsk' + currentLevel).classList.add('active');
+    searchInput.value = '';
+    renderGrid(hskData[currentLevel]);
+  }
+
+  function renderGrid(words) {
+    wordGrid.innerHTML = '';
+    words.forEach(w => {
+      const key = keyFor(currentLevel, w);
+      const chip = document.createElement('button');
+      chip.type = 'button';
+      chip.className = 'word-chip text-left border border-paper-deep rounded-xl px-3 py-2.5 bg-paper' + (selectedIds.has(key) ? ' selected' : '');
+      chip.innerHTML = `<div class="font-display text-lg font-bold leading-tight">${w.h}</div><div class="chip-pinyin text-xs text-jade-dark font-semibold">${w.p}</div>`;
+      chip.onclick = () => toggleSelect(key, chip);
+      wordGrid.appendChild(chip);
+    });
+  }
+
+  function toggleSelect(key, chipEl) {
+    if (isSpinning) return;
+    if (selectedIds.has(key)) {
+      selectedIds.delete(key);
+      chipEl.classList.remove('selected');
+    } else {
+      selectedIds.add(key);
+      chipEl.classList.add('selected');
+    }
+    updateSelectionUI();
+  }
+
+  function pickRandom(count) {
+    const words = hskData[currentLevel];
+    const pool = [...words];
+    // Фишер-Йетс тасуы — пулды әділ араластырып, бірінші N-ін аламыз
+    for (let i = pool.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [pool[i], pool[j]] = [pool[j], pool[i]];
+    }
+    selectedIds.clear();
+    pool.slice(0, Math.min(count, pool.length)).forEach(w => selectedIds.add(keyFor(currentLevel, w)));
+    renderGrid(words);
+    updateSelectionUI();
+  }
+
+  function clearSelection() {
+    selectedIds.clear();
+    renderGrid(hskData[currentLevel]);
+    updateSelectionUI();
+  }
+
+  function updateSelectionUI() {
+    selCountEl.textContent = selectedIds.size;
+    document.getElementById('spinBtn').disabled = selectedIds.size < 2 || isSpinning;
+    if (!isSpinning) buildWheel();
+  }
+
+  searchInput.addEventListener('input', (e) => {
+    const val = e.target.value.toLowerCase();
+    const filtered = hskData[currentLevel].filter(w =>
+      w.h.toLowerCase().includes(val) || w.p.toLowerCase().includes(val) || w.k.toLowerCase().includes(val)
+    );
+    renderGrid(filtered);
+  });
+
+  // ==================== РУЛЕТКА АЛГОРИТМІ (Roulette) ====================
+  const palette = ['#A61B29', '#0D9488', '#B8933F', '#1B5F58', '#0c1f4c', '#7D1420', '#3a9ee0', '#59c3ff', '#C4313D', '#0f766e'];
+  const wheelGroup = document.getElementById('wheelGroup');
+  const spinBtn = document.getElementById('spinBtn');
+  const resultPanel = document.getElementById('resultPanel');
+  let isSpinning = false;
+  let totalRotation = 0; // жинақталған жалпы бұрылу (градус, шектеусіз өседі)
+  let currentWheelWords = []; // рулетка құрған кездегі "мұздатылған" тізім
+  let rouletteResult = null;
+
+  function polarToCartesian(cx, cy, r, angleDeg) {
+    const rad = (angleDeg - 90) * Math.PI / 180;
+    return { x: cx + r * Math.cos(rad), y: cy + r * Math.sin(rad) };
+  }
+
+  function sectorPath(cx, cy, r, startAngle, endAngle) {
+    const start = polarToCartesian(cx, cy, r, endAngle);
+    const end = polarToCartesian(cx, cy, r, startAngle);
+    const largeArc = endAngle - startAngle <= 180 ? 0 : 1;
+    return `M ${cx} ${cy} L ${start.x} ${start.y} A ${r} ${r} 0 ${largeArc} 0 ${end.x} ${end.y} Z`;
+  }
+
+  function buildWheel() {
+    currentWheelWords = Array.from(selectedIds).map(key => {
+      const [lvl, id, h] = key.split(':');
+      return hskData[lvl].find(w => String(w.id) === id && w.h === h);
+    }).filter(Boolean);
+
+    wheelGroup.innerHTML = '';
+    const n = currentWheelWords.length;
+    if (n === 0) return;
+    const cx = 150, cy = 150, r = 140;
+    const sectorAngle = 360 / n;
+
+    currentWheelWords.forEach((w, i) => {
+      const start = i * sectorAngle;
+      const end = start + sectorAngle;
+      const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+      path.setAttribute('d', sectorPath(cx, cy, r, start, end));
+      path.setAttribute('fill', palette[i % palette.length]);
+      path.setAttribute('stroke', '#F4EFE6');
+      path.setAttribute('stroke-width', '2');
+      wheelGroup.appendChild(path);
+
+      const mid = start + sectorAngle / 2;
+      const labelPos = polarToCartesian(cx, cy, r * 0.66, mid);
+      const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+      text.setAttribute('x', labelPos.x);
+      text.setAttribute('y', labelPos.y);
+      text.setAttribute('fill', '#fff');
+      text.setAttribute('font-size', n > 10 ? '12' : '16');
+      text.setAttribute('font-weight', '700');
+      text.setAttribute('text-anchor', 'middle');
+      text.setAttribute('dominant-baseline', 'middle');
+      text.textContent = w.h;
+      wheelGroup.appendChild(text);
+    });
+  }
+
+  // Соңғы бұрылу бұрышын (градус) жеңімпаз индексіне түрлендіру.
+  // Көрсеткіш дөңгелектің үстінде (0°), дөңгелек сағат тілімен бұрылады.
+  function angleToWinnerIndex(rotationDeg, sectorCount) {
+    const rotationMod = ((rotationDeg % 360) + 360) % 360;
+    const pointerOriginalAngle = ((360 - rotationMod) % 360 + 360) % 360;
+    const sectorAngle = 360 / sectorCount;
+    return Math.floor(pointerOriginalAngle / sectorAngle) % sectorCount;
+  }
+
+  function spinWheel() {
+    if (isSpinning || currentWheelWords.length < 2) return;
+    isSpinning = true;
+    spinBtn.disabled = true;
+    resultPanel.classList.add('hidden');
+
+    const n = currentWheelWords.length;
+    const targetIndex = Math.floor(Math.random() * n);
+    const sectorAngle = 360 / n;
+    const targetCenterAngle = targetIndex * sectorAngle + sectorAngle / 2;
+    const desiredMod = ((360 - targetCenterAngle) % 360 + 360) % 360;
+    const fullSpins = 5 + Math.floor(Math.random() * 3); // 5-7 толық айналым
+
+    const base = Math.floor(totalRotation / 360) * 360;
+    let candidate = base + fullSpins * 360 + desiredMod;
+    while (candidate <= totalRotation) candidate += 360;
+    totalRotation = candidate;
+
+    wheelGroup.style.transform = `rotate(${totalRotation}deg)`;
+
+    const onEnd = () => {
+      wheelGroup.removeEventListener('transitionend', onEnd);
+      const winnerIndex = angleToWinnerIndex(totalRotation, n);
+      rouletteResult = currentWheelWords[winnerIndex];
+      startWordQuiz(rouletteResult);
+      isSpinning = false;
+      spinBtn.disabled = selectedIds.size < 2;
+    };
+    wheelGroup.addEventListener('transitionend', onEnd);
+  }
+
+  // ==================== ТИГЕН СӖЗ БОЙЫНША ШАҒЫН КУИЗ (Quiz) ====================
+  // Дистракторларды алдымен дөңгелектегі басқа сөздерден, жеткіліксіз болса
+  // ағымдағы деңгейдің қалған сөздерінен аламыз — мәні бойынша қайталанбайтындай
+  // сүзіп (dedupe) аламыз, сонда бір куизде екі бірдей аударма шықпайды.
+  const quizQuestionEl = document.getElementById('quizQuestion');
+  const quizAnswerRevealEl = document.getElementById('quizAnswerReveal');
+  const quizPromptEl = document.getElementById('quizPrompt');
+  const quizHanziEl = document.getElementById('quizHanzi');
+  const quizOptionsEl = document.getElementById('quizOptions');
+  let currentQuizType = 'meaning';
+
+  function buildOptionPool(correctWord, valueKey, count) {
+    const seen = new Set([correctWord[valueKey]]);
+    const options = [correctWord];
+
+    const tryAdd = (candidates) => {
+      for (const w of candidates) {
+        if (options.length >= count) break;
+        if (w.id === correctWord.id && w.h === correctWord.h) continue;
+        if (seen.has(w[valueKey])) continue;
+        seen.add(w[valueKey]);
+        options.push(w);
+      }
+    };
+
+    // 1) алдымен дөңгелектегі басқа сөздер
+    const wheelShuffled = [...currentWheelWords];
+    for (let i = wheelShuffled.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [wheelShuffled[i], wheelShuffled[j]] = [wheelShuffled[j], wheelShuffled[i]];
+    }
+    tryAdd(wheelShuffled);
+
+    // 2) жеткіліксіз болса — деңгейдің қалған сөздерінен
+    if (options.length < count) {
+      const levelShuffled = [...hskData[currentLevel]];
+      for (let i = levelShuffled.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [levelShuffled[i], levelShuffled[j]] = [levelShuffled[j], levelShuffled[i]];
+      }
+      tryAdd(levelShuffled);
+    }
+
+    // Фишер-Йетс: соңғы нұсқалар ретін араластыру
+    for (let i = options.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [options[i], options[j]] = [options[j], options[i]];
+    }
+    return options;
+  }
+
+  function startWordQuiz(word) {
+    quizAnswerRevealEl.classList.add('hidden');
+    quizQuestionEl.classList.remove('hidden');
+    resultPanel.classList.remove('hidden');
+
+    currentQuizType = Math.random() < 0.5 ? 'meaning' : 'pinyin';
+    quizHanziEl.textContent = word.h;
+    quizPromptEl.textContent = currentQuizType === 'meaning'
+      ? 'Бұл таңбаның қазақша аудармасы қандай?'
+      : 'Бұл таңбаның пиньинін таңдаңыз?';
+
+    const valueKey = currentQuizType === 'meaning' ? 'k' : 'p';
+    const options = buildOptionPool(word, valueKey, Math.min(4, Math.max(2, currentWheelWords.length)));
+
+    quizOptionsEl.innerHTML = '';
+    options.forEach(opt => {
+      const btn = document.createElement('button');
+      btn.className = 'rq-opt border border-paper-deep rounded-xl p-3 text-sm font-semibold hover:border-jade hover:bg-paper-deep transition text-center shadow-sm text-gray-800 bg-paper';
+      btn.textContent = opt[valueKey];
+      btn.onclick = () => checkQuizAnswer(btn, opt.id === word.id && opt.h === word.h, word, valueKey);
+      quizOptionsEl.appendChild(btn);
+    });
+
+    playAudio(word.h);
+  }
+
+  function checkQuizAnswer(selectedBtn, isCorrect, word, valueKey) {
+    Array.from(quizOptionsEl.children).forEach(btn => {
+      btn.disabled = true;
+      if (btn.textContent === word[valueKey]) btn.classList.add('correct');
+    });
+    if (!isCorrect) selectedBtn.classList.add('wrong');
+
+    setTimeout(() => {
+      quizQuestionEl.classList.add('hidden');
+      quizAnswerRevealEl.classList.remove('hidden');
+      document.getElementById('resHanzi').textContent = word.h;
+      document.getElementById('resPinyin').textContent = word.p;
+      document.getElementById('resMeaning').textContent = word.k;
+    }, 700);
+  }
+
+  function removeFromWheel() {
+    if (!rouletteResult) return;
+    for (const key of selectedIds) {
+      const [lvl, id, h] = key.split(':');
+      if (String(rouletteResult.id) === id && rouletteResult.h === h) {
+        selectedIds.delete(key);
+        break;
+      }
+    }
+    resultPanel.classList.add('hidden');
+    renderGrid(document.querySelector('#searchInput').value ? hskData[currentLevel].filter(w => {
+      const val = searchInput.value.toLowerCase();
+      return w.h.toLowerCase().includes(val) || w.p.toLowerCase().includes(val) || w.k.toLowerCase().includes(val);
+    }) : hskData[currentLevel]);
+    updateSelectionUI();
+  }
+
+  // Бастапқы күй
+  renderGrid(hskData[1]);
+  pickRandom(6);
 </script>
 </body>
 </html>
